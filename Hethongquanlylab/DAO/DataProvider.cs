@@ -98,7 +98,7 @@ namespace Hethongquanlylab.DAO
                 connection.Close();
             }
 
-            return data;
+            return data
         }
     }
 }
