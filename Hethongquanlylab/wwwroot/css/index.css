@@ -1,0 +1,354 @@
+* {box-sizing:border-box;
+}
+html {
+  background-color:#f7f7f7;
+  scroll-behavior: smooth;
+  /* font-family: 'Times New Roman', Times, serif; */
+}
+
+a{
+  text-decoration:none;
+  color:#000000;
+}
+
+/* Slideshow container */
+ .slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+.mySlides img{
+  border-radius: 30px;
+}
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+} */
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+
+
+
+
+
+body{
+}
+.title{
+  font-size:22px;
+  font-weight: 600;
+  text-align: center;
+}
+.img-width_340px{
+  width:340px;
+}
+.heading{
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
+  padding-left: 52px;
+  display: flex;
+  color: #fff;
+  position: fixed;
+  backdrop-filter: blur(3px);
+  background-color: rgba(0,0,0,0.6);
+  z-index: 1;
+  height: 62px;
+}
+
+
+.heading .heading-item:hover{
+  background-color:#ccc;
+  color: #000000;
+}
+.heading .menu{
+  position: absolute;
+  padding: 3vh 2vw;
+  left:0vw;
+  font-size: 22px;
+}
+.heading .menu:hover{
+  background-color: #ccc;
+  color: #212121;
+}
+.heading a{
+  color: #fff;
+  text-decoration: none;
+  font-size: 22px;
+}
+
+
+.heading .heading-item{
+  padding: 18px 2vw;
+}
+
+.heading .heading-login{
+  margin-left: 40%;
+  background-color :#f05123;
+  border-radius: 50%;
+}
+
+.user{
+  position: absolute;
+  right: 2vw;
+  top: 25%;
+  font-size:32px;
+  width: 50px;
+  color: #fff;
+}
+
+.user .user-info{
+  position: relative;
+  right: 10vw;
+  top: 18px;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  background-color:rgba(0, 0, 0, 0.6);
+  list-style-type: none;
+  border-radius: 8px;
+  width: 14vw;
+  box-shadow: 0 0 5px 4px rgba(0, 0, 0, 0.3);
+  display:none;
+}
+.user .user-info-item a{
+  width: 100%;
+  display: block;
+  padding: 8px;
+}
+.user .user-info-item:hover a{
+  background-color: #ccc;
+  color: #000000;
+}
+.user-info-item a{
+  height: 100%;
+  width: 100%;
+}
+.user i:hover{
+  color:#e79595;
+}
+.user:hover i,
+.user:hover .user-info{
+  display: block;
+  color:#e79595;
+
+}
+.navbar-list{
+  position: fixed;
+  top: 46px;
+  left:0;
+  font-size:  20px;
+  list-style-type: none;
+  width: 18vw;
+  background-color: rgba(0,0,0,0.6);
+  box-shadow: 0 0 5px 5px rgba(0,0,0, 0.2);
+  backdrop-filter: blur(3px);
+  padding: 0;
+  z-index: 1;
+  display: none;
+}
+
+.navbar-list li a{
+  display: block;
+  color: #fff;
+  height: 100%;
+  width: 100%;
+  padding: 12px 24px;
+}
+.navbar-item{
+  /* padding: 12px 24px; */
+} 
+.navbar-item:hover {
+  background-color:#ccc;
+  color: #000000;
+  display: block;
+  cursor: pointer;
+}
+.navbar-item:hover ul{
+  display: block;
+}
+.powerteam-list{
+  position: relative;
+}
+.powerteams{
+  position: absolute;
+  width: 130%;
+  list-style-type: none;
+  left:18vw;
+  top: 0;
+  padding: 0;
+  background-color: rgba(0,0,0, 0.6);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 5px 5px rgba(0,0,0, 0.2);
+  display: none;
+}
+.powerteam{}
+/* .powerteam-list:hover ~.powerteams{
+  display: block;
+} */
+
+.powerteam:hover a{
+  background-color: #ccc;
+  color: black;
+}
+#introduce{
+  color: #292929;
+  padding: 90px 10%;
+  display: flex;
+  font-size: 18px;
+}
+
+.video-introduce{
+  display: flex;
+  margin:auto;
+  margin-top: 64px;
+  width: 80%;
+}
+.introduce-list{
+}
+.introduce-item{
+  padding-top: 6px;
+  line-height:1.6;
+}
+.introduce-img{
+  width: 40%;
+  margin-left: 12px;
+  border-radius: 50px;
+}
+#rule-list{
+    margin-top: 140px;
+    font-size:18px;
+    padding: 0 10%;
+}
+
+.rule-item{
+    padding-top: 6px;
+    line-height:1.6;
+}
+
+
+/* giá trị cốt lõi */
+
+
+.coreValues{
+    display:flex;
+    flex-wrap: wrap;
+    font-weight: 600;
+    justify-content: space-around;
+}
+.value p{
+  text-align: center;
+}
+
+#footer{
+  background-color: #181821;
+  color: #a9b3bb;
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+#footer a{
+  color: #a9b3bb;
+}
+#footer .footer-text{
+  font-size: 24px;
+  font-weight: 700;
+}
+#footer .img-logo img{
+  height:44px;
+  margin-right: 14px;
+  border-radius:6px;
+  margin: auto 0;
+}
+#footer .img-logo{
+  display: flex;
+}
+.info-list{
+  padding: 0;
+}
+.info-item{
+  display:flex;
+}
+.info-item i{
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 0 18px;
+}
+.show{
+  display: block;
+}
