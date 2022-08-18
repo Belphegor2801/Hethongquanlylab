@@ -1,0 +1,81 @@
+table, th, td{
+    border:2px solid rgb(245, 133, 133);
+    text-align:center;
+}
+table{
+    border-collapse:collapse;
+    width:100%;
+}
+th, td{
+    line-height: 28px;
+}
+tr:hover{
+    background-color:#ddd;
+    cursor:pointer;
+}
+table{
+    width: 100%;
+}
+
+h2{
+    text-align: center;
+}
+
+.qlns input[type="search"]{
+    width: 96%;
+    line-height: 78px;
+}
+.qlns button{
+    width: 100%;
+    line-height: 28px;
+
+}
+.qlns button:hover{
+    border: 2px solid rgb(143, 149, 240);
+    color: #fff;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.heading {
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    padding-left: 52px;
+    display: flex;
+    color: #fff;
+    position: fixed;
+    backdrop-filter: blur(3px);
+    background-color: rgba(0,0,0,0.6);
+    z-index: 1;
+    height: 62px;
+}
+
+
+.heading .heading-item:hover {
+    background-color: #ccc;
+    color: #000000;
+}
+
+.heading .menu {
+    position: absolute;
+    padding: 3vh 2vw;
+    left: 0vw;
+    font-size: 22px;
+}
+
+.heading .menu:hover {
+    background-color: #f00;
+    color: #212121;
+}
+
+.heading a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+
+.heading .heading-item {
+    padding: 18px 2vw;
+}
