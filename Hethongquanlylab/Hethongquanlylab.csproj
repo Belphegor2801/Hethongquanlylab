@@ -7,7 +7,6 @@
   <ItemGroup>
     <Folder Include="Controllers\Admin\" />
     <Folder Include="Controllers\Super\" />
-    <Folder Include="Controllers\User\" />
   </ItemGroup>
 
   <ItemGroup>

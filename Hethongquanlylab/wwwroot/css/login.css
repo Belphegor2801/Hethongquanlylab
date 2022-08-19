@@ -66,5 +66,5 @@ body{
     text-align: center;
 }
 .form-submit:hover{
-    border: 1px solid #54a0ff;
+    cursor: pointer;
 }
