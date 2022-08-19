@@ -20,7 +20,7 @@ namespace Hethongquanlylab.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("~/Views/Shared/Home.cshtml");
         }
 
         public IActionResult Privacy()
