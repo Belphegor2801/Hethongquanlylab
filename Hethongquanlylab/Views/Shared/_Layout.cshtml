@@ -1,48 +1,142 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Hethongquanlylab</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet"
+          href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <title>LAB THẦY SINH</title>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hethongquanlylab</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    <div class="heading">
+        <div onclick="showMenu();" class="menu heading-item">
+            <i class="fa-solid fa-bars"></i>
+            <ul onmouseleave="outMenu();" class="navbar-list ">
+                <li class="navbar-item">
+                    <a class="powerteam-list" href="#">
+                        Các Power Team <i style="padding-left: 1vw;" class="fa-solid fa-angle-right"></i>
+                    </a>
+                    </a>
+                    <ul class="powerteams">
+                        <li class="powerteam">
+                            <a href="">
+                                PT Lập Trình
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="powerteam">
+                            <a href="">
+                                PT Cơ Khí - Cơ điện tử
+                            </a>
+                        </li>
+                        <li class="powerteam">
+                            <a href="">
+                                PT Tự Động Hóa & IOM
+                            </a>
+                        </li>
+                        <li class="powerteam">
+                            <a href="">
+                                PT Ngoại Ngữ
+                            </a>
+                        </li>
+                        <li class="powerteam">
+                            <a href="">
+                                PT QTDN và Marketing
+                            </a>
+                        </li>
+                        <li class="powerteam">
+                            <a href="">
+                                PT Phát triển bản thân
+                            </a>
                         </li>
                     </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+                </li>
+            </ul>
+        </div>
+        <a href="Home#introduce">
+            <div style="margin-left: 30px;" class="heading-item">Trang chủ</div>
+        </a>
+        <a href="Home#rule-list">
+            <div class="heading-item">Quy tắc ứng xử</div>
+        </a>
+        <a href="Home#coreValues">
+            <div class="heading-item">Giá trị cốt lõi</div>
+        </a>
+        <a href="Home#work">
+            <div class="heading-item">Các hoạt động</div>
+        </a>
+        <a href="#footer">
+            <div class="heading-item">Liên hệ</div>
+        </a>
+        <div class="user">
+            <i class="fa-solid fa-user"></i>
+            <ul class="user-info">
+                <li class="user-info-item">
+                    <a asp-controller="Login">
+                        Đăng nhập
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Hethongquanlylab - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    @RenderBody()
+
+    <div id="footer">
+
+        <div class="info">
+            <div class="img-logo">
+                <img src="./img/logo.jpg" alt="">
+                <p class="footer-text">Lab thầy Sinh</p>
+            </div>
+            <ul class="info-list">
+                <li class="info-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <p>035 633 0299</p>
+                </li>
+                <li class="info-item">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <p>labthaysinhtechmater@gmail.com</p>
+                </li>
+            </ul>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+
+        <div class="info">
+            <p class="footer-text">Các mạng xã hội của Lab</p>
+            <ul class="info-list">
+                <li class="info-item">
+                    <i style="color:#ff0000" class="fa-brands fa-youtube"></i>
+                    <p>
+                        <a href="">Youtube</a>
+                    </p>
+                </li>
+                <li class="info-item">
+                    <i style="color:#097eeb" class="fa-brands fa-facebook"></i>
+                    <p>
+                        <a href="">Facebook</a>
+                    </p>
+                </li>
+                <li class="info-item">
+                    <i class="fa-brands fa-tiktok"></i>
+                    <p>
+                        <a href="">Tiktok</a>
+                    </p>
+                </li>
+                <li class="info-item">
+                    <i style="color:#c94571" class="fa-brands fa-instagram-square"></i>
+                    <p>
+                        <a href="">Instagram</a>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="./js/slideShow.js"></script>
+    <script src="./js/onClickMenu.js"></script>
+
+
 </body>
 </html>
