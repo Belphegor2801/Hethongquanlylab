@@ -9,6 +9,7 @@ using System.IO;
 using OfficeOpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Baseline.ImTools;
+using OfficeOpenXml.Style;
 
 namespace Hethongquanlylab.DAO
 {
@@ -22,7 +23,7 @@ namespace Hethongquanlylab.DAO
         }
 
         private AccountDAO() { }
-        public List<Account> GetAccountListByExcel()
+        public List<Account> GetAccountList_Excel()
         {
             List<Account> accountList = new List<Account>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -48,10 +49,11 @@ namespace Hethongquanlylab.DAO
         }
         
         public Account GetAccountbyUsername_Excel(string name)
-        {
+        { 
             var package = new ExcelPackage(new FileInfo("data.csv"));
 
             // lấy ra sheet đầu tiên để thao tác
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelWorksheet workSheet = package.Workbook.Worksheets[1];
             // duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. lưu ý file excel bắt đầu từ số 1 không phải số 0
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
@@ -72,5 +74,6 @@ namespace Hethongquanlylab.DAO
             }
             return null;
         }
+        
     }
 }
