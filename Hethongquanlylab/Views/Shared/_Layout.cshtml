@@ -4,80 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="./css/index.css">
-    <link rel="stylesheet"
-          href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-
+    <link rel="stylesheet" href="~/css/layout.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <title>LAB THẦY SINH</title>
 </head>
 <body>
     <div class="heading">
-        <div onclick="showMenu();" class="menu heading-item">
-            <i class="fa-solid fa-bars"></i>
-            <ul onmouseleave="outMenu();" class="navbar-list ">
-                <li class="navbar-item">
-                    <a class="powerteam-list" href="#">
-                        Các Power Team <i style="padding-left: 1vw;" class="fa-solid fa-angle-right"></i>
-                    </a>
-                    </a>
-                    <ul class="powerteams">
-                        <li class="powerteam">
-                            <a href="">
-                                PT Lập Trình
-                            </a>
-                        </li>
-                        <li class="powerteam">
-                            <a href="">
-                                PT Cơ Khí - Cơ điện tử
-                            </a>
-                        </li>
-                        <li class="powerteam">
-                            <a href="">
-                                PT Tự Động Hóa & IOM
-                            </a>
-                        </li>
-                        <li class="powerteam">
-                            <a href="">
-                                PT Ngoại Ngữ
-                            </a>
-                        </li>
-                        <li class="powerteam">
-                            <a href="">
-                                PT QTDN và Marketing
-                            </a>
-                        </li>
-                        <li class="powerteam">
-                            <a href="">
-                                PT Phát triển bản thân
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <a href="Home#introduce">
-            <div style="margin-left: 30px;" class="heading-item">Trang chủ</div>
-        </a>
-        <a href="Home#rule-list">
-            <div class="heading-item">Quy tắc ứng xử</div>
-        </a>
-        <a href="Home#coreValues">
-            <div class="heading-item">Giá trị cốt lõi</div>
-        </a>
-        <a href="Home#work">
-            <div class="heading-item">Các hoạt động</div>
-        </a>
-        <a href="#footer">
-            <div class="heading-item">Liên hệ</div>
-        </a>
+        @RenderSection("Buttons")
+
         <div class="user">
             <i class="fa-solid fa-user"></i>
             <ul class="user-info">
                 <li class="user-info-item">
-                    <a asp-controller="Login">
-                        Đăng nhập
-                    </a>
+                    @RenderSection("Login")
                 </li>
             </ul>
         </div>
