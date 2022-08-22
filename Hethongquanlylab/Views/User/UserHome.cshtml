@@ -1,27 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
-
     @section Buttons{
         <a href="#introduce">
             <div style="margin-left: 30px;" class="heading-item">Trang chủ</div>
         </a>
-        <a href="#rule-list">
-            <div class="heading-item">Quy tắc ứng xử</div>
+        <a asp-action="Infor">
+            <div class="heading-item">Thông tin cá nhân</div>
         </a>
-        <a href="#coreValues">
-            <div class="heading-item">Giá trị cốt lõi</div>
-        </a>
-        <a href="#work">
-            <div class="heading-item">Các hoạt động</div>
-        </a>
-        <a href="#footer">
-            <div class="heading-item">Liên hệ</div>
+        <a asp-action="Training">
+            <div class="heading-item">Các bài đào tạo</div>
         </a>
     }
 
     @section Login{
-        <a asp-controller="Login">
-            Đăng nhập
+        <a asp-controller="Home">
+            Đăng xuất
         </a>
     }
 }
@@ -33,15 +25,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet"
           href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="~/css/index.css">
-    <title>Đăng nhập Lab thầy Sinh</title>
+    <title>Đăng nhập Lab thầy Sinh</title>s
 </head>
 <body>
-
-
     <video class="video-introduce" controls autoplay loop muted>
         <source src="./img/video- giới thiệu.mp4">
     </video>
