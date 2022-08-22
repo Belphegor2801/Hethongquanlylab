@@ -690,8 +690,6 @@
     background-color: #fff;
     border: 1px solid #ced4da;
     appearance: none;
-
-
 }
 .contact__form textarea{
     padding: 10px 15px;
@@ -720,7 +718,7 @@
 @media (min-width: 768px){
     .contact__col-form{
         flex: 0 0 auto;
-        width: 50%;
+        width: 90%;
     }          
 }
     
@@ -742,11 +740,11 @@
 @media (min-width: 992px){
     .contact__col{
         flex: 0 0 auto;
-        width: 41.66666667%;
+        width: 70%;
     }
     .contact__form{
         flex: 0 0 auto;
-        width: 58.33333333%;
+        width: 70%;
     }
 }
 #header{

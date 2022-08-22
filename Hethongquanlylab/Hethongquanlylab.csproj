@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DAO\Dataprovider_User.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Controllers\Admin\" />
     <Folder Include="Controllers\Super\" />
   </ItemGroup>
