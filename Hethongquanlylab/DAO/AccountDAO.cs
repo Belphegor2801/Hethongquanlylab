@@ -27,7 +27,7 @@ namespace Hethongquanlylab.DAO
         {
             List<Account> accountList = new List<Account>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("data.csv"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/data.xlsx"));
 
             // lấy ra sheet đầu tiên để thao tác
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
@@ -49,12 +49,12 @@ namespace Hethongquanlylab.DAO
         }
         
         public Account GetAccountbyUsername_Excel(string name)
-        { 
-            var package = new ExcelPackage(new FileInfo("data.csv"));
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/data.xlsx"));
 
             // lấy ra sheet đầu tiên để thao tác
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[1];
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             // duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. lưu ý file excel bắt đầu từ số 1 không phải số 0
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
@@ -64,7 +64,7 @@ namespace Hethongquanlylab.DAO
                 // lấy ra cột họ tên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
                 // tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
                 string username = workSheet.Cells[i, j++].Value.ToString();
-                if(String.Compare(username,name,false) == 1)
+                if(username == name)
                 {
                     string password = workSheet.Cells[i, j++].Value.ToString();
                     string accountType = workSheet.Cells[i, j++].Value.ToString();
