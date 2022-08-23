@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Hethongquanlylab.DAO;
+using Hethongquanlylab.Models;
+
 namespace Hethongquanlylab.Controllers
 {
     public class LoginController : Controller
@@ -19,7 +22,10 @@ namespace Hethongquanlylab.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(String accName, String pass)
         {
-            if (accName == "User")
+
+            Account user = AccountDAO.Instance.GetAccountbyUsername_Excel(accName);
+            if (user == null) return View("./Views/Shared/Login/Login.cshtml");
+            if (user.AccountType == "user")
                 return RedirectToAction("Index", "User");
             else 
                 return View("./Views/Shared/Login/Login.cshtml");
