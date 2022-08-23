@@ -96,5 +96,22 @@ namespace Hethongquanlylab.DAO
             }
             return userList;
         }
+        public int EditUserInfomtion_Excel(string id, string name)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("user.csv"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                int j = 1;
+                string labID = workSheet.Cells[i, j++].Value.ToString();
+                if(labID == id)
+                {
+                    workSheet.Cells[i, j++].Value = name;
+                    return 1;
+                }    
+            }
+            return 0;
+        }
     }
 }
