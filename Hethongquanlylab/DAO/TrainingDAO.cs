@@ -25,7 +25,7 @@ namespace Hethongquanlylab.DAO
         {
             List<Training> trainingList = new List<Training>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/training.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/training.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
@@ -42,7 +42,7 @@ namespace Hethongquanlylab.DAO
         public Training GetTrainingModelkbyId_Excel(int trainingid)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/training.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/training.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
