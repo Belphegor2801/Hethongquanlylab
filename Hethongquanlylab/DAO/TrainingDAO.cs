@@ -39,7 +39,7 @@ namespace Hethongquanlylab.DAO
             return trainingList;
         }
 
-        public Training GetTrainingModelkbyId_Excel(int trainingid)
+        public Training GetTrainingModelbyId_Excel(int trainingid)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/training.xlsx"));
