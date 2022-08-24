@@ -27,7 +27,7 @@ namespace Hethongquanlylab.DAO
         {
             List<Account> accountList = new List<Account>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/data.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/account.xlsx"));
 
             // lấy ra sheet đầu tiên để thao tác
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
@@ -51,7 +51,7 @@ namespace Hethongquanlylab.DAO
         public Account GetAccountbyUsername_Excel(string name)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/data.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/account.xlsx"));
 
             // lấy ra sheet đầu tiên để thao tác
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();

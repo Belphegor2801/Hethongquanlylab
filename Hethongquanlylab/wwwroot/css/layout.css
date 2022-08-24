@@ -35,6 +35,8 @@
 }
 
 .heading .heading-item:hover{
+  background-color:#ccc;
+  color: #000000;
 }
 
 .heading .heading-login{
