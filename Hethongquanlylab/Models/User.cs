@@ -9,19 +9,19 @@ namespace Hethongquanlylab.Models
 {
     public class User
     {
-        private int id;
+        private string labID;
         private string name;
-        public int Id { get => id; set => id = value; }
+        public string LabID { get => labID; set => labID = value; }
         public string Name { get => name; set => name = value; }
 
-        public User(int id, string name)
+        public User(string id, string name)
         {
-            this.Id = id;
+            this.LabID = id;
             this.Name = name;
         }
         public User(DataRow row)
         {
-            this.Id = (int)row["idMenu"];
+            this.LabID = (string)row["idMenu"];
             this.Name = (string)row["nameMenu"];
         }
     }

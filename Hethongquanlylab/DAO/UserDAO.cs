@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Hethongquanlylab.Models;
+using OfficeOpenXml;
+using System.IO;
 
 namespace Hethongquanlylab.DAO
 {
@@ -70,6 +72,46 @@ namespace Hethongquanlylab.DAO
                 list.Add(user);
             }
             return list;
+        }
+        public List<User> GetListUser_Excel()
+        {
+            List<User> userList = new List<User>();// mở file excel
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("user.csv"));
+
+            // lấy ra sheet đầu tiên để thao tác
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            // duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. lưu ý file excel bắt đầu từ số 1 không phải số 0
+            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                // biến j biểu thị cho một column trong file
+                int j = 1;
+
+                // lấy ra cột họ tên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
+                // tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
+                string labID = workSheet.Cells[i, j++].Value.ToString();
+                string name = workSheet.Cells[i, j++].Value.ToString();
+                User user = new User(labID, name);
+                userList.Add(user);
+            }
+            return userList;
+        }
+        public int EditUserInfomtion_Excel(string id, string name)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("user.csv"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                int j = 1;
+                string labID = workSheet.Cells[i, j++].Value.ToString();
+                if(labID == id)
+                {
+                    workSheet.Cells[i, j++].Value = name;
+                    return 1;
+                }    
+            }
+            return 0;
         }
     }
 }
