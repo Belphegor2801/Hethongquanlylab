@@ -65,7 +65,11 @@ namespace Hethongquanlylab.Controllers
                 if (user.AccountType == "user")
                     return RedirectToAction("Index", "User");
                 else if (user.AccountType == "super")
-                    return RedirectToAction("Index", "Super");
+                {
+                    if (user.Username == "BanNhanSu") return RedirectToAction("Index", "BNS");
+                    else return RedirectToAction("Index", "BNS");
+                }   
+                    
                 else if (user.AccountType == "admin")
                     return RedirectToAction("Index", "Admin");
                 else
