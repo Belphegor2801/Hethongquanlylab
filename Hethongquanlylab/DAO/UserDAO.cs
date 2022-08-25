@@ -98,6 +98,32 @@ namespace Hethongquanlylab.DAO
             }
             return userList;
         }
+        public User GetUserByID_Excel(string ID)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                int j = 1;
+                string labID = workSheet.Cells[i, j++].Value.ToString();
+                if (labID == ID)
+                {
+                    string name = workSheet.Cells[i, j++].Value.ToString();
+                    string sex = workSheet.Cells[i, j++].Value.ToString();
+                    string birthday = workSheet.Cells[i, j++].Value.ToString();
+                    string gen = workSheet.Cells[i, j++].Value.ToString();
+                    string unit = workSheet.Cells[i, j++].Value.ToString();
+                    string position = workSheet.Cells[i, j++].Value.ToString();
+                    User user = new User(labID, name, sex, birthday, gen, unit, position);
+                    return user;
+                }
+                i++;
+            }
+            return null;
+        }
+
         public void EditUserInfomtion_Excel(string id, string name, string sex, string birthday, string gen, string unit, string position)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
