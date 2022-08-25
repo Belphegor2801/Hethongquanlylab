@@ -4,7 +4,6 @@ function showMenu(){
     menu.classList.add('show');
 }
 
-
 function outMenu(){
     menu.classList.remove('show');
 }

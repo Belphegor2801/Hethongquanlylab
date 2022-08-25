@@ -1,5 +1,5 @@
-$(document).ready(function(){
-    $('#eye').click(function(){
+$(document).ready(function () {
+    $('#eye').addEventListener('click', function () {
         $(this).toggleClass('open');
         $(this).children('i').toggleClass('fa-eye-slash fa-eye');
         if($(this).hasClass('open')){

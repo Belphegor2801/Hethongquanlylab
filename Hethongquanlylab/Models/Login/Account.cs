@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 
 namespace Hethongquanlylab.Models
 {
+    // Model chung cho Account
     public class Account
     {
         private string username;
