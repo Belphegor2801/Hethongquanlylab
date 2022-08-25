@@ -48,7 +48,7 @@ namespace Hethongquanlylab.DAO
             return accountList;
         }
         
-        public Account GetAccountbyUsername_Excel(string name)
+        public Account GetAccountbyUsername_Excel(string accname)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/account.xlsx"));
@@ -64,7 +64,7 @@ namespace Hethongquanlylab.DAO
                 // lấy ra cột họ tên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
                 // tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
                 string username = workSheet.Cells[i, j++].Value.ToString();
-                if(username == name)
+                if(username == accname)
                 {
                     string password = workSheet.Cells[i, j++].Value.ToString();
                     string accountType = workSheet.Cells[i, j++].Value.ToString();
@@ -74,6 +74,30 @@ namespace Hethongquanlylab.DAO
             }
             return null;
         }
-        
+
+        public void ChangePassword(string accname, string newPass)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/account.xlsx"));
+
+            // lấy ra sheet đầu tiên để thao tác
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            // duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. lưu ý file excel bắt đầu từ số 1 không phải số 0
+            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                // biến j biểu thị cho một column trong file
+                int j = 1;
+
+                // lấy ra cột họ tên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
+                // tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
+                string username = workSheet.Cells[i, j++].Value.ToString();
+                if (username == accname)
+                {
+                    workSheet.Cells[i, j++].Value = newPass;
+                    break;
+                }
+            }
+            package.Save();
+        }
     }
 }
