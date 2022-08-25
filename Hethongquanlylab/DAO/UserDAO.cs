@@ -87,17 +87,17 @@ namespace Hethongquanlylab.DAO
 
                 string labID = workSheet.Cells[i, j++].Value.ToString();
                 string name = workSheet.Cells[i, j++].Value.ToString();
+                string sex = workSheet.Cells[i, j++].Value.ToString();
+                string birthday = workSheet.Cells[i, j++].Value.ToString();
                 string gen = workSheet.Cells[i, j++].Value.ToString();
-                string sdt = workSheet.Cells[i, j++].Value.ToString();
-                string email = workSheet.Cells[i, j++].Value.ToString();
-                string truong = workSheet.Cells[i, j++].Value.ToString();
-                string chuyennganh = workSheet.Cells[i, j++].Value.ToString();
-                User user = new User(labID, name, gen, sdt, email, truong, chuyennganh);
+                string unit = workSheet.Cells[i, j++].Value.ToString();
+                string position = workSheet.Cells[i, j++].Value.ToString();
+                User user = new User(labID, name, sex, birthday, gen, unit, position);
                 userList.Add(user);
             }
             return userList;
         }
-        public int EditUserInfomtion_Excel(string id, string name, string gen, string sdt, string email, string truong, string chuyennganh)
+        public int EditUserInfomtion_Excel(string id, string name, string sex, string birthday, string gen, string unit, string position)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("user.csv"));
@@ -109,10 +109,11 @@ namespace Hethongquanlylab.DAO
                 if(labID == id)
                 {
                     workSheet.Cells[i, j++].Value = name;
+                    workSheet.Cells[i, j++].Value = sex;
+                    workSheet.Cells[i, j++].Value = birthday;
                     workSheet.Cells[i, j++].Value = gen;
-                    workSheet.Cells[i, j++].Value = email;
-                    workSheet.Cells[i, j++].Value = truong;
-                    workSheet.Cells[i, j++].Value = chuyennganh;
+                    workSheet.Cells[i, j++].Value = unit;
+                    workSheet.Cells[i, j++].Value = position;
                     return 1;
                 }    
             }
