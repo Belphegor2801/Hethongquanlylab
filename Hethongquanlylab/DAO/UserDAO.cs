@@ -79,12 +79,12 @@ namespace Hethongquanlylab.DAO
         {
             List<User> userList = new List<User>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("user.csv"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            int i = 3;
+            while(workSheet.Cells[i, 1].Value != null)
             {
                 int j = 1;
-
                 string labID = workSheet.Cells[i, j++].Value.ToString();
                 string name = workSheet.Cells[i, j++].Value.ToString();
                 string sex = workSheet.Cells[i, j++].Value.ToString();
@@ -94,13 +94,14 @@ namespace Hethongquanlylab.DAO
                 string position = workSheet.Cells[i, j++].Value.ToString();
                 User user = new User(labID, name, sex, birthday, gen, unit, position);
                 userList.Add(user);
+                i++;
             }
             return userList;
         }
-        public int EditUserInfomtion_Excel(string id, string name, string sex, string birthday, string gen, string unit, string position)
+        public void EditUserInfomtion_Excel(string id, string name, string sex, string birthday, string gen, string unit, string position)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("user.csv"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
@@ -114,10 +115,10 @@ namespace Hethongquanlylab.DAO
                     workSheet.Cells[i, j++].Value = gen;
                     workSheet.Cells[i, j++].Value = unit;
                     workSheet.Cells[i, j++].Value = position;
-                    return 1;
+                    break;
                 }    
             }
-            return 0;
+            package.Save();
         }
     }
 }
