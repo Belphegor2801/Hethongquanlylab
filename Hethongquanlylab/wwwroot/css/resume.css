@@ -12,10 +12,58 @@
 html {
 	font-size: 10px;
 }
-body {
+.bodyofresume{
+	position: relative;
+	padding-top: 100px;
 	font-family: Inter, sans-serif;
 	background-color: white;
 	color: white;
+}
+
+/*header*/
+
+.bodyofheader .header{
+    display: flex;
+    position: fixed;
+    z-index: 10;
+    /* margin-left: -70px; */
+    /* margin-top: -8px; */
+    background-color: #1e2d3b;
+    box-shadow: 5px -5px 8px 10px #888888;
+    color: #212121;
+    height: 100px;
+}
+.bodyofheader .header .header-logo h3{
+    font-size:22px;
+    font-weight: 900;
+    margin: auto;
+}
+.bodyofheader .header-logo{
+    display: flex; 
+    width: 350px;
+    background-color: #edcd1f;
+}
+.bodyofheader .header .logo{
+    height: 100px;
+    margin-left: 70px;
+	width: 104px;
+}
+
+.bodyofheader .header-list{
+    display: flex;
+    width: calc(100vw - 350px);
+    flex-direction: row-reverse;
+    padding-right: 65px;
+    text-align: center;
+}
+.bodyofheader .header-item {
+    margin: 24px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.bodyofheader .header-item:hover{
+    color: #edcd1f;
 }
 
 /* common styles */

@@ -1,6 +1,6 @@
 html {
     scroll-behavior: smooth;
-  }
+}
 body{
     margin:0;
     font-family: Arial;
@@ -9,7 +9,6 @@ a{
     text-decoration: none;
     color:#fff;
 }
-
 
 .header{
     display: flex;
@@ -44,6 +43,7 @@ a{
     padding-right: 65px;
     text-align: center;
     line-height: 70px;
+    justify-content: space-around;
 }
 .header-item {
     margin: 15px;
@@ -85,7 +85,7 @@ a{
 }
 .user .user-info{
 
-    right: -2vw;
+    right: -6vw;
     top: 75px;
     margin: 0;
     padding: 0;
@@ -111,6 +111,12 @@ a{
     background-color: #edcd1f;
     color: #fff;
 }
+
+.layout-content {
+    position: relative;
+    padding-top: 150px;
+}
+
 #footer{
     background-color: #181821;
     color: #a9b3bb;
@@ -121,9 +127,9 @@ a{
     right: 0;
     margin-top: 100px;
   }
-  #footer a{
+#footer a{
     color: #a9b3bb;
-  }
+}
 .info{
     margin-top: 45px;
 }
@@ -240,11 +246,14 @@ a{
     font-size: 18px;
 }
 .container-gioithieu{
-    display: flex;
-    margin: auto;
-    justify-content: center;
+  display: flex;
+  margin: auto;
+  width: 84vw;
+  justify-content: space-between;
 }
-.container-gioithieu-list{}
+.container-gioithieu-list{
+  width: 35vw;
+}
 .container-gioithieu-item{
     text-align: initial;
 }
@@ -263,7 +272,7 @@ a{
   margin-top: 150px;
   background-color: #f1f9fd;
   font-size: 30px;
-  font-weight: 800;
+  font-weight: 700;
 }
 .quyTac-wrapper{
   padding: 80px 0;
@@ -288,11 +297,12 @@ a{
   font-size: 22px;
   text-shadow: 5px 2px 5px grey;
   font-weight: bold;
-  height: 120px;
+  height: 150px;
 }
 .gioiThieu-mid{
   display:flex;
   flex-direction: row-reverse;
+  margin:50px;
 }
 .gioiThieu-text{
   width: 25vw;
@@ -313,7 +323,7 @@ a{
   width: 60vw;
   background-repeat: no-repeat;
   border-radius: 15px;
-
+  margin-right: 35px;
 }
 .dataLab{
   width: 100%;
@@ -324,6 +334,7 @@ a{
   font-size: 54px;
   font-weight: 700;
   text-align: center;
+  margin-top: 30px;
 }
 .data{
   width: 25%;
@@ -438,6 +449,7 @@ a{
   font-size: 18px;
   font-weight: 600;
 }
+
 .content-item-quaTrinh{}
 /* phần tin tức */
 .news{

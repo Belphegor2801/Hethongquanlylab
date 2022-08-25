@@ -14,6 +14,75 @@
         </li>
     }
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhân Sự Ban Đào Tạo</title>
+    <link rel="stylesheet" href="~/css/layout.css">
+    <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+<body>
+    <fieldset>
+        <legend>Nhập thành viên bạn muốn tìm</legend>
+        <label style=" font-size: 18px " for="truongDuLieu">Tìm theo</label>
+        <select name="truongDuLieu" id="truongDuLieu">
+            <option selected="selected">LAB_ID</option>
+            <option>Họ và tên</option>
+        </select>
+        <input class="search" type="text" name="Hop nhap" placeholder="Hộp nhập">
+        <button>Tìm Kiếm</button>
+    </fieldset>
 
+    <div class="container mt-2">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align:center; font-size: 20px;" colspan="4">DANH SÁCH THÀNH VIÊN</th>
+                </tr>
+                <tr>
+                    <th>LAB_ID</th>
+                    <th>TÊN THÀNH VIÊN</th>
+                </tr>
+            </thead>
+            <tbody style="user-select: auto;">
+                <tr id="0" style="user-select: auto;">
+                    <td style="user-select: auto;"> 1234</td>
+                    <td style="user-select: auto;"> ĐỖ ĐỨC THÀNH</td>
+                    <td style="user-select: auto;"><button class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</button></td>
+                    <td style="user-select: auto;"><button class="delete confirm" value="0" style="user-select: auto;">Xóa</button></td>
+                </tr>
+                <tr id="1" style="user-select: auto;">
+                    <td style="user-select: auto;"> 2345</td>
+                    <td style="user-select: auto;"> LÃ QUANG DƯƠNG</td>
+                    <td style="user-select: auto;"><button class="edit table-fix" value="1" style="user-select: auto;">Chi tiết</button></td>
+                    <td style="user-select: auto;"><button class="delete confirm" value="1" style="user-select: auto;">Xóa</button></td>
+                </tr>
+                <tr id="2" style="user-select: auto;">
+                    <td style="user-select: auto;"> 6789</td>
+                    <td style="user-select: auto;"> NGUYỄN VĂN CÔNG</td>
+                    <td style="user-select: auto;"><button class="edit table-fix" value="2" style="user-select: auto;">Chi tiết</button></td>
+                    <td style="user-select: auto;"><button class="delete confirm" value="2" style="user-select: auto;">Xóa</button></td>
+                </tr>
+                <tr id="3" style="user-select: auto;">
+                    <td style="user-select: auto;"> JQKA</td>
+                    <td style="user-select: auto;"> DƯƠNG VĂN HỮU</td>
+                    <td style="user-select: auto;"><button class="edit table-fix" value="3" style="user-select: auto;">Chi tiết</button></td>
+                    <td style="user-select: auto;"><button class="delete confirm" value="3" style="user-select: auto;">Xóa</button></td>
+                </tr>
+            </tbody>
+        </table>
 
+        <div style="margin-top: 30px; position: absolute;right: 60px;">
+            <button style="padding: 8px 12px;" class="addQuyTrinh">Thêm Thành Viên</button>
+        </div>
 
+    </div>
+    </div>
+</body>
+</html>
