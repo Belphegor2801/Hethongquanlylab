@@ -14,7 +14,7 @@ namespace Hethongquanlylab.Models
         public string LabID { get => labID; set => labID = value; }
         public string Name { get => name; set => name = value; }
 
-        public User(string id, string name)
+        public User(string id, string name, string gen, string phoneNumber, string mail, string university, string subject)
         {
             this.LabID = id;
             this.Name = name;

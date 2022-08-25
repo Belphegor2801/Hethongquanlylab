@@ -1,15 +1,9 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout_Home.cshtml";
     @section Buttons{
-        <a href="#introduce">
-            <div style="margin-left: 30px;" class="heading-item">Trang chủ</div>
-        </a>
-        <a asp-action="Infor">
-            <div class="heading-item">Thông tin cá nhân</div>
-        </a>
-        <a asp-action="Training">
-            <div class="heading-item">Các bài đào tạo</div>
-        </a>
+        <a asp-action="Training" class="header-item">Các bài đào tạo</a>
+        <a asp-action="Infor" class="header-item">Thông tin cá nhân</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
     }
 
     @section Login{
