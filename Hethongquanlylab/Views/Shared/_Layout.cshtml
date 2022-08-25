@@ -4,33 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/css/layout.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet"
           href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="~/css/layout.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
     <title>LAB THẦY SINH</title>
 </head>
 <body>
-    <div class="heading">
-        @RenderSection("Buttons")
+    <div id="header" class="header">
+        <div class="header-logo">
+            <img src="~/img/logo-trắng.jpg" alt="" class="logo">
+            <h3>LAB THẦY SINH</h3>
+        </div>
+        <div class="header-list">
+            <div class="user">
+                <i class="fa-solid fa-user"></i>
+                <ul class="user-info">
+                    @RenderSection("Login")
+                </ul>
+            </div>
 
-        <div class="user">
-            <i class="fa-solid fa-user"></i>
-            <ul class="user-info">
-                @RenderSection("Login")
-            </ul>
+            @RenderSection("Buttons")
         </div>
     </div>
 
-    @RenderBody()
+    <div class="layout-content">
+        @RenderBody()
+    </div>
+    
 
+    <!-- phần chân trang -->
     <div id="footer">
+        <iframe style=" border-radius: 20px; width: 30vw;  height: 30vw;   margin:18px 0 18px -30px" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.9660320179396!2d105.9480176142013!3d20.993998694341588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135afa9544012bb%3A0xa9fe19d5974e27b3!2sVinhomes%20Ocean%20Park!5e0!3m2!1svi!2s!4v1661335092024!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
         <div class="info">
-            <div class="img-logo">
-                <img src="./img/logo.jpg" alt="">
-                <p class="footer-text">Lab thầy Sinh</p>
-            </div>
+            <p class="footer-text">Thông tin liên hệ</p>
             <ul class="info-list">
                 <li class="info-item">
                     <i class="fa-solid fa-phone"></i>
@@ -72,10 +85,11 @@
                 </li>
             </ul>
         </div>
+
     </div>
-    <script src="./js/slideShow.js"></script>
-    <script src="./js/onClickMenu.js"></script>
 
 
 </body>
+<script src="./js/slide.js"></script>
+<script src="./js/news.js"></script>
 </html>

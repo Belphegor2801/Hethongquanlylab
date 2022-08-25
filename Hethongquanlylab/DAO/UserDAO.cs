@@ -73,6 +73,8 @@ namespace Hethongquanlylab.DAO
             }
             return list;
         }
+
+
         public List<User> GetListUser_Excel()
         {
             List<User> userList = new List<User>();// mở file excel

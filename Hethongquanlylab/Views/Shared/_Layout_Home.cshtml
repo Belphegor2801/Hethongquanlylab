@@ -4,182 +4,192 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet"
-          href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="~/css/layout.css">
-    <link rel="stylesheet" href="~/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
     <title>LAB THẦY SINH</title>
 </head>
 <body>
-    <div class="heading">
-        @RenderSection("Buttons")
+    <div id="header" class="header">
+        <div class="header-logo">
+            <img src="~/img/logo-trắng.jpg" alt="" class="logo">
+            <h3>LAB THẦY SINH</h3>
+        </div>
+        <div class="header-list">
+            <div class="user">
+                <i class="fa-solid fa-user"></i>
+                <ul class="user-info">
+                    @RenderSection("Login")
+                </ul>
+            </div>
+            @RenderSection("Buttons")
+        </div>
+    </div>
+    <img src="~/img/labchung.jpg" alt="" style="width:100%">
+    <!-- tin tức -->
 
-        <div class="user">
-            <i class="fa-solid fa-user"></i>
-            <ul class="user-info">
-                @RenderSection("Login")
-            </ul>
+    <div id="tinTuc">
+        <p class="title-news">Tin tức</p>
+        <table class="news">
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div id="veChungToi" class="gioiThieu">
+        <div class="gioiThieu-mid">
+            <div class="space"></div>
+            <div class="gioiThieu-text">
+                <p class="gioiThieu-text-title">Về Chúng Tôi</p>
+                <p style="font-size: 20px;font-weight: 500;">I'm a paragraph.  makeeat place for you to tell a story and let your users know a little more about you.​This is a great space to write long text about your company and your services. You can use this space to go into a little more detail about your company. Talk about your team and what services you provide. Tell your visitors the story of how you came up with the idea for your business and what makes you different from your competitors. Make your company stand out and show your visitors who you are.</p>
+            </div>
+        </div>
+
+        <p class="title-gioithieu">Lab Thầy Sinh</p>
+        <p class="title-sp-gioithieu">Công ty cổ phần đầu tư và phát triển Lab Thầy Sinh</p>
+        <div class="container-gioithieu">
+            <img src="./img/ảnh nhà máy.jpg" alt="">
+            <div class="container-gioithieu-list">
+                <div class="container-gioithieu-item">
+                    <ul class="container-content-list">
+                        <h3>Chịu trách nhiệm sản xuất</h3>
+                        <li class="container-content-item">Công ty Cổ phần Lab thầy sinh </li>
+                        <li class="container-content-item">Địa chỉ: Long Biên</li>
+                        <li class="container-content-item">Điện thoại: 0986 123 123 – 0985.635.123</li>
+                        <li class="container-content-item">Email: admin@gmail.com</li>
+                    </ul>
+                    <ul class="container-content-list">
+                        <h3>Chịu trách nhiệm phân phối</h3>
+                        <li class="container-content-item">Công ty Cổ phần Lab thầy sinh </li>
+                        <li class="container-content-item">Địa chỉ: Ocean Park</li>
+                        <li class="container-content-item">Điện thoại: 0986 123 123 – 0985.635.123</li>
+                        <li class="container-content-item">Email: admin@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="container-gioithieu-item"></div>
+            </div>
+        </div>
+
+        <div class="dataLab">
+            <div class="data">
+                <p>2020</p>
+                <p class="data-text">Năm Thành Lập</p>
+            </div>
+            <div class="data">
+                <p>2020</p>
+                <p class="data-text">Thành Viên</p>
+            </div>
+            <div class="data">
+                <p>20</p>
+                <p class="data-text">Dự Án</p>
+            </div>
+            <div class="data">
+                <p>20</p>
+                <p class="data-text">Sự Kiện</p>
+            </div>
         </div>
     </div>
 
-    @RenderBody()
 
-    <video class="video-introduce" controls autoplay loop muted>
-        <source src="./img/video- giới thiệu.mp4">
-    </video>
 
-    <div id="introduce">
-        <ul class="introduce-list">
-            <li class="introduce-item">Giới thiệu về LAB Thầy Sinh:  do thầy Hoàng Vĩnh Sinh sáng lập, đã hoạt động được 2 năm, tầm nhìn, sứ mệnh của LAB </li>
-            <li class="introduce-item">LAB Thầy Sinh thành lập với sứ mệnh tạo ra môi trường để sinh viên phát triển bản thân, kết nối lý thuyết và thực hành dựa trên trí thông minh cảm xúc.</li>
-            <li class="introduce-item">LAB Thầy Sinh do PGS.TS Hoàng Vĩnh Sinh – giảng viên bộ môn gia công vật liệu và DCCN Trường Cơ khí sáng lập đến nay đã hoạt động được gần 2 năm với 5 thế hệ sinh viên. LAB hoạt động với sứ mệnh tạo nên môi trường thực hành tích cực để các thành viên có thể phát huy tốt nhất năng lực chuyên môn và năng lực Leadership thông qua việc Phát triển bản thân.</li>
-            <li class="introduce-item">TẦM NHÌN  đến năm 2025, LAB Thầy Sinh trở thanh nơi ươm mầm và là nhà đầu tư có tiềm lực, tin cậy cho các Startup và các doanh nghiệp. </li>
-        </ul>
-        <img class="introduce-img" src="./img/logo-trắng.jpg" alt="">
+    <!-- phần quy tắc ứng xử -->
+    <h2 id="giaTriCotLoi" class="title">Giá Trị Cốt Lõi</h2>
+
+    <div class="slideshow-container">
+
+        <div class="mySlides fade">
+            <div class="quyTac">
+                <img src="./img/quyTacUngXu.png" alt="" class="quyTac-img">
+                <h3 class="quyTac-title">Biết Ơn</h3>
+                <p class="quyTac-text">Hãy nói cảm ơn và luôn thể hiện lòng biết ơn theo nhiều cách với những người xung quanh.  Ăn mừng chiến thắng của mình và của người khác mỗi khi đạt được mục tiêu.</p>
+            </div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="quyTac">
+                <img src="./img/quyTacUngXu.png" alt="" class="quyTac-img">
+                <h3 class="quyTac-title">Gia Đình</h3>
+                <p class="quyTac-text">Là một gia đình - trong đó các thành viên cùng nhau tạo ra một gia đình, một hệ thống sinh thái một cộng đồng chất lượng với mục tiêu tất cả các thành viên sẽ có cuộc sống thịnh vượng, bình an, hạnh phúc và bền vững. </p>
+            </div>
+        </div>
+        <div class="mySlides fade">
+            <div class="quyTac">
+                <img src="./img/quyTacUngXu.png" alt="" class="quyTac-img">
+                <h3 class="quyTac-title">Làm Chủ</h3>
+                <p class="quyTac-text">hoàn toàn chịu trách nhiệm về mọi hoạt động, kết quả và mọi công việc đang diễn ra trong công việc, nhiệm vụ được giao</p>
+            </div>
+        </div>
+        <div class="mySlides fade">
+            <div class="quyTac">
+                <img src="./img/quyTacUngXu.png" alt="" class="quyTac-img">
+                <h3 class="quyTac-title">Cam Kết </h3>
+                <p class="quyTac-text">Cam kết thực hiện đúng 100%, đủ, đều, đúng hạn các chiến lược, kế hoạch hành động, quy tắc xử lý của Đội trừ trường hợp bất khả kháng.</p>
+            </div>
+        </div>
+        <div class="mySlides fade">
+            <div class="quyTac">
+                <img src="./img/quyTacUngXu.png" alt="" class="quyTac-img">
+                <h3 class="quyTac-title">Giao Tiếp</h3>
+                <p class="quyTac-text">Cam kết thực hiện đúng 100%, đủ, đều, đúng hạn các chiến lược, kế hoạch hành động, quy tắc xử lý của Đội trừ trường hợp bất khả kháng. </p>
+            </div>
+        </div>
+        <div class="mySlides fade">
+            <div class="quyTac">
+                <img src="./img/quyTacUngXu.png" alt="" class="quyTac-img">
+                <h3 class="quyTac-title">Làm Việc Đội Nhóm</h3>
+                <p class="quyTac-text">Nhiệt tình có trách nhiệm với nhóm tập thể. Sử dụng kĩ năng, thế mạnh của mình chia sẻ cho các thành viên trong Team để tất cả cùng nhau phát triển và gắn kết với nhau hơn.</p>
+            </div>
+        </div>
+        <div class="mySlides fade">
+            <div class="quyTac">
+                <img src="./img/quyTacUngXu.png" alt="" class="quyTac-img">
+                <h3 class="quyTac-title">Cho Là Nhận</h3>
+                <p class="quyTac-text">Hãy gieo trồng, tạo nhân tốt, bạn sẽ có được kết quả ngọt.  Sẵn sàng chia sẻ những gì bạn có để giúp đỡ đồng đội để họ cùng chiến thắng, rồi bạn sẽ nhận lại những thứ mà bạn xứng đáng.</p>
+            </div>
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
+    <br>
 
-    <!-- Quy tắc ứng xử -->
-    <ul id="rule-list">
-        <p class="title"> [LAB THẦY SINH - QUY TẮC ỨNG XỬ]</p>
-        <li class="rule-item">1. Người sáng lập: PGS.TS Hoàng Vĩnh Sinh.</li>
-        <li class="rule-item">2. Tuân thủ: Sẵn sàng ủng hộ mục tiêu, thực hiện các quy tắc và các quyết định chung.</li>
-        <li class="rule-item">3. Làm chủ: Chịu trách nhiệm với mọi hành động, kết quả, công việc và nhiệm vụ được giao.</li>
-        <li class="rule-item">4. Cam kết: thực hiện đúng, đủ, đều các kế hoạch, hành động và quy tắc ứng xử của LAB.</li>
-        <li class="rule-item">5. Hỗ trợ: Chia sẻ không điều kiện cho các thành viên khác trong LAB.</li>
-        <li class="rule-item">6. Chính trực: Luôn nói sự thật, làm những gì đã hứa, chịu trách nhiệm cá nhân, không đổ thừa, không bào chữa, không chỉ trích.</li>
-        <li class="rule-item">7. Làm việc nhóm: Có tinh thần chiến thắng và cho phép những người khác chiến thắng, không bao giờ bỏ rơi đồng đội.</li>
-        <li class="rule-item">8. Biết ơn: Nói cảm ơn và luôn thể hiện lòng biết ơn theo nhiều cách với đồng đội, ăn mừng chiến thắng mỗi khi đạt mục tiêu.</li>
-        <li class="rule-item">9. Giao tiếp: Giao tiếp tích cực với các thành viên trong LAB, nhận và xin lỗi khi sai. Lắng nghe một cách chân thành, góp ý theo các tích cực trong hoạt động của LAB.</li>
-        <li class="rule-item">10. Sự cho đi: Dành thời gian, kiến thức và sức lực để tạo lập các mối quan hệ với đồng đội.</li>
-        <li class="rule-item">
-            11. Bản quyền và bảo mật: Giữ bảo mật cho tất cả mọi thông tin, văn bản, thiết kế, sản phẩm, quy trình,... đều thuộc bản quyền của LAB thầy Sinh.
-            Quy tắc ứng xử cùng giá trị cốt lõi của LAB Thầy Sinh luôn là kim chỉ nam trong mọi hành động của mọi thành viên cũng như của LAB.
-        </li>
-    </ul>
-    <!-- giá trị cốt lõi -->
-    <div id="coreValues">
-        <p class="title"> GIÁ TRỊ CỐT LÕI- LAB THẦY SINH</p>
 
-        <div class="coreValues">
-            <div class="value">
-                <p>LÀM VIỆC NHÓM</p>
-                <img src="./img/teamwork.jpg" alt="" class="img-width_340px">
+    <div class="space2"></div>
+    <div id="doiTac" class="doiTac">
+        <p>Đối tác</p>
+        <div class="doiTac-list">
+            <div class="doiTac-item">
+                <img style="width: 60px;" src="./img/logo-vin.jpg" alt="">
+                <p>Công Ty A</p>
             </div>
-            <div class="value">
-                <p>GIAO TIẾP</p>
-                <img src="./img/giao tiếp.jpg" alt="" class="img-width_340px">
+            <div class="doiTac-item">
+                <img style="width: 60px;" src="./img/logo-vin.jpg" alt="">
+                <p>Công Ty A</p>
             </div>
-            <div class="value">
-                <p>CAM KẾT</p>
-                <img src="./img/cam kết.jpg" alt="" class="img-width_340px">
+            <div class="doiTac-item">
+                <img style="width: 60px;" src="./img/logo-vin.jpg" alt="">
+                <p>Công Ty A</p>
             </div>
-            <div class="value">
-                <p>LÀM CHỦ</p>
-                <img src="./img/làm chủ.jpg" alt="" class="img-width_340px">
-            </div>
-            <div class="value">
-                <p>BIẾT ƠN</p>
-                <img src="./img/biết ơn.jpg" alt="" class="img-width_340px">
+            <div class="doiTac-item">
+                <img style="width: 60px;" src="./img/logo-vin.jpg" alt="">
+                <p>Công Ty A</p>
             </div>
         </div>
     </div>
 
-    <div id="work">
-        <p class="title">CÁC HOẠT ĐỘNG CỦA LAB</p>
-        <div class="work-list">
-            <div class="slideshow-container">
 
-                <!-- Full-width images with number and caption text -->
-                <div class="mySlides ">
-                    <div class="numbertext">1 / 5</div>
-                    <img src="./img/chuyên môn 1.jpg" style="width:100%">
-                    <!-- <div class="text">Caption Text</div> -->
-                </div>
 
-                <div class="mySlides ">
-                    <div class="numbertext">2 / 5</div>
-                    <img src="./img/chuyên môn 2.jpg" style="width:100%">
-                    <!-- <div class="text">Caption Two</div> -->
-                </div>
 
-                <div class="mySlides ">
-                    <div class="numbertext">3 / 3</div>
-                    <img src="./img/chuyên môn 3.jpg" style="width:100%">
-                    <!-- <div class="text">Caption Three</div> -->
-                </div>
-
-                <div class="mySlides ">
-                    <div class="numbertext">4 / 5</div>
-                    <img src="./img/chuyên môn 4.jpg" style="width:100%">
-                    <!-- <div class="text">text 4</div> -->
-                </div>
-
-                <div class="mySlides ">
-                    <div class="numbertext">5 / 5</div>
-                    <img src="./img/chuyên môn 5.jpg" style="width:100%">
-                    <!-- <div class="text">text 5</div> -->
-                </div>
-
-                <div class="mySlides ">
-                    <div class="numbertext">5 / 5</div>
-                    <img src="./img/ngoại khóa 1.jpg" style="width:100%">
-                    <!-- <div class="text">text 5</div> -->
-                </div>
-
-                <div class="mySlides ">
-                    <div class="numbertext">5 / 5</div>
-                    <img src="./img/ngoại khóa 2.jpg" style="width:100%">
-                    <!-- <div class="text">text 5</div> -->
-                </div>
-
-                <div class="mySlides ">
-                    <div class="numbertext">5 / 5</div>
-                    <img src="./img/ngoại khóa 3.jpg" style="width:100%">
-                    <!-- <div class="text">text 5</div> -->
-                </div>
-
-                <div class="mySlides ">
-                    <div class="numbertext">5 / 5</div>
-                    <img src="./img/ngoại khóa 4.jpg" style="width:100%">
-                    <!-- <div class="text">text 5</div> -->
-                </div>
-
-                <div class="mySlides ">
-                    <div class="numbertext">5 / 5</div>
-                    <img src="./img/ngoại khóa 5.jpg" style="width:100%">
-                    <!-- <div class="text">text 5</div> -->
-                </div>
-
-                <div class="mySlides ">
-                    <div class="numbertext">5 / 5</div>
-                    <img src="./img/ngoại khóa 1.jpg" style="width:100%">
-                    <!-- <div class="text">text 5</div> -->
-                </div>
-
-                <!-- Next and previous buttons -->
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
-            </div>
-            <br>
-            <div style="text-align:center">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
-                <span class="dot" onclick="currentSlide(4)"></span>
-                <span class="dot" onclick="currentSlide(5)"></span>
-            </div>
-
-        </div>
-    </div>
-
+    <!-- phần chân trang -->
     <div id="footer">
+        <iframe style=" border-radius: 20px; width: 30vw;  height: 30vw;   margin:18px 0 18px -30px" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.9660320179396!2d105.9480176142013!3d20.993998694341588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135afa9544012bb%3A0xa9fe19d5974e27b3!2sVinhomes%20Ocean%20Park!5e0!3m2!1svi!2s!4v1661335092024!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
         <div class="info">
-            <div class="img-logo">
-                <img src="./img/logo.jpg" alt="">
-                <p class="footer-text">Lab thầy Sinh</p>
-            </div>
+            <p class="footer-text">Thông tin liên hệ</p>
             <ul class="info-list">
                 <li class="info-item">
                     <i class="fa-solid fa-phone"></i>
@@ -221,10 +231,15 @@
                 </li>
             </ul>
         </div>
+
     </div>
-    <script src="./js/slideShow.js"></script>
-    <script src="./js/onClickMenu.js"></script>
+
+
+    </div>
+
 
 
 </body>
+<script src="./js/slide.js"></script>
+<script src="./js/tinTuc.js"></script>
 </html>
