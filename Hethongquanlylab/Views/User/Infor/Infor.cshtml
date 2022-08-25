@@ -1,11 +1,7 @@
 ﻿@{
     @section Buttons{
-        <a asp-action="Index">
-            <div class="heading-item">Trang chủ</div>
-        </a>
-        <a asp-action="Training">
-            <div class="heading-item">Các bài đào tạo</div>
-        </a>
+        <a asp-action="Training" class="header-item">Các bài đào tạo</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
     }
 
 
@@ -22,128 +18,142 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet"
-          href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="~/css/index.css">
-    <title>Chỉnh sửa thông tin cá nhân</title>
+    <title>Resume</title>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="~/css/resume.css">
 </head>
+
 <body>
+
     <div class="container">
-        <div class="row">
-            <div class="col-md-1">
+        <div class="profile">
+            <div class="profile_container">
+                <div class="profile_profileImg">
+                    <img src="./img/tranbinhan.jpg" alt="tranbinhan">
+                </div>
+                <div>
+                    <h1 class="profile_name">
+                        <span class="profile_name_firstName">ID: 910JQ</span>
+                        <br />
+                        <span class="profile_name_lastName">Trần Bình An</span>
+                    </h1>
+                    <h2 class="profile_title">GEN 5.0</h2>
+                </div>
             </div>
-            <div class="col-md-10"
-                 style="padding: 40px; padding-right: 0px; border-radius: 5px; border: rgba(0, 0, 0, 0.089) 2px solid; height: 1300px; margin-top: 160px;margin-bottom: 50px;;">
-                <h4>Thông tin cá nhân</h4>
-                <form>
-                    <div class="form-group" style="margin-left:30px; margin-top:50px; line-height: 35px;">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-5 col-sm-5">
-                                        <label for="name">Họ và tên</label>
-                                        <!--<input type="text" class="form-control" placeholder="Họ và tên" id="name"
-                                        value="">-->
-                                    </div>
-                                    <div class="col-6 col-sm-6">
-                                        <label for="" style="margin-left:40px;">Giới tính</label>
-                                        <!--<div class="row" data-toggle="buttons" style="margin-left:20px;">
-                                            <div class="col-3 col-sm-3">
-                                                <label class="btn btn-outline-secondary">Nam
-                                                    <input style="width:20px;" type="radio" id="boy" name="gioitinh"
-                                                        value="">
-                                                </label>
-                                            </div>
-                                            <div class="col col-sm-3"><label class="btn btn-outline-secondary">Nữ
-                                                    <input style="width:30px;" type="radio" id="girl" name="gioitinh"
-                                                        value="">
-                                                </label></div>
-                                        </div>-->
-                                    </div>
-                                </div>
+        </div>
+        <div class="group-1">
+            <div class="skills">
+                <h3 class="title">Đánh giá của ban cố vấn</h3>
+                <ul class="skills_list description">
+                    <li>Hoành thành tốt công việc được giao</li>
+                    <li>Có tinh thần cầu tiến</li>
+                    <li>Ngoan ngoãn, hiền lành</li>
+                </ul>
+            </div>
+            <div class="ref">
+                <h3 class="title">Thành tích</h3>
+                <div class="ref_item">
+                    <h4 class="ref_name">Vật lý</h4>
+                    <p class="description">2 Giải nhì Quốc gia môn Vật lý, 2 Giải nhì Thành phố môn Vật Lý</p>
+                </div>
+                <div class="ref_item">
+                    <h4 class="ref_name">Toán học</h4>
+                    <p class="description">4 Giải thành phố môn Toán</p>
+                </div>
+            </div>
 
-                                <div class="row">
-                                    <div class="col-8 col-sm-8">
-                                        <label for="myEmail">Email</label>
-                                        <!--<input type="email" id="myEmail" class="form-control" placeholder="Email"
-                                        style="width:348px;">-->
-                                        <div class="row">
-                                            <div class="col-3 col-sm-3">
-                                                <label for="gen">Thế hệ</label>
-                                                <!--<input type="text" id="gen" class="form-control" placeholder="Thế hệ"
-                                                style="width:122px;">-->
-                                            </div>
-                                            <div class="col-3 colsm-3">
-                                                <label for="id">Lab ID</label>
-                                                <!--<input type="text" id="id" class="form-control" placeholder="ID"
-                                                style="width:122px;">-->
-                                            </div>
-                                        </div>
+            <div class="edu">
+                <h3 class="title">Học tập</h3>
+                <div class="edu_item">
+                    <p class="item_preTitle">10/2020</p>
+                    <h4 class="item_title">Đại học Bách Khoa Hà Nội</h4>
+                    <p class="item_subtitle">
+                        Công nghệ thông tin Việt Nhật
+                    </p>
+                </div>
+            </div>
 
-                                        <div><label for="date">Ngày sinh</label></div>
-                                        <!--<input type="date" id="date" class="form-control" style="width:328px;">-->
-                                        <div><label for="phonenumber">Số điện thoại</label></div>
-                                        <!--<input type="text" id="phonenumber" class="form-control"
-                                        placeholder="Số điện thoại" style="width:328px;">-->
-                                        <div><label for="chuyennganh">Ngành học</label></div>
-                                        <!--<input type="text" id="chuyennganh" class="form-control"
-                                        placeholder="Chuyên ngành" style="width:328px;">-->
-                                        <div><label for="university">Trường học</label></div>
-                                        <!--<input type="text" id="university" class="form-control" placeholder="Trường học"
-                                        style="width:328px;">-->
-                                        <div><label for="local">Địa chỉ thường trú</label></div>
-                                        <!--<input type="text" id="local" class="form-control"
-                                        placeholder="Địa chỉ thương trú" style="width:328px;">-->
-                                        <div><label for="local">Nơi ở hiện tại </label></div>
-                                        <div><label for="phonenumber">Chức vụ</label></div>
-                                        <!--<input type="text" id="phonenumber" class="form-control" placeholder="Chức vụ"
-                                        style="width:328px;">-->
-                                        <div><label for="">PowerTeam</label></div>
-                                        <div><label for="local">Các phần mền thành thạo</label></div>
-                                        <div><label for="local">Các chứng chỉ hiện có</label></div>
-                                        <h5>KẾT QUẢ HOẠT ĐỘNG</h5>
-                                        <div><label for="local">Hoạt động phát triển bản thân</label></div>
-                                        <div><label for="local">Kết quả các dự án đã tham gia</label></div>
-                                        <div><label for="local">Dự án đang hoạt động</label></div>
-                                        <div><label for="local">Các chức vụ đã trải qua</label></div>
-                                        <div><label for="local">Số buổi tham gia họp</label></div>
-                                        <div><label for="local">Số buổi vắng</label></div>
-                                    </div>
+            <div class="certification">
+                <h3 class="title">Chứng chỉ</h3>
+                <div class="certification_item">
+                    <p class="item_preTitle">2018</p>
+                    <h4 class="item_title">Frontend Developer</h4>
+                </div>
+            </div>
+        </div>
+        <div class="group-2">
+            <div class="exp">
+                <h3 class="title">Dự án tham gia</h3>
+                <div class="exp_item">
+                    <p class="item_preTitle">8/2022 - nay</p>
+                    <h4 class="item_title">Quản lý nhân sự Lab Thầy Sinh</h4>
+                    <p class="item_subtitle">Lập trình front-end</p>
+                </div>
+            </div>
 
 
-                                    <div style="margin-left: -240px;" class="col-4">
-                                        <img style="margin-top:200px;" src="" alt="Ảnh đại diện">
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
+            <div class="interest">
+                <h3 class="title">SỞ THÍCH</h3>
+                <div class="interest_items">
+                    <div class="interest_item">
+                        <i data-feather="music"></i>
+                        <span>Nghe nhạc</span>
                     </div>
+                    <div class="interest_item">
+                        <i data-feather="book"></i>
+                        <span>Đọc sách</span>
+                    </div>
+                    <div class="interest_item">
+                        <i data-feather="map"></i>
+                        <span>Vẽ Tranh</span>
+                    </div>
+                </div>
 
-                </form>
-                <div class="row" style="margin-left:20px; margin-top:50px;">
-                    <div class="col-4 col-sm-4">
-                        <p style="font-weight: 700;">Sửa thông tin cá nhân: </p>
-                    </div>
-                    <div class="">
-                        <a asp-action="EditInfor">Sửa thông tin</a>
-                    </div>
+            </div>
+        </div>
+        <hr>
+        <div class="group-3">
+            <div class="contact">
+                <h3 class="title">Thông tin liên hệ</h3>
+                <br />
+                <div class="contact_info">
+                    <i data-feather="map"></i>
+                    <span class="contact_content">Số 68, ngõ 205, Giải Phóng, Hà Nội.</span>
+                    <br />
+                    <i data-feather="phone"></i>
+                    <span class="contact_content">0395254398</span>
+                    <br />
+                    <i data-feather="mail"></i>
+                    <span class="contact_content">thanhdoduc1212@gmail.com</span>
+                </div>
+            </div>
+            <div class="social">
+                <h3 class="title">Mạng xã hội</h3>
+                <div class="social_items">
+                    <a href="#" target="_b" class="social_item">
+                        <i data-feather="github"></i>
+                        <span>/thanhdo</span>
+                    </a>
+                    <a href="#" target="_blank" class="social_item">
+                        <i data-feather="facebook"></i>
+                        <span>/thanhdo</span>
+                    </a>
+                    <a href="#" target="_blank" class="social_item">
+                        <i data-feather="youtube"></i>
+                        <span>/thanhdo</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="./js/slideShow.js"></script>
-    <script src="./js/onClickMenu.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
-    <script src="jss.js"></script>
-
+    <script>
+        feather.replace()
+    </script>
 </body>
+
 </html>

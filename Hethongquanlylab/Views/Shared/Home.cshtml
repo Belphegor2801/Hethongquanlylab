@@ -1,27 +1,16 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout_Home.cshtml";
     @section Buttons{
-        <a href="#introduce">
-            <div style="margin-left: 30px;" class="heading-item">Trang chủ</div>
-        </a>
-        <a href="#rule-list">
-            <div class="heading-item">Quy tắc ứng xử</div>
-        </a>
-        <a href="#coreValues">
-            <div class="heading-item">Giá trị cốt lõi</div>
-        </a>
-        <a href="#work">
-            <div class="heading-item">Các hoạt động</div>
-        </a>
-        <a href="#footer">
-            <div class="heading-item">Liên hệ</div>
-        </a>
+        <a href="#doiTac" class="header-item">Đối Tác</a>
+        <a href="#veChungToi" class="header-item">Về Chúng Tôi</a>
+        <a href="#tinTuc" class="header-item">Tin Tức</a>
+        <a href="#header" class="header-item">Trang chủ</a>
     }
 
     @section Login{
         <li class="user-info-item">
-              <a asp-controller="Login">Đăng nhập</a>
-        </li>    
+            <a asp-controller="Login">Đăng nhập</a>
+        </li>
     }
 }
 
