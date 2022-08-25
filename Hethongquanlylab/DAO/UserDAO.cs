@@ -78,25 +78,24 @@ namespace Hethongquanlylab.DAO
             List<User> userList = new List<User>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("user.csv"));
-
-            // lấy ra sheet đầu tiên để thao tác
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            // duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. lưu ý file excel bắt đầu từ số 1 không phải số 0
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                // biến j biểu thị cho một column trong file
                 int j = 1;
 
-                // lấy ra cột họ tên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
-                // tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
                 string labID = workSheet.Cells[i, j++].Value.ToString();
                 string name = workSheet.Cells[i, j++].Value.ToString();
-                User user = new User(labID, name);
+                string gen = workSheet.Cells[i, j++].Value.ToString();
+                string sdt = workSheet.Cells[i, j++].Value.ToString();
+                string email = workSheet.Cells[i, j++].Value.ToString();
+                string truong = workSheet.Cells[i, j++].Value.ToString();
+                string chuyennganh = workSheet.Cells[i, j++].Value.ToString();
+                User user = new User(labID, name, gen, sdt, email, truong, chuyennganh);
                 userList.Add(user);
             }
             return userList;
         }
-        public int EditUserInfomtion_Excel(string id, string name)
+        public int EditUserInfomtion_Excel(string id, string name, string gen, string sdt, string email, string truong, string chuyennganh)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("user.csv"));
@@ -108,6 +107,10 @@ namespace Hethongquanlylab.DAO
                 if(labID == id)
                 {
                     workSheet.Cells[i, j++].Value = name;
+                    workSheet.Cells[i, j++].Value = gen;
+                    workSheet.Cells[i, j++].Value = email;
+                    workSheet.Cells[i, j++].Value = truong;
+                    workSheet.Cells[i, j++].Value = chuyennganh;
                     return 1;
                 }    
             }
