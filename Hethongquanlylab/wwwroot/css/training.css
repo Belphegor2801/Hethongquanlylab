@@ -1,84 +1,90 @@
-html{
-    font-family:Arial;
+html {
+    font-family: Arial;
 }
-body{
+
+body {
     margin: 0;
 }
-a{
-    text-decoration:none;
+
+a {
+    text-decoration: none;
     color: #212121;
 }
-.nav{
-    background-color:#29303b;
+
+.nav {
+    background-color: #29303b;
     height: 50px;
     display: flex;
     color: #fff;
 }
-.nav > i {
-    font-size: 20px;
-    color: #fff;
-    line-height: 50px;
-    display: block;
-    margin: 0 30px;
-}
-.nameLogo{
+
+    .nav a i {
+        font-size: 20px;
+        color: #fff;
+        line-height: 50px;
+        display: block;
+        margin: 0 30px;
+    }
+
+.nameLogo {
     width: 50px;
     border: 1px solid #ccc;
     border-radius: 6px;
-
 }
+
 .nameLesson {
     margin: 18px 30px;
     font-weight: 600;
     font-size: 14px;
 }
 
-.col2{
+.col2 {
     display: flex;
 }
-.col-1{
+
+#col-1 {
     width: 87vw;
     height: 490px;
     background-image: url(./img/labchung.jpg);
     background-size: 100% auto;
     background-repeat: no-repeat;
+    margin-top: 100px;
 }
-.col-2{
+
+.col-2 {
     width: 30vw;
+    margin-top: 100px;
 }
-.col-2 #accordion-course ul{
-    height: 150px !important;
-}
-.col-2 .course-list{
-    background-color: #f7f8fa;
-    padding: 0;
-}
-.col-2 .course-item{
-    display: flex;
-    font-size: 20px;
-    font-weight: 500;
-    background-color: #f7f8fa;
-}
-.col-2 .stt-course{
-    margin-left: 30px;
-}
-.col-2 .name-course{
-    margin-left: 24px;
-}
-.col-2 h3{
-    background-color: #f7f8fa;
-    color: #000;
-    font-size: 20px !important;
-}
-.col-2 .course-item:hover{
-    background-color: rgb(133 133 133);
-    color: rgb(237 237 237);
-}
-.col-2 #accordion-course p{
-    height: 22px !important;
-}
-.other-course{
-    position: fixed;
+
+    .col-2 .course-list {
+        background-color: #f7f8fa;
+        padding: 0;
+    }
+
+    .col-2 .course-item {
+        display: flex;
+        font-size: 20px;
+        font-weight: 500;
+        background-color: #f7f8fa;
+    }
+
+    .col-2 h3 {
+        background-color: #f7f8fa;
+        color: #000;
+        font-size: 20px !important;
+    }
+
+    .col-2 #accordion-course h3:hover {
+        background-color: #29303b;
+        color: #fff;
+    }
+
+    .col-2 #accordion-course p {
+        height: 22px !important;
+    }
+
+.other-course {
+    position: sticky;
     background-color: #f0f0f0;
     display: flex;
     justify-content: center;
@@ -86,39 +92,42 @@ a{
     right: 0;
     left: 0;
     bottom: 0;
-
 }
+
 .next-course,
-.prev-course{
+.prev-course {
     display: flex;
 }
 
-.next-course p{
-    line-height: 35px;
-    font-size: 22px;
-    font-weight: 600;
-    color: #212121;
-    margin: auto;
-    margin-left: 12px;
+    .next-course p {
+        line-height: 35px;
+        font-size: 22px;
+        font-weight: 600;
+        color: #212121;
+        margin: auto;
+        margin-left: 12px;
+    }
 
-}
-.other-course .prev-course i{
+.other-course .prev-course i {
     margin: 32px;
 }
-.other-course .next-course i{
+
+.other-course .next-course i {
     margin: 16px;
 }
-.prev-course>p{
+
+.prev-course > p {
     line-height: 35px;
     font-size: 22px;
     font-weight: 600;
     color: #212121;
 }
-.prev-course + .next-course{
+
+.prev-course + .next-course {
     margin-left: 30px;
 }
 
-.wraper-next-course{
+.wraper-next-course {
     display: flex;
     border: 2px solid #ff7979;
     height: 60%;
@@ -126,6 +135,7 @@ a{
     top: 16px;
     border-radius: 14px;
 }
-.wraper-next-course p{
-    color: #ff7979;
-}
+
+    .wraper-next-course p {
+        color: #ff7979;
+    }
