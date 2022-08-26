@@ -30,9 +30,24 @@ namespace Hethongquanlylab.Controllers.User
         {
             return View("./Views/User/Infor/EditInfor.cshtml");
         }
+        
         public IActionResult Training()
         {
-            return View("./Views/User/Training.cshtml");
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+
+            try
+            {
+                ViewData["currentTraining"] = Convert.ToInt32(CurrentID) - 1;
+            }
+            catch
+            {
+                ViewData["currentTraining"] = 0;
+            }
+            
+            var training = TrainingDAO.Instance.GetTrainingList_Excel();
+            return View("./Views/User/Training.cshtml", training);
         }
     }
 }

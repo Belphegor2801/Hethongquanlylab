@@ -1,4 +1,4 @@
-html {
+﻿html {
     scroll-behavior: smooth;
 }
 
@@ -207,9 +207,6 @@ a {
     box-sizing: border-box
 }
 
-
-
-
 /* phần giới thiệu chung */
 .gioiThieu {
     text-align: center;
@@ -367,7 +364,8 @@ a {
 .space2 {
     background-image: url(/img/20220430_081003.jpg);
     background-size: 100% auto;
-    height: 645px;
+    height: 700px;
+    margin-bottom: 400px;
     margin-bottom: 90px;
 }
 /* giá trị cốt lõi */

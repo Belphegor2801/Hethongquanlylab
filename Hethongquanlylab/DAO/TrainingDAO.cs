@@ -27,7 +27,8 @@ namespace Hethongquanlylab.DAO
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/training.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            int i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
             {
                 int j = 1;
                 int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
@@ -35,6 +36,7 @@ namespace Hethongquanlylab.DAO
                 string link = workSheet.Cells[i, j++].Value.ToString();
                 Training training = new Training(id, name, link);
                 trainingList.Add(training);
+                i++;
             }
             return trainingList;
         }
