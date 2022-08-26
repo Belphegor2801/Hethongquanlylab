@@ -55,7 +55,7 @@ a {
     margin: 15px;
     font-size: 18px;
     font-weight: 500;
-    width: 14vw;
+    width: 11vw;
     color: #fff;
 }
 
@@ -186,12 +186,11 @@ a {
 .info-item {
     display: flex;
 }
-
-    .info-item i {
-        margin-top: auto;
-        margin-bottom: auto;
-        padding: 0 18px;
-    }
+.info-item i {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 0 18px;
+}
 
 .show {
     display: block;
@@ -208,17 +207,14 @@ a {
     box-sizing: border-box
 }
 
-
-
-
 /* phần giới thiệu chung */
 .gioiThieu {
     text-align: center;
 }
 
 .title-gioithieu {
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 48px;
+    font-weight: 600;
 }
 
 .title-sp-gioithieu {
@@ -228,7 +224,7 @@ a {
 .container-gioithieu {
     display: flex;
     margin: auto;
-    width: 84vw;
+    width: 65vw;
     justify-content: space-between;
 }
 
@@ -249,16 +245,14 @@ a {
 
 /* phần quy tấc ứng xử  */
 .title {
-    width: 80vw;
+    width: 65vw;
     text-align: center;
-    margin: auto;
+    margin: 150px auto 90px;
     line-height: 50px;
-    border-top: 2px solid #ccc;
-    margin-top: 150px;
-    background-color: #f1f9fd;
-    font-size: 30px;
-    font-weight: 700;
-    margin-bottom: 90px;
+    background-color: rgb(241, 249, 253);
+    font-size: 48px;
+    font-weight: 600;
+    border-bottom: 4px solid #edcd1f;
 }
 
 .quyTac-wrapper {
@@ -269,12 +263,16 @@ a {
     justify-content: center;
 }
 
+.splide__slide {
+    height: 500px !important;
+}
+
 .quyTac {
     text-align: center;
+    width: 21vw;
 }
 
 .quyTac-img {
-    height: 100px;
 }
 
 .quyTac-title {
@@ -283,11 +281,10 @@ a {
 }
 
 .quyTac-text {
-    height: 400px !important;
     text-align: center;
     margin: 0 10px;
     font-size: 22px;
-    text-shadow: 5px 2px 5px grey;
+    /* text-shadow: 5px 2px 5px grey; */
     font-weight: bold;
     height: 150px;
 }
@@ -299,7 +296,7 @@ a {
 }
 
 .gioiThieu-text {
-    width: 25vw;
+    width: 65vw;
     margin: auto;
     margin-top: 0;
     text-align: left;
@@ -307,7 +304,7 @@ a {
 
 .gioiThieu-text-title {
     text-align: center;
-    font-size: 30px;
+    font-size: 48px;
     font-weight: 700;
     border-bottom: 4px solid #edcd1f;
     padding-bottom: 10px;
@@ -340,11 +337,20 @@ a {
     margin-top: 30px;
 }
 
+.wrapper-data {
+    display: flex;
+    width: 65vw;
+}
+
 .data {
     width: 25%;
     border-right: 3px solid #fff;
     margin: 22px 0;
 }
+
+    .data:last-child {
+        border: 0;
+    }
 
 .data-year {
 }
@@ -356,7 +362,6 @@ a {
 }
 
 .space2 {
-    pa
     background-image: url(/img/20220430_081003.jpg);
     background-size: 100% auto;
     height: 700px;
@@ -422,8 +427,10 @@ a {
     }
 
 .doiTac-list {
+    width: 65vw;
     display: flex;
     justify-content: space-around;
+    margin: auto;
 }
 
 .doiTac-item {
@@ -481,19 +488,19 @@ a {
 }
 /* phần tin tức */
 .news {
-    width: 70vw;
+    width: 65vw;
     margin: auto;
     margin-top: 50px;
     margin-bottom: 50px;
 }
 
 .title-news {
-    font-size: 30px;
+    font-size: 48px;
     font-weight: 600;
-    width: 70vw;
+    width: 65vw;
     margin: auto;
     margin-top: 50px;
     padding-left: 30px;
-    color: rgb(23, 160, 252);
-    border-bottom: 4px solid rgb(112, 110, 110);
+    color: rgb(30 45 59);
+    border-bottom: 4px solid rgb(237 205 31);
 }
