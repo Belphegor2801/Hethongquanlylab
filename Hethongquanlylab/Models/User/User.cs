@@ -11,13 +11,28 @@ namespace Hethongquanlylab.Models
     {
         private string labID;
         private string name;
+        private string sex;
+        private string birthday;
+        private string gen;
+        private string unit;
+        private string position;
         public string LabID { get => labID; set => labID = value; }
         public string Name { get => name; set => name = value; }
+        public string Sex { get => sex; set => sex = value; }
+        public string Birthday { get => birthday; set => birthday = value; }
+        public string Gen { get => gen; set => gen = value; }
+        public string Unit { get => unit; set => unit = value; }
+        public string Position { get => position; set => position = value; }
 
-        public User(string id, string name, string gen, string phoneNumber, string mail, string university, string subject)
+        public User(string id, string name, string sex, string birthday, string gen, string unit, string position)
         {
             this.LabID = id;
             this.Name = name;
+            this.Sex = sex;
+            this.Birthday = birthday;
+            this.Gen = gen;
+            this.Unit = unit;
+            this.Position = position;
         }
         public User(DataRow row)
         {

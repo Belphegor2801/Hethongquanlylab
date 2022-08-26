@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hethongquanlylab.Models;
+using Hethongquanlylab.DAO;
 
 namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 {
@@ -14,7 +16,8 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         }
         public IActionResult Member()
         {
-            return View("./Views/BNS/Member.cshtml");
+            var users = UserDAO.Instance.GetListUser_Excel();
+            return View("./Views/BNS/Member.cshtml", users);
         }
 
         public IActionResult Procedure()

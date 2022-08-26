@@ -1,5 +1,9 @@
-﻿@{
+﻿@model List<User>
+@{
     @section Buttons{
+        <a class="header-item"></a>
+        <a class="header-item"></a>
+        <a class="header-item"></a>
         <a asp-action="Procedure" class="header-item">Quy trình</a>
         <a asp-action="Index" class="header-item">Trang chủ</a>
     }
@@ -14,6 +18,66 @@
         </li>
     }
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
+</head>
+<body>
+    <fieldset>
+        <legend>Nhập thành viên bạn muốn tìm</legend>
+        <label style=" font-size: 18px " for="truongDuLieu">Tìm theo</label>
+        <select name="truongDuLieu" id="truongDuLieu">
+            <option selected="selected">LAB_ID</option>
+            <option>Họ và tên</option>
+        </select>
+        <input class="search" type="text" name="Hop nhap" placeholder="Hộp nhập">
+        <button>Tìm Kiếm</button>
+    </fieldset>
 
+    <div class="container mt-2">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align:center; font-size: 20px;" colspan="8">DANH SÁCH THÀNH VIÊN</th>
+                </tr>
+                <tr>
+                    <th>LAB ID</th>
+                    <th>TÊN THÀNH VIÊN</th>
+                    <th>GIỚI TÍNH</th>
+                    <th>NGÀY SINH</th>
+                    <th>THẾ HỆ</th>
+                    <th>ĐƠN VỊ</th>
+                    <th>CHỨC VỤ</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody style="user-select: auto;">
+                @foreach (var item in Model)
+                {
+                    <tr id="0" style="user-select: auto;">
+                        <td style="user-select: auto;"> @item.LabID</td>
+                        <td style="user-select: auto;"> @item.Name</td>
+                        <td style="user-select: auto;"> @item.Sex</td>
+                        <td style="user-select: auto;"> @item.Birthday</td>
+                        <td style="user-select: auto;"> @item.Gen</td>
+                        <td style="user-select: auto;"> @item.Unit</td>
+                        <td style="user-select: auto;"> @item.Position</td>
+                        <td style="user-select: auto;">
+                            <button class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</button>
+                            <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
+                        </td>
+                    </tr>
+                }
 
+            </tbody>
+        </table>
 
+        <div style="margin-top: 30px; position: absolute;right: 60px;">
+            <button style="padding: 8px 12px;" class="addQuyTrinh">Thêm Thành Viên</button>
+        </div>
+
+    </div>
+    </div>
+</body>
+</html>

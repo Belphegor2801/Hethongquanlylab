@@ -1,8 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using Hethongquanlylab.DAO;
+using Hethongquanlylab.Models;
+using Hethongquanlylab.Models.Login;
 
 namespace Hethongquanlylab.Controllers.User
 {
@@ -15,16 +21,33 @@ namespace Hethongquanlylab.Controllers.User
 
         public IActionResult Infor()
         {
-            return View("./Views/User/Infor/Infor.cshtml");
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var user = UserDAO.Instance.GetUserByID_Excel("60");
+            return View("./Views/User/Infor/Infor.cshtml", user);
         }
 
         public IActionResult EditInfor()
         {
             return View("./Views/User/Infor/EditInfor.cshtml");
         }
+        
         public IActionResult Training()
         {
-            return View("./Views/User/Training.cshtml");
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+
+            try
+            {
+                ViewData["currentTraining"] = Convert.ToInt32(CurrentID) - 1;
+            }
+            catch
+            {
+                ViewData["currentTraining"] = 0;
+            }
+            
+            var training = TrainingDAO.Instance.GetTrainingList_Excel();
+            return View("./Views/User/Training.cshtml", training);
         }
     }
 }
