@@ -85,30 +85,25 @@ namespace Hethongquanlylab.DAO
             int i = 3;
             while(workSheet.Cells[i, 1].Value != null)
             {
-                int j = 1;
                 string labID = workSheet.Cells[i, 1].Value.ToString();
                 string name = workSheet.Cells[i, 2].Value.ToString();
                 string sex = workSheet.Cells[i, 3].Value.ToString();
                 string sDate = (workSheet.Cells[i, 4].Value).ToString();
-
-                string dateTime;
+                string birthday;
                 try
                 {
                     double date = Convert.ToDouble(sDate);
                     DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                    dateTime = DateTime.FromOADate(date).ToString("d", fmt);
+                    birthday = DateTime.FromOADate(date).ToString("d", fmt);
                 }
                 catch
                 {
-                    dateTime = sDate;
+                    birthday = sDate;
                 }
-                
-
-                string birthday = workSheet.Cells[i, 4].Value.ToString();
                 string gen = workSheet.Cells[i, 5].Value.ToString();
                 string unit = workSheet.Cells[i, 6].Value.ToString();
                 string position = workSheet.Cells[i, 7].Value.ToString();
-                User user = new User(labID, name, sex, dateTime, gen, unit, position);
+                User user = new User(labID, name, sex, birthday, gen, unit, position);
                 userList.Add(user);
                 i++;
             }
@@ -123,15 +118,26 @@ namespace Hethongquanlylab.DAO
             while (workSheet.Cells[i, 1].Value != null)
             {
                 int j = 1;
-                string labID = workSheet.Cells[i, j++].Value.ToString();
+                string labID = workSheet.Cells[i, 1].Value.ToString();
                 if (labID == ID)
                 {
-                    string name = workSheet.Cells[i, j++].Value.ToString();
-                    string sex = workSheet.Cells[i, j++].Value.ToString();
-                    string birthday = workSheet.Cells[i, j++].Value.ToString();
-                    string gen = workSheet.Cells[i, j++].Value.ToString();
-                    string unit = workSheet.Cells[i, j++].Value.ToString();
-                    string position = workSheet.Cells[i, j++].Value.ToString();
+                    string name = workSheet.Cells[i, 2].Value.ToString();
+                    string sex = workSheet.Cells[i, 3].Value.ToString();
+                    string sDate = (workSheet.Cells[i, 4].Value).ToString();
+                    string birthday;
+                    try
+                    {
+                        double date = Convert.ToDouble(sDate);
+                        DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+                        birthday = DateTime.FromOADate(date).ToString("d", fmt);
+                    }
+                    catch
+                    {
+                        birthday = sDate;
+                    }
+                    string gen = workSheet.Cells[i, 5].Value.ToString();
+                    string unit = workSheet.Cells[i, 6].Value.ToString();
+                    string position = workSheet.Cells[i, 7].Value.ToString();
                     User user = new User(labID, name, sex, birthday, gen, unit, position);
                     return user;
                 }
