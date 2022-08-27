@@ -21,40 +21,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="~/css/training.css">
-    <title>Các bài đào tạo</title>
+    <title>Document</title>
 </head>
 <body>
-    <div class="nav">
-        <i class="fa-solid"></i>
+    <!-- <div class="nav">
+        <a href="">
+            <i class="fa-solid fa-angle-left"></i>
+        </a>
+        <img src="./img/logo.jpg" alt="" class="nameLogo">
         <p class="nameLesson">Bài giảng đào tạo phát triển bản thân</p>
-    </div>
+    </div> -->
 
     <div class="col2">
-        <div class="col-1">
-            <iframe width="100%" height="100%" src="@Model[(int)ViewData["currentTraining"]].Link" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div id="col-1">
+
         </div>
         <div class="col-2">
-            <div id="accordion-course" style="overflow: scroll; height: auto">
-                @foreach (var item in Model)
-                {
-                    <a id="@item.Id">@item.Id: @item.Name</a>
-                    <h3>
-                        <a style="float: right; height: 100%; display: flex; align-items: flex-end; margin-right:-25px "asp-action="Training" asp-route-ed="@item.Id">Xem</a>
-                    </h3>
-                }
+            <p style="text-align: center;font-size: 24px;font-weight: 600;">Nội dung khóa học</p>
+            <div id="accordion-course" style="overflow: scroll; height: 490px">
+                <h3 id="1" onclick="changeCourse1()">Chương 1</h3>
+                <p>Nội dung sơ lược bài 1</p>
+                <h3 id="2" onclick="changeCourse2()">Chương 2</h3>
+                <p>Nội dung sơ lược bài 1</p>
+                <h3 id="3" onclick="changeCourse3()">Chương 3</h3>
+                <p>Nội dung sơ lược bài 1</p>
+                <h3 id="4" onclick="changeCourse4()">Chương 4</h3>
+                <p>Nội dung sơ lược bài 1</p>
+                <h3 id="5" onclick="changeCourse5()">Chương 5</h3>
+                <p>Nội dung sơ lược bài 1</p>
+
             </div>
         </div>
     </div>
+    <div class="other-course">
+        <a onclick="prevCourse()" href="#" class="prev-course">
+            <i class="fa-solid fa-angle-left"></i>
+            <p>Bài học trước</p>
+        </a>
+        <a onclick="nextCourse()" href="#" class="next-course">
+            <div class="wraper-next-course">
+                <p>
+                    Bài học tiếp theo
+                </p>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </a>
+    </div>
 </body>
 <script>
-
-    $( function() {
-      $( "#accordion-course" ).accordion({
-        // width: "10px",
-        heightStyle:"fill",
-      });
+    $(function () {
+        $("#accordion-course").accordion({
+            // width: "10px",
+            heightStyle: "fill",
+        });
     });
-
 </script>
+<script src="./js/training.js"></script>
 </html>
