@@ -89,7 +89,6 @@ namespace Hethongquanlylab.DAO
                 string name = workSheet.Cells[i, 2].Value.ToString();
                 string sex = workSheet.Cells[i, 3].Value.ToString();
                 string birthday = workSheet.Cells[i, 4].Value.ToString();
-                birthday = DateTime.Parse(Convert.ToString(birthday)).ToString("MMMM dd, yyyy");
                 string gen = workSheet.Cells[i, 5].Value.ToString();
                 string unit = workSheet.Cells[i, 6].Value.ToString();
                 string position = workSheet.Cells[i, 7].Value.ToString();
