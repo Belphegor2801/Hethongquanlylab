@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using Hethongquanlylab.Models;
 using OfficeOpenXml;
 using System.IO;
+using System.Globalization;
 
 namespace Hethongquanlylab.DAO
 {
@@ -88,11 +89,26 @@ namespace Hethongquanlylab.DAO
                 string labID = workSheet.Cells[i, 1].Value.ToString();
                 string name = workSheet.Cells[i, 2].Value.ToString();
                 string sex = workSheet.Cells[i, 3].Value.ToString();
+                string sDate = (workSheet.Cells[i, 4].Value).ToString();
+
+                string dateTime;
+                try
+                {
+                    double date = Convert.ToDouble(sDate);
+                    DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+                    dateTime = DateTime.FromOADate(date).ToString("d", fmt);
+                }
+                catch
+                {
+                    dateTime = sDate;
+                }
+                
+
                 string birthday = workSheet.Cells[i, 4].Value.ToString();
                 string gen = workSheet.Cells[i, 5].Value.ToString();
                 string unit = workSheet.Cells[i, 6].Value.ToString();
                 string position = workSheet.Cells[i, 7].Value.ToString();
-                User user = new User(labID, name, sex, birthday, gen, unit, position);
+                User user = new User(labID, name, sex, dateTime, gen, unit, position);
                 userList.Add(user);
                 i++;
             }
