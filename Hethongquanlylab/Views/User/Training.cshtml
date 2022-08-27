@@ -32,49 +32,31 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- <div class="nav">
+    <div class="nav">
         <a href="">
             <i class="fa-solid fa-angle-left"></i>
         </a>
-        <img src="./img/logo.jpg" alt="" class="nameLogo">
         <p class="nameLesson">Bài giảng đào tạo phát triển bản thân</p>
     </div> -->
 
     <div class="col2">
         <div id="col-1">
-
+            <iframe width="100%" height="100%" src="@Model[(int)ViewData["currentTraining"]].Link" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <div class="col-2">
-            <p style="text-align: center;font-size: 24px;font-weight: 600;">Nội dung khóa học</p>
-            <div id="accordion-course" style="overflow: scroll; height: 490px">
-                <h3 id="1" onclick="changeCourse1()">Chương 1</h3>
-                <p>Nội dung sơ lược bài 1</p>
-                <h3 id="2" onclick="changeCourse2()">Chương 2</h3>
-                <p>Nội dung sơ lược bài 1</p>
-                <h3 id="3" onclick="changeCourse3()">Chương 3</h3>
-                <p>Nội dung sơ lược bài 1</p>
-                <h3 id="4" onclick="changeCourse4()">Chương 4</h3>
-                <p>Nội dung sơ lược bài 1</p>
-                <h3 id="5" onclick="changeCourse5()">Chương 5</h3>
-                <p>Nội dung sơ lược bài 1</p>
-
+            <div id="accordion-course" style="overflow: scroll;">
+                @foreach (var item in Model)
+                {
+                    <h3 > @item.Id: @item.Name</h3>
+                    <h4>
+                        <a style="border:solid 2px #f00; padding: 10px 5px; cursor: pointer; float: right; display: flex; align-items: flex-end; margin-right:-25px; margin-top: 70%; " asp-action="Training" asp-route-id="@item.Id">Xem</a>
+                    </h4>
+                }
             </div>
         </div>
     </div>
-    <div class="other-course">
-        <a onclick="prevCourse()" href="#" class="prev-course">
-            <i class="fa-solid fa-angle-left"></i>
-            <p>Bài học trước</p>
-        </a>
-        <a onclick="nextCourse()" href="#" class="next-course">
-            <div class="wraper-next-course">
-                <p>
-                    Bài học tiếp theo
-                </p>
-                <i class="fa-solid fa-angle-right"></i>
-            </div>
-        </a>
-    </div>
+
+
 </body>
 <script>
     $(function () {
@@ -84,5 +66,4 @@
         });
     });
 </script>
-<script src="./js/training.js"></script>
 </html>

@@ -1,8 +1,9 @@
-﻿@{
+﻿
+@{
     @section Buttons{
         <a class="header-item"></a>
         <a class="header-item"></a>
-        <a asp-action="Infor" class="header-item">Thông tin cá nhân</a>
+        <a asp-action="Training" class="header-item">Các bài đào tạo</a>
         <a asp-action="Index" class="header-item">Trang chủ</a>
     }
 
@@ -17,158 +18,62 @@
     }
 }
 
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
-
-
-
-    <title>Chỉnh sửa thông tin cá nhân</title>
+    <title>Resume</title>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="~/css/resume.css">
+    <link rel="stylesheet" href="~/css/login.css">
 </head>
+
 <body>
-    <div style="margin-top: 50px;" class="container">
-        <div class="row">
-            <div class="col-md-1">
-            </div>
-            <div class="col-md-10"
-                 style="padding: 40px; padding-right: 0px; border-radius: 5px; border: rgba(0, 0, 0, 0.089) 2px solid; height: 1300px; margin-top: 160px;margin-bottom: 50px;;">
-                <h4>Thông tin cá nhân</h4>
-                <form>
-                    <div class="form-group" style="margin-left:30px; margin-top:50px; line-height: 35px;">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-5 col-sm-5">
-                                        <label for="name">Họ và tên</label>
-                                        <input type="text" class="form-control" placeholder="Họ và tên" id="name"
-                                               value="">
-                                    </div>
-                                    <div class="col-6 col-sm-6">
-                                        <label for="" style="margin-left:40px;">Giới tính</label>
-                                        <div class="row" data-toggle="buttons" style="margin-left:20px;">
-                                            <div class="col-3 col-sm-3">
-                                                <label class="btn btn-outline-secondary">
-                                                    Nam
-                                                    <input style="width:20px;" type="radio" id="boy" name="gioitinh"
-                                                           value="">
-                                                </label>
-                                            </div>
-                                            <div class="col col-sm-3">
-                                                <label class="btn btn-outline-secondary">
-                                                    Nữ
-                                                    <input style="width:30px;" type="radio" id="girl" name="gioitinh"
-                                                           value="">
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-8 col-sm-8">
-                                        <label for="myEmail">Email</label>
-                                        <input type="email" id="myEmail" class="form-control" placeholder="Email"
-                                               style="width:348px;">
-                                        <div class="row">
-                                            <div class="col-3 col-sm-3">
-                                                <label for="gen">Thế hệ</label>
-                                                <input type="text" id="gen" class="form-control" placeholder="Thế hệ"
-                                                       style="width:122px;">
-                                            </div>
-                                            <div class="col-3 colsm-3">
-                                                <label for="id">Lab ID</label>
-                                                <input type="text" id="id" class="form-control" placeholder="ID"
-                                                       style="width:122px;">
-                                            </div>
-                                        </div>
 
-                                        <label for="date">Ngày sinh</label>
-                                        <input type="date" id="date" class="form-control" style="width:328px;">
-                                        <label for="phonenumber">Số điện thoại</label>
-                                        <input type="text" id="phonenumber" class="form-control"
-                                               placeholder="Số điện thoại" style="width:328px;">
-                                        <label for="chuyennganh">Ngành học</label>
-                                        <input type="text" id="chuyennganh" class="form-control"
-                                               placeholder="Chuyên ngành" style="width:328px;">
-                                        <label for="university">Trường học</label>
-                                        <input type="text" id="university" class="form-control" placeholder="Trường học"
-                                               style="width:328px;">
-                                        <label for="local">Địa chỉ thường trú</label>
-                                        <input type="text" id="local" class="form-control"
-                                               placeholder="Địa chỉ thương trú" style="width:328px;">
-                                        <label for="">PowerTeam</label>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="laptrinh">
-                                            <label class="form-check-label" for="laptrinh">
-                                                PowerTeam Lập Trình
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="cokhi">
-                                            <label class="form-check-label" for="cokhi">
-                                                PowerTeam Cơ Khí
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="tudonghoa">
-                                            <label class="form-check-label" for="tudonghoa">
-                                                PowerTeam Tự Động Hóa IOM
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="bs">
-                                            <label class="form-check-label" for="bs">
-                                                PowerTeam Business Analyst
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="quantri">
-                                            <label class="form-check-label" for="quantri">
-                                                PowerTeam Quản trị Doanh Nghiệp và Marketing
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="ptbt">
-                                            <label class="form-check-label" for="ptbt">
-                                                PowerTeam Phát Triển Bản Thân
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="ngoaingu">
-                                            <label class="form-check-label" for="ngoaingu">
-                                                PowerTeam Ngoại Ngữ
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <img style="margin-top:200px; margin-left: -240px;"
-                                             src="../img/logo-trắng.jpg"
-                                             alt="">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+    <div class="cv_body">
+        <div class="container">
+            <div class="profile">
+                <div class="profile_container">
+                    <div class="profile_profileImg">
+                        <img src="~/img/avt.png" alt="NgoXuanHinh" class="cv_img">
                     </div>
-
-                </form>
-                <a href="user-thongtin.html">
-                    <button style="background-color: tomato; border-radius: 7px; width: 90px; height: 50px; margin-left: 400px; font-weight: bold;">
-                        SUBMIT
-                    </button>
-                </a>
+                    <div>
+                        <form asp-controller="Login" method="post" id="form-login">
+                            <h1 class="form-heading">Sửa thông tin cá nhân</h1>
+                            <h1 class="profile_name">
+                                <span class="profile_name_firstName">ID: 60</span>
+                            </h1>
+                            <div class="form-group">
+                                <i class="far fa-user" style="font-family:Arial">Họ và tên :</i>
+                                <input name="UserName" type="text" class="form-input no-autofill-bgk" placeholder="Họ và tên" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <i class="far fa-user" style="font-family:Arial">Ngày sinh :</i>
+                                <input name="UserName" type="text" class="form-input no-autofill-bgk" placeholder="Ngày sinh" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <i class="far fa-user" style="font-family:Arial">Giới tính :</i>
+                                <input name="UserName" type="text" class="form-input no-autofill-bgk" placeholder="Giới tính" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <i class="far fa-user" style="font-family:Arial">Thành tích:</i>
+                                <input name="UserName" type="text" class="form-input no-autofill-bgk" placeholder="Thành tích" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <i class="far fa-user" style="font-family:Arial">Sở thích  :</i>
+                                <input name="UserName" type="text" class="form-input no-autofill-bgk" placeholder="Sở thích" autofocus>
+                            </div>
+                            <input class="form-submit" type="submit" style="margin-top: 15px;" value="Sửa thông tn">
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
-    <script src="jss.js"></script>
-
 </body>
+
 </html>
