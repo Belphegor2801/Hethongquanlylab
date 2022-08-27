@@ -24,11 +24,6 @@ a {
     height: 100px;
 }
 
-    .header .header-logo h3 {
-        font-size: 22px;
-        font-weight: 700;
-        margin: auto;
-    }
 
 .header-logo {
     display: flex;
