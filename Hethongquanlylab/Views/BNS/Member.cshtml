@@ -29,7 +29,7 @@
             <option selected="selected">LAB_ID</option>
             <option>Họ và tên</option>
         </select>
-        <input class="search" type="text" name="Hop nhap" placeholder="Hộp nhập">
+        <input class="search" type="text" name="Hop nhap" placeholder="Điền thông tin">
         <button>Tìm Kiếm</button>
     </fieldset>
 
@@ -40,32 +40,32 @@
                     <th style="text-align:center; font-size: 20px;" colspan="8">DANH SÁCH THÀNH VIÊN</th>
                 </tr>
                 <tr>
-                    <th>LAB ID</th>
-                    <th>TÊN THÀNH VIÊN</th>
-                    <th>GIỚI TÍNH</th>
-                    <th>NGÀY SINH</th>
-                    <th>THẾ HỆ</th>
-                    <th>ĐƠN VỊ</th>
-                    <th>CHỨC VỤ</th>
-                    <th>Chức năng</th>
+                    <th style="text-align:center;">LAB ID</thstyle="text-align:center;">
+                    <th style="text-align:center;">TÊN THÀNH VIÊN</th>
+                    <th style="text-align:center;">GIỚI TÍNH</th>
+                    <th style="text-align:center;">NGÀY SINH</th>
+                    <th style="text-align:center;">THẾ HỆ</th>
+                    <th style="text-align:center;">ĐƠN VỊ</th>
+                    <th style="text-align:center;">CHỨC VỤ</th>
+                    <th style="text-align:center;">Chức năng</th>
                 </tr>
             </thead>
-            <tbody style="user-select: auto;">
+            <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr id="0" style="user-select: auto;">
-                        <td style="user-select: auto;"> @item.LabID</td>
-                        <td style="user-select: auto;"> @item.Name</td>
-                        <td style="user-select: auto;"> @item.Sex</td>
-                        <td style="user-select: auto;"> @item.Birthday</td>
-                        <td style="user-select: auto;"> @item.Gen</td>
-                        <td style="user-select: auto;"> @item.Unit</td>
-                        <td style="user-select: auto;"> @item.Position</td>
-                        <td style="user-select: auto;">
-                            <button class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</button>
-                            <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
-                        </td>
-                    </tr>
+                <tr id="0" style="user-select: auto;">
+                    <td style="user-select: auto; text-align: center;"> @item.LabID</td>
+                    <td style="user-select: auto;"> @item.Name</td>
+                    <td style="user-select: auto; text-align: center;"> @item.Sex</td>
+                    <td style="user-select: auto; text-align: center;"> @item.Birthday</td>
+                    <td style="user-select: auto; text-align: center;"> @item.Gen</td>
+                    <td style="user-select: auto;"> @item.Unit</td>
+                    <td style="user-select: auto;"> @item.Position</td>
+                    <td style="user-select: auto; text-align: center;">
+                        <button class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</button>
+                        <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
+                    </td>
+                </tr>
                 }
 
             </tbody>
