@@ -1,0 +1,40 @@
+.procedure_container{
+    max-width: 85vw;
+    margin: auto;
+    margin-top: 5px;
+    padding: 20px;
+    border: solid 2px #f00;
+    background-color: antiquewhite;
+    height: 215px;
+}
+.procedure_name p{
+    font-weight: bold;
+    font-size: 22px !important;
+}
+.procedure_form p{
+    font-size: 14px;
+}
+.procedure_button{
+    text-align: right;
+    margin-top: 20px;
+}
+
+.procedure_button button{
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #009999;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    font-size: 18px;
+}
+    .procedure_button button:hover {
+        background-color: #ffffff;
+        border: solid 1px #009999;
+        color: #009999;
+        cursor: pointer;
+    }
+
+.checked button{
+    background-color: orange;
+}
