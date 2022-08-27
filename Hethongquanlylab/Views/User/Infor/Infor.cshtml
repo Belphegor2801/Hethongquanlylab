@@ -23,16 +23,13 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume</title>
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="~/css/resume.css">
+    <link rel="stylesheet" href="~/css/login.css">
 </head>
 
 <body>
-
+    
     <div class="cv_body">
         <div class="container">
             <div class="profile">
@@ -51,6 +48,9 @@
                         <h2 style="margin-top: 10px" class="profile_title">Gen: @Model.Gen</h2>
                         <h2 style="margin-top: 10px" class="profile_title">Đơn vị: @Model.Unit</h2>
                         <h2 style="margin-top: 10px" class="profile_title">Chức vụ: @Model.Position</h2>
+                        <form asp-controller="User">
+                            <a asp-action="EditInfor" class="form-submit" style="margin-top: 15px;"> Sửa thông tin</a>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -126,6 +126,8 @@
         </div>
     </div>
     <hr>
+    <div>
+
     </div>
 </body>
 
