@@ -26,21 +26,27 @@
         <legend>Nhập thành viên bạn muốn tìm</legend>
         <label style=" font-size: 18px " for="truongDuLieu">Tìm theo</label>
         <select name="truongDuLieu" id="truongDuLieu">
-            <option selected="selected">LAB_ID</option>
+            <option selected="selected">LAB ID</option>
             <option>Họ và tên</option>
         </select>
-        <input class="search" type="text" name="Hop nhap" placeholder="Điền thông tin">
+        <input class="search" type="text" name="Hopnhap" placeholder="Điền thông tin">
         <button>Tìm Kiếm</button>
+
+        <div style="margin-top: -40px; position: absolute; right: 8%;">
+            <button style="padding: 8px 7px;" class="addQuyTrinh">Thêm Thành Viên</button>
+        </div>
     </fieldset>
 
-    <div class="container mt-2">
-        <table class="table table-hover">
+    
+
+    <div class="tableWrap">
+        <table class="table">
             <thead>
                 <tr>
                     <th style="text-align:center; font-size: 20px;" colspan="8">DANH SÁCH THÀNH VIÊN</th>
                 </tr>
                 <tr>
-                    <th style="text-align:center;">LAB ID</thstyle="text-align:center;">
+                    <th style="text-align:center;">LAB ID</th>
                     <th style="text-align:center;">TÊN THÀNH VIÊN</th>
                     <th style="text-align:center;">GIỚI TÍNH</th>
                     <th style="text-align:center;">NGÀY SINH</th>
@@ -53,27 +59,23 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr id="0" style="user-select: auto;">
-                    <td style="user-select: auto; text-align: center;"> @item.LabID</td>
-                    <td style="user-select: auto;"> @item.Name</td>
-                    <td style="user-select: auto; text-align: center;"> @item.Sex</td>
-                    <td style="user-select: auto; text-align: center;"> @item.Birthday</td>
-                    <td style="user-select: auto; text-align: center;"> @item.Gen</td>
-                    <td style="user-select: auto;"> @item.Unit</td>
-                    <td style="user-select: auto;"> @item.Position</td>
-                    <td style="user-select: auto; text-align: center;">
-                        <button class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</button>
-                        <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
-                    </td>
-                </tr>
+                    <tr id="0" style="user-select: auto;">
+                        <td style="user-select: auto; text-align: center;"> @item.LabID</td>
+                        <td style="user-select: auto;"> @item.Name</td>
+                        <td style="user-select: auto; text-align: center;"> @item.Sex</td>
+                        <td style="user-select: auto; text-align: center;"> @item.Birthday</td>
+                        <td style="user-select: auto; text-align: center;"> @item.Gen</td>
+                        <td style="user-select: auto;"> @item.Unit</td>
+                        <td style="user-select: auto;"> @item.Position</td>
+                        <td style="user-select: auto; text-align: center;">
+                            <button class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</button>
+                            <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
+                        </td>
+                    </tr>
                 }
 
             </tbody>
         </table>
-
-        <div style="margin-top: 30px; position: absolute;right: 60px;">
-            <button style="padding: 8px 12px;" class="addQuyTrinh">Thêm Thành Viên</button>
-        </div>
 
     </div>
     </div>

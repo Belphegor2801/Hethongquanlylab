@@ -1,5 +1,4 @@
-
-.backMainPage {
+backMainPage {
     margin: 0;
     color: #212121;
     padding-top: 130px;
@@ -11,12 +10,13 @@
     }
 
 fieldset {
+    margin-left: 8%;
+    margin-bottom: 10px;
     width: 65vw;
     text-align: -webkit-center;
-    border: 2px solid rgb(248, 245, 70) !important;
+    border: 2px solid rgb(248, 245, 170) !important;
     border-radius: 10px;
     color: red;
-    margin: auto !important;
     font-size: 24px;
     background-color: #f9f6f3;
 }
@@ -53,8 +53,9 @@ fieldset {
 
 /* Set a fixed scrollable wrapper */
 .tableWrap {
+    width: 85%;
+    margin: auto;
     height: 200px;
-    border: 2px solid black;
     overflow: auto;
 }
 /* Set header to stick to the top of the container. */
@@ -88,7 +89,6 @@ th {
 
 /* Basic Demo styling */
 table {
-    width: 85%;
     font-family: sans-serif;
     margin: auto;
     margin-top: 20px;
@@ -144,7 +144,7 @@ button {
 
 .ui-draggable .ui-dialog-titlebar {
     background-color: rgb(251 88 88);
-    color: #fff;
+    color: #fff;s
 }
 /* css phần thông báo đến các pt */
 fieldset .myClass {
@@ -160,4 +160,62 @@ fieldset .myClass {
 
 label textarea {
     width: 50vw;
+}
+
+
+/* Set a fixed scrollable wrapper */
+.tableWrap {
+    height: 800px;
+    border: 2px solid black;
+    overflow: auto;
+}
+/* Set header to stick to the top of the container. */
+thead tr{
+    position: sticky;
+    top: 0;
+}
+
+/* If we use border,
+we must use table-collapse to avoid
+a slight movement of the header row */
+table {
+    border-collapse: collapse;
+}
+
+/* Because we must set sticky on th,
+ we have to apply background styles here
+ rather than on thead */
+th {
+    padding: 16px;
+    padding-left: 15px;
+    border-left: 1px dotted rgba(200, 209, 224, 0.6);
+    border-bottom: 1px solid #e8e8e8;
+    background: #ffc491;
+    text-align: left;
+    /* With border-collapse, we must use box-shadow or psuedo elements
+  for the header borders */
+    box-shadow: 0px 0px 0 2px #e8e8e8;
+}
+
+/* Basic Demo styling */
+table {
+    width: 100%;
+    font-family: sans-serif;
+}
+
+    table td {
+        padding: 16px;
+    }
+
+tbody tr {
+    border-bottom: 2px solid #e8e8e8;
+}
+
+thead {
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+tbody tr:hover {
+    background: #e6f7ff;
 }
