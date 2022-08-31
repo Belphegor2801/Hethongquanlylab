@@ -60,112 +60,28 @@ namespace Hethongquanlylab.DAO
             return null;
         }
 
-        public List<Member> FindMemberbyName(string nameUser)
+        public List<Notification> FindMemberbyTitle(string notificationTitle)
         {
-            List<Member> memberList = new List<Member>();
+            List<Notification> notificationList = new List<Member>();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/user.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             int i = 3;
             while (workSheet.Cells[i, 1].Value != null)
             {
-                string name = workSheet.Cells[i, 2].Value.ToString();
-                if (name.Contains(nameUser))
+                string title = workSheet.Cells[i, 2].Value.ToString();
+                if (title.Contains(notificationTitle))
                 {
-                    string labID = workSheet.Cells[i, 1].Value.ToString();
-                    string sex = workSheet.Cells[i, 3].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 4].Value).ToString();
-                    string birthday;
-                    try
-                    {
-                        double date = Convert.ToDouble(sDate);
-                        DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                        birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                    }
-                    catch
-                    {
-                        birthday = sDate;
-                    }
-                    string gen = workSheet.Cells[i, 5].Value.ToString();
-                    string unit = workSheet.Cells[i, 6].Value.ToString();
-                    string position = workSheet.Cells[i, 7].Value.ToString();
-                    Member user = new Member(labID, name, sex, birthday, gen, unit, position);
-                    memberList.Add(user);
+                    string id = workSheet.Cells[i, 1].Value.ToString();
+                    string content = workSheet.Cells[i, 3].Value.ToString();
+                    string image = workSheet.Cells[i, 4].Value.ToString();
+                    Notification notification = new Notification(id, title, content, image)
+                    notificationList.Add(notification);
                 }
                 i++;
             }
-            return memberList;
+            return notificationList;
         }
-        public List<Member> FindMemberbyGen(string Gen)
-        {
-            List<Member> memberList = new List<Member>();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/user.xlsx"));
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            int i = 3;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                string gen = workSheet.Cells[i, 5].Value.ToString();
-                if (Gen == gen)
-                {
-                    string labID = workSheet.Cells[i, 1].Value.ToString();
-                    string name = workSheet.Cells[i, 2].Value.ToString();
-                    string sex = workSheet.Cells[i, 3].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 4].Value).ToString();
-                    string birthday;
-                    try
-                    {
-                        double date = Convert.ToDouble(sDate);
-                        DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                        birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                    }
-                    catch
-                    {
-                        birthday = sDate;
-                    }
-                    string unit = workSheet.Cells[i, 6].Value.ToString();
-                    string position = workSheet.Cells[i, 7].Value.ToString();
-                    Member user = new Member(labID, name, sex, birthday, gen, unit, position);
-                    memberList.Add(user);
-                }
-                i++;
-            }
-            return memberList;
-        }
-        public List<Member> FindMemberbyUnit(string Unit)
-        {
-            List<Member> memberList = new List<Member>();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/user.xlsx"));
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            int i = 3;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                string unit = workSheet.Cells[i, 6].Value.ToString();
-                if (unit == Unit )
-                {
-                    string labID = workSheet.Cells[i, 1].Value.ToString();
-                    string name = workSheet.Cells[i, 2].Value.ToString();
-                    string sex = workSheet.Cells[i, 3].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 4].Value).ToString();
-                    string birthday;
-                    try
-                    {
-                        double date = Convert.ToDouble(sDate);
-                        DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                        birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                    }
-                    catch
-                    {
-                        birthday = sDate;
-                    }
-                    string gen = workSheet.Cells[i, 5].Value.ToString();
-                    string position = workSheet.Cells[i, 7].Value.ToString();
-                    Member user = new Member(labID, name, sex, birthday, gen, unit, position);
-                    memberList.Add(user);
-                }
-                i++;
-            }
-            return memberList;
+
     }
 }
