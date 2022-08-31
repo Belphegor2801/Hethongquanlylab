@@ -7,7 +7,7 @@ using System.Data;
 
 namespace Hethongquanlylab.Models
 {
-    public class User
+    public class Member
     {
         private string labID;
         private string name;
@@ -24,7 +24,7 @@ namespace Hethongquanlylab.Models
         public string Unit { get => unit; set => unit = value; }
         public string Position { get => position; set => position = value; }
 
-        public User(string id, string name, string sex, string birthday, string gen, string unit, string position)
+        public Member(string id, string name, string sex, string birthday, string gen, string unit, string position)
         {
             this.LabID = id;
             this.Name = name;
@@ -34,7 +34,7 @@ namespace Hethongquanlylab.Models
             this.Unit = unit;
             this.Position = position;
         }
-        public User(DataRow row)
+        public Member(DataRow row)
         {
             this.LabID = (string)row["idMenu"];
             this.Name = (string)row["nameMenu"];

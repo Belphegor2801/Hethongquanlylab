@@ -38,22 +38,21 @@ a {
     font-size: 14px;
 }
 
-.col2 {
+.col22 {
     display: flex;
+    height: fit-content;
+    margin-top: -50px !important;
 }
 
 #col-1 {
     width: 87vw;
-    height: 490px;
     background-image: url(./img/labchung.jpg);
     background-size: 100% auto;
     background-repeat: no-repeat;
-    margin-top: 100px;
 }
 
 .col-2 {
     width: 30vw;
-    margin-top: 100px;
 }
 
     .col-2 .course-list {
@@ -72,11 +71,6 @@ a {
         background-color: #f7f8fa;
         color: #000;
         font-size: 20px !important;
-    }
-
-    .col-2 #accordion-course h3:hover {
-        background-color: #29303b;
-        color: #fff;
     }
 
     .col-2 #accordion-course p {

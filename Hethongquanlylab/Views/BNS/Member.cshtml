@@ -1,4 +1,4 @@
-﻿@model List<User>
+﻿@model List<Member>
 @{
     @section Buttons{
         <a class="header-item"></a>
@@ -22,21 +22,22 @@
     <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
 </head>
 <body>
-    <fieldset>
-        <legend>Nhập thành viên bạn muốn tìm</legend>
-        <label style=" font-size: 18px " for="truongDuLieu">Tìm theo</label>
-        <select name="truongDuLieu" id="truongDuLieu">
-            <option selected="selected">LAB ID</option>
-            <option>Họ và tên</option>
-        </select>
-        <input class="search" type="text" name="Hopnhap" placeholder="Điền thông tin">
-        <button>Tìm Kiếm</button>
+    <form asp-action="Member" method="post">
+        <fieldset>
+            <legend>Nhập thành viên bạn muốn tìm</legend>
+            <label style=" font-size: 18px " for="truongDuLieu">Tìm theo</label>
+            <select name="truongDuLieu" id="truongDuLieu">
+                <option selected="selected">LAB ID</option>
+                <option>Họ và tên</option>
+            </select>
+            <input name="id" class="search" type="text" placeholder="Điền thông tin">
+            <input type="submit" value="Tìm kiếm">
 
-        <div style="margin-top: -40px; position: absolute; right: 8%;">
-            <button style="padding: 8px 7px;" class="addQuyTrinh">Thêm Thành Viên</button>
-        </div>
-    </fieldset>
-
+            <div style="margin-top: -40px; position: absolute; right: 8%;">
+                <button style="padding: 8px 7px;" class="addQuyTrinh">Thêm Thành Viên</button>
+            </div>
+        </fieldset>
+    </form>
     
 
     <div class="tableWrap">
@@ -57,22 +58,31 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @if (Model.Count > 0)
                 {
-                    <tr id="0" style="user-select: auto;">
-                        <td style="user-select: auto; text-align: center;"> @item.LabID</td>
-                        <td style="user-select: auto;"> @item.Name</td>
-                        <td style="user-select: auto; text-align: center;"> @item.Sex</td>
-                        <td style="user-select: auto; text-align: center;"> @item.Birthday</td>
-                        <td style="user-select: auto; text-align: center;"> @item.Gen</td>
-                        <td style="user-select: auto;"> @item.Unit</td>
-                        <td style="user-select: auto;"> @item.Position</td>
-                        <td style="user-select: auto; text-align: center;">
-                            <button class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</button>
-                            <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
-                        </td>
+                    foreach (var item in Model)
+                    {
+                        <tr id="0" style="user-select: auto;">
+                            <td style="user-select: auto; text-align: center;"> @item.LabID</td>
+                            <td style="user-select: auto;"> @item.Name</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Sex</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Birthday</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Gen</td>
+                            <td style="user-select: auto;"> @item.Unit</td>
+                            <td style="user-select: auto;"> @item.Position</td>
+                            <td style="user-select: auto; text-align: center;">
+                                <button class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</button>
+                                <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr id="1"> Không tìm thấy kết quả hợp lệ!!!
                     </tr>
                 }
+
 
             </tbody>
         </table>
