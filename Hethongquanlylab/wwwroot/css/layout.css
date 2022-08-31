@@ -210,6 +210,8 @@ a {
 .title-gioithieu {
     font-size: 48px;
     font-weight: 600;
+    width: 65vw;
+    margin:auto;
 }
 
 .title-sp-gioithieu {
