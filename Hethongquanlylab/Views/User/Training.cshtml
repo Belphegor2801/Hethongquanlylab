@@ -32,18 +32,13 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="nav">
-        <a href="">
-            <i class="fa-solid fa-angle-left"></i>
-        </a>
-        <p class="nameLesson">Giới thiệu chung về OneNote</p>
-    </div>
-    <div class="col2">
+    <div style="display: flex; margin-top: -50px; margin-bottom: -50px; max-height: 800px;">
         <div id="col-1">
-            <iframe width="100%" height="100%" src="@Model[(int)ViewData["currentTraining"]].Link" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe style="width: 100%; height: 100%;" src="@Model[(int)ViewData["currentTraining"]].Link" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p>@Model[(int)ViewData["currentTraining"]].Name</p>
         </div>
         <div class="col-2">
-            <div id="accordion-course" style="overflow: scroll; height: auto;" >
+            <div id="accordion-course" style="overflow: scroll; height: auto; max-height: 100%;">
                 @foreach (var item in Model)
                 {
                     <h3 > @item.Id: @item.Name</h3>
@@ -54,14 +49,11 @@
             </div>
         </div>
     </div>
-
-
 </body>
 <script>
     $(function () {
         $("#accordion-course").accordion({
             // width: "10px",
-            heightStyle: "fill",
         });
     });
 </script>

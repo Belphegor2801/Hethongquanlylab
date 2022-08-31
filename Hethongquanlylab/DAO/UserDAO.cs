@@ -21,64 +21,64 @@ namespace Hethongquanlylab.DAO
         }
 
         private UserDAO() { }
-        public List<User> GetInformationUserbyID(int id) // Lấy ra thông tin thành viên theo LabID
+        public List<Member> GetInformationUserbyID(int id) // Lấy ra thông tin thành viên theo LabID
         {
-            List<User> list = new List<User>();
+            List<Member> list = new List<Member>();
             string tablename = "dbo.tblMenu";
             string query = "select * from " + tablename + "where idMenu = " + id;
             DataTable data = DataProvider.Instance.ExcuteQuery(query);
             foreach (DataRow dr in data.Rows)
             {
-                User user = new User(dr);
+                Member user = new Member(dr);
                 list.Add(user);
             }
             return list;
         }
-        public List<User> GetListUser() // thống kê ra 1 list các User
+        public List<Member> GetListUser() // thống kê ra 1 list các User
         {
-            List<User> list = new List<User>();
+            List<Member> list = new List<Member>();
             string tablename = "dbo.tblMenu";
             string query = "select * from " + tablename;
             DataTable data = DataProvider.Instance.ExcuteQuery(query);
             foreach (DataRow dr in data.Rows)
             {
-                User user = new User(dr);
+                Member user = new Member(dr);
                 list.Add(user);
             }
             return list;
         }
-        public List<User> GetListUserByPT(string ptname) // thống kê 1 List các User theo PowerTeam
+        public List<Member> GetListUserByPT(string ptname) // thống kê 1 List các User theo PowerTeam
         {
-            List<User> list = new List<User>();
+            List<Member> list = new List<Member>();
             string tablename = "dbo.tblMenu";
             string query = "select * from " + tablename;
             DataTable data = DataProvider.Instance.ExcuteQuery(query);
             foreach (DataRow dr in data.Rows)
             {
-                User user = new User(dr);
+                Member user = new Member(dr);
                 list.Add(user);
             }
             return list;
         }
 
-        public List<User> GetListUserbyGroup(string groupname) // thống kê list các User theo ban
+        public List<Member> GetListUserbyGroup(string groupname) // thống kê list các User theo ban
         {
-            List<User> list = new List<User>();
+            List<Member> list = new List<Member>();
             string tablename = "dbo.tblMenu";
             string query = "select * from " + tablename + "where ";
             DataTable data = DataProvider.Instance.ExcuteQuery(query);
             foreach (DataRow dr in data.Rows)
             {
-                User user = new User(dr);
+                Member user = new Member(dr);
                 list.Add(user);
             }
             return list;
         }
 
 
-        public List<User> GetListUser_Excel()
+        public List<Member> GetListUser_Excel()
         {
-            List<User> userList = new List<User>();// mở file excel
+            List<Member> userList = new List<Member>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
@@ -103,13 +103,13 @@ namespace Hethongquanlylab.DAO
                 string gen = workSheet.Cells[i, 5].Value.ToString();
                 string unit = workSheet.Cells[i, 6].Value.ToString();
                 string position = workSheet.Cells[i, 7].Value.ToString();
-                User user = new User(labID, name, sex, birthday, gen, unit, position);
+                Member user = new Member(labID, name, sex, birthday, gen, unit, position);
                 userList.Add(user);
                 i++;
             }
             return userList;
         }
-        public User GetUserByID_Excel(string ID)
+        public Member GetUserByID_Excel(string ID)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
@@ -138,7 +138,7 @@ namespace Hethongquanlylab.DAO
                     string gen = workSheet.Cells[i, 5].Value.ToString();
                     string unit = workSheet.Cells[i, 6].Value.ToString();
                     string position = workSheet.Cells[i, 7].Value.ToString();
-                    User user = new User(labID, name, sex, birthday, gen, unit, position);
+                    Member user = new Member(labID, name, sex, birthday, gen, unit, position);
                     return user;
                 }
                 i++;

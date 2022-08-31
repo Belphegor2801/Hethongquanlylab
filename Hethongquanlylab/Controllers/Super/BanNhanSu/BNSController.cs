@@ -14,11 +14,23 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         {
             return View("./Views/BNS/BNSHome.cshtml");
         }
+
+
         public IActionResult Member()
         {
             var users = UserDAO.Instance.GetListUser_Excel();
             return View("./Views/BNS/Member.cshtml", users);
         }
+        [HttpPost]
+        public IActionResult Member(String ID)
+        {
+            List<Member> users = new List<Member>();
+            if (UserDAO.Instance.GetUserByID_Excel(ID) != null)
+                users.Add(UserDAO.Instance.GetUserByID_Excel(ID));
+            return View("./Views/BNS/Member.cshtml", users);
+        }
+
+
 
         public IActionResult Procedure()
         {
