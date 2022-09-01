@@ -24,6 +24,11 @@ a {
     height: 100px;
 }
 
+    .header .header-logo h3 {
+        font-size: 22px;
+        font-weight: 700;
+        margin: auto;
+    }
 
 .header-logo {
     display: flex;
@@ -210,8 +215,6 @@ a {
 .title-gioithieu {
     font-size: 48px;
     font-weight: 600;
-    width: 65vw;
-    margin:auto;
 }
 
 .title-sp-gioithieu {
