@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -58,5 +59,29 @@ namespace Hethongquanlylab.DAO
             }
             return null;
         }
+
+        public List<Notification> FindMemberbyTitle(string notificationTitle)
+        {
+            List<Notification> notificationList = new List<Member>();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/user.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                string title = workSheet.Cells[i, 2].Value.ToString();
+                if (title.Contains(notificationTitle))
+                {
+                    string id = workSheet.Cells[i, 1].Value.ToString();
+                    string content = workSheet.Cells[i, 3].Value.ToString();
+                    string image = workSheet.Cells[i, 4].Value.ToString();
+                    Notification notification = new Notification(id, title, content, image)
+                    notificationList.Add(notification);
+                }
+                i++;
+            }
+            return notificationList;
+        }
+
     }
 }
