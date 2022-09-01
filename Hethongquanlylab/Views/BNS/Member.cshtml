@@ -28,18 +28,23 @@
 <body>
     <form asp-action="Member" method="post">
         <fieldset>
-            <label style=" font-size: 18px " for="truongDuLieu">Tìm theo</label>
+            <label style=" font-size: 18px " for="searchField">Tìm theo</label>
             <select name="searchField" id="searchField">
-                <option value="LabID">LAB ID</option>
-                <option value="Name">Họ và tên</option>
-                <option value="Sex">Giới tính</option>
-                <option value="Birthday">Ngày sinh</option>
-                <option value="Gen">Thế hệ</option>
-                <option value="Unit">Đơn vị</option>
-                <option value="Position">Chức vụ</option>
+                @if (!String.IsNullOrWhiteSpace(@Model.CurrentSearchField))
+                {
+                    <option value="@Model.CurrentSearchField">@Model.CurrentSearchField</option>
+                }
+
+                @foreach (var item in Model.SearchFieldList)
+                {
+                    @if (item != Model.CurrentSearchField)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                }
             </select>
 
-            <input name="searchString" class="search" type="text" placeholder="Điền thông tin">
+            <input name="searchString" class="search" type="text" placeholder="Điền thông tin" value="@Model.CurrentSearchString">
             <input type="submit" value="Tìm kiếm">
 
             <div style="margin-top: -40px; position: absolute; right: 8%;">
@@ -54,30 +59,64 @@
                         <th style="text-align: center; font-size: 20px;" colspan="8">DANH SÁCH THÀNH VIÊN</th>
                     </tr>
                     <tr>
-                        <th style="text-align: center; width: 5%;">
-                            <a href="@Url.Action("Member", "BNS", new { sortOrder = ViewBag.IDSortParm })" class="btn btn-primary">
-                                LAB ID <i class="fa fa-sort"></i>
-                            </a>
+                        <th style="text-align: center; width: 5%;"> LAB ID
+                            <button name= "sortOrder" id ="LabID" value = "LabID" onchange="this.forms.submit">
+                                <i class="fa fa-sort"></i>
+                            </button>
                         </th>
-                        <th style="text-align: center; width: 17.5%;">
-                            <a href="@Url.Action("Member", "BNS", new { sortOrder = ViewBag.NameSortParm })" class="btn btn-primary">
-                                TÊN THÀNH VIÊN <i class="fa fa-sort"></i>
-                            </a>
+                        <th style="text-align: center; width: 17.5%;"> TÊN THÀNH VIÊN 
+                            <button name="sortOrder" id = "Name" value = "Name" onchange="this.forms.submit">
+                                <i class="fa fa-sort"></i>
+                            </button>
                         </th>
-                        <th style="text-align: center; width: 7.5%;">GIỚI TÍNH</th>
-                        <th style="text-align: center; width: 10%;">NGÀY SINH</th>
-                        <th style="text-align: center; width: 7.5%;">
-                            <a href="@Url.Action("Member", "BNS", new { sortOrder = ViewBag.GenSortParm })" class="btn btn-primary">
-                                THẾ HỆ <i class="fa fa-sort"></i>
-                            </a>
+                        <th style="text-align: center; width: 5%;">GIỚI TÍNH</th>
+                        <th style="text-align: center; width: 7.5%;">NGÀY SINH
+                            <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                                <i class="fa fa-sort"></i>
+                            </button>
                         </th>
-                        <th style="text-align: center; width: 20%;">
-                            <a href="@Url.Action("Member", "BNS", new { sortOrder = ViewBag.UnitSortParm })" class="btn btn-primary">
-                                ĐƠN VỊ <i class="fa fa-sort"></i>
-                            </a>
+                            
+                        <th style="text-align: center; width: 5%;"> THẾ HỆ
+                            <button name="sortOrder" id = "Gen" value="Gen" onchange="this.forms.submit">
+                                <i class="fa fa-sort"></i>
+                            </button>
                         </th>
-                        <th style="text-align: center; width: 20%;">CHỨC VỤ</th>
+                        <th style="text-align: center; width: 25%;"> Đơn vị
+                            <button name="sortOrder" id = "Unit" value="Unit" onchange="this.forms.submit">
+                                <i class="fa fa-sort"></i>
+                            </button>
+                        </th>
+                        <th style="text-align: center; width: 25%;">CHỨC VỤ</th>
                         <th style="text-align: center;">Chức năng</th>
+
+                        <script>
+                            var modelSortOrder = "@Html.Raw(Model.SortOrder)";
+                            var idSort = document.getElementById("LabID");
+                            if (modelSortOrder === "LabID") {
+                                idSort.value = "id_desc";
+                            }
+
+                            var idSort = document.getElementById("Name");
+                            if (modelSortOrder === "Name") {
+                                idSort.value = "name_desc";
+                            }
+
+                            var idSort = document.getElementById("Birthday");
+                            if (modelSortOrder === "Birthday") {
+                                idSort.value = "birthday_desc";
+                            }
+
+                            var idSort = document.getElementById("Gen");
+                            if (modelSortOrder === "Gen") {
+                                idSort.value = "gen_desc";
+                            }
+
+                            var idSort = document.getElementById("Unit");
+                            if (modelSortOrder === "Unit") {
+                                idSort.value = "unit";
+                            }
+
+                        </script>
                     </tr>
                 </thead>
                 <tbody>
@@ -110,7 +149,7 @@
                 </tbody>
 
             </table>
-            
+
         </div>
         <table cellpadding="0" cellspacing="0">
             <tr>
