@@ -16,7 +16,8 @@ namespace Hethongquanlylab.Controllers.User
     {
         public IActionResult Index()
         {
-            return View("./Views/User/UserHome.cshtml");
+            var notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+            return View("./Views/User/UserHome.cshtml", notifications);
         }
 
         public IActionResult Infor()

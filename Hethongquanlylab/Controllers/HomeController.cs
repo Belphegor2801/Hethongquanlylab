@@ -1,4 +1,5 @@
 ﻿using Hethongquanlylab.Models;
+using Hethongquanlylab.DAO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+ 
 
 namespace Hethongquanlylab.Controllers
 {
@@ -20,7 +22,8 @@ namespace Hethongquanlylab.Controllers
 
         public IActionResult Index()
         {
-            return View("~/Views/Shared/Home.cshtml");
+            var notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+            return View("~/Views/Shared/Home.cshtml", notifications);
         }
 
         public IActionResult Privacy()

@@ -1,0 +1,128 @@
+﻿@model Member
+@{
+    @section Buttons{
+        <a class="header-item"></a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="~/css/resume.css">
+</head>
+
+<body>
+    <div class="cv_body">
+        <div class="container">
+            <div class="profile">
+                <div class="profile_container">
+                    <div class="profile_profileImg">
+                        <img src="~/img/avt.png" alt="NgoXuanHinh" class="cv_img">
+                    </div>
+                    <div>
+                        <h1 class="profile_name">
+                            <span class="profile_name_firstName">ID: @Model.LabID</span>
+                            <br />
+                            <span class="profile_name_lastName">@Model.Name</span>
+                        </h1>
+                        <h2 style="margin-top: 10px" class="profile_title">Giới tính: @Model.Sex</h2>
+                        <h2 style="margin-top: 10px" class="profile_title">Ngày sinh: @Model.Birthday</h2>
+                        <h2 style="margin-top: 10px" class="profile_title">Gen: @Model.Gen</h2>
+                        <h2 style="margin-top: 10px" class="profile_title">Đơn vị: @Model.Unit</h2>
+                        <h2 style="margin-top: 10px" class="profile_title">Chức vụ: @Model.Position</h2>
+
+                    </div>
+                </div>
+            </div>
+            <div class="group-1">
+                <div class="skills">
+                    <h3 class="cv_title">Đánh giá của ban cố vấn</h3>
+                    <ul class="skills_list description">
+                        <li class="cv_description">Hoành thành tốt công việc được giao</li>
+                        <li class="cv_description">Có tinh thần cầu tiến</li>
+                        <li class="cv_description">Ngoan ngoãn, hiền lành</li>
+                    </ul>
+                </div>
+                <div class="ref">
+                    <h3 class="cv_title">Thành tích</h3>
+                    <div class="ref_item">
+                        <h4 class="ref_name">Vật lý</h4>
+                        <p class="cv_description">2 Giải nhì Quốc gia môn Vật lý, 2 Giải nhì Thành phố môn Vật Lý</p>
+                    </div>
+                    <div class="ref_item">
+                        <h4 class="ref_name">Toán học</h4>
+                        <p class="cv_description">4 Giải thành phố môn Toán</p>
+                    </div>
+                </div>
+
+                <div class="edu">
+                    <h3 class="cv_title">Học tập</h3>
+                    <div class="edu_item">
+                        <p class="item_preTitle">10/2020</p>
+                        <h4 class="item_title">Đại học Bách Khoa Hà Nội</h4>
+                        <p class="item_subtitle">
+                            Công nghệ thông tin Việt Nhật
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="group-2">
+                <div class="exp">
+                    <h3 class="cv_title">Dự án tham gia</h3>
+                    <div class="exp_item">
+                        <p class="item_preTitle">8/2022 - nay</p>
+                        <h4 class="item_title">Quản lý nhân sự Lab Thầy Sinh</h4>
+                        <p class="item_subtitle">Lập trình front-end</p>
+                    </div>
+                </div>
+
+                <div class="certification">
+                    <h3 class="cv_title">Chứng chỉ</h3>
+                    <div class="certification_item">
+                        <p class="item_preTitle">2018</p>
+                        <h4 class="item_title">Frontend Developer</h4>
+                    </div>
+                </div>
+
+                <div class="cv_interest">
+                    <h3 class="cv_title">SỞ THÍCH</h3>
+                    <div class="interest_items">
+                        <div class="interest_item">
+                            <i data-feather="music"></i>
+                            <span>Nghe nhạc</span>
+                        </div>
+                        <div class="interest_item">
+                            <i data-feather="book"></i>
+                            <span>Đọc sách</span>
+                        </div>
+                        <div class="interest_item">
+                            <i data-feather="map"></i>
+                            <span>Vẽ Tranh</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div>
+
+    </div>
+</body>
+
+</html>

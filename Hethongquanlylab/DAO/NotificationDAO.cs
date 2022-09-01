@@ -72,7 +72,7 @@ namespace Hethongquanlylab.DAO
                 string title = workSheet.Cells[i, 2].Value.ToString();
                 if (title.Contains(notificationTitle))
                 {
-                    int id = Convert.ToInt32(workSheet.Cells[i, 1]);
+                    int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                     string content = workSheet.Cells[i, 3].Value.ToString();
                     string image = workSheet.Cells[i, 4].Value.ToString();
                     Notification notification = new Notification(id, title, content, image);

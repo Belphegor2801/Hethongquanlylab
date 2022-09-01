@@ -37,18 +37,10 @@ a {
     font-weight: 600;
     font-size: 14px;
 }
-
-.col22 {
-    display: flex;
-    height: fit-content;
-    margin-top: -50px !important;
 }
 
 #col-1 {
     width: 87vw;
-    background-image: url(./img/labchung.jpg);
-    background-size: 100% auto;
-    background-repeat: no-repeat;
 }
 
 .col-2 {
