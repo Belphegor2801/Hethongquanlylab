@@ -34,10 +34,10 @@ namespace Hethongquanlylab.Models
             this.searchFieldList = new List<String> { "LabID", "Name", "Sex", "Birthday", "Gen", "Unit", "Position"};
         }
 
-        public void rePaging(List<Member> members)
+        public void Paging(List<Member> members, int pageSize)
         {
             this.memberList = members;
-            this.pageSize = 10;
+            this.pageSize = pageSize;
             
             if ((double)((decimal)this.Members.Count() % Convert.ToDecimal(this.pageSize)) == 0)
             {
