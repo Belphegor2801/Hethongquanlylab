@@ -23,18 +23,19 @@ namespace Hethongquanlylab.DAO
         {
             List<Procedure> procedureList = new List<Procedure>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/training.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/procedure.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
                 int j = 1;
-                int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
-                string name = workSheet.Cells[i, j++].Value.ToString();
-                string link = workSheet.Cells[i, j++].Value.ToString();
-                string unit = workSheet.Cells[i, j++].Value.ToString();
-                string status = workSheet.Cells[i, j++].Value.ToString();
-                Procedure procedure = new Procedure(id, name, link, unit,status);
+                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
+                string name = workSheet.Cells[i, 2].Value.ToString();
+                string senddate = workSheet.Cells[i, 3].Value.ToString();
+                string content = workSheet.Cells[i, 4].Value.ToString();
+                string link = workSheet.Cells[i, 6].Value.ToString();
+                string status = workSheet.Cells[i, 5].Value.ToString();
+                Procedure procedure = new Procedure(id, name, senddate, content,link,status);
                 procedureList.Add(procedure);
                 i++;
             }
@@ -44,19 +45,19 @@ namespace Hethongquanlylab.DAO
         public Procedure GetProcedureModel_Excel(int procedureid)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/training.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/procedure.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                int j = 1;
-                int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
+                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                 if (id == procedureid)
                 {
-                    string name = workSheet.Cells[i, j++].Value.ToString();
-                    string link = workSheet.Cells[i, j++].Value.ToString();
-                    string unit = workSheet.Cells[i, j++].Value.ToString();
-                    string status = workSheet.Cells[i, j++].Value.ToString();
-                    Procedure procedure = new Procedure(id, name, link, unit, status);
+                    string name = workSheet.Cells[i, 2].Value.ToString();
+                    string senddate = workSheet.Cells[i, 3].Value.ToString();
+                    string content = workSheet.Cells[i, 4].Value.ToString();
+                    string link = workSheet.Cells[i, 5].Value.ToString();
+                    string status = workSheet.Cells[i, 6].Value.ToString();
+                    Procedure procedure = new Procedure(id, name, senddate, content, link, status);
                     return procedure;
                 }
             }
