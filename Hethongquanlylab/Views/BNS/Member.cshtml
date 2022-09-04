@@ -19,6 +19,7 @@
         </li>
     }
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,14 +43,14 @@
             <select name="searchField" id="searchField">
                 @if (!String.IsNullOrWhiteSpace(@Model.CurrentSearchField))
                 {
-                    <option value="@Model.CurrentSearchField">@Model.CurrentSearchField</option>
+                    <option value="@Model.CurrentSearchField">@Model.NameVar[Model.CurrentSearchField]</option>
                 }
 
                 @foreach (var item in Model.SearchFieldList)
                 {
                     @if (item != Model.CurrentSearchField)
                     {
-                        <option value="@item">@item</option>
+                        <option value="@item">@Model.NameVar[@item]</option>
                     }
                 }
             </select>
@@ -154,6 +155,11 @@
                     </tr>
                 }
             </table>
+        </div>
+
+        <div class="wrap-totalMember">
+            <p class="totalMember">Tổng Thành Viên: </p>
+            <p id="total">@Model.Members.Count</p>
         </div>
 
         <table cellpadding="0" cellspacing="0">

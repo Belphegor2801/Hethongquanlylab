@@ -2,7 +2,7 @@
 .backMainPage {
     margin: 0;
     color:#212121;
-    padding-top: 130px;
+    padding-top: 30px;
     padding-left:40px;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .wrap-back p{
-    padding-top: 96px;
+    padding-top: -6px;
     padding-left: 10px;
     font-size: 32px;
 }
