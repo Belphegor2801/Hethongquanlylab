@@ -208,5 +208,9 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var procedure = ProcedureDAO.Instance.GetProcedureList_Excel();
             return View("./Views/BNS/Procedure.cshtml", procedure);
         }
+        public IActionResult AddProcedure()
+        {
+            return View("./Views/BNS/AddProcedure.cshtml");
+        }
     }
 }

@@ -144,3 +144,21 @@ fieldset .myClass {
 label textarea {
     width: 50vw;
 }
+.wrap-themDuAn {
+    width: 1030px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: space-between;
+}
+
+    .wrap-themDuAn label {
+        width: 30vw;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .wrap-themDuAn label input {
+            padding: 8px 24px;
+            margin: 12px 0;
+        }
