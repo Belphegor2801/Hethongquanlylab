@@ -12,7 +12,7 @@
 
 fieldset {
     width: 65vw;
-    margin-left: 8%;
+    margin: auto !important;
     text-align: -webkit-center;
     border: 2px solid rgb(248, 245, 70) !important;
     border-radius: 10px;

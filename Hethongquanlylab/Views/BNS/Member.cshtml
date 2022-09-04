@@ -23,7 +23,6 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
-    <link rel="stylesheet" href="~/css/phanTrang.css">
 </head>
 <body>
     <form asp-action="Member" method="post">
@@ -45,11 +44,9 @@
             </select>
 
             <input name="searchString" class="search" type="text" placeholder="Điền thông tin" value="@Model.CurrentSearchString">
-            <input type="submit" value="Tìm kiếm">
-
-            <div style="margin-top: -40px; position: absolute; right: 8%;">
-                <button style="padding: 8px 7px;" class="addQuyTrinh">Thêm Thành Viên</button>
-            </div>
+            <button type="button" onclick="location.href='@Url.Action("ExportToExcel", "BNS")'" style="margin-left: 40px;">Thêm thành viên</button>
+            <button type="button" onclick="location.href='@Url.Action("ExportToExcel", "BNS")'" style="margin-left: 40px;">Xuất Excel</button>
+            <button type="submit">Tìm kiếm</button>
         </fieldset>
 
         <div class="tableWrap">
@@ -133,7 +130,7 @@
                                 <td style="user-select: auto;"> @item.Unit</td>
                                 <td style="user-select: auto;"> @item.Position</td>
                                 <td style="user-select: auto; text-align: center;">
-                                    <a asp-action="MemberDetail" asp-route-id="@item.LabID" class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</a>
+                                    <button type="button" onclick="location.href='@Url.Action("MemberDetail", "BNS", new { id = item.LabID })'">Chi tiết</button>
                                     <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
                                 </td>
                             </tr>

@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using Hethongquanlylab.Models;
 using Hethongquanlylab.Models.Members;
 using Hethongquanlylab.DAO;
+using OfficeOpenXml;
+using System.IO;
+using System.Data;
+using OfficeOpenXml.Table;
 
 namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 {
@@ -21,71 +25,45 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
         private List<Member> sortMember(List<Member> members, String sortOrder)
         {
-            List<Member> memberList;
             switch (sortOrder)
             {
                 case "id_desc":
-                    memberList = members.OrderByDescending(s => Convert.ToInt32(s.LabID)).ToList();
+                    members = members.OrderByDescending(s => Convert.ToInt32(s.LabID)).ToList();
                     break;
                 case "Name":
-                    memberList = members.OrderBy(s => s.Name.Split(" ").Last()).ToList();
+                    members= members.OrderBy(s => s.Name.Split(" ").Last()).ToList();
                     break;
                 case "name_desc":
-                    memberList = members.OrderByDescending(s => s.Name.Split(" ").Last()).ToList();
+                    members = members.OrderByDescending(s => s.Name.Split(" ").Last()).ToList();
                     break;
                 case "Gen":
-                    memberList = members.OrderBy(s => s.Gen).ToList();
+                    members = members.OrderBy(s => s.Gen).ToList();
                     break;
                 case "gen_desc":
-                    memberList = members.OrderByDescending(s => s.Gen).ToList();
+                    members = members.OrderByDescending(s => s.Gen).ToList();
                     break;
                 case "Unit":
-                    memberList = members.OrderBy(s => s.Unit).ToList();
+                    members = members.OrderBy(s => s.Unit).ToList();
                     break;
                 case "unit_desc":
-                    memberList = members.OrderByDescending(s => s.Unit).ToList();
+                    members = members.OrderByDescending(s => s.Unit).ToList();
                     break;
                 case "Birthday":
-                    memberList = members.OrderBy(s => s.Birthday.Split("/").Last()).ToList();
+                    members = members.OrderBy(s => s.Birthday.Split("/").Last()).ToList();
                     break;
                 case "birthday_desc":
-                    memberList = members.OrderByDescending(s => s.Birthday.Split("/").Last()).ToList();
+                    members = members.OrderByDescending(s => s.Birthday.Split("/").Last()).ToList();
                     break;
 
                 default:
-                    memberList = members.OrderBy(s => Convert.ToInt32(s.LabID)).ToList();
+                    members = members.OrderBy(s => Convert.ToInt32(s.LabID)).ToList();
                     break;
             }
-            return memberList;
+            return members;
         }
 
-
-
-        public IActionResult Member()
-        {
-            String sortOrder = "LabID";
-            String searchField = "LabID";
-            String searchString = "";
-            int page = 1;
-
-            var urlQuery = Request.HttpContext.Request.Query;
-            foreach (var attr in urlQuery.Keys)
-            {
-                if (attr == "sort") sortOrder = urlQuery[attr];
-                if (attr == "searchField") searchField = urlQuery[attr];
-                if (attr == "searchString") searchString = urlQuery[attr];
-                if (attr == "page") page = Convert.ToInt32(urlQuery[attr]);
-            }
-
-
-            MemberList memberList = new MemberList();
-            memberList.SortOrder = sortOrder;
-            memberList.CurrentSearchField = searchField;
-            memberList.CurrentSearchString = searchString;
-            memberList.CurrentPage = page;
-
-
-            List<Member> members = UserDAO.Instance.GetListUser_Excel();
+        private List<Member> searchMember(List<Member> members, MemberList memberList)
+        {            
             if (!String.IsNullOrEmpty(memberList.CurrentSearchField))
             {
                 if (!String.IsNullOrEmpty(memberList.CurrentSearchString))
@@ -119,8 +97,79 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
                     }
                 }
             }
+            return members;
+        }
 
+
+        public IActionResult ExportToExcel()
+        {
+            var memoryStream = new MemoryStream();
+            using (var excelPackage = new ExcelPackage(memoryStream))
+            {
+                var worksheet = excelPackage.Workbook.Worksheets.Add("Danh sách thành viên");
+                var currentRow = 1;
+                // trỏ đến dòng 1 và cột 1 thay giá trị bằng LabID các dòng dưới cx tương tự
+
+
+                var allAttr = typeof(Member).GetProperties(); // Lấy danh sách attributes của class Member
+                int col = 1;
+                foreach (var attr in allAttr)
+                    worksheet.Cells[currentRow, col++].Value = attr.Name;
+
+                // Lấy tất cả dữ liệu trong database theo thứ tự tăng dần labID
+                List<Member> members = UserDAO.Instance.GetListUser_Excel();
+                foreach (var member in members)
+                {
+                    // Dòng thứ 2 trở đi sẽ đổ dữ liệu từ database vào
+                    currentRow += 1;
+                    col = 1;
+                    foreach (var attr in allAttr)
+                    {
+                            object value = attr.GetValue(member);
+                            worksheet.Cells[currentRow, col++].Value = value.ToString();
+                    }
+                }
+                // Trả về dữ liệu dạng xlsx
+                using (var stream = new MemoryStream())
+                {
+                    excelPackage.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThanhVien.xlsx");
+                }
+            }
+        }
+
+
+
+        public IActionResult Member()
+        {
+            String sortOrder = "LabID";
+            String searchField = "LabID";
+            String searchString = "";
+            int page = 1;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            foreach (var attr in urlQuery.Keys)
+            {
+                if (attr == "sort") sortOrder = urlQuery[attr];
+                if (attr == "searchField") searchField = urlQuery[attr];
+                if (attr == "searchString") searchString = urlQuery[attr];
+                if (attr == "page") page = Convert.ToInt32(urlQuery[attr]);
+            }
+
+
+            MemberList memberList = new MemberList();
+            memberList.SortOrder = sortOrder;
+            memberList.CurrentSearchField = searchField;
+            memberList.CurrentSearchString = searchString;
+            memberList.CurrentPage = page;
+
+
+
+            List<Member> members = UserDAO.Instance.GetListUser_Excel();
+            members = searchMember(members, memberList);
             members = sortMember(members, memberList.SortOrder);
+      
 
             memberList.Paging(members, 10);
 
