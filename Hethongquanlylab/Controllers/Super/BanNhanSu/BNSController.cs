@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Threading.Tasks;
 using Hethongquanlylab.Models;
 using Hethongquanlylab.Models.Members;
@@ -16,7 +17,6 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var notifications = NotificationDAO.Instance.GetNotificationList_Excel();
             return View("./Views/BNS/BNSHome.cshtml", notifications);
         }
-
 
 
         private List<Member> sortMember(List<Member> members, String sortOrder)
@@ -60,44 +60,40 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         }
 
 
-        MemberList memberList = new MemberList();
-        public IActionResult Member(String sortOrder, String searchString, String searchField, int currentPage = 1)
+
+        public IActionResult Member()
         {
+            String sortOrder = "LabID";
+            String searchField = "LabID";
+            String searchString = "";
+            int page = 1;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            foreach (var attr in urlQuery.Keys)
+            {
+                if (attr == "sort") sortOrder = urlQuery[attr];
+                if (attr == "searchField") searchField = urlQuery[attr];
+                if (attr == "searchString") searchString = urlQuery[attr];
+                if (attr == "page") page = Convert.ToInt32(urlQuery[attr]);
+            }
+
+
+            MemberList memberList = new MemberList();
+            memberList.SortOrder = sortOrder;
+            memberList.CurrentSearchField = searchField;
+            memberList.CurrentSearchString = searchString;
+            memberList.CurrentPage = page;
+
+
             List<Member> members = UserDAO.Instance.GetListUser_Excel();
-            memberList.Members = members;
-
-            if (memberList.SortOrder != sortOrder)
-            {
-                memberList.SortOrder = sortOrder;
-            }
-            else
-            {
-            }
-
-            if (memberList.CurrentSearchField != searchField){
-                memberList.CurrentSearchField = searchField;
-            }
-
-            if (memberList.CurrentSearchString != searchString)
-            {
-                memberList.CurrentSearchString = searchString;
-            }
-
-
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.IDSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
-            ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
-            ViewBag.GenSortParm = sortOrder == "Gen" ? "gen_desc" : "Gen";
-            ViewBag.UnitSortParm = sortOrder == "Unit" ? "unit_desc" : "Unit";
-            
             if (!String.IsNullOrEmpty(memberList.CurrentSearchField))
             {
                 if (!String.IsNullOrEmpty(memberList.CurrentSearchString))
                 {
-                    switch (memberList.CurrentSearchString)
+                    switch (memberList.CurrentSearchField)
                     {
                         case "Lab ID":
-                            members= members.Where(s => s.LabID.Contains(memberList.CurrentSearchString)).ToList();
+                            members = members.Where(s => s.LabID.Contains(memberList.CurrentSearchString)).ToList();
                             break;
                         case "Name":
                             members = members.Where(s => s.Name.Contains(memberList.CurrentSearchString)).ToList();
@@ -126,19 +122,25 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
             members = sortMember(members, memberList.SortOrder);
 
-            memberList.rePaging(members);
-            
-            memberList.CurrentPage = currentPage;
+            memberList.Paging(members, 10);
 
             if (memberList.PageCount > 0)
             {
-            if (currentPage != memberList.PageCount)
-                memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
-            else
-                memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Members.Count % memberList.PageSize == 0? memberList.PageSize: memberList.Members.Count % memberList.PageSize);
+                if (memberList.CurrentPage != memberList.PageCount)
+                    memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
+                else
+                    memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Members.Count % memberList.PageSize == 0 ? memberList.PageSize : memberList.Members.Count % memberList.PageSize);
             }
 
             return View("./Views/BNS/Member.cshtml", memberList);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult Member(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        {
+            return RedirectToAction("Member", "BNS", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
         }
 
 
