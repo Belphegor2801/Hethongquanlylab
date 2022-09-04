@@ -1,81 +1,129 @@
 
 .backMainPage {
     margin: 0;
-    color: #212121;
+    color:#212121;
     padding-top: 130px;
-    padding-left: 40px;
+    padding-left:40px;
 }
 
-    .backMainPage:hover {
-        color: #f76262;
-    }
-
-fieldset {
-    width: 65vw;
-    margin: auto !important;
-    text-align: -webkit-center;
-    border: 2px solid rgb(248, 245, 70) !important;
-    border-radius: 10px;
-    color: red;
-    font-size: 24px;
-    background-color: #f9f6f3;
+.backMainPage:hover {
+    color:#f76262;
 }
 
-    fieldset #truongDuLieu {
-        height: 40px;
-        border: 2px solid rgb(42, 124, 145);
-        border-radius: 10px;
-        margin-right: 4vw;
-    }
+.wrap-back p{
+    padding-top: 96px;
+    padding-left: 10px;
+    font-size: 32px;
+}
 
-        fieldset #truongDuLieu:hover,
-        fieldset #truongDuAn:hover {
-            background-color: rgb(233, 232, 232);
-            cursor: pointer;
-        }
+table{
+    border-collapse:collapse;
+    width: 1030px;
+    margin: auto;
+}
+th{
+    height: 42px;
+}
+td{
+    height: 60px;
+}
+th, td{
+    text-align:left;
+    padding:10px;
+}
+table tr:nth-child(odd){
+    background-color:#eee;
+}
+table tr:nth-child(even){
+    background-color:white;
+}
+table tr:nth-child(1){
+    background-color:#373F51;
+    color:white;
+}
 
-    fieldset .search,
-    fieldset button {
-        height: 36px;
-        border: 2px solid rgb(42, 124, 145);
-        border-radius: 10px;
-    }
+.add-nhanSu,
+.btn-excel{
+    height:52px;
+    width: 132px;
+    background-color: #edcd1f;
+}
 
-    fieldset button {
-        float: right;
-    }
+.add-nhanSu + .btn-excel{
+    margin-left:34px;
+}
+.wrap-sreach{
+    width: 1030px;
+    margin: auto;
+    margin-bottom: 36px;
+    margin-top: 36px;
+}
 
-        fieldset button:hover {
-            background-color: rgb(250, 68, 68);
-            color: #fff;
-            cursor: pointer;
-        }
+.wrap-sreach input{
+    height: 30px;
+    width: 540px;
+}
+.wrap-sreach select{
+    height: 36px;
+    width: 202px;
+    margin: 0px 12px;
+}
 
+.wrap-sreach button{
+    height: 36px;
+    width: 246px;
+}
 
-button {
+.wrap-totalMember{
+    width: 1030px;
+    margin: auto;
+    display: flex;
+    margin-top: 36px;
+}
+.totalMember{
+    font-weight: 600;
+}
+
+.edit{
+    display: none;
+}
+.edit.active{
+    display: block;
+}
+.overlay {
+    background-color: #ccc;
+    width: 50vw;
+    height: 50vh;
+    position: absolute;
+    top: 25vh;
+    right: 25vw;
+}
+
+button {  
     transition-duration: 0.4s;
     border-radius: 12px;
     background-color: #e9e9ef;
     border: 2px;
+} 
+
+button:hover,
+button:hover a,
+.hover-red:hover {  
+    background-color: rgb(243, 84, 116) !important;  
+    color: white !important;
+    cursor: pointer;
 }
 
-    button:hover,
-    .hover-red:hover {
-        background-color: rgb(243, 84, 116);
-        color: white;
-        cursor: pointer;
-    }
-
-.ui-draggable .ui-dialog-titlebar {
+.ui-draggable .ui-dialog-titlebar{
     background-color: rgb(251 88 88);
     color: #fff;
 }
 /* css phần thông báo đến các pt */
-fieldset .myClass {
+fieldset .myClass{
     font-size: 20px;
 }
 
-.text-report {
+.text-report{
     margin-top: 50px;
     margin-left: 25vw;
     display: flex;
@@ -86,60 +134,3 @@ label textarea {
     width: 50vw;
 }
 
-.tableWrap {
-    width: 95%;
-    margin: auto;
-    height: fit-content;
-    border: 2px solid black;
-}
-/* Set header to stick to the top of the container. */
-thead tr {
-    position: sticky;
-    top: 0;
-}
-
-/* If we use border,
-we must use table-collapse to avoid
-a slight movement of the header row */
-table {
-    border-collapse: collapse;
-}
-
-/* Because we must set sticky on th,
- we have to apply background styles here
- rather than on thead */
-th {
-    padding: 16px;
-    padding-left: 15px;
-    border-left: 1px dotted rgba(200, 209, 224, 0.6);
-    border-bottom: 1px solid #e8e8e8;
-    background: #ffc491;
-    text-align: left;
-    /* With border-collapse, we must use box-shadow or psuedo elements
-  for the header borders */
-    box-shadow: 0px 0px 0 2px #e8e8e8;
-}
-
-/* Basic Demo styling */
-
-table {
-    width: 100%;
-    font-family: sans-serif;
-}
-    table td {
-        padding: 16px;
-    }
-
-tbody tr {
-    border-bottom: 2px solid #e8e8e8;
-    min-height: 90px;
-}
-
-thead {
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.85);
-}
-
-tbody tr:hover {
-    background: #e6f7ff;
-}
