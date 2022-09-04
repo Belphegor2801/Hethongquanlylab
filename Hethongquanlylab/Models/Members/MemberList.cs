@@ -29,8 +29,9 @@ namespace Hethongquanlylab.Models
         public String CurrentSearchField { get => currentSearchField; set => currentSearchField = value; }
         public List<String> SearchFieldList { get => searchFieldList; set => searchFieldList = value; }
 
-
         public Dictionary<string, string> NameVar { get; set; }
+
+        public static Boolean IsAddMember = false;
 
         public MemberList()
         {
@@ -50,6 +51,7 @@ namespace Hethongquanlylab.Models
         public void Paging(List<Member> members, int pageSize)
         {
             this.memberList = members;
+            this.memberCount = members.Count;
             this.pageSize = pageSize;
             
             if ((double)((decimal)this.Members.Count() % Convert.ToDecimal(this.pageSize)) == 0)

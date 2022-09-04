@@ -140,6 +140,34 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         }
 
 
+        public IActionResult AddMember()
+        {
+            MemberList.IsAddMember = true;
+            TempData["IsAddMember"] = "true";
+            return Member();
+        }
+
+        [HttpPost]
+        public IActionResult AddMember(String LabID, String Name, String Sex, String Birthday, String Gen, String Unit, String Position)
+        {
+            MemberList.IsAddMember = false;
+            TempData["IsAddMember"] = "false";
+
+            var newMember = new Member(LabID, Name, Sex, Birthday, Gen, Unit, Position);
+            UserDAO.Instance.AddMember(newMember);
+            return RedirectToAction("Member");
+        }
+
+        public IActionResult DeleteMember()
+        {
+                var urlQuery = Request.HttpContext.Request.Query;
+                String LabID_delete = urlQuery["LabID"];
+                UserDAO.Instance.DeleteMember(LabID_delete);
+
+            
+            return RedirectToAction("Member");
+        }
+
 
         public IActionResult Member()
         {
@@ -169,7 +197,6 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             List<Member> members = UserDAO.Instance.GetListUser_Excel();
             members = searchMember(members, memberList);
             members = sortMember(members, memberList.SortOrder);
-      
 
             memberList.Paging(members, 10);
 

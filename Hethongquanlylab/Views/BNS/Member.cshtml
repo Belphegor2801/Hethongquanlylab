@@ -24,9 +24,10 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
+    <link rel="stylesheet" href="~/css/subScene.css">
 </head>
 <body>
-    <form asp-action="Member" method="post">
+    <form asp-action="Member" method="post" style="z-index: 0;">
         <div class="wrap-back" style="display:flex;">
             <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
             <p>/</p>
@@ -34,7 +35,7 @@
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("ExportToExcel", "BNS")'">Thêm Nhân Sự</button>
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember", "BNS")'">Thêm Nhân Sự</button>
             <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportToExcel", "BNS")'">Xuất file Excel</button>
 
         </div>
@@ -143,7 +144,7 @@
                             <td style="user-select: auto;"> @item.Position</td>
                             <td style="user-select: auto; text-align: center;">
                                 <button type="button" onclick="location.href='@Url.Action("MemberDetail", "BNS", new { id = item.LabID })'">Chi tiết</button>
-                                <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
+                                <button type="button" onclick="location.href='@Url.Action("DeleteMember", "BNS", new { LabID = item.LabID })'">Xóa</button>
                             </td>
                         </tr>
                     }
@@ -159,7 +160,7 @@
 
         <div class="wrap-totalMember">
             <p class="totalMember">Tổng Thành Viên: </p>
-            <p id="total">@Model.Members.Count</p>
+            <p id="total">@Model.MemberCount</p>
         </div>
 
         <table cellpadding="0" cellspacing="0">
@@ -188,6 +189,41 @@
             document.forms[0].submit();
         }
     </script>
+
+
+    @{
+        var isAddMember = TempData["IsAddMember"] == null ? "false" : TempData["IsAddMember"].ToString();
+        if (isAddMember == "true")
+        {
+        <form asp-action="AddMember" method="post" style="position:fixed; min-width: 50%; height: 70%; left: 25%; top: 120px; z-index: 1;" id="form-login">
+            <div class="form-group">
+                <input name="LabID" type="text" class="form-input" placeholder="Lab ID" autofocus>
+            </div>
+            <div class="form-group">
+                <input name="Name" type="text" class="form-input" placeholder="Tên thành viên">
+            </div>
+            <div class="form-group">
+                <input name="Sex" type="text" class="form-input" placeholder="Giới tính">
+            </div>
+            <div class="form-group">
+                <input name="Birthday" type="text" class="form-input" placeholder="Ngày sinh">
+            </div>
+            <div class="form-group">
+                <input name="Gen" type="text" class="form-input" placeholder="Thế hệ">
+            </div>
+            <div class="form-group">
+                <input name="Unit" type="text" class="form-input" placeholder="Đơn vị">
+            </div>
+            <div class="form-group">
+                <input name="Position" type="text" class="form-input" placeholder="Chức vụ">
+            </div>
+
+            <input class="form-submit" type="submit" style="margin-top: 15px;" value="Thêm thành viên">
+            <a class="form-submit" type="button" asp-action= "Member" style="margin-top: 15px;" value="Thêm thành viên">Trở về</a>
+        </form>
+        }
+    }
+
 
 </body>
 
