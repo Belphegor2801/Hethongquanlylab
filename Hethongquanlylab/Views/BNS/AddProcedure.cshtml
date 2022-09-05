@@ -1,4 +1,4 @@
-﻿@model List<Procedure>
+﻿@model Procedure
 
 @{
     @section Buttons{
@@ -23,6 +23,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.js"></script>
 </head>
 <body>
     <div class="wrap-back" style="display:flex;">
@@ -32,39 +34,44 @@
         <p>/</p>
         <a href="#"><h2 style="padding-left: 10px;" class="backMainPage">Thêm Quy Trình</h2></a>
     </div>
+    <form asp-controller="" method="post" id="form-addprocedure">
+        <div class="wrap-themDuAn">
+            <div>
+                <label for="">
+                    Tên Quy Trình:
+                    <input type="text" name="Name" value="">
+                </label>
+                <label for="">
+                    Loại Quy Trình:
+                    <input type="text" name="Id" value="">
+                </label>
+            </div>
+            <label for="">
+                Nội Dung:
+                <textarea style="width: 1030px; margin: 12px 0;" name="" id="procedure_content" cols="30" rows="10"></textarea>
+            </label>
+            <label style="width: 1030px; " for="">
+                Link Tài Liệu:
+                <input type="text" , name="Link" value="">
+            </label>
+            <div class="" style="text-align:left;">
+                <button class="add-nhanSu">
+                    <i class="fa-solid fa-plus"></i>
+                    Lưu
+                </button>
+                <button style="margin-left: 42px;" class="add-nhanSu">
+                    Lưu Và Gửi Duyệt
+                </button>
 
-    <div class="wrap-themDuAn">
-        <label for="">
-            Tên Quy Trình:
-            <input type="text">
-        </label>
-        <label for="">
-            Loại Quy Trình:
-            <input type="text">
-        </label>
-        <label for="">
-            Nội Dung:
-            <textarea style="width: 1030px; margin: 12px 0;" name="" id="" cols="30" rows="10"></textarea>
-        </label>
-        <label style="width: 1030px; " for="">
-            Link Tài Liệu:
-            <input type="text">
-        </label>
-    </div>
+            </div>
 
-
-    <div class="" style="margin-left: 886px;">
-        <button class="add-nhanSu">
-            <i class="fa-solid fa-plus"></i>
-            Lưu
-        </button>
-        <button style="margin-left: 42px;" class="add-nhanSu">
-            Lưu Và Gửi Duyệt
-        </button>
-
-    </div>
+        </div>
+    </form>
     <script src="./js/dataNhanSu.js"></script>
     <script src="./js/dataDuAn.js"></script>
+    <script>
+        const editor = Jodit.make('#procedure_content');
+    </script>
 
 </body>
 </html>
