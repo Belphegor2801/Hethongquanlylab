@@ -35,7 +35,7 @@
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember", "BNS")'">Thêm Nhân Sự</button>
+            <button class="add-nhanSu" type="button" onclick="add_member()">Thêm Nhân Sự</button>
             <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportToExcel", "BNS")'">Xuất file Excel</button>
 
         </div>
@@ -144,7 +144,8 @@
                             <td style="user-select: auto;"> @item.Position</td>
                             <td style="user-select: auto; text-align: center;">
                                 <button type="button" onclick="location.href='@Url.Action("MemberDetail", "BNS", new { id = item.LabID })'">Chi tiết</button>
-                                <button type="button" onclick="location.href='@Url.Action("DeleteMember", "BNS", new { LabID = item.LabID })'">Xóa</button>
+                                <button type="button" onclick="confirm_detele(@item.LabID)" id="deleteMember" value="@item.LabID">Xóa</button>
+
                             </td>
                         </tr>
                     }
@@ -191,11 +192,18 @@
     </script>
 
 
-    @{
-        var isAddMember = TempData["IsAddMember"] == null ? "false" : TempData["IsAddMember"].ToString();
-        if (isAddMember == "true")
-        {
-        <form asp-action="AddMember" method="post" style="position:fixed; min-width: 50%; height: 70%; left: 25%; top: 120px; z-index: 1;" id="form-login">
+    <style>
+        .form-frame {
+            border-radius: 24px !important;
+            background: rgba(0, 0, 0, 0.8) !important;
+            flex-grow: 1;
+            padding: 30px 30px 40px;
+            box-shadow: 0px 0px 17px 2px rgba(255, 255, 255, 0.8) !important;
+        }
+    </style>
+
+    <div style="display: none; position: fixed; z-index: 1;" id="add-member">
+        <form asp-action="AddMember" method="post" style="min-width: 50%; height: 70%; left: 25%; top: 120px; z-index: 1;" class="form-frame">
             <div class="form-group">
                 <input name="LabID" type="text" class="form-input" placeholder="Lab ID" autofocus>
             </div>
@@ -219,14 +227,59 @@
             </div>
 
             <input class="form-submit" type="submit" style="margin-top: 15px;" value="Thêm thành viên">
-            <a class="form-submit" type="button" asp-action= "Member" style="margin-top: 15px;" value="Thêm thành viên">Trở về</a>
+            <a class="form-submit" type="button" onclick="add_member_disabled()" style="margin-top: 15px;">Trở về</a>
         </form>
+    </div>
+
+    <script>
+        function add_member() {
+            var subScene = document.getElementById("add-member");
+            subScene.style.display = "flex";
+        }
+
+        function add_member_disabled() {
+            var subScene = document.getElementById("add-member");
+            subScene.style.display = "none";
+        }
+    </script>
+
+
+    @if (Model.PageCount >= 0)
+    {
+        foreach (var item in Model.Members)
+        {
+            <div style="display: none; min-width: 40%; height: 30%; left: 28%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.LabID">
+                <a style="text-align: center; color: #fff;"> Bạn có muốn chắc chắn muốn xóa thành viên có LabID = @item.LabID này không? </a>
+                <div>
+                    <input class="form-submit" type="button" onclick="location.href='@Url.Action("DeleteMember", "BNS", new{ LabID = @item.LabID})'" style="margin-top: 15px;" value="Có">
+                    <input class="form-submit" type="button" onclick="confirm_delete_disabled()" style="margin-top: 15px;" value="Không">
+                </div>
+            </div>
         }
     }
 
 
+    <script>
+        function confirm_detele(id) {
+            var subScene = document.getElementsByClassName("delete-form");
+            for (let i = 0; i < subScene.length; i++) {
+                subScene[i].style.display = "none";
+                if (subScene[i].id == id) {
+                    subScene[i].style.display = "flex";
+                }
+            }            
+        }
+
+
+        function confirm_delete_disabled() {
+            var subScene = document.getElementsByClassName("delete-form");
+            for (let i = 0; i < subScene.length; i++) {
+                subScene[i].style.display = "none";
+            }
+        }
+    </script>
+
+
+
 </body>
-
-
-
 </html>

@@ -163,7 +163,6 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
                 var urlQuery = Request.HttpContext.Request.Query;
                 String LabID_delete = urlQuery["LabID"];
                 UserDAO.Instance.DeleteMember(LabID_delete);
-
             
             return RedirectToAction("Member");
         }
