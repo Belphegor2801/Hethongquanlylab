@@ -277,5 +277,51 @@ namespace Hethongquanlylab.DAO
             }
             return memberList;
         }
+
+        public void AddMember(Member member)
+        {
+            List<Member> memberList = new List<Member>();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                i++;
+            }
+
+            int lastRow = i;
+            workSheet.Cells[lastRow, 1].Value = member.LabID;
+            workSheet.Cells[lastRow, 2].Value = member.Name;
+            workSheet.Cells[lastRow, 3].Value = member.Sex;
+            workSheet.Cells[lastRow, 4].Value = member.Birthday;
+            workSheet.Cells[lastRow, 5].Value = member.Gen;
+            workSheet.Cells[lastRow, 6].Value = member.Unit;
+            workSheet.Cells[lastRow, 7].Value = member.Position;
+
+            package.Save();
+        }
+
+        public void DeleteMember(String LabID)
+        {
+            List<Member> memberList = new List<Member>();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                string labID = workSheet.Cells[i, 1].Value.ToString();
+                if (labID == LabID)
+                {
+                    break;
+                }
+                i++;
+            }
+            workSheet.DeleteRow(i);
+            package.Save();
+        }
     }
 }
