@@ -153,12 +153,13 @@ label textarea {
 }
 
     .wrap-themDuAn label {
-        width: 30vw;
         display: flex;
         flex-direction: column;
+        width: 1030px;
     }
 
         .wrap-themDuAn label input {
             padding: 8px 24px;
             margin: 12px 0;
+            width: 1030px;
         }
