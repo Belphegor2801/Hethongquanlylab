@@ -1,0 +1,107 @@
+﻿@model String
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    @section Buttons{
+        <a class="header-item"></a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
+    <link rel="stylesheet" href="~/css/subScene.css">
+</head>
+<body>
+    <div class="wrap-back" style="display:flex;">
+        <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
+        <p>/</p>
+        <a asp-action="Member"><h2 style="padding-left: 10px;" class="backMainPage"> Nhân Sự</h2></a>
+        <p>/</p>
+        <a asp-action="AddMember"><h2 style="padding-left: 10px;" class="backMainPage"> Thêm nhân sự</h2></a>
+    </div>
+
+    <div style="min-width: 60%; height: 100%; top: 120px;" class="form-frame">
+        <div class="avt" style="text-align: center; width: 45%; margin-right: 50px; border: 1px #ffd800 solid;">
+            <div style="padding-top: 20px; padding-bottom: 30px; width: 85%; height: 85%; margin: auto;">
+                <img style="border: 1px #ffd800 solid; width: 100%; height: 100%;" src="~/data/avt/@Model" alt="">
+            </div>
+                
+            <form asp-action="UploadAvt" method="post" enctype="multipart/form-data">
+                <input name="file" type="file" required />
+                <button type="submit" class="nutan">Upload ảnh</button>
+            </form>    
+        </div>
+
+        <div style="width: 60%;">
+            <form asp-action="AddMember" method="post">
+                <div>
+                    <div class="form-group">
+                        <label for="">LabID: </label>
+                        <input name="LabID" type="text" class="form-control" placeholder="LabID" id="name" value="" style="width: 100%;" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Tên thành viên: </label>
+                        <input name="Name" type="text" class="form-control" placeholder="Họ và tên" id="name" value="" style="width: 100%;" required>
+                    </div>
+
+                    <div class="form-group" style="display:flex">
+                        <label for="">Giới tính</label>
+                        <select name="Sex" style=" margin-left: 25px;" class="form-control">
+                            <option>Nam</option>
+                            <option>Nữ</option>
+                            <option>Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Ngày sinh:</label>
+                        <input name="Birthday" type="date" id="date" class="form-control" style="width: 100%;" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Thế Hệ:</label>
+                        <select name="Gen" style=" margin-left: 25px" class="form-control">
+                            <option>1,2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5.0</option>
+                            <option>5.1</option>
+                            <option>5.2</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Đơn vị: </label>
+                        <input name="Unit" type="text" class="form-control" placeholder="Đơn Vị" id="name" value="" style="width: 100%;">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Chức vụ: </label>
+                        <input name="Position" type="text" class="form-control" placeholder="Chức Vụ" id="name" value="" style="width: 100%;">
+                    </div>
+
+
+                    <div style="margin-top: 5%;">
+                        <button type="submit" style="left: 0%;" class="nutan">+ Lưu</button>
+                        <button type="button" style="float: right !important;" onclick="location.href='@Url.Action("Member", "BNS")'" class="nutan">Quay Lại</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

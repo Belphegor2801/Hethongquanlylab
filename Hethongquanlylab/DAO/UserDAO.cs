@@ -103,7 +103,8 @@ namespace Hethongquanlylab.DAO
                 string gen = workSheet.Cells[i, 5].Value.ToString();
                 string unit = workSheet.Cells[i, 6].Value.ToString();
                 string position = workSheet.Cells[i, 7].Value.ToString();
-                Member user = new Member(labID, name, sex, birthday, gen, unit, position);
+                string avt = workSheet.Cells[i, 8].Value == null? "default.jpg": workSheet.Cells[i, 8].Value.ToString();
+                Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
                 userList.Add(user);
                 i++;
             }
@@ -138,7 +139,8 @@ namespace Hethongquanlylab.DAO
                     string gen = workSheet.Cells[i, 5].Value.ToString();
                     string unit = workSheet.Cells[i, 6].Value.ToString();
                     string position = workSheet.Cells[i, 7].Value.ToString();
-                    Member user = new Member(labID, name, sex, birthday, gen, unit, position);
+                    string avt = workSheet.Cells[i, 8].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
+                    Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
                     return user;
                 }
                 i++;
@@ -173,7 +175,7 @@ namespace Hethongquanlylab.DAO
         {
             List<Member> memberList = new List<Member>();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/user.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             int i = 3;
             while (workSheet.Cells[i, 1].Value != null)
@@ -198,7 +200,8 @@ namespace Hethongquanlylab.DAO
                     string gen = workSheet.Cells[i, 5].Value.ToString();
                     string unit = workSheet.Cells[i, 6].Value.ToString();
                     string position = workSheet.Cells[i, 7].Value.ToString();
-                    Member user = new Member(labID, name, sex, birthday, gen, unit, position);
+                    string avt = workSheet.Cells[i, 8].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
+                    Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
                     memberList.Add(user);
                 }
                 i++;
@@ -209,7 +212,7 @@ namespace Hethongquanlylab.DAO
         {
             List<Member> memberList = new List<Member>();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/user.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             int i = 3;
             while (workSheet.Cells[i, 1].Value != null)
@@ -234,7 +237,8 @@ namespace Hethongquanlylab.DAO
                     }
                     string unit = workSheet.Cells[i, 6].Value.ToString();
                     string position = workSheet.Cells[i, 7].Value.ToString();
-                    Member user = new Member(labID, name, sex, birthday, gen, unit, position);
+                    string avt = workSheet.Cells[i, 8].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
+                    Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
                     memberList.Add(user);
                 }
                 i++;
@@ -245,7 +249,7 @@ namespace Hethongquanlylab.DAO
         {
             List<Member> memberList = new List<Member>();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/user.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             int i = 3;
             while (workSheet.Cells[i, 1].Value != null)
@@ -270,7 +274,8 @@ namespace Hethongquanlylab.DAO
                     }
                     string gen = workSheet.Cells[i, 5].Value.ToString();
                     string position = workSheet.Cells[i, 7].Value.ToString();
-                    Member user = new Member(labID, name, sex, birthday, gen, unit, position);
+                    string avt = workSheet.Cells[i, 8].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
+                    Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
                     memberList.Add(user);
                 }
                 i++;
@@ -299,7 +304,7 @@ namespace Hethongquanlylab.DAO
             workSheet.Cells[lastRow, 5].Value = member.Gen;
             workSheet.Cells[lastRow, 6].Value = member.Unit;
             workSheet.Cells[lastRow, 7].Value = member.Position;
-
+            workSheet.Cells[lastRow, 8].Value = member.Avt;
             package.Save();
         }
 

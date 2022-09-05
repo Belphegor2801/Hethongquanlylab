@@ -11,6 +11,11 @@ using OfficeOpenXml;
 using System.IO;
 using System.Data;
 using OfficeOpenXml.Table;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+
 
 namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 {
@@ -142,18 +147,36 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
         public IActionResult AddMember()
         {
-            MemberList.IsAddMember = true;
-            TempData["IsAddMember"] = "true";
-            return Member();
+            var urlQuery = Request.HttpContext.Request.Query;
+            String avt = urlQuery["avt"];
+            avt = avt == null ? "default.jpg" : avt;
+            return View("./Views/BNS/AddMember.cshtml", avt);
         }
+
+        [HttpPost]
+        public IActionResult UploadAvt(IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
+        {
+            string fileName = $"{hostingEnvironment.WebRootPath}/data/avt/{file.FileName}";
+            // Dẩy file vào thư mục
+            using (FileStream fileStream = System.IO.File.Create(fileName))
+            {
+                file.CopyTo(fileStream);
+                fileStream.Flush();
+            }
+            // Gọi đến hàm đọc file gửi thằng đường dẫn file ta vừa lưu vào để đọc luôn
+            TempData["avt"] = file.FileName;
+            // Trả về dữ liệu
+            return RedirectToAction("AddMember", "BNS", new {avt = file.FileName });
+        }
+
 
         [HttpPost]
         public IActionResult AddMember(String LabID, String Name, String Sex, String Birthday, String Gen, String Unit, String Position)
         {
-            MemberList.IsAddMember = false;
-            TempData["IsAddMember"] = "false";
-
-            var newMember = new Member(LabID, Name, Sex, Birthday, Gen, Unit, Position);
+            String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
+            var unit = Unit == null ? "Chưa có" : Unit;
+            var position = Position == null ? "Chưa có" : Position;
+            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, unit, position);
             UserDAO.Instance.AddMember(newMember);
             return RedirectToAction("Member");
         }
