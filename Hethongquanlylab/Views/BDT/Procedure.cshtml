@@ -1,0 +1,141 @@
+﻿@model List<Procedure>
+
+@{
+    @section Buttons{
+        <a class="header-item"></a>
+        <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/procedures.css">
+</head>
+<body>
+    <div class="wrap-back" style="display:flex;">
+        <a href="./banDaoTao.html"><h2 class="backMainPage"> Trang Chủ</h2></a>
+        <p>/</p>
+        <a href="#"><h2 style="padding-left: 10px;" class="backMainPage">Quy Trình</h2></a>
+    </div>
+
+    <div style="width: 1030px;margin: auto;text-align: right;">
+        <button class="add-nhanSu"><a asp-action="AddProcedure" style="color: #000">Thêm Quy Trình</a></button>
+        <button class="btn-excel">Xuất file Excel</button>
+
+    </div>
+    <div class="wrap-sreach">
+        <input class="search" type="text" name="Hop nhap" placeholder="Hộp nhập">
+        <select name="truongDuLieu" id="truongDuLieu">
+            <option selected="selected"> ID</option>
+            <option>Tên Quy Trình</option>
+            <option>Ngày Gửi Đi</option>
+            <option>Nội Dung</option>
+            <option>Loại Quy Trình</option>
+            <option>Tình Trạng</option>
+        </select>
+        <button>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Tìm Kiếm
+        </button>
+    </div>
+
+
+    <div class="container mt-2">
+        <table class="table-quyTrinh">
+
+            <tr>
+                <th>
+                    ID
+                    <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                        <i class="fa fa-sort"></i>
+                    </button>
+                </th>
+                <th>
+                    Tên Quy Trình
+                    <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                        <i class="fa fa-sort"></i>
+                    </button>
+                </th>
+                <th>
+                    Ngày Gửi Đi
+                    <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                        <i class="fa fa-sort"></i>
+                    </button>
+                </th>
+                <th>
+                    Nội Dung
+                    <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                        <i class="fa fa-sort"></i>
+                    </button>
+                </th>
+                <th>
+                    Loại Quy Trình
+                    <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                        <i class="fa fa-sort"></i>
+                    </button>
+                </th>
+                <th>
+                    Tình Trạng
+                    <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                        <i class="fa fa-sort"></i>
+                    </button>
+                </th>
+            </tr>
+
+
+
+
+            @if (Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr id="0" style="user-select: auto;">
+                        <td style="user-select: auto; text-align: center;"> @item.Id</td>
+                        <td style="user-select: auto;"> @item.Name</td>
+                        <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
+                        <td style="user-select: auto; text-align: center;"> @item.Content</td>
+                        <td style="user-select: auto; text-align: center;"> @item.Status</td>
+                        <td style="user-select: auto; text-align: center;">
+                            <a asp-action="MemberDetail" asp-route-id="@item.Id" class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</a>
+                            <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr id="1">
+                    Không tìm thấy kết quả hợp lệ!!!
+                </tr>
+            }
+
+
+        </table>
+    </div>
+
+
+    <div class="wrap-totalMember">
+        <p class="totalMember">Tổng Quy Trình: </p>
+        <p id="totalMember">@Model.Count</p>
+    </div>
+
+    <div class="pagination">
+        <ul>
+        </ul>
+    </div>
+</body>
+</html>
+

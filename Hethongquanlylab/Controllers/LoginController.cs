@@ -78,6 +78,7 @@ namespace Hethongquanlylab.Controllers
                         TempData["LoginSubmit"] = "0";
 
                         if (user.Username == "BanNhanSu") return RedirectToAction("Index", "BNS");
+                        else if (user.Username == "BanDaoTao") return RedirectToAction("Index", "BDT");
                         else return RedirectToAction("Index", "BNS");
                     }
 
