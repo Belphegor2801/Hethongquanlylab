@@ -1,11 +1,11 @@
-﻿@model List<Procedure>
+﻿@model List<Training>
 
 @{
     @section Buttons{
         <a class="header-item"></a>
         <a asp-action="Notification" class="header-item">Thông báo</a>
-        <a asp-action="Training" class="header-item">Bài đào tạo</a>
         <a asp-action="Project" class="header-item">Dự án</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
         <a asp-action="Member" class="header-item">Nhân sự</a>
         <a asp-action="Index" class="header-item">Trang chủ</a>
     }
@@ -19,7 +19,6 @@
         </li>
     }
 }
-
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -31,23 +30,20 @@
     <div class="wrap-back" style="display:flex;">
         <a href="./banDaoTao.html"><h2 class="backMainPage"> Trang Chủ</h2></a>
         <p>/</p>
-        <a href="#"><h2 style="padding-left: 10px;" class="backMainPage">Quy Trình</h2></a>
+        <a href="#"><h2 style="padding-left: 10px;" class="backMainPage">Bài đào tạo</h2></a>
     </div>
 
     <div style="width: 1030px;margin: auto;text-align: right;">
-        <button class="add-nhanSu"><a asp-action="AddProcedure" style="color: #000">Thêm Quy Trình</a></button>
-        <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportProcedureToExcel", "BDT")'">Xuất file Excel</button>
+        <button class="btn-excel">Xuất file Excel</button>
 
     </div>
     <div class="wrap-sreach">
         <input class="search" type="text" name="Hop nhap" placeholder="Hộp nhập">
         <select name="truongDuLieu" id="truongDuLieu">
             <option selected="selected"> ID</option>
-            <option>Tên Quy Trình</option>
-            <option>Ngày Gửi Đi</option>
-            <option>Nội Dung</option>
-            <option>Loại Quy Trình</option>
-            <option>Tình Trạng</option>
+            <option>Tên bài đào tạo</option>
+            <option>Ngày xuất bản</option>
+            <option>Đơn vị</option>
         </select>
         <button>
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -67,31 +63,25 @@
                     </button>
                 </th>
                 <th>
-                    Tên Quy Trình
+                    Tên Bài đào tạo
                     <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
                         <i class="fa fa-sort"></i>
                     </button>
                 </th>
                 <th>
-                    Ngày Gửi Đi
+                    Ngày xuất bản
                     <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
                         <i class="fa fa-sort"></i>
                     </button>
                 </th>
                 <th>
-                    Nội Dung
+                    Đơn vị
                     <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
                         <i class="fa fa-sort"></i>
                     </button>
                 </th>
                 <th>
-                    Loại Quy Trình
-                    <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
-                        <i class="fa fa-sort"></i>
-                    </button>
-                </th>
-                <th>
-                    Tình Trạng
+                    Chức năng
                     <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
                         <i class="fa fa-sort"></i>
                     </button>
@@ -108,11 +98,10 @@
                     <tr id="0" style="user-select: auto;">
                         <td style="user-select: auto; text-align: center;"> @item.Id</td>
                         <td style="user-select: auto;"> @item.Name</td>
-                        <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
-                        <td style="user-select: auto; text-align: center;"> @item.Content</td>
-                        <td style="user-select: auto; text-align: center;"> @item.Status</td>
+                        <td style="user-select: auto; text-align: center;"> 28/08/2022</td>
+                        <td style="user-select: auto; text-align: center;"> @item.Unit</td>
                         <td style="user-select: auto; text-align: center;">
-                            <input type="checkbox" name="sport" value="Bóng đá"></input>
+                            <a asp-action="ProjectDetail" asp-route-id="@item.Id" class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</a>
                             <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
                         </td>
                     </tr>
@@ -141,4 +130,3 @@
     </div>
 </body>
 </html>
-

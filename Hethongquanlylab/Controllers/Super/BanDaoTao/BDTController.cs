@@ -160,7 +160,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
 
 
 
-            List<Member> members = UserDAO.Instance.FindMemberbyUnit("BDT");
+            List<Member> members = UserDAO.Instance.FindMemberbyUnit("PowerTeam Lập trình");
             members = searchMember(members, memberList);
             members = sortMember(members, memberList.SortOrder);
 
@@ -206,6 +206,43 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
         {
             return View("./Views/BDT/AddProcedure.cshtml");
         }
+        public IActionResult ExportProcedureToExcel()
+        {
+            var memoryStream = new MemoryStream();
+            using (var excelPackage = new ExcelPackage(memoryStream))
+            {
+                var worksheet = excelPackage.Workbook.Worksheets.Add("Danh sách quy trình Ban Đào tạo");
+                var currentRow = 1;
+                // trỏ đến dòng 1 và cột 1 thay giá trị bằng LabID các dòng dưới cx tương tự
+
+
+                var allAttr = typeof(Procedure).GetProperties(); // Lấy danh sách attributes của class Member
+                int col = 1;
+                foreach (var attr in allAttr)
+                    worksheet.Cells[currentRow, col++].Value = attr.Name;
+
+                // Lấy tất cả dữ liệu trong database theo thứ tự tăng dần labID
+                List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel();
+                foreach (var procedure in procedures)
+                {
+                    // Dòng thứ 2 trở đi sẽ đổ dữ liệu từ database vào
+                    currentRow += 1;
+                    col = 1;
+                    foreach (var attr in allAttr)
+                    {
+                        object value = attr.GetValue(procedure);
+                        worksheet.Cells[currentRow, col++].Value = value.ToString();
+                    }
+                }
+                // Trả về dữ liệu dạng xlsx
+                using (var stream = new MemoryStream())
+                {
+                    excelPackage.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachQuytrinhBanDaoTao.xlsx");
+                }
+            }
+        }
         public IActionResult Notification()
         {
             var notification = NotificationDAO.Instance.GetNotificationListbyUnit("Ban Đào tạo");
@@ -215,6 +252,11 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
         {
             var project = ProjectDAO.Instance.GetProjectList_Excel();
             return View("./Views/BDT/Project.cshtml", project);
+        }
+        public IActionResult Training()
+        {
+            var training = TrainingDAO.Instance.GetTrainingList_Excel();
+            return View("./Views/BDT/Training.cshtml", training);
         }
     }
 }

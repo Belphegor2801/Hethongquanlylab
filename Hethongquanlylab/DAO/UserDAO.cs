@@ -245,13 +245,13 @@ namespace Hethongquanlylab.DAO
         {
             List<Member> memberList = new List<Member>();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/files/user.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             int i = 3;
             while (workSheet.Cells[i, 1].Value != null)
             {
                 string unit = workSheet.Cells[i, 6].Value.ToString();
-                if (unit == Unit)
+                if (unit.Contains(Unit))
                 {
                     string labID = workSheet.Cells[i, 1].Value.ToString();
                     string name = workSheet.Cells[i, 2].Value.ToString();

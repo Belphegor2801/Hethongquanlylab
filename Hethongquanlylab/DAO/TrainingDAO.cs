@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using OfficeOpenXml;
 using System.IO;
+using System.Globalization;
 
 namespace Hethongquanlylab.DAO
 {
@@ -31,10 +32,11 @@ namespace Hethongquanlylab.DAO
             while (workSheet.Cells[i, 1].Value != null)
             {
                 int j = 1;
-                int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
-                string name = workSheet.Cells[i, j++].Value.ToString();
-                string link = workSheet.Cells[i, j++].Value.ToString();
-                Training training = new Training(id, name, link);
+                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
+                string name = workSheet.Cells[i, 2].Value.ToString();
+                string link = workSheet.Cells[i, 3].Value.ToString();
+                /*string unit = workSheet.Cells[i, 5].Value.ToString();*/
+                Training training = new Training(id, name, link, "28/08/2022", "PT Lập trình");
                 trainingList.Add(training);
                 i++;
             }
@@ -49,12 +51,25 @@ namespace Hethongquanlylab.DAO
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
                 int j = 1;
-                int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
+                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                 if(id == trainingid)
                 {
-                    string name = workSheet.Cells[i, j++].Value.ToString();
-                    string link = workSheet.Cells[i, j++].Value.ToString();
-                    Training training = new Training(id, name, link);
+                    string name = workSheet.Cells[i, 2].Value.ToString();
+                    string link = workSheet.Cells[i, 3].Value.ToString();
+                    /*string sDate = (workSheet.Cells[i, 4].Value).ToString();
+                    string date;
+                    try
+                    {
+                        double day = Convert.ToDouble(sDate);
+                        DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+                        date = DateTime.FromOADate(day).ToString("d", fmt);
+                    }
+                    catch
+                    {
+                        date = sDate;
+                    }*/
+                    /*string unit = workSheet.Cells[i, 5].Value.ToString();*/
+                    Training training = new Training(id, name, link, "28/08/2022", "PT Lập trình");
                     return training;
                 }
             }
