@@ -31,7 +31,7 @@ td {
 }
 
 th, td {
-    text-align: left;
+    text-align: center;
     padding: 10px;
 }
 
@@ -152,14 +152,14 @@ label textarea {
     justify-content: space-between;
 }
 
-    .wrap-themDuAn label {
+.wrap-themDuAn label {
         display: flex;
         flex-direction: column;
         width: 1030px;
-    }
+ }
 
-        .wrap-themDuAn label input {
-            padding: 8px 24px;
-            margin: 12px 0;
-            width: 1030px;
-        }
+.wrap-themDuAn label input {
+    padding: 8px 24px;
+    margin: 12px 0;
+    width: 1030px;
+}

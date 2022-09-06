@@ -12,22 +12,22 @@ namespace Hethongquanlylab.Models
         private int id;
         private string name;
         private string link;
+        private string date;
+        private string unit;
 
         public int Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
         public string Link { get => link; set => link = value; }
+        public string Date { get => date; set => date = value; }
+        public string Unit { get => unit; set => unit = value; }
 
-        public Training (int id, string name, string link)
+        public Training (int id, string name, string link, string date, string unit)
         {
             this.Id = id;
             this.Name = name;
             this.Link = link;
-        }
-        public Training(DataRow row)
-        {
-            this.Id = (int)row["id"];
-            this.Name = (string)row["name"];
-            this.Link = (string)row["link"];
+            this.Date = date;
+            this.Unit = unit;
         }
     }
 }

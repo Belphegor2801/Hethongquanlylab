@@ -255,7 +255,7 @@ namespace Hethongquanlylab.DAO
             while (workSheet.Cells[i, 1].Value != null)
             {
                 string unit = workSheet.Cells[i, 6].Value.ToString();
-                if (unit == Unit)
+                if (unit.Contains(Unit))
                 {
                     string labID = workSheet.Cells[i, 1].Value.ToString();
                     string name = workSheet.Cells[i, 2].Value.ToString();

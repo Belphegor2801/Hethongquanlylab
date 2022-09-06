@@ -24,7 +24,7 @@ namespace Hethongquanlylab.DAO
         {
             List<Project> projectList = new List<Project>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/training.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/project.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
@@ -52,7 +52,8 @@ namespace Hethongquanlylab.DAO
                 }
                 string projectType = workSheet.Cells[i, 6].Value.ToString();
                 string status = workSheet.Cells[i, 7].Value.ToString();
-                Project project = new Project(id, name, labid, StartDay, EndDay, projectType, status);
+                string unit = workSheet.Cells[i, 8].Value.ToString();
+                Project project = new Project(id, name, labid, StartDay, EndDay, projectType, status, unit);
                 projectList.Add(project);
                 i++;
             }
@@ -62,7 +63,7 @@ namespace Hethongquanlylab.DAO
         public Project GetProjectModelbyId_Excel(string idProject)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/training.xlsx"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/project.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
@@ -92,7 +93,8 @@ namespace Hethongquanlylab.DAO
                     }
                     string projectType = workSheet.Cells[i, 6].Value.ToString();
                     string status = workSheet.Cells[i, 7].Value.ToString();
-                    Project project = new Project(id, name, labid, StartDay, EndDay, projectType, status);
+                    string unit = workSheet.Cells[i, 8].Value.ToString();
+                    Project project = new Project(id, name, labid, StartDay, EndDay, projectType, status, unit);
                     return project;
                 }
                 i++;

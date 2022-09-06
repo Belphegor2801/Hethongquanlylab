@@ -1,0 +1,196 @@
+﻿@model MemberList
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    @section Buttons{
+        <a class="header-item"></a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
+</head>
+<body>
+    <form asp-action="Member" method="post">
+        <div class="wrap-back" style="display:flex;">
+            <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
+            <p>/</p>
+            <a asp-action="Member"><h2 style="padding-left: 10px;" class="backMainPage"> Nhân Sự</h2></a>
+        </div>
+
+        <div style="width: 1030px;margin: auto;text-align: right;">
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("ExportToExcel", "BDT")'">Thêm Nhân Sự</button>
+            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportToExcel", "BDT")'">Xuất file Excel</button>
+
+        </div>
+        <div class="wrap-sreach">
+            <input name="searchString" class="search" type="text" placeholder="Điền thông tin" value="@Model.CurrentSearchString">
+            <select name="searchField" id="searchField">
+                @if (!String.IsNullOrWhiteSpace(@Model.CurrentSearchField))
+                {
+                    <option value="@Model.CurrentSearchField">@Model.NameVar[Model.CurrentSearchField]</option>
+                }
+
+                @foreach (var item in Model.SearchFieldList)
+                {
+                    @if (item != Model.CurrentSearchField)
+                    {
+                        <option value="@item">@Model.NameVar[@item]</option>
+                    }
+                }
+            </select>
+            <button type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Tìm Kiếm
+            </button>
+        </div>
+
+
+        <div class="container mt-2">
+            <table class="table">
+                <tr>
+                    <th style="text-align: center; width: 5%;">
+                        LAB ID
+                        <button name="sortOrder" id="LabID" value="LabID" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+                    <th style="text-align: center; width: 17.5%;">
+                        TÊN THÀNH VIÊN
+                        <button name="sortOrder" id="Name" value="Name" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+                    <th style="text-align: center; width: 5%;">GIỚI TÍNH</th>
+                    <th style="text-align: center; width: 7.5%;">
+                        NGÀY SINH
+                        <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+
+                    <th style="text-align: center; width: 5%;">
+                        THẾ HỆ
+                        <button name="sortOrder" id="Gen" value="Gen" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+                    <th style="text-align: center; width: 25%;">
+                        Đơn vị
+                        <button name="sortOrder" id="Unit" value="Unit" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+                    <th style="text-align: center; width: 25%;">CHỨC VỤ</th>
+                    <th style="text-align: center;">Chức năng</th>
+
+                    <script>
+                            var modelSortOrder = "@Html.Raw(Model.SortOrder)";
+                            var idSort = document.getElementById("LabID");
+                            if (modelSortOrder === "LabID") {
+                                idSort.value = "id_desc";
+                            }
+
+                            var idSort = document.getElementById("Name");
+                            if (modelSortOrder === "Name") {
+                                idSort.value = "name_desc";
+                            }
+
+                            var idSort = document.getElementById("Birthday");
+                            if (modelSortOrder === "Birthday") {
+                                idSort.value = "birthday_desc";
+                            }
+
+                            var idSort = document.getElementById("Gen");
+                            if (modelSortOrder === "Gen") {
+                                idSort.value = "gen_desc";
+                            }
+
+                            var idSort = document.getElementById("Unit");
+                            if (modelSortOrder === "Unit") {
+                                idSort.value = "unit";
+                            }
+
+                    </script>
+                </tr>
+
+                @if (Model.PageCount >= 0)
+                {
+                    foreach (var item in Model.Members)
+                    {
+                        <tr id="0" style="user-select: auto;">
+                            <td style="user-select: auto; text-align: center;"> @item.LabID</td>
+                            <td style="user-select: auto;"> @item.Name</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Sex</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Birthday</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Gen</td>
+                            <td style="user-select: auto;"> @item.Unit</td>
+                            <td style="user-select: auto;"> @item.Position</td>
+                            <td style="user-select: auto; text-align: center;">
+                                <button type="button" onclick="location.href='@Url.Action("MemberDetail", "BDT", new { id = item.LabID })'">Chi tiết</button>
+                                <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr id="1">
+                        Không tìm thấy kết quả hợp lệ!!!
+                    </tr>
+                }
+            </table>
+        </div>
+
+        <div class="wrap-totalMember">
+            <p class="totalMember">Tổng Thành Viên: </p>
+            <p id="total">@Model.Members.Count</p>
+        </div>
+
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <td style="text-align: center; max-width: 5%;">
+                        @if (i != Model.CurrentPage)
+                        {
+                            <a href="javascript:PagerClick(@i);">@i</a>
+                        }
+                        else
+                        {
+                            <span style="color:#f00;">@i</span>
+                        }
+                    </td>
+                }
+            </tr>
+        </table>
+        <input type="hidden" id="hfCurrentPage" name="currentPage" />
+    </form>
+
+    <script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("hfCurrentPage").value = index;
+            document.forms[0].submit();
+        }
+    </script>
+
+</body>
+
+
+
+</html>

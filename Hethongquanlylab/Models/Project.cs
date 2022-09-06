@@ -14,6 +14,7 @@ namespace Hethongquanlylab.Models
         private string endday;
         private string projectType;
         private string status;
+        private string unit;
 
         public string Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
@@ -22,9 +23,9 @@ namespace Hethongquanlylab.Models
         public string Endday { get => endday; set => endday = value; }
         public string ProjectType { get => projectType; set => projectType = value; }
         public string Status { get => status; set => status = value; }
-        
+        public string Unit { get => unit; set => unit = value; }
 
-        public Project(string id, string name, string labid, string startday, string endday, string projectType, string status)
+        public Project(string id, string name, string labid, string startday, string endday, string projectType, string status, string unit)
         {
             this.Id = id;
             this.Name = name;
@@ -33,6 +34,7 @@ namespace Hethongquanlylab.Models
             this.Endday = endday;
             this.ProjectType = projectType;
             this.Status = status;
+            this.Unit = unit;
         }
     }
 }
