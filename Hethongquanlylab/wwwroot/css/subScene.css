@@ -4,35 +4,19 @@ body {
     font-size: 16px;
 }
 
-#wrapper {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
 .form-frame {
-    position: fixed !important;
+    display: flex;
     border-radius: 24px !important;
-    background: rgba(0, 0, 0, 0.8) !important;
+    background: rgba(255, 255, 255, 1) !important;
     flex-grow: 1;
+    font-size: 22px;
+    line-height: 30px;
+    color: #edcd1f;
     padding: 30px 30px 40px;
-    box-shadow: 0px 0px 17px 2px rgba(255, 255, 255, 0.8) !important; 
-}
-
-.form-heading {
-    font-size: 25px;
-    color: #f5f5f5;
-    text-align: center;
-    margin-bottom: 30px;
 }
 
 .form-group {
-    border-bottom: 1px solid #fff;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    display: flex;
+    margin-top: 8px;
 }
 
     .form-group i {
@@ -43,16 +27,18 @@ body {
     }
 
 .form-input {
-    background: transparent;
     border: 0;
     outline: 0;
-    color: #f5f5f5;
+    color: #000;
     flex-grow: 1;
+    height: 30px;
+    border: 1px #000 solid;
 }
 
     .form-input::placeholder {
-        color: #f5f5f580;
+        color: #333;
     }
+
 
 input.no-autofill-bgk:-webkit-autofill {
     -webkit-text-fill-color: #fff !important;
@@ -70,27 +56,19 @@ input .no-autofill-bgk [data-autocompleted] {
     }
 }
 
-#eye i {
-    padding-right: 0;
-    cursor: pointer;
-}
-
-.form-submit {
-    background: transparent;
-    border: 1px solid #f5f5f5;
-    color: #fff;
-    width: 100%;
-    display: block;
-    text-transform: uppercase;
-    padding: 6px 2px;
-    transition: 0.25s ease-in-out;
-    margin-top: 30px;
-    text-decoration: none;
+.nutan{
+    height: 52px;
+    width: 132px;
+    background-color: #edcd1f;
     border-radius: 12px;
-    text-align: center;
 }
-
-    .form-submit:hover {
-        border: 1px solid #54a0ff;
+    .nutan:hover {
+        background-color: rgb(243, 84, 116) !important;
+        color: white !important;
         cursor: pointer;
     }
+
+.form-control{
+    height: 30px;
+}
+

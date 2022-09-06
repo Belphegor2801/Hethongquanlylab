@@ -24,7 +24,6 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
-    <link rel="stylesheet" href="~/css/subScene.css">
 </head>
 <body>
     <form asp-action="Member" method="post" style="z-index: 0;">
@@ -35,7 +34,7 @@
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="add-nhanSu" type="button" onclick="add_member()">Thêm Nhân Sự</button>
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember", "BNS")'">Thêm Nhân Sự</button>
             <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportToExcel", "BNS")'">Xuất file Excel</button>
 
         </div>
@@ -191,65 +190,23 @@
         }
     </script>
 
-
     <style>
         .form-frame {
+            position: fixed !important ;
             border-radius: 24px !important;
-            background: rgba(0, 0, 0, 0.8) !important;
-            flex-grow: 1;
             padding: 30px 30px 40px;
-            box-shadow: 0px 0px 17px 2px rgba(255, 255, 255, 0.8) !important;
+            background-color: #000;
         }
     </style>
-
-    <div style="display: none; position: fixed; z-index: 1;" id="add-member">
-        <form asp-action="AddMember" method="post" style="min-width: 50%; height: 70%; left: 25%; top: 120px; z-index: 1;" class="form-frame">
-            <div class="form-group">
-                <input name="LabID" type="text" class="form-input" placeholder="Lab ID" autofocus>
-            </div>
-            <div class="form-group">
-                <input name="Name" type="text" class="form-input" placeholder="Tên thành viên">
-            </div>
-            <div class="form-group">
-                <input name="Sex" type="text" class="form-input" placeholder="Giới tính">
-            </div>
-            <div class="form-group">
-                <input name="Birthday" type="text" class="form-input" placeholder="Ngày sinh">
-            </div>
-            <div class="form-group">
-                <input name="Gen" type="text" class="form-input" placeholder="Thế hệ">
-            </div>
-            <div class="form-group">
-                <input name="Unit" type="text" class="form-input" placeholder="Đơn vị">
-            </div>
-            <div class="form-group">
-                <input name="Position" type="text" class="form-input" placeholder="Chức vụ">
-            </div>
-
-            <input class="form-submit" type="submit" style="margin-top: 15px;" value="Thêm thành viên">
-            <a class="form-submit" type="button" onclick="add_member_disabled()" style="margin-top: 15px;">Trở về</a>
-        </form>
-    </div>
-
-    <script>
-        function add_member() {
-            var subScene = document.getElementById("add-member");
-            subScene.style.display = "flex";
-        }
-
-        function add_member_disabled() {
-            var subScene = document.getElementById("add-member");
-            subScene.style.display = "none";
-        }
-    </script>
-
 
     @if (Model.PageCount >= 0)
     {
         foreach (var item in Model.Members)
         {
-            <div style="display: none; min-width: 40%; height: 30%; left: 28%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.LabID">
-                <a style="text-align: center; color: #fff;"> Bạn có muốn chắc chắn muốn xóa thành viên có LabID = @item.LabID này không? </a>
+            <div style="display: none; min-width: 40%; height: 30%; left: 20%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.LabID">
+                <div>
+                <a style="text-align: center; color: #fff;"> Bạn có chắc chắn muốn xóa thành viên có LabID = @item.LabID không? </a>
+                </div>
                 <div>
                     <input class="form-submit" type="button" onclick="location.href='@Url.Action("DeleteMember", "BNS", new{ LabID = @item.LabID})'" style="margin-top: 15px;" value="Có">
                     <input class="form-submit" type="button" onclick="confirm_delete_disabled()" style="margin-top: 15px;" value="Không">

@@ -10,13 +10,16 @@ namespace Hethongquanlylab.Models
     public class Member
     {
         private string labID;
+        private string avt;
         private string name;
         private string sex;
         private string birthday;
         private string gen;
         private string unit;
         private string position;
+
         public string LabID { get => labID; set => labID = value; }
+        public string Avt { get => avt; set => avt = value; }
         public string Name { get => name; set => name = value; }
         public string Sex { get => sex; set => sex = value; }
         public string Birthday { get => birthday; set => birthday = value; }
@@ -24,9 +27,10 @@ namespace Hethongquanlylab.Models
         public string Unit { get => unit; set => unit = value; }
         public string Position { get => position; set => position = value; }
 
-        public Member(string id, string name, string sex, string birthday, string gen, string unit, string position)
+        public Member(string id, string avt, string name, string sex, string birthday, string gen, string unit, string position)
         {
             this.LabID = id;
+            this.Avt = avt;
             this.Name = name;
             this.Sex = sex;
             this.Birthday = birthday;

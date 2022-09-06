@@ -11,6 +11,7 @@
   <ItemGroup>
     <Folder Include="Controllers\Admin\" />
     <Folder Include="DAO\Login\" />
+    <Folder Include="wwwroot\data\avt\" />
   </ItemGroup>
 
   <ItemGroup>
