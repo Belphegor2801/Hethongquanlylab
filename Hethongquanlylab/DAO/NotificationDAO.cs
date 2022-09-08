@@ -160,6 +160,26 @@ namespace Hethongquanlylab.DAO
             }
             return notificationList;
         }
+        public void DeleteNotification(String id)
+        {
+            List<Notification> notificationList = new List<Notification>();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/notification.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                string Id = workSheet.Cells[i, 1].Value.ToString();
+                if (id == Id)
+                {
+                    break;
+                }
+                i++;
+            }
+            workSheet.DeleteRow(i);
+            package.Save();
+        }
 
     }
 }

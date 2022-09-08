@@ -117,7 +117,7 @@
                         <td style="user-select: auto; text-align: center;"> @item.Unit</td>
                         <td style="user-select: auto; text-align: center;"> @item.Status</td>
                         <td style="user-select: auto; text-align: center;">
-                            <a asp-action="ProjectDetail" asp-route-id="@item.Id" class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</a>
+                            <button type="button" onclick="location.href='@Url.Action("ProjectDetail", "BDT", new { id = item.Id })'">Chi tiết</button>
                             <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
                         </td>
                     </tr>

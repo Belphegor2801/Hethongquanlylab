@@ -163,3 +163,32 @@ label textarea {
     margin: 12px 0;
     width: 1030px;
 }
+.ui-dialog-titlebar {
+    display: none;
+}
+
+.dialog-confirm {
+    border-radius: 14px;
+}
+
+.dialog-confirm > p {
+        text-align: center;
+        padding: 13px;
+        background-color: #edcd1f;
+        border-top-right-radius: 14px;
+        border-top-left-radius: 14px;
+    }
+
+.dialog-confirm button {
+        margin: auto;
+        padding: 14px 40px;
+    }
+
+.ui-dialog-title {
+    margin: 0 164px;
+    line-height: 38px;
+}
+
+.ui-dialog-titlebar-close {
+    display: none;
+}

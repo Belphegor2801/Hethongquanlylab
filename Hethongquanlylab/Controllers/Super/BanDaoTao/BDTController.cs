@@ -248,15 +248,42 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             var notification = NotificationDAO.Instance.GetNotificationListbyUnit("Ban Đào tạo");
             return View("./Views/BDT/Notification.cshtml", notification);
         }
+        public IActionResult DeleteNotification()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String ID_delete = urlQuery["notiID"];
+            NotificationDAO.Instance.DeleteNotification(ID_delete);
+            return RedirectToAction("Notification");
+        }
         public IActionResult Project()
         {
             var project = ProjectDAO.Instance.GetProjectList_Excel();
             return View("./Views/BDT/Project.cshtml", project);
         }
+        public IActionResult ProjectDetail()
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            
+
+            var project = ProjectDAO.Instance.GetProjectModelbyId_Excel(CurrentID);
+            return View("./Views/BDT/ProjectDetail.cshtml", project);
+        }
         public IActionResult Training()
         {
             var training = TrainingDAO.Instance.GetTrainingList_Excel();
             return View("./Views/BDT/Training.cshtml", training);
+        }
+        public IActionResult TrainingDetail()
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var currenId = Convert.ToInt32(CurrentID);
+
+            var training = TrainingDAO.Instance.GetTrainingModelbyId_Excel(currenId);
+            return View("./Views/BDT/TrainingDetail.cshtml", training);
         }
     }
 }
