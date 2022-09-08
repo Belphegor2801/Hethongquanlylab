@@ -193,27 +193,29 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
         public IActionResult Member()
         {
-            String sortOrder = "LabID";
-            String searchField = "LabID";
-            String searchString = "";
-            int page = 1;
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
 
             var urlQuery = Request.HttpContext.Request.Query;
-            foreach (var attr in urlQuery.Keys)
-            {
-                if (attr == "sort") sortOrder = urlQuery[attr];
-                if (attr == "searchField") searchField = urlQuery[attr];
-                if (attr == "searchString") searchString = urlQuery[attr];
-                if (attr == "page") page = Convert.ToInt32(urlQuery[attr]);
-            }
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            sortOrder = sortOrder == null ? "LabID" : sortOrder; ;
+            searchField = searchField == null ? "LabID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
 
 
             MemberList memberList = new MemberList();
             memberList.SortOrder = sortOrder;
             memberList.CurrentSearchField = searchField;
             memberList.CurrentSearchString = searchString;
-            memberList.CurrentPage = page;
-
+            memberList.CurrentPage = currentPage;
 
 
             List<Member> members = UserDAO.Instance.GetListUser_Excel();
@@ -224,8 +226,18 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
             if (memberList.PageCount > 0)
             {
+                if (memberList.CurrentPage > memberList.PageCount) memberList.CurrentPage = memberList.PageCount;
+                if (memberList.CurrentPage < 1) memberList.CurrentPage = 1;
                 if (memberList.CurrentPage != memberList.PageCount)
-                    memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
+                    try
+                    {
+                        memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
+                    } 
+                    catch (Exception e)
+                    {
+                        
+                    }
+                    
                 else
                     memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Members.Count % memberList.PageSize == 0 ? memberList.PageSize : memberList.Members.Count % memberList.PageSize);
             }
