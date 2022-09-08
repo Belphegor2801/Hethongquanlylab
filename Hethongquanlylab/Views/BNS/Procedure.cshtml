@@ -36,17 +36,10 @@
         <button class="btn-excel">Xuất file Excel</button>
 
     </div>
+
     <div class="wrap-sreach">
-        <input class="search" type="text" name="Hop nhap" placeholder="Hộp nhập">
-        <select name="truongDuLieu" id="truongDuLieu">
-            <option selected="selected"> ID</option>
-            <option>Tên Quy Trình</option>
-            <option>Ngày Gửi Đi</option>
-            <option>Nội Dung</option>
-            <option>Loại Quy Trình</option>
-            <option>Tình Trạng</option>
-        </select>
-        <button>
+        <input name="searchString" class="search" type="text" placeholder="Điền thông tin" value="" autocomplete="off">
+        <button type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
             Tìm Kiếm
         </button>
@@ -58,7 +51,7 @@
             <tr>
                 <th>
                     ID
-                    <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                    <button name="sortOrder" id="Birt" value="id" onchange="this.forms.submit">
                         <i class="fa fa-sort"></i>
                     </button>
                 </th>
@@ -102,14 +95,14 @@
                 foreach (var item in Model)
                 {
                     <tr id="0" style="user-select: auto;">
-                        <td style="user-select: auto; text-align: center;"> @item.Id</td>
+                        <td style="user-select: auto; text-align: center;"> @item.ID</td>
                         <td style="user-select: auto;"> @item.Name</td>
                         <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
                         <td style="user-select: auto; text-align: center;"> @item.Content</td>
                         <td style="user-select: auto; text-align: center;"> @item.Status</td>
                         <td style="user-select: auto; text-align: center;">
-                            <button type="button" onclick="location.href='@Url.Action("ProcedureDetail", "BNS", new { id = item.Id })'">Chi tiết</button>
-                            <button type="button" onclick="confirm_detele(@item.Id)" id="deleteMember" value="@item.Id">Xóa</button>
+                            <button type="button" onclick="location.href='@Url.Action("ProcedureDetail", "BNS", new { id = item.ID })'">Chi tiết</button>
+                            <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">Xóa</button>
                         </td>
                     </tr>
                 }
@@ -137,12 +130,12 @@
     {
         foreach (var item in Model)
         {
-            <div style="display: none; min-width: 40%; height: 30%; left: 20%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.Id">
+            <div style="display: none; min-width: 40%; height: 30%; left: 20%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.ID">
                 <div>
-                    <a style="text-align: center; color: #fff;"> Bạn có chắc chắn muốn xóa thông báo có ID = @item.Id không? </a>
+                    <a style="text-align: center; color: #fff;"> Bạn có chắc chắn muốn xóa thông báo có ID = @item.ID không? </a>
                 </div>
                 <div>
-                    <input class="form-submit" type="button" onclick="location.href='@Url.Action("DeleteProcedure", "BNS", new{procedureID = @item.Id})'" style="margin-top: 15px;" value="Có">
+                    <input class="form-submit" type="button" onclick="location.href='@Url.Action("DeleteProcedure", "BNS", new{procedureID = @item.ID})'" style="margin-top: 15px;" value="Có">
                     <input class="form-submit" type="button" onclick="confirm_delete_disabled()" style="margin-top: 15px;" value="Không">
                 </div>
             </div>
