@@ -226,6 +226,8 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
             if (memberList.PageCount > 0)
             {
+                if (memberList.CurrentPage > memberList.PageCount) memberList.CurrentPage = memberList.PageCount;
+                if (memberList.CurrentPage < 1) memberList.CurrentPage = 1;
                 if (memberList.CurrentPage != memberList.PageCount)
                     try
                     {
