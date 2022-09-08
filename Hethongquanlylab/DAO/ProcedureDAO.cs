@@ -55,13 +55,33 @@ namespace Hethongquanlylab.DAO
                     string name = workSheet.Cells[i, 2].Value.ToString();
                     string senddate = workSheet.Cells[i, 3].Value.ToString();
                     string content = workSheet.Cells[i, 4].Value.ToString();
-                    string link = workSheet.Cells[i, 5].Value.ToString();
-                    string status = workSheet.Cells[i, 6].Value.ToString();
+                    string link = workSheet.Cells[i, 6].Value.ToString();
+                    string status = workSheet.Cells[i, 5].Value.ToString();
                     Procedure procedure = new Procedure(id, name, senddate, content, link, status);
                     return procedure;
                 }
             }
             return null;
+        }
+        public void DeleteProcedure(String id)
+        {
+            List<Notification> notificationList = new List<Notification>();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/procedure.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                string Id = workSheet.Cells[i, 1].Value.ToString();
+                if (id == Id)
+                {
+                    break;
+                }
+                i++;
+            }
+            workSheet.DeleteRow(i);
+            package.Save();
         }
 
     }

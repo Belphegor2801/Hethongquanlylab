@@ -1,0 +1,153 @@
+﻿@model Training
+
+@{
+    @section Buttons{
+        <a class="header-item"></a>
+        <a asp-action="Notification" class="header-item">Thông báo</a>
+        <a asp-action="Project" class="header-item">Dự án</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/procedures.css">
+</head>
+<body>
+    <div class="wrap-back" style="display:flex;">
+        <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
+        <p>/</p>
+        <a asp-action="Training"><h2 style="padding-left: 10px;" class="backMainPage"> Bài đào tạo</h2></a>
+        <p>/</p>
+        <a asp-action="TrainingDetail"><h2 style="padding-left: 10px;" class="backMainPage"> Chi tiết bài đào tạo</h2></a>
+    </div>
+
+    <div style="width: 1030px;margin: auto;text-align: right;">
+        <button class="btn-excel">Xuất file PDF</button>
+    </div>
+
+    <div style="display:flex;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 30px;" id="wrap-DuAn">
+        <div id="name-DuAn">Tên Dự Án </div>
+        <input style="display:none;" id="name-input " type="text" placeholder="@Model.Name">
+        <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
+    </div>
+    <div class="wrap-themDuAn">
+        <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-DuAn3">
+            <div id="name-DuAn3">6/9/2022 </div>
+            <input style="display:none;" id="name-input3" type="text" placeholder="dd/mm/yy">
+            <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
+        </div>
+
+        <div>
+            <label for="">
+                Nội Dung:
+                <textarea style="width: 1030px; margin: 12px 0;" name="" id="" cols="30" rows="10"></textarea>
+            </label>
+        </div>
+        <div>
+            <label style="width: 1030px; " for="">
+                Link Tài Liệu:
+                <div><input type="text"></div>
+            </label>
+        </div>
+    </div>
+
+
+    <div class="" style="margin-left: 886px;">
+        <button class="add-nhanSu">
+            <i class="fa-solid fa-plus"></i>
+            Lưu
+        </button>
+        <button style="margin-left: 42px;" class="add-nhanSu">
+            Lưu Và Gửi Duyệt
+        </button>
+
+    </div>
+    <script>
+        $("#wrap-DuAn").click(function () {
+            document.getElementById("name-DuAn").style.display = 'none';
+            document.getElementById("name-input").style.display = 'block!important';
+
+        })
+        $('#name-input').change(function () {
+            var textName = this.value;
+            console.log(textName);
+            if (textName) {
+                document.getElementById('name-DuAn').innerText = `${textName} `;
+            }
+        })
+        $('#name-input').focusout(function () {
+            document.getElementById("name-DuAn").style.display = 'block';
+            document.getElementById("name-input").style.display = 'none';
+        })
+
+        $("#wrap-DuAn2").click(function () {
+            document.getElementById("name-DuAn2").style.display = 'none';
+            document.getElementById("name-input2").style.display = 'block';
+
+        })
+        $('#name-input2').change(function () {
+            var textName = this.value;
+            console.log(textName);
+            if (textName) {
+                document.getElementById('name-DuAn2').innerText = `${textName} `;
+            }
+        })
+        $('#name-input2').focusout(function () {
+            document.getElementById("name-DuAn2").style.display = 'block';
+            document.getElementById("name-input2").style.display = 'none';
+        })
+
+        $("#wrap-DuAn3").click(function () {
+            document.getElementById("name-DuAn3").style.display = 'none';
+            document.getElementById("name-input3").style.display = 'block';
+
+        })
+        $('#name-input3').change(function () {
+            var textName = this.value;
+            console.log(textName);
+            if (textName) {
+                document.getElementById('name-DuAn3').innerText = `${textName} `;
+            }
+        })
+        $('#name-input3').focusout(function () {
+            document.getElementById("name-DuAn3").style.display = 'block';
+            document.getElementById("name-input3").style.display = 'none';
+        })
+
+        $("#wrap-DuAn4").click(function () {
+            document.getElementById("name-DuAn4").style.display = 'none';
+            document.getElementById("name-input4").style.display = 'block';
+
+        })
+        $('#name-input4').change(function () {
+            var textName = this.value;
+            console.log(textName);
+            if (textName) {
+                document.getElementById('name-DuAn4').innerText = `${textName} `;
+            }
+        })
+        $('#name-input4').focusout(function () {
+            document.getElementById("name-DuAn4").style.display = 'block';
+            document.getElementById("name-input4").style.display = 'none';
+        })
+
+    </script>
+</body>

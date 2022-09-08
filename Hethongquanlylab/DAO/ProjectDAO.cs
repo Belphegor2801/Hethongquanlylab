@@ -101,5 +101,25 @@ namespace Hethongquanlylab.DAO
             }
             return null;
         }
+        public void DeleteProject(String id)
+        {
+            List<Project> projectList = new List<Project>();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/project.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                string Id = workSheet.Cells[i, 1].Value.ToString();
+                if (id == Id)
+                {
+                    break;
+                }
+                i++;
+            }
+            workSheet.DeleteRow(i);
+            package.Save();
+        }
     }
 }

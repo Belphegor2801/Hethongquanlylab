@@ -101,9 +101,7 @@
                         <td style="user-select: auto; text-align: center;"> 28/08/2022</td>
                         <td style="user-select: auto; text-align: center;"> @item.Unit</td>
                         <td style="user-select: auto; text-align: center;">
-                            <a asp-action="ProjectDetail" asp-route-id="@item.Id" class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</a>
-                            <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
-                        </td>
+                        <button type="button" onclick="location.href='@Url.Action("TrainingDetail", "BDT", new { id = item.Id })'">Chi tiết</button>
                     </tr>
                 }
             }

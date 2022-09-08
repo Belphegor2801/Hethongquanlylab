@@ -23,7 +23,7 @@ namespace Hethongquanlylab.Controllers.User
         public IActionResult Infor()
         {
             var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
-            var user = UserDAO.Instance.GetUserByID_Excel("60");
+            var user = UserDAO.Instance.GetUserByID_Excel("110");
             return View("./Views/User/Infor/Infor.cshtml", user);
         }
 

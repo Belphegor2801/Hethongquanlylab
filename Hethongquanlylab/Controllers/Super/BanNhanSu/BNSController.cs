@@ -257,9 +257,27 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var procedure = ProcedureDAO.Instance.GetProcedureList_Excel();
             return View("./Views/BNS/Procedure.cshtml", procedure);
         }
+        public IActionResult ProcedureDetail()
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var currenId = Convert.ToInt32(CurrentID);
+
+            var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(currenId);
+            return View("./Views/BNS/ProcedureDetail.cshtml", procedure);
+        }
         public IActionResult AddProcedure()
         {
             return View("./Views/BNS/AddProcedure.cshtml");
+        }
+        public IActionResult DeleteProcedure()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String ProcedureId_delete = urlQuery["procedureID"];
+            ProcedureDAO.Instance.DeleteProcedure(ProcedureId_delete);
+
+            return RedirectToAction("Procedure");
         }
     }
 }

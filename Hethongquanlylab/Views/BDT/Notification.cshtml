@@ -94,7 +94,7 @@
                         <td style="user-select: auto; text-align: center;"> @item.Date</td>
                         <td style="user-select: auto; text-align: center;">
                             <a asp-action="MemberDetail" asp-route-id="@item.Id" class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</a>
-                            <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
+                            <button type="button" onclick="confirm_detele(@item.Id)" id="deleteMember" value="@item.Id">Xóa</button>
                         </td>
                     </tr>
                 }
@@ -120,5 +120,47 @@
         <ul>
         </ul>
     </div>
+    @if (Model.Count >= 0)
+    {
+        foreach (var item in Model)
+        {
+            <div style="display: none; min-width: 40%; height: 30%; left: 20%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.Id">
+                <div>
+                    <a style="text-align: center; color: #fff;"> Bạn có chắc chắn muốn xóa thông báo có ID = @item.Id không? </a>
+                </div>
+                <div>
+                    <input class="form-submit" type="button" onclick="location.href='@Url.Action("DeleteNotification", "BDT", new{notiID = @item.Id})'" style="margin-top: 15px;" value="Có">
+                    <input class="form-submit" type="button" onclick="confirm_delete_disabled()" style="margin-top: 15px;" value="Không">
+                </div>
+            </div>
+        }
+    }
+    <style>
+        .form-frame {
+            position: fixed !important;
+            border-radius: 24px !important;
+            padding: 30px 30px 40px;
+            background-color: #000;
+        }
+    </style>
+    <script>
+        function confirm_detele(id) {
+            var subScene = document.getElementsByClassName("delete-form");
+            for (let i = 0; i < subScene.length; i++) {
+                subScene[i].style.display = "none";
+                if (subScene[i].id == id) {
+                    subScene[i].style.display = "flex";
+                }
+            }
+        }
+
+
+        function confirm_delete_disabled() {
+            var subScene = document.getElementsByClassName("delete-form");
+            for (let i = 0; i < subScene.length; i++) {
+                subScene[i].style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
