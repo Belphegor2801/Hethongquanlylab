@@ -221,5 +221,10 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
             return RedirectToAction("Procedure");
         }
+        public IActionResult ExportProcedureToExcel()
+        {
+            var stream = Function.Instance.ExportToExcel<Procedure>();
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachQuytrinhBanNhansu.xlsx");
+        }
     }
 }
