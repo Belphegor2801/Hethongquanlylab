@@ -27,14 +27,14 @@
 <body>
     <form asp-action="Procedure" method="post" style="z-index: 0;">
         <div class="wrap-back" style="display:flex;">
-            <a href="./banDaoTao.html"><h2 class="backMainPage"> Trang Chủ</h2></a>
+            <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
             <p>/</p>
-            <a href="#"><h2 style="padding-left: 10px;" class="backMainPage">Quy Trình</h2></a>
+            <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Nhân Sự</h2></a>
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="add-nhanSu" onclick="location.href='@Url.Action("AddProcedure", "BNS")'">Thêm Quy Trình</button>
-            <button class="btn-excel" onclick="location.href='@Url.Action("ExportProcedureToExcel", "BNS")'">Xuất file Excel</button>
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProcedure", "BNS")'">Thêm Quy trình</button>
+            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportProcedureToExcel", "BNS")'">Xuất file Excel</button>
 
         </div>
 
@@ -103,8 +103,6 @@
                 </tr>
 
 
-
-
                 @if (Model.PageCount > 0)
                 {
                     foreach (var item in Model.Items)
@@ -113,7 +111,7 @@
                             <td style="user-select: auto; text-align: center;"> @item.ID</td>
                             <td style="user-select: auto;"> @item.Name</td>
                             <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Content</td>
+                            <td style="user-select: auto; text-align: center;"> @Html.Raw(@item.Content)</td>
                             <td style="user-select: auto; text-align: center;"> @item.Status</td>
                             <td style="user-select: auto; text-align: center;">
                                 <button type="button" onclick="location.href='@Url.Action("ProcedureDetail", "BNS", new { id = item.ID })'">Chi tiết</button>
@@ -253,6 +251,7 @@
             </tr>
 
         </table>
+
     </form>
     <script type="text/javascript">
         function PagerClick(index) {

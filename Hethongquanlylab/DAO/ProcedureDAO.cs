@@ -63,6 +63,38 @@ namespace Hethongquanlylab.DAO
             }
             return null;
         }
+
+        public int GetMaxID()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/procedure.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            return workSheet.Dimension.End.Row;
+        }
+
+        public void AddProcedure(Procedure procedure)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/procedure.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                i++;
+            }
+
+            int lastRow = i;
+            workSheet.Cells[lastRow, 1].Value = procedure.ID;
+            workSheet.Cells[lastRow, 2].Value = procedure.Name;
+            workSheet.Cells[lastRow, 3].Value = procedure.Senddate;
+            workSheet.Cells[lastRow, 4].Value = procedure.Content;
+            workSheet.Cells[lastRow, 5].Value = procedure.Status;
+            workSheet.Cells[lastRow, 6].Value = procedure.Link;
+            package.Save();
+        }
+
         public void DeleteProcedure(String id)
         {
             List<Notification> notificationList = new List<Notification>();

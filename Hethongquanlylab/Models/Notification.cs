@@ -17,7 +17,7 @@ namespace Hethongquanlylab.Models
         private string date;
         private string link;
 
-        public int Id { get => id; set => id = value; }
+        public int ID { get => id; set => id = value; }
         public string Title { get => title; set => title = value; }
         public string Content { get => content; set => content = value; }
         public string Image { get => image; set => image = value; }
@@ -27,7 +27,7 @@ namespace Hethongquanlylab.Models
 
         public Notification(int id, string title, string content, string image,string unit, string date, string link)
         {
-            this.Id = id;
+            this.ID = id;
             this.Title = title;
             this.Content = content;
             this.Image = image;
@@ -38,7 +38,7 @@ namespace Hethongquanlylab.Models
 
         public Notification(DataRow row)
         {
-            this.Id = (int)row["id"];
+            this.ID = (int)row["id"];
             this.Title = (string)row["title"];
             this.Content = (string)row["content"];
             this.Image = (string)row["image"];

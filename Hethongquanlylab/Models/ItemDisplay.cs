@@ -52,7 +52,7 @@ namespace Hethongquanlylab.Models
             this.NameVar["Gen"] = "Thế hệ";
             this.NameVar["Unit"] = "Đơn vị";
             this.NameVar["Position"] = "Chức vụ";
-            this.NameVar["Id"] = "Id";
+            this.NameVar["ID"] = "ID";
             this.NameVar["Name"] = "Tên quy trình";
             this.NameVar["Senddate"] = "Ngày gửi";
             this.NameVar["Status"] = "Tình trạng";

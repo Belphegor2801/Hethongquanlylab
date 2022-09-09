@@ -138,7 +138,7 @@
                             <td style="user-select: auto;"> @item.Unit</td>
                             <td style="user-select: auto;"> @item.Position</td>
                             <td style="user-select: auto; text-align: center;">
-                                <button type="button" onclick="location.href='@Url.Action("MemberDetail", "BDT", new { id = item.LabID })'">Chi tiết</button>
+                                <button type="button" formtarget="_blank" onclick="location.href='@Url.Action("MemberDetail", "BDT", new { id = item.LabID })'">Chi tiết</button>
                                 <button class="delete confirm" value="0" style="user-select: auto;">Xóa</button>
                             </td>
                         </tr>
@@ -235,8 +235,6 @@
 
 
                     </div>
-
-
 
                 </td>
                 <td width="120px">

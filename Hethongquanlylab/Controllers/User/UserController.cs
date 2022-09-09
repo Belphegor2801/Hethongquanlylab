@@ -50,5 +50,16 @@ namespace Hethongquanlylab.Controllers.User
             var training = TrainingDAO.Instance.GetTrainingList_Excel();
             return View("./Views/User/Training.cshtml", training);
         }
+
+        public IActionResult NotificationDetail()
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var currenId = Convert.ToInt32(CurrentID);
+
+            var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
+            return View("./Views/Shared/NotificationDetail.cshtml", notification);
+        }
     }
 }

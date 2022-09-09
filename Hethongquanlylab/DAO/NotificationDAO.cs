@@ -28,13 +28,12 @@ namespace Hethongquanlylab.DAO
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                int j = 1;
-                int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
-                string title = workSheet.Cells[i, j++].Value.ToString();
-                string content = workSheet.Cells[i, j++].Value.ToString();
-                string image = workSheet.Cells[i, j++].Value.ToString();
-                string unit = workSheet.Cells[i, j++].Value.ToString();
-                string sDate = (workSheet.Cells[i, j++].Value).ToString();
+                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
+                string title = workSheet.Cells[i, 2].Value.ToString();
+                string content = workSheet.Cells[i, 3].Value.ToString();
+                string image = workSheet.Cells[i, 4].Value == null? "default.png": workSheet.Cells[i, 4].Value.ToString();
+                string unit = workSheet.Cells[i, 5].Value.ToString();
+                string sDate = (workSheet.Cells[i, 6].Value).ToString();
                 string date;
                 try
                 {
@@ -46,7 +45,7 @@ namespace Hethongquanlylab.DAO
                 {
                     date = sDate;
                 }
-                string link = workSheet.Cells[i, j++].Value.ToString();
+                string link = workSheet.Cells[i, 7].Value == null? "none": workSheet.Cells[i, 7].Value.ToString(); ;
                 Notification notification = new Notification(id, title, content, image, unit, date, link);
                 notificationList.Add(notification);
             }
@@ -56,7 +55,7 @@ namespace Hethongquanlylab.DAO
         public Notification GetNotificationModelbyId_Excel(int notificationid)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/notification"));
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/notification.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
@@ -64,11 +63,11 @@ namespace Hethongquanlylab.DAO
                 int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
                 if (id == notificationid)
                 {
-                    string title = workSheet.Cells[i, j++].Value.ToString();
-                    string content = workSheet.Cells[i, j++].Value.ToString();
-                    string image = workSheet.Cells[i, j++].Value.ToString();
-                    string unit = workSheet.Cells[i, j++].Value.ToString();
-                    string sDate = (workSheet.Cells[i, j++].Value).ToString();
+                    string title = workSheet.Cells[i, 2].Value.ToString();
+                    string content = workSheet.Cells[i, 3].Value.ToString();
+                    string image = workSheet.Cells[i, 4].Value == null ? "default.png" : workSheet.Cells[i, 4].Value.ToString();
+                    string unit = workSheet.Cells[i, 5].Value.ToString();
+                    string sDate = (workSheet.Cells[i, 6].Value).ToString();
                     string date;
                     try
                     {
@@ -80,7 +79,7 @@ namespace Hethongquanlylab.DAO
                     {
                         date = sDate;
                     }
-                    string link = workSheet.Cells[i, j++].Value.ToString();
+                    string link = workSheet.Cells[i, 7].Value == null ? "none" : workSheet.Cells[i, 7].Value.ToString(); ;
                     Notification notification = new Notification(id, title, content, image, unit, date, link);
                     return notification;
                 }

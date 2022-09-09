@@ -23,7 +23,7 @@ namespace Hethongquanlylab.Controllers
         public IActionResult Index()
         {
             var notifications = NotificationDAO.Instance.GetNotificationList_Excel();
-            return View("~/Views/Shared/Home.cshtml", notifications);
+            return View("~/Views/Home/Home.cshtml", notifications);
         }
 
         public IActionResult Privacy()
@@ -36,6 +36,7 @@ namespace Hethongquanlylab.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
         public IActionResult NotificationDetail()
         {
             var reqUrl = Request.HttpContext.Request;
@@ -44,7 +45,7 @@ namespace Hethongquanlylab.Controllers
             var currenId = Convert.ToInt32(CurrentID);
 
             var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
-            return View("./Views/BDT/NotificationDetail.cshtml", notification);
+            return View("./Views/Home/NotificationDetail.cshtml", notification);
         }
     }
 }

@@ -13,6 +13,8 @@ using System.Data;
 using OfficeOpenXml.Table;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System.Globalization;
 
 
 namespace Hethongquanlylab.Controllers.Super.BanNhanSu
@@ -25,12 +27,25 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             return View("./Views/BNS/BNSHome.cshtml", notifications);
         }
 
-        public IActionResult ExportMemberToExcel()
+        public IActionResult NotificationDetail()
         {
-            var stream = Function.Instance.ExportToExcel<Member>();
-            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThanhVien.xlsx");
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var currenId = Convert.ToInt32(CurrentID);
+
+            var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
+            return View("./Views/Shared/NotificationDetail.cshtml", notification);
         }
 
+
+
+        public IActionResult ExportMemberToExcel()
+        {
+            List<Member> members = UserDAO.Instance.GetListUser_Excel();
+            var stream = Function.Instance.ExportToExcel<Member>(members);
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThanhVien.xlsx");
+        }
 
         public IActionResult AddMember()
         {
@@ -43,7 +58,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         [HttpPost]
         public IActionResult UploadAvt(IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
         {
-            string fileName = $"{hostingEnvironment.WebRootPath}/data/avt/{file.FileName}";
+            string fileName = $"{hostingEnvironment.WebRootPath}/img/avt/{file.FileName}";
             // Dẩy file vào thư mục
             using (FileStream fileStream = System.IO.File.Create(fileName))
             {
@@ -159,8 +174,8 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             searchString = urlQuery["SearchString"];
             page = urlQuery["page"];
 
-            sortOrder = sortOrder == null ? "Id" : sortOrder; ;
-            searchField = searchField == null ? "Id" : searchField;
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
             searchString = searchString == null ? "" : searchString;
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
@@ -194,6 +209,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
             return View("./Views/BNS/Procedure.cshtml", procedureList);
         }
+
         [HttpPost]
         public IActionResult Procedure(String sortOrder, String searchString, String searchField, int currentPage = 1)
         {
@@ -213,6 +229,19 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         {
             return View("./Views/BNS/AddProcedure.cshtml");
         }
+
+        [HttpPost]
+        public IActionResult AddProcedure(String Name, String Content, String Link)
+        {
+            DateTime day = DateTime.Today;
+            DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+            string senddate  = day.ToString("d", fmt);
+            int ID = ProcedureDAO.Instance.GetMaxID() + 1;
+            var newProcedure = new Procedure(ID, Name, senddate, Content.ToString(), Link, "Chưa duyệt");
+            ProcedureDAO.Instance.AddProcedure(newProcedure);
+            return RedirectToAction("Procedure");
+        }
+
         public IActionResult DeleteProcedure()
         {
             var urlQuery = Request.HttpContext.Request.Query;
@@ -223,7 +252,8 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         }
         public IActionResult ExportProcedureToExcel()
         {
-            var stream = Function.Instance.ExportToExcel<Procedure>();
+            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel();
+            var stream = Function.Instance.ExportToExcel<Procedure>(procedures);
             return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachQuytrinhBanNhansu.xlsx");
         }
     }

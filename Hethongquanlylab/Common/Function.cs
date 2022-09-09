@@ -65,7 +65,7 @@ namespace Hethongquanlylab.Common
             return items;
         }
 
-        public MemoryStream ExportToExcel<T>()
+        public MemoryStream ExportToExcel<T>(List<T> items)
         {
             var memoryStream = new MemoryStream();
             using (var excelPackage = new ExcelPackage(memoryStream))
@@ -83,8 +83,8 @@ namespace Hethongquanlylab.Common
                         worksheet.Cells[currentRow, col++].Value = attr.Name;
 
                 // Lấy tất cả dữ liệu trong database theo thứ tự tăng dần labID
-                List<Member> members = UserDAO.Instance.GetListUser_Excel();
-                foreach (var member in members)
+                
+                foreach (var item in items)
                 {
                     // Dòng thứ 2 trở đi sẽ đổ dữ liệu từ database vào
                     currentRow += 1;
@@ -93,7 +93,7 @@ namespace Hethongquanlylab.Common
                     {
                         if (attr.Name != "Avt")
                         {
-                            object value = attr.GetValue(member);
+                            object value = attr.GetValue(item);
                             worksheet.Cells[currentRow, col++].Value = value.ToString();
                         }
                     }
