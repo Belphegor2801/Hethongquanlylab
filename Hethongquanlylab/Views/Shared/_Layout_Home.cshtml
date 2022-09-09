@@ -48,10 +48,10 @@
             <tbody>
                 @foreach (var item in Model)
             {
-
+                    
                 <tr style="background-color: #dfdede">
                     <td> <img src="@item.Image" alt="" style="width: 115px; margin-bottom: -4px; margin-right:-1px;"></td>
-                    <td style="font-size: 48px; font-weight: 500; padding-left: 10px;">@item.Title</td>
+                    <td style="font-size: 48px; font-weight: 500; padding-left: 10px;"><a asp-action="NotificationDetail" style ="padding-left: 10px;" class="backMainPage"> @item.Title</a></td>
                 </tr>
             }  
   

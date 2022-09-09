@@ -198,6 +198,10 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             var user = UserDAO.Instance.GetUserByID_Excel(CurrentID);
             return View("./Views/Shared/MemberDetail.cshtml", user);
         }
+        public IActionResult AddMember()
+        {
+            return View("./Views/BDT/AddMember.cshtml");
+        }
 
         public IActionResult Procedure()
         {

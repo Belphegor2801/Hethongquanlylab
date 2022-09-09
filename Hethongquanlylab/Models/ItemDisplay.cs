@@ -52,6 +52,11 @@ namespace Hethongquanlylab.Models
             this.NameVar["Gen"] = "Thế hệ";
             this.NameVar["Unit"] = "Đơn vị";
             this.NameVar["Position"] = "Chức vụ";
+            this.NameVar["Id"] = "Id";
+            this.NameVar["Name"] = "Tên quy trình";
+            this.NameVar["Senddate"] = "Ngày gửi";
+            this.NameVar["Status"] = "Tình trạng";
+            this.NameVar["Content"] = "Nội dung";
         }
 
         public void Paging(List<T> members, int pageSize)

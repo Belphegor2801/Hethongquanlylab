@@ -1,4 +1,4 @@
-﻿@model MemberList<Member>
+﻿@model ItemDisplay<Member>
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -37,7 +37,7 @@
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("ExportToExcel", "BDT")'">Thêm Nhân Sự</button>
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember", "BDT")'">Thêm Nhân Sự</button>
             <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportToExcel", "BDT")'">Xuất file Excel</button>
 
         </div>

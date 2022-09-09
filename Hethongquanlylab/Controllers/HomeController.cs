@@ -36,5 +36,15 @@ namespace Hethongquanlylab.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult NotificationDetail()
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var currenId = Convert.ToInt32(CurrentID);
+
+            var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
+            return View("./Views/BDT/NotificationDetail.cshtml", notification);
+        }
     }
 }
