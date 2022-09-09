@@ -84,10 +84,10 @@ table tr:nth-child(1) {
     }
 
 .wrap-totalMember {
-    width: 1030px;
+    width: 30%;
     margin: auto;
     display: flex;
-    margin-top: 36px;
+    margin-top: 25px;
 }
 
 .totalMember {

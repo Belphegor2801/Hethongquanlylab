@@ -5,16 +5,14 @@ using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
 using Hethongquanlylab.Models;
-using Hethongquanlylab.Models.Members;
 using Hethongquanlylab.DAO;
+using Hethongquanlylab.Common;
 using OfficeOpenXml;
 using System.IO;
 using System.Data;
 using OfficeOpenXml.Table;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 
 namespace Hethongquanlylab.Controllers.Super.BanNhanSu
@@ -27,121 +25,10 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             return View("./Views/BNS/BNSHome.cshtml", notifications);
         }
 
-
-        private List<Member> sortMember(List<Member> members, String sortOrder)
+        public IActionResult ExportMemberToExcel()
         {
-            switch (sortOrder)
-            {
-                case "id_desc":
-                    members = members.OrderByDescending(s => Convert.ToInt32(s.LabID)).ToList();
-                    break;
-                case "Name":
-                    members= members.OrderBy(s => s.Name.Split(" ").Last()).ToList();
-                    break;
-                case "name_desc":
-                    members = members.OrderByDescending(s => s.Name.Split(" ").Last()).ToList();
-                    break;
-                case "Gen":
-                    members = members.OrderBy(s => s.Gen).ToList();
-                    break;
-                case "gen_desc":
-                    members = members.OrderByDescending(s => s.Gen).ToList();
-                    break;
-                case "Unit":
-                    members = members.OrderBy(s => s.Unit).ToList();
-                    break;
-                case "unit_desc":
-                    members = members.OrderByDescending(s => s.Unit).ToList();
-                    break;
-                case "Birthday":
-                    members = members.OrderBy(s => s.Birthday.Split("/").Last()).ToList();
-                    break;
-                case "birthday_desc":
-                    members = members.OrderByDescending(s => s.Birthday.Split("/").Last()).ToList();
-                    break;
-
-                default:
-                    members = members.OrderBy(s => Convert.ToInt32(s.LabID)).ToList();
-                    break;
-            }
-            return members;
-        }
-
-        private List<Member> searchMember(List<Member> members, MemberList memberList)
-        {            
-            if (!String.IsNullOrEmpty(memberList.CurrentSearchField))
-            {
-                if (!String.IsNullOrEmpty(memberList.CurrentSearchString))
-                {
-                    switch (memberList.CurrentSearchField)
-                    {
-                        case "Lab ID":
-                            members = members.Where(s => s.LabID.Contains(memberList.CurrentSearchString)).ToList();
-                            break;
-                        case "Name":
-                            members = members.Where(s => s.Name.Contains(memberList.CurrentSearchString)).ToList();
-                            break;
-                        case "Sex":
-                            members = members.Where(s => s.Sex.Contains(memberList.CurrentSearchString)).ToList();
-                            break;
-                        case "Birthday":
-                            members = members.Where(s => s.Birthday.Contains(memberList.CurrentSearchString)).ToList();
-                            break;
-                        case "Gen":
-                            members = members.Where(s => s.Gen.Contains(memberList.CurrentSearchString)).ToList();
-                            break;
-                        case "Unit":
-                            members = members.Where(s => s.Unit.Contains(memberList.CurrentSearchString)).ToList();
-                            break;
-                        case "Position":
-                            members = members.Where(s => s.Position.Contains(memberList.CurrentSearchString)).ToList();
-                            break;
-                        default:
-                            members = members.Where(s => s.LabID.Contains(memberList.CurrentSearchString)).ToList();
-                            break;
-                    }
-                }
-            }
-            return members;
-        }
-
-
-        public IActionResult ExportToExcel()
-        {
-            var memoryStream = new MemoryStream();
-            using (var excelPackage = new ExcelPackage(memoryStream))
-            {
-                var worksheet = excelPackage.Workbook.Worksheets.Add("Danh sách thành viên");
-                var currentRow = 1;
-                // trỏ đến dòng 1 và cột 1 thay giá trị bằng LabID các dòng dưới cx tương tự
-
-
-                var allAttr = typeof(Member).GetProperties(); // Lấy danh sách attributes của class Member
-                int col = 1;
-                foreach (var attr in allAttr)
-                    worksheet.Cells[currentRow, col++].Value = attr.Name;
-
-                // Lấy tất cả dữ liệu trong database theo thứ tự tăng dần labID
-                List<Member> members = UserDAO.Instance.GetListUser_Excel();
-                foreach (var member in members)
-                {
-                    // Dòng thứ 2 trở đi sẽ đổ dữ liệu từ database vào
-                    currentRow += 1;
-                    col = 1;
-                    foreach (var attr in allAttr)
-                    {
-                            object value = attr.GetValue(member);
-                            worksheet.Cells[currentRow, col++].Value = value.ToString();
-                    }
-                }
-                // Trả về dữ liệu dạng xlsx
-                using (var stream = new MemoryStream())
-                {
-                    excelPackage.SaveAs(stream);
-                    var content = stream.ToArray();
-                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThanhVien.xlsx");
-                }
-            }
+            var stream = Function.Instance.ExportToExcel<Member>();
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThanhVien.xlsx");
         }
 
 
@@ -210,17 +97,15 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
 
-
-            MemberList memberList = new MemberList();
+            ItemDisplay<Member> memberList = new ItemDisplay<Member>();
             memberList.SortOrder = sortOrder;
             memberList.CurrentSearchField = searchField;
             memberList.CurrentSearchString = searchString;
             memberList.CurrentPage = currentPage;
 
-
             List<Member> members = UserDAO.Instance.GetListUser_Excel();
-            members = searchMember(members, memberList);
-            members = sortMember(members, memberList.SortOrder);
+            members = Function.Instance.searchItems(members, memberList);
+            members = Function.Instance.sortItems(members, memberList.SortOrder);
 
             memberList.Paging(members, 10);
 
@@ -231,15 +116,12 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
                 if (memberList.CurrentPage != memberList.PageCount)
                     try
                     {
-                        memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
+                        memberList.Items = memberList.Items.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
                     } 
-                    catch (Exception e)
-                    {
-                        
-                    }
+                    catch { }
                     
                 else
-                    memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Members.Count % memberList.PageSize == 0 ? memberList.PageSize : memberList.Members.Count % memberList.PageSize);
+                    memberList.Items = memberList.Items.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Items.Count % memberList.PageSize == 0 ? memberList.PageSize : memberList.Items.Count % memberList.PageSize);
             }
 
             return View("./Views/BNS/Member.cshtml", memberList);
@@ -261,7 +143,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var CurrentID = urlPath.ToString().Split('/').Last();
 
             var user = UserDAO.Instance.GetUserByID_Excel(CurrentID);
-            return View("./Views/BNS/MemberDetail.cshtml", user);
+            return View("./Views/Shared/MemberDetail.cshtml", user);
         }
 
         public IActionResult Procedure()

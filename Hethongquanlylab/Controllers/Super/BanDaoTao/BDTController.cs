@@ -36,12 +36,6 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
                 case "gen_desc":
                     members = members.OrderByDescending(s => s.Gen).ToList();
                     break;
-                case "Unit":
-                    members = members.OrderBy(s => s.Unit).ToList();
-                    break;
-                case "unit_desc":
-                    members = members.OrderByDescending(s => s.Unit).ToList();
-                    break;
                 case "Birthday":
                     members = members.OrderBy(s => s.Birthday.Split("/").Last()).ToList();
                     break;
@@ -56,7 +50,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             return members;
         }
 
-        private List<Member> searchMember(List<Member> members, MemberList memberList)
+        private List<Member> searchMember(List<Member> members, ItemDisplay<Member> memberList)
         {
             if (!String.IsNullOrEmpty(memberList.CurrentSearchField))
             {
@@ -152,7 +146,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             }
 
 
-            MemberList memberList = new MemberList();
+            ItemDisplay<Member> memberList = new ItemDisplay<Member>();
             memberList.SortOrder = sortOrder;
             memberList.CurrentSearchField = searchField;
             memberList.CurrentSearchString = searchString;
@@ -169,16 +163,24 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
 
             if (memberList.PageCount > 0)
             {
+                if (memberList.CurrentPage > memberList.PageCount) memberList.CurrentPage = memberList.PageCount;
+                if (memberList.CurrentPage < 1) memberList.CurrentPage = 1;
                 if (memberList.CurrentPage != memberList.PageCount)
-                    memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
+                    try
+                    {
+                        memberList.Items = memberList.Items.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
                 else
-                    memberList.Members = memberList.Members.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Members.Count % memberList.PageSize == 0 ? memberList.PageSize : memberList.Members.Count % memberList.PageSize);
+                    memberList.Items = memberList.Items.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Items.Count % memberList.PageSize == 0 ? memberList.PageSize : memberList.Items.Count % memberList.PageSize);
             }
 
             return View("./Views/BDT/Member.cshtml", memberList);
         }
-
-
 
         [HttpPost]
         public IActionResult Member(String sortOrder, String searchString, String searchField, int currentPage = 1)
@@ -194,7 +196,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             var CurrentID = urlPath.ToString().Split('/').Last();
 
             var user = UserDAO.Instance.GetUserByID_Excel(CurrentID);
-            return View("./Views/BDT/MemberDetail.cshtml", user);
+            return View("./Views/Shared/MemberDetail.cshtml", user);
         }
 
         public IActionResult Procedure()
