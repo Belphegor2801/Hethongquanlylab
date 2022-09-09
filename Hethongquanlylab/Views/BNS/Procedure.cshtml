@@ -29,7 +29,7 @@
         <div class="wrap-back" style="display:flex;">
             <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
             <p>/</p>
-            <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Nhân Sự</h2></a>
+            <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Quy trình</h2></a>
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
@@ -83,22 +83,22 @@
                         </button>
                     </th>
                     <th>
-                        Nội Dung
-                        <button name="sortOrder" id="Content" value="Content" onchange="this.forms.submit">
-                            <i class="fa fa-sort"></i>
-                        </button>
+                        V1
                     </th>
                     <th>
-                        Loại Quy Trình
-                        <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
-                            <i class="fa fa-sort"></i>
-                        </button>
+                        V2
                     </th>
                     <th>
-                        Tình Trạng
+                        V3
+                    </th>
+                    <th>
+                        Trạng thái
                         <button name="sortOrder" id="Status" value="Status" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
+                    </th>
+                    <th  style="text-align: center; width: 5%;">
+                        Chức năng
                     </th>
                 </tr>
 
@@ -107,20 +107,54 @@
                 {
                     foreach (var item in Model.Items)
                     {
-                        <tr id="0" style="user-select: auto;">
-                            <td style="user-select: auto; text-align: center;"> @item.ID</td>
-                            <td style="user-select: auto;"> @item.Name</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
-                            <td style="user-select: auto; text-align: center;"> @Html.Raw(@item.Content)</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Status</td>
-                            <td style="user-select: auto; text-align: center;">
-                                <button type="button" onclick="location.href='@Url.Action("ProcedureDetail", "BNS", new { id = item.ID })'">Chi tiết</button>
-                                <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">Xóa</button>
-                            </td>
-                            <script>
+                    <tr id="0" style="user-select: auto;">
+                        <td style="user-select: auto; text-align: center;"> @item.ID</td>
+                        <td style="user-select: auto;"> @item.Name</td>
+                        <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
+                        <td style="user-select: auto; text-align: center;">
+                            @if (item.V1)
+                            {
+                                <i class="fa-solid fa-square-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-square-xmark"></i>
+                            }
+
+                        </td>
+                        <td style="user-select: auto; text-align: center;">
+                            @if (item.V2)
+                            {
+                                <i class="fa-solid fa-square-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-square-xmark"></i>
+                            }
+                        </td>
+                        <td style="user-select: auto; text-align: center;" >
+                            @if (item.V3)
+                            {
+                                <i class="fa-solid fa-square-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-square-xmark"></i>
+                            }
+                        </td>
+                        <td style="user-select: auto; text-align: center;"> @item.Status</td>
+                        <td style="user-select: auto; text-align: center;">
+                            <button type="button" onclick="location.href='@Url.Action("ProcedureDetail", "BNS", new { id = item.ID })'">
+                                <i class="fa fa-info-circle"></i>
+                            </button>
+                            <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                        <script>
                             var modelSortOrder = "@Html.Raw(Model.SortOrder)";
                             var idSort = document.getElementById("ID");
-                            if (modelSortOrder === "Id") {
+                            if (modelSortOrder === "ID") {
                                 idSort.value = "ID_desc";
                             }
 
@@ -144,8 +178,8 @@
                                 idSort.value = "Unit_desc";
                             }
 
-                            </script>
-                        </tr>
+                        </script>
+                    </tr>
                     }
                 }
                 else
@@ -156,11 +190,15 @@
                 }
             </table>
         </div>
+
         <table>
             <tr style="font-size: 20px;">
                 <td>
-                    <a>Tổng Thành Viên: </a>
-                    <span id="total">@Model.ItemCount</span>
+                    <div style="float: left;">
+                        <a >Tổng Quy trình: </a>
+                        <span id="total">@Model.ItemCount</span>
+                    </div>
+                    
                 </td>
 
                 <td>

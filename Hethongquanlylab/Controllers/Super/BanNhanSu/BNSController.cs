@@ -13,8 +13,8 @@ using System.Data;
 using OfficeOpenXml.Table;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using System.Globalization;
+using Newtonsoft.Json;
+using Hethongquanlylab.Models.Login;
 
 
 namespace Hethongquanlylab.Controllers.Super.BanNhanSu
@@ -233,11 +233,10 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         [HttpPost]
         public IActionResult AddProcedure(String Name, String Content, String Link)
         {
-            DateTime day = DateTime.Today;
-            DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-            string senddate  = day.ToString("d", fmt);
             int ID = ProcedureDAO.Instance.GetMaxID() + 1;
-            var newProcedure = new Procedure(ID, Name, senddate, Content.ToString(), Link, "Chưa duyệt");
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+            var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link);
             ProcedureDAO.Instance.AddProcedure(newProcedure);
             return RedirectToAction("Procedure");
         }

@@ -143,9 +143,11 @@
                             <td style="user-select: auto;"> @item.Position</td>
                             <td style="user-select: auto; text-align: center;">
                                 <a href="@Url.Action("MemberDetail", new { id = item.LabID })" target="_blank">
-                                    <button type="button">Chi tiết</button>
+                                    <button type="button"><i class="fa fa-info-circle"></i></button>
                                 </a>
-                                <button type="button" onclick="confirm_detele(@item.LabID)" id="deleteMember" value="@item.LabID">Xóa</button>
+                                <button type="button" onclick="confirm_detele(@item.LabID)" id="deleteMember" value="@item.LabID">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
 
                             </td>
                         </tr>
