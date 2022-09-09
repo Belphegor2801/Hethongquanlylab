@@ -45,12 +45,12 @@
             font-weight: 600;
             margin-bottom: 30px;" id="wrap-DuAn">
         <div id="name-DuAn">Tên Dự Án </div>
-        <input style="display:none;" id="name-input " type="text" placeholder="@Model.Name">
+        <input style="display:none;" id="name-input" type="text" placeholder="@Model.Name">
         <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
     </div>
     <div class="wrap-themDuAn">
         <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-DuAn3">
-            <div id="name-DuAn3">6/9/2022 </div>
+            <div id="name-DuAn3">Ngày xuất bản: @Model.Date</div>
             <input style="display:none;" id="name-input3" type="text" placeholder="dd/mm/yy">
             <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
         </div>
@@ -83,7 +83,7 @@
     <script>
         $("#wrap-DuAn").click(function () {
             document.getElementById("name-DuAn").style.display = 'none';
-            document.getElementById("name-input").style.display = 'block!important';
+            document.getElementById("name-input").style.display = 'block';
 
         })
         $('#name-input').change(function () {

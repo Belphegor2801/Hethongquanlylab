@@ -1,0 +1,92 @@
+﻿@model Procedure
+
+@{
+    @section Buttons{
+        <a class="header-item"></a>
+        <a asp-action="Notification" class="header-item">Thông báo</a>
+        <a asp-action="Training" class="header-item">Bài đào tạo</a>
+        <a asp-action="Project" class="header-item">Dự án</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.js"></script>
+</head>
+<body>
+    <div class="wrap-back" style="display:flex;">
+        <a href="./banDaoTao.html"><h2 class="backMainPage"> Trang Chủ</h2></a>
+        <p>/</p>
+        <a href="./nhanSu.html"><h2 style="padding-left: 10px;" class="backMainPage"> Nhân Sự</h2></a>
+        <p>/</p>
+        <a href="#"><h2 style="padding-left: 10px;" class="backMainPage"> Thêm Nhân Sự</h2></a>
+    </div>
+
+    <div class="wrap-sreach">
+        <input class="search" type="text" name="Hop nhap" placeholder="Hộp nhập">
+        <select name="truongDuLieu" id="truongDuLieu">
+            <option selected="selected">Lab ID</option>
+            <option>Tên</option>
+            <option>Giới Tính</option>
+            <option>Ngày Sinh</option>
+            <option>Gen</option>
+            <option>Nhóm Chuyên Môn</option>
+        </select>
+        <button>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Tìm Kiếm
+        </button>
+    </div>
+
+
+    <div class="container mt-2">
+        <table class=" table-addMember">
+            <tr>
+                <th><i style="margin-right: 6px;" class="fa-solid fa-sort"></i>Lab ID</th>
+                <th><i style="margin-right: 6px;" class="fa-solid fa-sort"></i>Tên</th>
+                <th>
+                    <i style="margin-right: 6px;" class="fa-solid fa-sort"></i>
+                    Giới Tính
+                </th>
+                <th><i style="margin-right: 6px;" class="fa-solid fa-sort"></i>Ngày Sinh</th>
+                <th><i style="margin-right: 6px;" class="fa-solid fa-sort"></i>Gen</th>
+                <th><i style="margin-right: 6px;" class="fa-solid fa-sort"></i>Nhóm Chuyên Môn</th>
+                <th></th>
+            </tr>
+        </table>
+    </div>
+    <div class="pagination">
+        <ul>
+        </ul>
+    </div>
+
+    <button class="btn-confirm" style="margin-left: 1058px;padding: 14px;background-color: #edcd1f;" class="add-nhanSu">
+        <i class="fa-solid fa-plus"></i>
+        Thêm Nhân Sự
+    </button>
+
+
+    <div style="background-color:#888" class="dialog-confirm" title="Xác Nhận">
+        <p>Bạn chắc chắn muốn thay đổi ?</p>
+        <div style="    display: flex;margin-top: 33px;">
+            <button>Đồng Ý</button>
+            <button class="btn-close" style="padding: 14px 52px;">Hủy</button>
+        </div>
+    </div>
+</body>
