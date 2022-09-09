@@ -14,7 +14,7 @@ namespace Hethongquanlylab.Models
         private string link;
         private string status;
 
-        public int Id { get => id; set => id = value; }
+        public int ID { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
         public string Link { get => link; set => link = value; }
         public string Status { get => status; set => status = value; }
@@ -23,7 +23,7 @@ namespace Hethongquanlylab.Models
 
         public Procedure(int id, string name, string senddate, string content, string link, string status)
         {
-            this.Id = id;
+            this.ID = id;
             this.Name = name;
             this.Link = link;
             this.Senddate = senddate;
