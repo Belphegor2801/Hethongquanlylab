@@ -37,16 +37,14 @@
     <div class="wrap-themDuAn" style="line-height: 50px;">
         <label for="">
             Ngày Đăng: @Model.Date
-
         </label>
 
         <div>
-            <label for="">
-                Nội Dung: @Model.Content
-            </label>
+            
         </div>
         <div>
             <label style="width: 1030px;;" for="">
+                @Html.Raw(Model.Content)
             </label>
         </div>
     </div>
