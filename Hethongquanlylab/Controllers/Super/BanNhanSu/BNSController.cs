@@ -148,8 +148,56 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
         public IActionResult Procedure()
         {
-            var procedure = ProcedureDAO.Instance.GetProcedureList_Excel();
-            return View("./Views/BNS/Procedure.cshtml", procedure);
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            sortOrder = sortOrder == null ? "Id" : sortOrder; ;
+            searchField = searchField == null ? "Id" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            ItemDisplay<Procedure> procedureList = new ItemDisplay<Procedure>();
+            procedureList.SortOrder = sortOrder;
+            procedureList.CurrentSearchField = searchField;
+            procedureList.CurrentSearchString = searchString;
+            procedureList.CurrentPage = currentPage;
+
+            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel();
+            procedures = Function.Instance.searchItems(procedures, procedureList);
+            procedures = Function.Instance.sortItems(procedures, procedureList.SortOrder);
+
+            procedureList.Paging(procedures, 10);
+
+            if (procedureList.PageCount > 0)
+            {
+                if (procedureList.CurrentPage > procedureList.PageCount) procedureList.CurrentPage = procedureList.PageCount;
+                if (procedureList.CurrentPage < 1) procedureList.CurrentPage = 1;
+                if (procedureList.CurrentPage != procedureList.PageCount)
+                    try
+                    {
+                        procedureList.Items = procedureList.Items.GetRange((procedureList.CurrentPage - 1) * procedureList.PageSize, procedureList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    procedureList.Items = procedureList.Items.GetRange((procedureList.CurrentPage - 1) * procedureList.PageSize, procedureList.Items.Count % procedureList.PageSize == 0 ? procedureList.PageSize : procedureList.Items.Count % procedureList.PageSize);
+            }
+
+            return View("./Views/BNS/Procedure.cshtml", procedureList);
+        }
+        [HttpPost]
+        public IActionResult Procedure(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        {
+            return RedirectToAction("Procedure", "BNS", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
         }
         public IActionResult ProcedureDetail()
         {

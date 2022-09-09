@@ -21,7 +21,7 @@ namespace Hethongquanlylab.Common
 
         public List<T> sortItems<T>(List<T> items, String sortOrder)
         {
-            var attrs = typeof(Member).GetProperties();
+            var attrs = typeof(T).GetProperties();
             var result = items.OrderBy(s => attrs.First().GetValue(s, null));
             foreach (var attr in attrs)
             {
@@ -52,7 +52,7 @@ namespace Hethongquanlylab.Common
             {
                 if (!String.IsNullOrEmpty(itemDisplay.CurrentSearchString))
                 {
-                    var attrs = typeof(Member).GetProperties();
+                    var attrs = typeof(T).GetProperties();
                     foreach (var attr in attrs)
                     {
                         if (itemDisplay.CurrentSearchField == attr.Name.ToString())
