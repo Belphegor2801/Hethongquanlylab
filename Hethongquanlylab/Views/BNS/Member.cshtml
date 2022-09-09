@@ -142,8 +142,12 @@
                             <td style="user-select: auto;"> @item.Unit</td>
                             <td style="user-select: auto;"> @item.Position</td>
                             <td style="user-select: auto; text-align: center;">
-                                <button type="button" onclick="location.href='@Url.Action("MemberDetail", "BNS", new { id = item.LabID })'">Chi tiết</button>
-                                <button type="button" onclick="confirm_detele(@item.LabID)" id="deleteMember" value="@item.LabID">Xóa</button>
+                                <a href="@Url.Action("MemberDetail", new { id = item.LabID })" target="_blank">
+                                    <button type="button"><i class="fa fa-info-circle"></i></button>
+                                </a>
+                                <button type="button" onclick="confirm_detele(@item.LabID)" id="deleteMember" value="@item.LabID">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
 
                             </td>
                         </tr>

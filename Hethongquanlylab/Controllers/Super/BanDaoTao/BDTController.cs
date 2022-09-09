@@ -17,6 +17,18 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             var notifications = NotificationDAO.Instance.GetNotificationList_Excel();
             return View("./Views/BDT/BDTHome.cshtml", notifications);
         }
+
+        public IActionResult NotificationDetail()
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var currenId = Convert.ToInt32(CurrentID);
+
+            var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
+            return View("./Views/Shared/NotificationDetail.cshtml", notification);
+        }
+
         private List<Member> sortMember(List<Member> members, String sortOrder)
         {
             switch (sortOrder)

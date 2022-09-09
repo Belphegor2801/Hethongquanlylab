@@ -89,12 +89,12 @@
                 foreach (var item in Model)
                 {
                     <tr id="0" style="user-select: auto;">
-                        <td style="user-select: auto; text-align: center;"> @item.Id</td>
+                        <td style="user-select: auto; text-align: center;"> @item.ID</td>
                         <td style="user-select: auto;"> @item.Title</td>
                         <td style="user-select: auto; text-align: center;"> @item.Date</td>
                         <td style="user-select: auto; text-align: center;">
-                            <a asp-action="MemberDetail" asp-route-id="@item.Id" class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</a>
-                            <button type="button" onclick="confirm_detele(@item.Id)" id="deleteMember" value="@item.Id">Xóa</button>
+                            <a asp-action="MemberDetail" asp-route-id="@item.ID" class="edit table-fix" value="0" style="user-select: auto;">Chi tiết</a>
+                            <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">Xóa</button>
                         </td>
                     </tr>
                 }
@@ -124,12 +124,12 @@
     {
         foreach (var item in Model)
         {
-            <div style="display: none; min-width: 40%; height: 30%; left: 20%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.Id">
+            <div style="display: none; min-width: 40%; height: 30%; left: 20%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.ID">
                 <div>
-                    <a style="text-align: center; color: #fff;"> Bạn có chắc chắn muốn xóa thông báo có ID = @item.Id không? </a>
+                    <a style="text-align: center; color: #fff;"> Bạn có chắc chắn muốn xóa thông báo có ID = @item.ID không? </a>
                 </div>
                 <div>
-                    <input class="form-submit" type="button" onclick="location.href='@Url.Action("DeleteNotification", "BDT", new{notiID = @item.Id})'" style="margin-top: 15px;" value="Có">
+                    <input class="form-submit" type="button" onclick="location.href='@Url.Action("DeleteNotification", "BDT", new{notiID = @item.ID})'" style="margin-top: 15px;" value="Có">
                     <input class="form-submit" type="button" onclick="confirm_delete_disabled()" style="margin-top: 15px;" value="Không">
                 </div>
             </div>

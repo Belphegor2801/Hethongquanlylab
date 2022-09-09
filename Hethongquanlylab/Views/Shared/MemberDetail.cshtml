@@ -1,18 +1,18 @@
 ﻿@model Member
 @{
     @section Buttons{
-        <a class="header-item"></a>
-        <a asp-action="Index" class="header-item">Trang chủ</a>
+        <div style="margin-top: 5px;width: 90px; height: 90px;" >
+            <img src="~/img/avt/@Model.Avt" alt="@Model.Avt" class="cv_img" style="border-radius: 50%;">
+        </div>
+
+        <a style="width: 50vw;" class="header-item"> THÔNG TIN CHI TIẾT THÀNH VIÊN: @Model.Name</a>
     }
 
-
     @section Login{
-        <li class="user-info-item">
-            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
-        </li>
-        <li class="user-info-item">
-            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
-        </li>
+        <script>
+            var loginIcon = document.getElementsByClassName("fa-user");
+            loginIcon[0].style.display = "none";
+        </script>
     }
 }
 
@@ -30,7 +30,7 @@
             <div class="profile">
                 <div class="profile_container">
                     <div class="profile_profileImg">
-                        <img src="~/data/avt/@Model.Avt" alt="@Model.Avt" class="cv_img" style="border-radius: 50%;">
+                        <img src="~/img/avt/@Model.Avt" alt="@Model.Avt" class="cv_img" style="border-radius: 50%;">
                     </div>
                     <div>
                         <h1 class="profile_name">
