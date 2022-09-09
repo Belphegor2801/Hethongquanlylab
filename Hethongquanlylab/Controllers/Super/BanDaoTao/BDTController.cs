@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Hethongquanlylab.DAO;
 using Hethongquanlylab.Models;
 using System.IO;
+using Hethongquanlylab.Common;
 using OfficeOpenXml;
 
 namespace Hethongquanlylab.Controllers.Super.BanDaoTao
@@ -143,33 +144,32 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
 
         public IActionResult Member()
         {
-            String sortOrder = "LabID";
-            String searchField = "LabID";
-            String searchString = "";
-            int page = 1;
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
 
             var urlQuery = Request.HttpContext.Request.Query;
-            foreach (var attr in urlQuery.Keys)
-            {
-                if (attr == "sort") sortOrder = urlQuery[attr];
-                if (attr == "searchField") searchField = urlQuery[attr];
-                if (attr == "searchString") searchString = urlQuery[attr];
-                if (attr == "page") page = Convert.ToInt32(urlQuery[attr]);
-            }
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
 
+            sortOrder = sortOrder == null ? "LabID" : sortOrder; ;
+            searchField = searchField == null ? "LabID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
 
             ItemDisplay<Member> memberList = new ItemDisplay<Member>();
             memberList.SortOrder = sortOrder;
             memberList.CurrentSearchField = searchField;
             memberList.CurrentSearchString = searchString;
-            memberList.CurrentPage = page;
+            memberList.CurrentPage = currentPage;
 
-
-
-            List<Member> members = UserDAO.Instance.FindMemberbyUnit("PowerTeam Lập trình");
-            members = searchMember(members, memberList);
-            members = sortMember(members, memberList.SortOrder);
-
+            List<Member> members = UserDAO.Instance.GetListUser_Excel();
+            members = Function.Instance.searchItems(members, memberList);
+            members = Function.Instance.sortItems(members, memberList.SortOrder);
 
             memberList.Paging(members, 10);
 
@@ -182,16 +182,13 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
                     {
                         memberList.Items = memberList.Items.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
                     }
-                    catch (Exception e)
-                    {
-
-                    }
+                    catch { }
 
                 else
                     memberList.Items = memberList.Items.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Items.Count % memberList.PageSize == 0 ? memberList.PageSize : memberList.Items.Count % memberList.PageSize);
             }
 
-            return View("./Views/BDT/Member.cshtml", memberList);
+            return View("./Views/BNS/Member.cshtml", memberList);
         }
 
         [HttpPost]
@@ -217,8 +214,51 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
 
         public IActionResult Procedure()
         {
-            var procedure = ProcedureDAO.Instance.GetProcedureList_Excel();
-            return View("./Views/BDT/Procedure.cshtml", procedure);
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            ItemDisplay<Procedure> procedureList = new ItemDisplay<Procedure>();
+            procedureList.SortOrder = sortOrder;
+            procedureList.CurrentSearchField = searchField;
+            procedureList.CurrentSearchString = searchString;
+            procedureList.CurrentPage = currentPage;
+
+            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel();
+            procedures = Function.Instance.searchItems(procedures, procedureList);
+            procedures = Function.Instance.sortItems(procedures, procedureList.SortOrder);
+
+            procedureList.Paging(procedures, 10);
+
+            if (procedureList.PageCount > 0)
+            {
+                if (procedureList.CurrentPage > procedureList.PageCount) procedureList.CurrentPage = procedureList.PageCount;
+                if (procedureList.CurrentPage < 1) procedureList.CurrentPage = 1;
+                if (procedureList.CurrentPage != procedureList.PageCount)
+                    try
+                    {
+                        procedureList.Items = procedureList.Items.GetRange((procedureList.CurrentPage - 1) * procedureList.PageSize, procedureList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    procedureList.Items = procedureList.Items.GetRange((procedureList.CurrentPage - 1) * procedureList.PageSize, procedureList.Items.Count % procedureList.PageSize == 0 ? procedureList.PageSize : procedureList.Items.Count % procedureList.PageSize);
+            }
+
+            return View("./Views/BDT/Procedure.cshtml", procedureList);
         }
         public IActionResult AddProcedure()
         {
@@ -283,15 +323,61 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             var reqUrl = Request.HttpContext.Request;
             var urlPath = reqUrl.Path;
             var CurrentID = urlPath.ToString().Split('/').Last();
-            
-
             var project = ProjectDAO.Instance.GetProjectModelbyId_Excel(CurrentID);
             return View("./Views/BDT/ProjectDetail.cshtml", project);
         }
         public IActionResult Training()
         {
-            var training = TrainingDAO.Instance.GetTrainingList_Excel();
-            return View("./Views/BDT/Training.cshtml", training);
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            ItemDisplay<Training> trainingList = new ItemDisplay<Training>();
+            trainingList.SortOrder = sortOrder;
+            trainingList.CurrentSearchField = searchField;
+            trainingList.CurrentSearchString = searchString;
+            trainingList.CurrentPage = currentPage;
+
+            List<Training> trainings = TrainingDAO.Instance.GetTrainingList_Excel();
+            trainings = Function.Instance.searchItems(trainings, trainingList);
+            trainings = Function.Instance.sortItems(trainings, trainingList.SortOrder);
+
+            trainingList.Paging(trainings, 10);
+
+            if (trainingList.PageCount > 0)
+            {
+                if (trainingList.CurrentPage > trainingList.PageCount) trainingList.CurrentPage = trainingList.PageCount;
+                if (trainingList.CurrentPage < 1) trainingList.CurrentPage = 1;
+                if (trainingList.CurrentPage != trainingList.PageCount)
+                    try
+                    {
+                        trainingList.Items = trainingList.Items.GetRange((trainingList.CurrentPage - 1) * trainingList.PageSize, trainingList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    trainingList.Items = trainingList.Items.GetRange((trainingList.CurrentPage - 1) * trainingList.PageSize, trainingList.Items.Count % trainingList.PageSize == 0 ? trainingList.PageSize : trainingList.Items.Count % trainingList.PageSize);
+            }
+
+            return View("./Views/BDT/Training.cshtml", trainingList);
+        }
+        [HttpPost]
+        public IActionResult Training(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        {
+            return RedirectToAction("Training", "BDT", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
         }
         public IActionResult TrainingDetail()
         {
