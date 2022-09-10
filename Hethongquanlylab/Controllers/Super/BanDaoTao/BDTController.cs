@@ -11,6 +11,7 @@ using OfficeOpenXml;
 using Newtonsoft.Json;
 using Hethongquanlylab.Models.Login;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Hethongquanlylab.Controllers.Super.BanDaoTao
 {
@@ -18,8 +19,33 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
     {
         public IActionResult Index()
         {
-            var notifications = NotificationDAO.Instance.GetNotificationList_Excel();
-            return View("./Views/BDT/BDTHome.cshtml", notifications);
+            String page;
+            var urlQuery = Request.HttpContext.Request.Query;
+            page = urlQuery["page"];
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+            ItemDisplay<Notification> notificationList = new ItemDisplay<Notification>();
+            notificationList.CurrentPage = currentPage;
+
+            List<Notification> notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+
+            notificationList.Paging(notifications, 5);
+
+            if (notificationList.PageCount > 0)
+            {
+                if (notificationList.CurrentPage > notificationList.PageCount) notificationList.CurrentPage = notificationList.PageCount;
+                if (notificationList.CurrentPage < 1) notificationList.CurrentPage = 1;
+                if (notificationList.CurrentPage != notificationList.PageCount)
+                    try
+                    {
+                        notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.Items.Count % notificationList.PageSize == 0 ? notificationList.PageSize : notificationList.Items.Count % notificationList.PageSize);
+            }
+            return View("./Views/BDT/BDTHome.cshtml", notificationList);
         }
 
         public IActionResult NotificationDetail()
@@ -347,8 +373,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
 
-            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
-            var unit = userSession.UserName;
+            var unit = "BanDaoTao";
             ItemDisplay<Notification> notificationList = new ItemDisplay<Notification>();
             notificationList.SortOrder = sortOrder;
             notificationList.CurrentSearchField = searchField;
@@ -389,11 +414,11 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
         }
 
         [HttpPost]
-        public IActionResult AddNotification(String Title, String Content, String Image, String Date, String Link)
+        public IActionResult AddNotification(String Title, String Content, String Date, String Link)
         {
             int ID = ProcedureDAO.Instance.GetMaxID() + 1;
-            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
-            var unit = userSession.UserName; // unit
+            var unit = "BanDaoTao";
+            String Image = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
             var newNotification = new Notification(ID, Title, Content, Image, unit, Date, Link);
             NotificationDAO.Instance.AddNotification(newNotification);
             return RedirectToAction("Notification");
