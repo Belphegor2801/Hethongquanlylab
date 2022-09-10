@@ -2,7 +2,6 @@
 
 @{
     @section Buttons{
-        <a class="header-item"></a>
         <a asp-action="Notification" class="header-item">Thông báo</a>
         <a asp-action="Training" class="header-item">Bài đào tạo</a>
         <a asp-action="Project" class="header-item">Dự án</a>
@@ -32,41 +31,35 @@
 </head>
 <body>
     <div class="wrap-back" style="display:flex;">
-        <a href="./banDaoTao.html"><h2 class="backMainPage"> Trang Chủ</h2></a>
+        <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
         <p>/</p>
-        <a href="./quyTrinh.html"><h2 style="padding-left: 10px;" class="backMainPage">Quy Trình</h2></a>
+        <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Quy trình</h2></a>
         <p>/</p>
-        <a href="#"><h2 style="padding-left: 10px;" class="backMainPage">Thêm Quy Trình</h2></a>
+        <a asp-action="AddProcedure"><h2 style="padding-left: 10px;" class="backMainPage"> Thêm quy trình</h2></a>
     </div>
-    <form asp-controller="" method="post" id="form-addprocedure">
+    <form asp-action="AddProcedure" method="post" id="form-addprocedure">
         <div class="wrap-themDuAn">
             <div>
                 <label for="">
                     Tên Quy Trình:
                     <input type="text" name="Name" value="">
                 </label>
-                <label for="">
-                    Loại Quy Trình:
-                    <input type="text" name="Id" value="">
-                </label>
             </div>
             <label for="">
                 Nội Dung:
-                <textarea style="width: 1030px; margin: 12px 0;" name="" id="procedure_content" cols="30" rows="10"></textarea>
+                <textarea style="width: 1030px; margin: 12px 0; min-height: 500px;" name="Content" id="procedure_content" cols="30" rows="10"></textarea>
             </label>
+
             <label style="width: 1030px; " for="">
                 Link Tài Liệu:
                 <input type="text" , name="Link" value="">
             </label>
+
             <div class="" style="text-align:left;">
-                <button class="add-nhanSu">
+                <button type="submit" class="add-nhanSu">
                     <i class="fa-solid fa-plus"></i>
                     Lưu
                 </button>
-                <button style="margin-left: 42px;" class="add-nhanSu">
-                    Lưu Và Gửi Duyệt
-                </button>
-
             </div>
 
         </div>

@@ -48,7 +48,8 @@ namespace Hethongquanlylab.DAO
                     date = sDate;
                 }
                 string unit = workSheet.Cells[i, 5].Value.ToString();
-                Training training = new Training(id, name, link, date, unit);
+                string content = workSheet.Cells[i, 6].Value.ToString();
+                Training training = new Training(id, name, link, date, unit, content);
                 trainingList.Add(training);
                 i++;
             }
@@ -81,7 +82,8 @@ namespace Hethongquanlylab.DAO
                         date = sDate;
                     }
                     string unit = workSheet.Cells[i, 5].Value.ToString();
-                    Training training = new Training(id, name, link, date, unit);
+                    string content = workSheet.Cells[i, 6].Value.ToString();
+                    Training training = new Training(id, name, link, date, unit, content);
                     return training;
                 }
             }

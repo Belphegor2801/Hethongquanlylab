@@ -44,110 +44,23 @@
             font-size: 30px;
             font-weight: 600;
             margin-bottom: 30px;" id="wrap-DuAn">
-        <div id="name-DuAn">Tên Dự Án </div>
-        <input style="display:none;" id="name-input" type="text" placeholder="@Model.Name">
-        <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
+        <div id="name-DuAn">@Model.Name</div>
     </div>
     <div class="wrap-themDuAn">
         <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-DuAn3">
             <div id="name-DuAn3">Ngày xuất bản: @Model.Date</div>
-            <input style="display:none;" id="name-input3" type="text" placeholder="dd/mm/yy">
-            <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
         </div>
 
         <div>
             <label for="">
                 Nội Dung:
-                <textarea style="width: 1030px; margin: 12px 0;" name="" id="" cols="30" rows="10"></textarea>
+                <textarea style="width: 1030px; margin: 12px 0;" name="" id="" cols="30" rows="10">@Model.Content</textarea>
             </label>
         </div>
         <div>
             <label style="width: 1030px; " for="">
-                Link Tài Liệu:
-                <div><input type="text"></div>
+                Link Tài Liệu: @Model.Link
             </label>
         </div>
     </div>
-
-
-    <div class="" style="margin-left: 886px;">
-        <button class="add-nhanSu">
-            <i class="fa-solid fa-plus"></i>
-            Lưu
-        </button>
-        <button style="margin-left: 42px;" class="add-nhanSu">
-            Lưu Và Gửi Duyệt
-        </button>
-
-    </div>
-    <script>
-        $("#wrap-DuAn").click(function () {
-            document.getElementById("name-DuAn").style.display = 'none';
-            document.getElementById("name-input").style.display = 'block';
-
-        })
-        $('#name-input').change(function () {
-            var textName = this.value;
-            console.log(textName);
-            if (textName) {
-                document.getElementById('name-DuAn').innerText = `${textName} `;
-            }
-        })
-        $('#name-input').focusout(function () {
-            document.getElementById("name-DuAn").style.display = 'block';
-            document.getElementById("name-input").style.display = 'none';
-        })
-
-        $("#wrap-DuAn2").click(function () {
-            document.getElementById("name-DuAn2").style.display = 'none';
-            document.getElementById("name-input2").style.display = 'block';
-
-        })
-        $('#name-input2').change(function () {
-            var textName = this.value;
-            console.log(textName);
-            if (textName) {
-                document.getElementById('name-DuAn2').innerText = `${textName} `;
-            }
-        })
-        $('#name-input2').focusout(function () {
-            document.getElementById("name-DuAn2").style.display = 'block';
-            document.getElementById("name-input2").style.display = 'none';
-        })
-
-        $("#wrap-DuAn3").click(function () {
-            document.getElementById("name-DuAn3").style.display = 'none';
-            document.getElementById("name-input3").style.display = 'block';
-
-        })
-        $('#name-input3').change(function () {
-            var textName = this.value;
-            console.log(textName);
-            if (textName) {
-                document.getElementById('name-DuAn3').innerText = `${textName} `;
-            }
-        })
-        $('#name-input3').focusout(function () {
-            document.getElementById("name-DuAn3").style.display = 'block';
-            document.getElementById("name-input3").style.display = 'none';
-        })
-
-        $("#wrap-DuAn4").click(function () {
-            document.getElementById("name-DuAn4").style.display = 'none';
-            document.getElementById("name-input4").style.display = 'block';
-
-        })
-        $('#name-input4').change(function () {
-            var textName = this.value;
-            console.log(textName);
-            if (textName) {
-                document.getElementById('name-DuAn4').innerText = `${textName} `;
-            }
-        })
-        $('#name-input4').focusout(function () {
-            document.getElementById("name-DuAn4").style.display = 'block';
-            document.getElementById("name-input4").style.display = 'none';
-        })
-
-    </script>
 </body>

@@ -179,6 +179,27 @@ namespace Hethongquanlylab.DAO
             workSheet.DeleteRow(i);
             package.Save();
         }
+        public void AddNotification(Notification notification)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/notification.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                i++;
+            }
+
+            int lastRow = i;
+            workSheet.Cells[lastRow, 1].Value = notification.ID;
+            workSheet.Cells[lastRow, 2].Value = notification.Title;
+            workSheet.Cells[lastRow, 3].Value = notification.Content;
+            workSheet.Cells[lastRow, 4].Value = notification.Unit;
+            workSheet.Cells[lastRow, 5].Value = notification.Date;
+            workSheet.Cells[lastRow, 6].Value = notification.Link;
+            package.Save();
+        }
 
     }
 }

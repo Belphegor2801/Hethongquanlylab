@@ -8,6 +8,9 @@ using Hethongquanlylab.Models;
 using System.IO;
 using Hethongquanlylab.Common;
 using OfficeOpenXml;
+using Newtonsoft.Json;
+using Hethongquanlylab.Models.Login;
+using Microsoft.AspNetCore.Http;
 
 namespace Hethongquanlylab.Controllers.Super.BanDaoTao
 {
@@ -167,7 +170,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             memberList.CurrentSearchString = searchString;
             memberList.CurrentPage = currentPage;
 
-            List<Member> members = UserDAO.Instance.GetListUser_Excel();
+            List<Member> members = UserDAO.Instance.FindMemberbyUnit("PT");
             members = Function.Instance.searchItems(members, memberList);
             members = Function.Instance.sortItems(members, memberList.SortOrder);
 
@@ -188,7 +191,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
                     memberList.Items = memberList.Items.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Items.Count % memberList.PageSize == 0 ? memberList.PageSize : memberList.Items.Count % memberList.PageSize);
             }
 
-            return View("./Views/BNS/Member.cshtml", memberList);
+            return View("./Views/BDT/Member.cshtml", memberList);
         }
 
         [HttpPost]
@@ -260,9 +263,25 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
 
             return View("./Views/BDT/Procedure.cshtml", procedureList);
         }
+        [HttpPost]
+        public IActionResult Procedure(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        {
+            return RedirectToAction("Procedure", "BDT", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+        }
         public IActionResult AddProcedure()
         {
             return View("./Views/BDT/AddProcedure.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult AddProcedure(String Name, String Content, String Link)
+        {
+            int ID = ProcedureDAO.Instance.GetMaxID() + 1;
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+            var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link);
+            ProcedureDAO.Instance.AddProcedure(newProcedure);
+            return RedirectToAction("Procedure");
         }
         public IActionResult ExportProcedureToExcel()
         {
@@ -301,10 +320,83 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
                 }
             }
         }
+        public IActionResult DeleteProcedure()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String ProcedureId_delete = urlQuery["procedureID"];
+            ProcedureDAO.Instance.DeleteProcedure(ProcedureId_delete);
+
+            return RedirectToAction("Procedure");
+        }
         public IActionResult Notification()
         {
-            var notification = NotificationDAO.Instance.GetNotificationListbyUnit("Ban Đào tạo");
-            return View("./Views/BDT/Notification.cshtml", notification);
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName;
+            ItemDisplay<Notification> notificationList = new ItemDisplay<Notification>();
+            notificationList.SortOrder = sortOrder;
+            notificationList.CurrentSearchField = searchField;
+            notificationList.CurrentSearchString = searchString;
+            notificationList.CurrentPage = currentPage;
+
+            List<Notification> notifications = NotificationDAO.Instance.GetNotificationListbyUnit(unit);
+            notifications = Function.Instance.searchItems(notifications, notificationList);
+            notifications = Function.Instance.sortItems(notifications, notificationList.SortOrder);
+
+            notificationList.Paging(notifications, 10);
+
+            if (notificationList.PageCount > 0)
+            {
+                if (notificationList.CurrentPage > notificationList.PageCount) notificationList.CurrentPage = notificationList.PageCount;
+                if (notificationList.CurrentPage < 1) notificationList.CurrentPage = 1;
+                if (notificationList.CurrentPage != notificationList.PageCount)
+                    try
+                    {
+                        notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.Items.Count % notificationList.PageSize == 0 ? notificationList.PageSize : notificationList.Items.Count % notificationList.PageSize);
+            }
+
+            return View("./Views/BDT/Notification.cshtml", notificationList);
+        }
+        [HttpPost]
+        public IActionResult Notification(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        {
+            return RedirectToAction("Notification", "BDT", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+        }
+        public IActionResult AddNotification()
+        {
+            return View("./Views/BDT/AddNotification.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult AddNotification(String Title, String Content, String Image, String Date, String Link)
+        {
+            int ID = ProcedureDAO.Instance.GetMaxID() + 1;
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+            var newNotification = new Notification(ID, Title, Content, Image, unit, Date, Link);
+            NotificationDAO.Instance.AddNotification(newNotification);
+            return RedirectToAction("Notification");
         }
         public IActionResult DeleteNotification()
         {
