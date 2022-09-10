@@ -9,6 +9,8 @@ using System.Linq;
 using Hethongquanlylab.DAO;
 using Hethongquanlylab.Models;
 using Hethongquanlylab.Models.Login;
+using SelectPdf;
+using System.Web;
 
 namespace Hethongquanlylab.Controllers.User
 {
@@ -25,6 +27,19 @@ namespace Hethongquanlylab.Controllers.User
             var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
             var user = UserDAO.Instance.GetUserByID_Excel("110");
             return View("./Views/User/Infor/Infor.cshtml", user);
+        }
+
+        [HttpPost]
+        public IActionResult ExportToPDF(string GridHtml)
+        {
+            SelectPdf.GlobalProperties.HtmlEngineFullPath = Path.GetFullPath("~/bin/Debug/netcoreapp3.1/Select.Html.dep").Replace("~\\", "");
+            GridHtml = GridHtml.Replace("StrTag", "<").Replace("EndTag", ">");
+            HtmlToPdf pHtml = new HtmlToPdf();
+            PdfDocument pdfDocument = pHtml.ConvertHtmlString(GridHtml);
+            byte[] pdf = pdfDocument.Save();
+            pdfDocument.Close();
+            return File(pdf, "application/pdf", "Grid.pdf");
+
         }
 
         public IActionResult EditInfor()
@@ -61,5 +76,6 @@ namespace Hethongquanlylab.Controllers.User
             var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
             return View("./Views/Shared/NotificationDetail.cshtml", notification);
         }
+
     }
 }

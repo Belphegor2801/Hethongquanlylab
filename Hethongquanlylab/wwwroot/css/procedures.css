@@ -1,9 +1,9 @@
-﻿
-.backMainPage {
+﻿.backMainPage {
     margin: 0;
     color: #212121;
     padding-top: 40px;
     padding-left: 40px;
+    padding-bottom: 0px;
 }
 
     .backMainPage:hover {
@@ -31,7 +31,7 @@ td {
 }
 
 th, td {
-    text-align: center;
+    text-align: left;
     padding: 10px;
 }
 
@@ -83,10 +83,10 @@ table tr:nth-child(1) {
     }
 
 .wrap-totalMember {
-    width: 1030px;
+    width: 30%;
     margin: auto;
     display: flex;
-    margin-top: 36px;
+    margin-top: 25px;
 }
 
 .totalMember {
@@ -144,6 +144,7 @@ fieldset .myClass {
 label textarea {
     width: 50vw;
 }
+
 .wrap-themDuAn {
     width: 1030px;
     display: flex;
@@ -152,17 +153,18 @@ label textarea {
     justify-content: space-between;
 }
 
-.wrap-themDuAn label {
+    .wrap-themDuAn label {
+        width: 30vw;
         display: flex;
         flex-direction: column;
-        width: 1030px;
- }
+    }
 
-.wrap-themDuAn label input {
-    padding: 8px 24px;
-    margin: 12px 0;
-    width: 1030px;
-}
+        .wrap-themDuAn label input {
+            padding: 8px 24px;
+            margin: 12px 0;
+        }
+
+
 .ui-dialog-titlebar {
     display: none;
 }
@@ -192,3 +194,4 @@ label textarea {
 .ui-dialog-titlebar-close {
     display: none;
 }
+

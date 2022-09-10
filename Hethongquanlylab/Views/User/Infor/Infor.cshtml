@@ -28,7 +28,8 @@
 </head>
 
 <body>
-    <div class="cv_body">
+
+    <div id="Grid" class="cv_body">
         <div class="container">
             <div class="profile">
                 <div class="profile_container">
@@ -46,9 +47,7 @@
                         <h2 style="margin-top: 10px" class="profile_title">Gen: @Model.Gen</h2>
                         <h2 style="margin-top: 10px" class="profile_title">Đơn vị: @Model.Unit</h2>
                         <h2 style="margin-top: 10px" class="profile_title">Chức vụ: @Model.Position</h2>
-                        <form asp-controller="User">
-                            <a asp-action="EditInfor" class="form-submit" style="margin-top: 15px;"> Sửa thông tin</a>
-                        </form>
+
                     </div>
                 </div>
             </div>
@@ -123,10 +122,20 @@
             </div>
         </div>
     </div>
-    <hr>
-    <div>
 
-    </div>
+    <form asp-action="ExportToPDF" method="post">
+        <input type="hidden" name="GridHtml" />
+        <input type="submit" id="btnSubmit" value="Export" />
+    </form>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnSubmit").click(function () {
+                $("input[name='GridHtml']").val($("#Grid").html().replace(/</g, "StrTag").replace(/>/g, "EndTag"));
+            });
+        });
+    </script>
+
 </body>
 
 </html>
