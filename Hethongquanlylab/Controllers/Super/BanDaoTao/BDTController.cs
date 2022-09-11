@@ -24,28 +24,28 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             page = urlQuery["page"];
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
-            ItemDisplay<Notification> notificationList = new ItemDisplay<Notification>();
-            notificationList.CurrentPage = currentPage;
+            ItemDisplay<Notification> itemList = new ItemDisplay<Notification>();
+            itemList.CurrentPage = currentPage;
 
-            List<Notification> notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+            List<Notification> items = NotificationDAO.Instance.GetNotificationList_Excel();
 
-            notificationList.Paging(notifications, 5);
+            itemList.Paging(items, 5);
 
-            if (notificationList.PageCount > 0)
+            if (itemList.PageCount > 0)
             {
-                if (notificationList.CurrentPage > notificationList.PageCount) notificationList.CurrentPage = notificationList.PageCount;
-                if (notificationList.CurrentPage < 1) notificationList.CurrentPage = 1;
-                if (notificationList.CurrentPage != notificationList.PageCount)
+                if (itemList.CurrentPage > itemList.PageCount) itemList.CurrentPage = itemList.PageCount;
+                if (itemList.CurrentPage < 1) itemList.CurrentPage = 1;
+                if (itemList.CurrentPage != itemList.PageCount)
                     try
                     {
-                        notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.PageSize);
+                        itemList.Items = itemList.Items.GetRange((itemList.CurrentPage - 1) * itemList.PageSize, itemList.PageSize);
                     }
                     catch { }
 
                 else
-                    notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.Items.Count % notificationList.PageSize == 0 ? notificationList.PageSize : notificationList.Items.Count % notificationList.PageSize);
+                    itemList.Items = itemList.Items.GetRange((itemList.CurrentPage - 1) * itemList.PageSize, itemList.Items.Count % itemList.PageSize == 0 ? itemList.PageSize : itemList.Items.Count % itemList.PageSize);
             }
-            return View("./Views/BDT/BDTHome.cshtml", notificationList);
+            return View("./Views/BDT/BDTHome.cshtml", itemList);
         }
 
         public IActionResult NotificationDetail()
@@ -56,7 +56,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             var currenId = Convert.ToInt32(CurrentID);
 
             var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
-            return View("./Views/Shared/NotificationDetail.cshtml", notification);
+            return View("./Views/BDT/NotificationDetail.cshtml", notification);
         }
 
         private List<Member> sortMember(List<Member> members, String sortOrder)
@@ -373,35 +373,35 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
 
-            var unit = "BanDaoTao";
-            ItemDisplay<Notification> notificationList = new ItemDisplay<Notification>();
-            notificationList.SortOrder = sortOrder;
-            notificationList.CurrentSearchField = searchField;
-            notificationList.CurrentSearchString = searchString;
-            notificationList.CurrentPage = currentPage;
+            var unit = "Ban Đào tạo";
+            ItemDisplay<Notification> itemList = new ItemDisplay<Notification>();
+            itemList.SortOrder = sortOrder;
+            itemList.CurrentSearchField = searchField;
+            itemList.CurrentSearchString = searchString;
+            itemList.CurrentPage = currentPage;
 
-            List<Notification> notifications = NotificationDAO.Instance.GetNotificationListbyUnit(unit);
-            notifications = Function.Instance.searchItems(notifications, notificationList);
-            notifications = Function.Instance.sortItems(notifications, notificationList.SortOrder);
+            List<Notification> items = NotificationDAO.Instance.GetNotificationListbyUnit(unit);
+            items = Function.Instance.searchItems(items, itemList);
+            items = Function.Instance.sortItems(items, itemList.SortOrder);
 
-            notificationList.Paging(notifications, 10);
+            itemList.Paging(items, 10);
 
-            if (notificationList.PageCount > 0)
+            if (itemList.PageCount > 0)
             {
-                if (notificationList.CurrentPage > notificationList.PageCount) notificationList.CurrentPage = notificationList.PageCount;
-                if (notificationList.CurrentPage < 1) notificationList.CurrentPage = 1;
-                if (notificationList.CurrentPage != notificationList.PageCount)
+                if (itemList.CurrentPage > itemList.PageCount) itemList.CurrentPage = itemList.PageCount;
+                if (itemList.CurrentPage < 1) itemList.CurrentPage = 1;
+                if (itemList.CurrentPage != itemList.PageCount)
                     try
                     {
-                        notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.PageSize);
+                        itemList.Items = itemList.Items.GetRange((itemList.CurrentPage - 1) * itemList.PageSize, itemList.PageSize);
                     }
                     catch { }
 
                 else
-                    notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.Items.Count % notificationList.PageSize == 0 ? notificationList.PageSize : notificationList.Items.Count % notificationList.PageSize);
+                    itemList.Items = itemList.Items.GetRange((itemList.CurrentPage - 1) * itemList.PageSize, itemList.Items.Count % itemList.PageSize == 0 ? itemList.PageSize : itemList.Items.Count % itemList.PageSize);
             }
 
-            return View("./Views/BDT/Notification.cshtml", notificationList);
+            return View("./Views/BDT/Notification.cshtml", itemList);
         }
         [HttpPost]
         public IActionResult Notification(String sortOrder, String searchString, String searchField, int currentPage = 1)
@@ -414,15 +414,27 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
         }
 
         [HttpPost]
-        public IActionResult AddNotification(String Title, String Content, String Date, String Link)
+        public IActionResult AddNotification(String Title, String Content,  String Date, String Link)
         {
-            int ID = ProcedureDAO.Instance.GetMaxID() + 1;
-            var unit = "BanDaoTao";
-            String Image = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
-            var newNotification = new Notification(ID, Title, Content, Image, unit, Date, Link);
+            int ID = NotificationDAO.Instance.GetMaxID() + 1;
+            var newNotification = new Notification(ID, Title, Content, "Ban Đào tạo", Date, Link);
             NotificationDAO.Instance.AddNotification(newNotification);
             return RedirectToAction("Notification");
         }
+        [HttpPost]
+        public IActionResult EditNotification(String Title, String Content, String Date, String Link)
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var ID = Convert.ToInt32(CurrentID);
+
+            var unit = "Ban Đào tạo"; // unit
+            var newNotification = new Notification(ID,Title,Content.ToString(),unit, Date, Link);
+            NotificationDAO.Instance.EditNotification(newNotification);
+            return RedirectToAction("Notification");
+        }
+
         public IActionResult DeleteNotification()
         {
             var urlQuery = Request.HttpContext.Request.Query;
@@ -432,16 +444,83 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
         }
         public IActionResult Project()
         {
-            var project = ProjectDAO.Instance.GetProjectList_Excel();
-            return View("./Views/BDT/Project.cshtml", project);
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            var unit = "BanDaoTao";
+            ItemDisplay<Project> itemList = new ItemDisplay<Project>();
+            itemList.SortOrder = sortOrder;
+            itemList.CurrentSearchField = searchField;
+            itemList.CurrentSearchString = searchString;
+            itemList.CurrentPage = currentPage;
+
+            List<Project> items = ProjectDAO.Instance.GetProjectList_Excel();
+            items = Function.Instance.searchItems(items, itemList);
+            items = Function.Instance.sortItems(items, itemList.SortOrder);
+
+            itemList.Paging(items, 10);
+
+            if (itemList.PageCount > 0)
+            {
+                if (itemList.CurrentPage > itemList.PageCount) itemList.CurrentPage = itemList.PageCount;
+                if (itemList.CurrentPage < 1) itemList.CurrentPage = 1;
+                if (itemList.CurrentPage != itemList.PageCount)
+                    try
+                    {
+                        itemList.Items = itemList.Items.GetRange((itemList.CurrentPage - 1) * itemList.PageSize, itemList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    itemList.Items = itemList.Items.GetRange((itemList.CurrentPage - 1) * itemList.PageSize, itemList.Items.Count % itemList.PageSize == 0 ? itemList.PageSize : itemList.Items.Count % itemList.PageSize);
+            }
+
+            return View("./Views/BDT/Project.cshtml", itemList);
         }
-        public IActionResult ProjectDetail()
+        [HttpPost]
+        public IActionResult Project(String sortOrder, String searchString, String searchField, int currentPage = 1)
         {
-            var reqUrl = Request.HttpContext.Request;
-            var urlPath = reqUrl.Path;
-            var CurrentID = urlPath.ToString().Split('/').Last();
-            var project = ProjectDAO.Instance.GetProjectModelbyId_Excel(CurrentID);
-            return View("./Views/BDT/ProjectDetail.cshtml", project);
+            return RedirectToAction("Project", "BDT", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+        }
+        public IActionResult AddProject()
+        {
+            return View("./Views/BDT/AddProject.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult AddProject(String Name, String StartDay, String Endday,String ProjectType, String Unit, String Status)
+        {
+            string ID = ProjectDAO.Instance.GetMaxID() + 1;
+            var newNotification = new Project(ID, Name, StartDay, Endday, ProjectType, Unit, Status);
+            ProjectDAO.Instance.AddProject(newNotification);
+            return RedirectToAction("Project");
+        }
+        public IActionResult DeleteProject()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String ID_delete = urlQuery["ID"];
+            NotificationDAO.Instance.DeleteNotification(ID_delete);
+            return RedirectToAction("Project");
+        }
+        public IActionResult ExportProjectToExcel()
+        {
+            List<Project> project = ProjectDAO.Instance.GetProjectList_Excel();
+            var stream = Function.Instance.ExportToExcel<Project>(project);
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachDuAn.xlsx");
         }
         public IActionResult Training()
         {
@@ -505,6 +584,12 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
 
             var training = TrainingDAO.Instance.GetTrainingModelbyId_Excel(currenId);
             return View("./Views/BDT/TrainingDetail.cshtml", training);
+        }
+        public IActionResult ExportTrainingToExcel()
+        {
+            List<Training> training = TrainingDAO.Instance.GetTrainingList_Excel();
+            var stream = Function.Instance.ExportToExcel<Training>(training);
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách bài đào tạo.xlsx");
         }
     }
 }

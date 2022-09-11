@@ -32,7 +32,6 @@ namespace Hethongquanlylab.DAO
                 int j = 1;
                 string id = workSheet.Cells[i, 1].Value.ToString();
                 string name = workSheet.Cells[i, 2].Value.ToString();
-                string labid = workSheet.Cells[i, 3].Value.ToString();
                 string sDate = (workSheet.Cells[i, 4].Value).ToString();
                 string eDate = workSheet.Cells[i, 5].Value.ToString();
                 string StartDay;
@@ -53,7 +52,7 @@ namespace Hethongquanlylab.DAO
                 string projectType = workSheet.Cells[i, 6].Value.ToString();
                 string status = workSheet.Cells[i, 7].Value.ToString();
                 string unit = workSheet.Cells[i, 8].Value.ToString();
-                Project project = new Project(id, name, labid, StartDay, EndDay, projectType, status, unit);
+                Project project = new Project(id, name, StartDay, EndDay, projectType, status, unit);
                 projectList.Add(project);
                 i++;
             }
@@ -73,7 +72,6 @@ namespace Hethongquanlylab.DAO
                 if(idProject == id)
                 {
                     string name = workSheet.Cells[i, 2].Value.ToString();
-                    string labid = workSheet.Cells[i, 3].Value.ToString();
                     string sDate = (workSheet.Cells[i, 4].Value).ToString();
                     string eDate = workSheet.Cells[i, 5].Value.ToString();
                     string StartDay;
@@ -94,7 +92,7 @@ namespace Hethongquanlylab.DAO
                     string projectType = workSheet.Cells[i, 6].Value.ToString();
                     string status = workSheet.Cells[i, 7].Value.ToString();
                     string unit = workSheet.Cells[i, 8].Value.ToString();
-                    Project project = new Project(id, name, labid, StartDay, EndDay, projectType, status, unit);
+                    Project project = new Project(id, name, StartDay, EndDay, projectType, status, unit);
                     return project;
                 }
                 i++;
@@ -120,6 +118,36 @@ namespace Hethongquanlylab.DAO
             }
             workSheet.DeleteRow(i);
             package.Save();
+        }
+        public void AddProject(Project project)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/project.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                i++;
+            }
+
+            int lastRow = i;
+            workSheet.Cells[lastRow, 1].Value = project.Id;
+            workSheet.Cells[lastRow, 2].Value = project.Name;
+            workSheet.Cells[lastRow, 8].Value = project.Unit;
+            workSheet.Cells[lastRow, 4].Value = project.Startday;
+            workSheet.Cells[lastRow, 5].Value = project.Endday;
+            workSheet.Cells[lastRow, 7].Value = project.ProjectType;
+            workSheet.Cells[lastRow, 9].Value = project.Status;
+            package.Save();
+        }
+        public string GetMaxID()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/project.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            return workSheet.Dimension.End.Row.ToString();
         }
     }
 }

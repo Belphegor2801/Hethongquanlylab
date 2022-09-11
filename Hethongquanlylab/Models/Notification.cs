@@ -12,7 +12,6 @@ namespace Hethongquanlylab.Models
         private int id;
         private string title;
         private string content;
-        private string image;
         private string unit;
         private string date;
         private string link;
@@ -20,17 +19,15 @@ namespace Hethongquanlylab.Models
         public int ID { get => id; set => id = value; }
         public string Title { get => title; set => title = value; }
         public string Content { get => content; set => content = value; }
-        public string Image { get => image; set => image = value; }
         public string Unit { get => unit; set => unit = value; }
         public string Date { get => date; set => date = value; }
         public string Link { get => link; set => link = value; }
 
-        public Notification(int id, string title, string content, string image,string unit, string date, string link)
+        public Notification(int id, string title, string content,string unit, string date, string link)
         {
             this.ID = id;
             this.Title = title;
             this.Content = content;
-            this.Image = image;
             this.Unit = unit;
             this.Date = date;
             this.Link = link;
@@ -41,7 +38,6 @@ namespace Hethongquanlylab.Models
             this.ID = (int)row["id"];
             this.Title = (string)row["title"];
             this.Content = (string)row["content"];
-            this.Image = (string)row["image"];
         }
     }
 }
