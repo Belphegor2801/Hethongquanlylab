@@ -155,7 +155,7 @@ label textarea {
 
     .wrap-themDuAn label {
         width: 30vw;
-        display: flex;
+        display: block;
         flex-direction: column;
     }
 
