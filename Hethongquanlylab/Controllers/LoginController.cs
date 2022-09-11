@@ -79,6 +79,8 @@ namespace Hethongquanlylab.Controllers
 
                         if (user.Username == "BanNhanSu") return RedirectToAction("Index", "BNS");
                         else if (user.Username == "BanDaoTao") return RedirectToAction("Index", "BDT");
+                        else if (user.Username == "BanTruyenThong") return RedirectToAction("Index", "BTT");
+                        else if (user.Username == "BanGiamSat") return RedirectToAction("Index", "BGS");
                         else return RedirectToAction("Index", "BNS");
                     }
 

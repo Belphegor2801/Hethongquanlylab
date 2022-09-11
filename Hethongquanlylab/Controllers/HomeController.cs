@@ -22,8 +22,33 @@ namespace Hethongquanlylab.Controllers
 
         public IActionResult Index()
         {
-            var notifications = NotificationDAO.Instance.GetNotificationList_Excel();
-            return View("~/Views/Home/Home.cshtml", notifications);
+            String page;
+            var urlQuery = Request.HttpContext.Request.Query;
+            page = urlQuery["page"];
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+            ItemDisplay<Notification> notificationList = new ItemDisplay<Notification>();
+            notificationList.CurrentPage = currentPage;
+
+            List<Notification> notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+
+            notificationList.Paging(notifications, 5);
+
+            if (notificationList.PageCount > 0)
+            {
+                if (notificationList.CurrentPage > notificationList.PageCount) notificationList.CurrentPage = notificationList.PageCount;
+                if (notificationList.CurrentPage < 1) notificationList.CurrentPage = 1;
+                if (notificationList.CurrentPage != notificationList.PageCount)
+                    try
+                    {
+                        notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.Items.Count % notificationList.PageSize == 0 ? notificationList.PageSize : notificationList.Items.Count % notificationList.PageSize);
+            }
+            return View("~/Views/Home/Home.cshtml", notificationList);
         }
 
         public IActionResult Privacy()

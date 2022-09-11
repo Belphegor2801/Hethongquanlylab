@@ -35,8 +35,21 @@ namespace Hethongquanlylab.DAO
                 int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                 string name = workSheet.Cells[i, 2].Value.ToString();
                 string link = workSheet.Cells[i, 3].Value.ToString();
-                /*string unit = workSheet.Cells[i, 5].Value.ToString();*/
-                Training training = new Training(id, name, link, "28/08/2022", "PT Lập trình");
+                string sDate = (workSheet.Cells[i, 4].Value).ToString();
+                string date;
+                try
+                {
+                    double day = Convert.ToDouble(sDate);
+                    DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+                    date = DateTime.FromOADate(day).ToString("d", fmt);
+                }
+                catch
+                {
+                    date = sDate;
+                }
+                string unit = workSheet.Cells[i, 5].Value.ToString();
+                string content = workSheet.Cells[i, 6].Value.ToString();
+                Training training = new Training(id, name, link, date, unit, content);
                 trainingList.Add(training);
                 i++;
             }
@@ -56,7 +69,7 @@ namespace Hethongquanlylab.DAO
                 {
                     string name = workSheet.Cells[i, 2].Value.ToString();
                     string link = workSheet.Cells[i, 3].Value.ToString();
-                    /*string sDate = (workSheet.Cells[i, 4].Value).ToString();
+                    string sDate = (workSheet.Cells[i, 4].Value).ToString();
                     string date;
                     try
                     {
@@ -67,9 +80,10 @@ namespace Hethongquanlylab.DAO
                     catch
                     {
                         date = sDate;
-                    }*/
-                    /*string unit = workSheet.Cells[i, 5].Value.ToString();*/
-                    Training training = new Training(id, name, link, "28/08/2022", "PT Lập trình");
+                    }
+                    string unit = workSheet.Cells[i, 5].Value.ToString();
+                    string content = workSheet.Cells[i, 6].Value.ToString();
+                    Training training = new Training(id, name, link, date, unit, content);
                     return training;
                 }
             }

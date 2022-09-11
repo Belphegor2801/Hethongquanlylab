@@ -46,7 +46,7 @@ namespace Hethongquanlylab.DAO
                     date = sDate;
                 }
                 string link = workSheet.Cells[i, 7].Value == null? "none": workSheet.Cells[i, 7].Value.ToString(); ;
-                Notification notification = new Notification(id, title, content, image, unit, date, link);
+                Notification notification = new Notification(id, title, content, unit, date, link);
                 notificationList.Add(notification);
             }
             return notificationList;
@@ -80,7 +80,7 @@ namespace Hethongquanlylab.DAO
                         date = sDate;
                     }
                     string link = workSheet.Cells[i, 7].Value == null ? "none" : workSheet.Cells[i, 7].Value.ToString(); ;
-                    Notification notification = new Notification(id, title, content, image, unit, date, link);
+                    Notification notification = new Notification(id, title, content, unit, date, link);
                     return notification;
                 }
             }
@@ -101,7 +101,6 @@ namespace Hethongquanlylab.DAO
                 {
                     int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                     string content = workSheet.Cells[i, 3].Value.ToString();
-                    string image = workSheet.Cells[i, 4].Value.ToString();
                     string unit = workSheet.Cells[i, 5].Value.ToString();
                     string sDate = (workSheet.Cells[i, 6].Value).ToString();
                     string date;
@@ -116,7 +115,7 @@ namespace Hethongquanlylab.DAO
                         date = sDate;
                     }
                     string link = workSheet.Cells[i, 7].Value.ToString();
-                    Notification notification = new Notification(id, title, content, image, unit, date, link);
+                    Notification notification = new Notification(id, title, content, unit, date, link);
                     notificationList.Add(notification);
                 }
                 i++;
@@ -138,7 +137,6 @@ namespace Hethongquanlylab.DAO
                     int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                     string title = workSheet.Cells[i, 2].Value.ToString();
                     string content = workSheet.Cells[i, 3].Value.ToString();
-                    string image = workSheet.Cells[i, 4].Value.ToString();
                     string sDate = (workSheet.Cells[i, 6].Value).ToString();
                     string date;
                     try
@@ -152,7 +150,7 @@ namespace Hethongquanlylab.DAO
                         date = sDate;
                     }
                     string link = workSheet.Cells[i, 7].Value.ToString();
-                    Notification notification = new Notification(id, title, content, image, unit, date, link);
+                    Notification notification = new Notification(id, title, content, unit, date, link);
                     notificationList.Add(notification);
                 }
                 i++;
@@ -179,6 +177,57 @@ namespace Hethongquanlylab.DAO
             workSheet.DeleteRow(i);
             package.Save();
         }
+        public void AddNotification(Notification notification)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/notification.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
 
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                i++;
+            }
+
+            int lastRow = i;
+            workSheet.Cells[lastRow, 1].Value = notification.ID;
+            workSheet.Cells[lastRow, 2].Value = notification.Title;
+            workSheet.Cells[lastRow, 3].Value = notification.Content;
+            workSheet.Cells[lastRow, 5].Value = notification.Unit;
+            workSheet.Cells[lastRow, 6].Value = DateTime.Now.ToString("dd/MM/yyyy hh:mm");
+            workSheet.Cells[lastRow, 7].Value = notification.Link;
+            package.Save();
+        }
+        public int GetMaxID()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/notification.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            return workSheet.Dimension.End.Row;
+        }
+        public void EditNotification(Notification notification)
+        {
+            List<Notification> notificationList = new List<Notification>();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/notification.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i;
+            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                string Id = workSheet.Cells[i, 1].Value.ToString();
+                if (notification.ID.ToString() == Id)
+                {
+                    break;
+                }
+            }
+            workSheet.Cells[i, 1].Value = notification.ID;
+            workSheet.Cells[i, 2].Value = notification.Title;
+            workSheet.Cells[i, 3].Value = notification.Content;
+            workSheet.Cells[i, 4].Value = DateTime.Now.ToString("dd/mm/yyyy HH:mm:ss");
+            workSheet.Cells[i, 5].Value = notification.Content;
+            package.Save();
+        }
     }
 }
