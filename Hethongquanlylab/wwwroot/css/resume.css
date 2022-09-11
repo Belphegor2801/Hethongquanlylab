@@ -1,18 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
 
-* {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-}
-:root {
-	--primary-color: #EDCD1F;
-	--text-color: #808080;
-}
-html {
-	font-size: 10px;
-	scroll-behavior: smooth;
-}
 .cv_body{
 	
 	font-family: Arial;

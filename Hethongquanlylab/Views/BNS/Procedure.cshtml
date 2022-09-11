@@ -324,7 +324,7 @@
             position: fixed !important;
             border-radius: 24px !important;
             padding: 30px 30px 40px;
-            background-color: #fff;
+            background-color: #fff !important;
             box-shadow: 0px 0px 17px 2px #edcd1f;
         }
     </style>
@@ -336,28 +336,20 @@
             <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.ID">
                 <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa quy trình ID = @item.ID không? </a>
                 <div>
-                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteProcedure", "BNS", new{ID = @item.ID})'" value="Có">Có</button>
+                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteProcedure", "BNS", new{procedureID = @item.ID})'">Có</button>
                     <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
                 </div>
             </div>
         }
     }
 
-    <style>
-        .form-frame {
-            position: fixed !important;
-            border-radius: 24px !important;
-            padding: 30px 30px 40px;
-            background-color: #000;
-        }
-    </style>
     <script>
         function confirm_detele(id) {
             var subScene = document.getElementsByClassName("delete-form");
             for (let i = 0; i < subScene.length; i++) {
                 subScene[i].style.display = "none";
                 if (subScene[i].id == id) {
-                    subScene[i].style.display = "flex";
+                    subScene[i].style.display = "block";
                 }
             }
         }

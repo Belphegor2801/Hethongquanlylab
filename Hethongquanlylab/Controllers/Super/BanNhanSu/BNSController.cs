@@ -241,6 +241,21 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             return RedirectToAction("Procedure");
         }
 
+        [HttpPost]
+        public IActionResult EditProcedure(String Name, String Content, String Link)
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var ID = Convert.ToInt32(CurrentID);
+
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+            var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link);
+            ProcedureDAO.Instance.EditProcedure(newProcedure);
+            return RedirectToAction("Procedure");
+        }
+
         public IActionResult DeleteProcedure()
         {
             var urlQuery = Request.HttpContext.Request.Query;

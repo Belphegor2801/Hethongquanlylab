@@ -32,7 +32,8 @@ namespace Hethongquanlylab.DAO
                 int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
                 string name = workSheet.Cells[i, j++].Value.ToString();
                 string unit = workSheet.Cells[i, j++].Value.ToString();
-                string senddate = workSheet.Cells[i, j++].Value.ToString();
+                var SendDate = workSheet.Cells[i, j++].Value;
+                string senddate = SendDate == null? "01/01/1111": SendDate.ToString();
                 string content = workSheet.Cells[i, j++].Value.ToString();
                 var V1 = workSheet.Cells[i, j++].Value;
                 string v1 = V1 == null ? "false" : V1.ToString();
@@ -62,7 +63,8 @@ namespace Hethongquanlylab.DAO
                     int j = 2;
                     string name = workSheet.Cells[i, j++].Value.ToString();
                     string unit = workSheet.Cells[i, j++].Value.ToString();
-                    string senddate = workSheet.Cells[i, j++].Value.ToString();
+                    var SendDate = workSheet.Cells[i, j++].Value;
+                    string senddate = SendDate == null ? "01/01/1111" : SendDate.ToString();
                     string content = workSheet.Cells[i, j++].Value.ToString();
                     var V1 = workSheet.Cells[i, j++].Value;
                     string v1 = V1 == null ? "false" : V1.ToString();
@@ -132,6 +134,35 @@ namespace Hethongquanlylab.DAO
                 i++;
             }
             workSheet.DeleteRow(i);
+            package.Save();
+        }
+
+        public void EditProcedure(Procedure procedure)
+        {
+            List<Notification> notificationList = new List<Notification>();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/procedure.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i;
+            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                string Id = workSheet.Cells[i, 1].Value.ToString();
+                if (procedure.ID.ToString() == Id)
+                {
+                    break;
+                }
+            }
+            workSheet.Cells[i, 1].Value = procedure.ID;
+            workSheet.Cells[i, 2].Value = procedure.Name;
+            workSheet.Cells[i, 3].Value = procedure.Unit;
+            workSheet.Cells[i, 4].Value = procedure.Senddate;
+            workSheet.Cells[i, 5].Value = procedure.Content;
+            workSheet.Cells[i, 6].Value = procedure.V1;
+            workSheet.Cells[i, 7].Value = procedure.V2;
+            workSheet.Cells[i, 8].Value = procedure.V3;
+            workSheet.Cells[i, 9].Value = procedure.Status;
+            workSheet.Cells[i, 10].Value = procedure.Link;
             package.Save();
         }
 

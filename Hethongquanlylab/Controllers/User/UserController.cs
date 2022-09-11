@@ -35,7 +35,9 @@ namespace Hethongquanlylab.Controllers.User
             SelectPdf.GlobalProperties.HtmlEngineFullPath = Path.GetFullPath("~/bin/Debug/netcoreapp3.1/Select.Html.dep").Replace("~\\", "");
             GridHtml = GridHtml.Replace("StrTag", "<").Replace("EndTag", ">");
             HtmlToPdf pHtml = new HtmlToPdf();
-            PdfDocument pdfDocument = pHtml.ConvertHtmlString(GridHtml);
+            string baseUrl = string.Format("{0}://{1}",
+                       HttpContext.Request.Scheme, HttpContext.Request.Host);
+            PdfDocument pdfDocument = pHtml.ConvertHtmlString(GridHtml, baseUrl);
             byte[] pdf = pdfDocument.Save();
             pdfDocument.Close();
             return File(pdf, "application/pdf", "Grid.pdf");
