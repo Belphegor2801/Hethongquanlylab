@@ -42,6 +42,7 @@ namespace Hethongquanlylab.DAO
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
                 adapter.Fill(data);
                 connection.Close();
+
             }
 
             return data;

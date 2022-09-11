@@ -74,7 +74,6 @@ namespace Hethongquanlylab.Models
                 double page_Count = (double)((decimal)this.items.Count() / Convert.ToDecimal(this.pageSize));
                 this.pageCount = (int)Math.Ceiling(page_Count);
             }
-
         }
     }
 }
