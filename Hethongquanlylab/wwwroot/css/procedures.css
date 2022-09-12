@@ -146,7 +146,7 @@ label textarea {
 }
 
 .wrap-themDuAn {
-    width: 1030px;
+    width: 65%;
     display: flex;
     flex-wrap: wrap;
     margin: auto;
@@ -154,7 +154,7 @@ label textarea {
 }
 
     .wrap-themDuAn label {
-        width: 30vw;
+        width: 100%;
         display: block;
         flex-direction: column;
     }
@@ -162,6 +162,7 @@ label textarea {
         .wrap-themDuAn label input {
             padding: 8px 24px;
             margin: 12px 0;
+            width: 100%
         }
 
 

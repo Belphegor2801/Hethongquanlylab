@@ -1,0 +1,66 @@
+﻿@model Training
+
+@{
+    @section Buttons{
+        <a class="header-item"></a>
+        <a asp-action="Notification" class="header-item">Thông báo</a>
+        <a asp-action="Project" class="header-item">Dự án</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/procedures.css">
+</head>
+<body>
+    <div class="wrap-back" style="display:flex;">
+        <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
+        <p>/</p>
+        <a asp-action="Training"><h2 style="padding-left: 10px;" class="backMainPage"> Bài đào tạo</h2></a>
+        <p>/</p>
+        <a asp-action="TrainingDetail"><h2 style="padding-left: 10px;" class="backMainPage"> Chi tiết bài đào tạo</h2></a>
+    </div>
+
+    <div style="width: 1030px;margin: auto;text-align: right;">
+        <button class="btn-excel">Xuất file PDF</button>
+    </div>
+
+    <div style="display:flex;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 30px;" id="wrap-DuAn">
+        <div id="name-DuAn">@Model.Name</div>
+    </div>
+    <div class="wrap-themDuAn">
+        <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-DuAn3">
+            <div id="name-DuAn3">Ngày xuất bản: @Model.Date</div>
+        </div>
+
+        <div>
+            <label for="">
+                Nội Dung:
+                <textarea style="width: 1030px; margin: 12px 0;" name="" id="" cols="30" rows="10">@Model.Content</textarea>
+            </label>
+        </div>
+        <div>
+            <label style="width: 1030px; " for="">
+                Link Tài Liệu: @Model.Link
+            </label>
+        </div>
+    </div>
+</body>
