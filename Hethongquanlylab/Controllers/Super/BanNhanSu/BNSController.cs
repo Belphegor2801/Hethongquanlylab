@@ -236,6 +236,33 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, currenId);
             return View("./Views/BNS/ProcedureDetail.cshtml", procedure);
         }
+
+        [HttpPost]
+        public IActionResult EditProcedure(String Name, String Content, String Link, String IsSendToApproval)
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var ID = Convert.ToInt32(CurrentID);
+
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+            var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link);
+            
+            if (IsSendToApproval == "y")
+            {
+                newProcedure.Status = "Chờ duyệt";
+                ProcedureDAO.Instance.EditProcedure(unit, newProcedure);
+                ProcedureDAO.Instance.SendToApproval(newProcedure);
+                ViewData["msg"] = Function.Instance.SendEmail("ngoxuanhinhad4@gmail.com", "Duyệt quy trình", "Bạn có quy trình cần duyệt");
+            }
+            else
+            {
+                ProcedureDAO.Instance.EditProcedure(unit, newProcedure);
+            }
+            return RedirectToAction("Procedure");
+        }
+
         public IActionResult AddProcedure()
         {
             return View("./Views/BNS/AddProcedure.cshtml");
@@ -253,26 +280,6 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             return RedirectToAction("Procedure");
         }
 
-        [HttpPost]
-        public IActionResult EditProcedure(String Name, String Content, String Link, String IsSendToApproval)
-        {
-            var reqUrl = Request.HttpContext.Request;
-            var urlPath = reqUrl.Path;
-            var CurrentID = urlPath.ToString().Split('/').Last();
-            var ID = Convert.ToInt32(CurrentID);
-
-            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
-            var unit = userSession.UserName; // unit
-            var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link);
-            ProcedureDAO.Instance.EditProcedure(unit, newProcedure);
-            if (IsSendToApproval == "y")
-            {
-                ProcedureDAO.Instance.SendToApproval(newProcedure);
-                
-                TempData["msg"] = Function.Instance.SendEmail("ngoxuanhinhad4@gmail.com", "Duyệt quy trình", "Bạn có quy trình cần duyệt");
-            }
-            return RedirectToAction("Procedure");
-        }
 
         public IActionResult DeleteProcedure()
         {
@@ -294,6 +301,68 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
             var stream = Function.Instance.ExportToExcel<Procedure>(procedures);
             return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachQuytrinhBanNhansu.xlsx");
+        }
+
+        public IActionResult SendProceduresToApproval()
+        {
+            String sortOrder;
+            String searchField;
+            String searchString;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+
+            ItemDisplay<Procedure> procedureList = new ItemDisplay<Procedure>();
+            procedureList.SortOrder = sortOrder;
+            procedureList.CurrentSearchField = searchField;
+            procedureList.CurrentSearchString = searchString;
+
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+
+            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
+            procedures = Function.Instance.searchItems(procedures, procedureList);
+            procedures = Function.Instance.sortItems(procedures, procedureList.SortOrder);
+            procedureList.Items = procedures;
+
+            return View("./Views/BNS/SendProceduresToApproval.cshtml", procedureList);
+        }
+
+        [HttpPost]
+        public IActionResult SendProceduresToApproval(String sortOrder, String searchString, String searchField, string isSendToApproval, string SendVar)
+        {
+            TempData["Sendvar"] = SendVar;
+            if (isSendToApproval == "y")
+            {
+                var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+                var unit = userSession.UserName; // unit
+                int i = 0;
+                // SendVar: 1:1-2:1-3:on-4:on-5:on-7:on-8:on-9:on-10:on-11:on-12:on-13:on-14:on-15:on- (ID:var[1: checked; on: unchecked])
+                foreach (string item in SendVar.Split("-"))
+                {
+                    if (item.Split(":").Last() == "1")
+                    {
+                        i++;
+                        Procedure procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, Convert.ToInt32(item.Split(":").First()));
+                        procedure.V1 = false;
+                        procedure.V2 = false;
+                        procedure.V3 = false;
+                        procedure.Status = "Chờ duyệt";
+                        ProcedureDAO.Instance.EditProcedure(unit, procedure);
+                        ProcedureDAO.Instance.SendToApproval(procedure);
+                        
+                    }
+                }
+                ViewData["msg"] = Function.Instance.SendEmail("ngoxuanhinhad4@gmail.com", "Duyệt quy trình", "Bạn có " + i.ToString() +" quy trình cần duyệt");
+                return RedirectToAction("Procedure");
+            }
+            return RedirectToAction("SendProceduresToApproval", "BNS", new { sort = sortOrder, searchField = searchField, searchString = searchString});
         }
     }
 }

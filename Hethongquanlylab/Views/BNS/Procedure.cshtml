@@ -27,15 +27,12 @@
             <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
             <p>/</p>
             <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Quy trình</h2></a>
-            <a>@TempData["msg"]</a>
         </div>
-
-        
 
         <div style="width: 1030px;margin: auto;text-align: right;">
             <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProcedure", "BNS")'">Thêm Quy trình</button>
             <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportProcedureToExcel", "BNS")'">Xuất file Excel</button>
-
+            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("SendProceduresToApproval", "BNS")'">Gửi duyệt</button>
         </div>
 
         <div class="wrap-sreach">
@@ -66,7 +63,7 @@
                 <tr>
                     <th>
                         ID
-                        <button name="sortOrder" id="Id" value="Id" onchange="this.forms.submit">
+                        <button name="sortOrder" id="ID" value="ID" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
@@ -76,22 +73,22 @@
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Ngày Gửi Đi
                         <button name="sortOrder" id="Senddate" value="Senddate" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         V1
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         V2
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         V3
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Trạng thái
                         <button name="sortOrder" id="Status" value="Status" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
@@ -101,57 +98,74 @@
                         Chức năng
                     </th>
                 </tr>
-
-
                 @if (Model.PageCount > 0)
                 {
                     foreach (var item in Model.Items)
                     {
-                        <tr id="0" style="user-select: auto;">
-                            <td style="user-select: auto; text-align: center;"> @item.ID</td>
-                            <td style="user-select: auto;"> @item.Name</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
-                            <td style="user-select: auto; text-align: center;">
-                                @if (item.V1)
-                                {
-                                    <i class="fa-solid fa-square-check"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa-solid fa-square-xmark"></i>
-                                }
+            <tr id="0" style="user-select: auto;">
+                <td style="user-select: auto; text-align: center;"> @item.ID</td>
+                <td style="user-select: auto;"> @item.Name</td>
+                <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
+                <td style="user-select: auto; text-align: center;">
+                    @if (item.V1)
+                    {
+                        <i class="fa-solid fa-square-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-square-xmark"></i>
+                    }
 
-                            </td>
-                            <td style="user-select: auto; text-align: center;">
-                                @if (item.V2)
-                                {
-                                    <i class="fa-solid fa-square-check"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa-solid fa-square-xmark"></i>
-                                }
-                            </td>
-                            <td style="user-select: auto; text-align: center;">
-                                @if (item.V3)
-                                {
-                                    <i class="fa-solid fa-square-check"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa-solid fa-square-xmark"></i>
-                                }
-                            </td>
-                            <td style="user-select: auto; text-align: center;"> @item.Status</td>
-                            <td style="user-select: auto; text-align: center;">
-                                <button type="button" onclick="location.href='@Url.Action("ProcedureDetail", "BNS", new { id = item.ID })'">
-                                    <i class="fa fa-info-circle"></i>
-                                </button>
-                                <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </td>
-                            <script>
+                </td>
+                <td style="user-select: auto; text-align: center;">
+                    @if (item.V2)
+                    {
+                        <i class="fa-solid fa-square-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-square-xmark"></i>
+                    }
+                </td>
+                <td style="user-select: auto; text-align: center;">
+                    @if (item.V3)
+                    {
+                        <i class="fa-solid fa-square-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-square-xmark"></i>
+                    }
+                </td>
+                <td style="user-select: auto; text-align: center;">
+                    @if (item.Status == "Chưa duyệt")
+                    {
+                        <a style="color: #4800ff">@item.Status</a>
+                    }
+                    else if (item.Status == "Chờ duyệt")
+                    {
+                        <a style="color: #ff6a00">@item.Status</a>
+                    }
+                    else if (item.Status == "Đã duyệt")
+                    {
+                        <a style="color: #0f0">@item.Status</a>
+                    }
+                    else if (item.Status == "Trả lại")
+                    {
+                        <a style="color: #f00">@item.Status</a>
+                    }
+                </td>
+
+
+                    <td style="user-select: auto; text-align: center;">
+                        <button type="button" onclick="location.href='@Url.Action("ProcedureDetail", "BNS", new { id = item.ID })'">
+                            <i class="fa fa-info-circle"></i>
+                        </button>
+                        <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                    <script>
                             var modelSortOrder = "@Html.Raw(Model.SortOrder)";
                             var idSort = document.getElementById("ID");
                             if (modelSortOrder === "ID") {
@@ -178,8 +192,8 @@
                                 idSort.value = "Unit_desc";
                             }
 
-                            </script>
-                        </tr>
+                    </script>
+                </tr>
                     }
                 }
                 else
