@@ -111,30 +111,36 @@ namespace Hethongquanlylab.Common
 
         public string SendEmail(string receiver, string subject, string message)
         {
-                    var senderEmail = new MailAddress("ngoxuanhinham123@gmail.com", "Hinh");
-                    var receiverEmail = new MailAddress(receiver, "Receiver");
-                    var password = "xivkcaxctodstpag";
-                    var sub = subject;
-                    var body = message;
-                    var smtp = new SmtpClient
-                    {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(senderEmail.Address, password)
-                    };
-                    using (var mess = new MailMessage(senderEmail, receiverEmail)
-                    {
-                        Subject = subject,
-                        Body = body
-                    })
-                    {
-                        smtp.Send(mess);
-                    }
-                return "Gửi mail tànhh công";
-            
+            try
+            {
+                var senderEmail = new MailAddress("ngoxuanhinham123@gmail.com", "Hinh");
+                var receiverEmail = new MailAddress(receiver, "Receiver");
+                var password = "xivkcaxctodstpag";
+                var sub = subject;
+                var body = message;
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(senderEmail.Address, password)
+                };
+                using (var mess = new MailMessage(senderEmail, receiverEmail)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(mess);
+                }
+                return "Gửi mail thàhh công";
+            }
+            catch
+            {
+                return "Gửi mail thất bại";
+            }
 
         }
 
