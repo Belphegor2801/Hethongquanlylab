@@ -149,20 +149,20 @@ namespace Hethongquanlylab.DAO
             while (workSheet.Cells[i, 1].Value != null)
             {
                 int j = 1;
-                int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
-                string name = workSheet.Cells[i, j++].Value.ToString();
-                var SendDate = workSheet.Cells[i, j++].Value;
-                j++;
+                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
+                string name = workSheet.Cells[i, 2].Value.ToString();
+                var SendDate = workSheet.Cells[i, 4].Value;
+                
                 string senddate = SendDate == null ? "01/01/1111" : SendDate.ToString();
-                string content = workSheet.Cells[i, j++].Value.ToString();
-                var V1 = workSheet.Cells[i, j++].Value;
+                string content = workSheet.Cells[i, 5].Value.ToString();
+                var V1 = workSheet.Cells[i, 6].Value;
                 string v1 = V1 == null ? "false" : V1.ToString();
-                var V2 = workSheet.Cells[i, j++].Value;
+                var V2 = workSheet.Cells[i, 7].Value;
                 string v2 = V2 == null ? "false" : V2.ToString();
-                var V3 = workSheet.Cells[i, j++].Value;
+                var V3 = workSheet.Cells[i, 8].Value;
                 string v3 = V3 == null ? "false" : V3.ToString();
-                string status = workSheet.Cells[i, j++].Value.ToString();
-                string link = workSheet.Cells[i, j++].Value.ToString();
+                string status = workSheet.Cells[i, 9].Value.ToString();
+                string link = workSheet.Cells[i, 10].Value.ToString();
                 Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, link);
                 procedureList.Add(procedure);
                 i++;
@@ -180,19 +180,19 @@ namespace Hethongquanlylab.DAO
                 if (id == procedureid)
                 {
                     int j = 2;
-                    string name = workSheet.Cells[i, j++].Value.ToString();
-                    var SendDate = workSheet.Cells[i, j++].Value;
+                    string name = workSheet.Cells[i, 2].Value.ToString();
+                    var SendDate = workSheet.Cells[i, 4].Value;
                     j++;
                     string senddate = SendDate == null ? "01/01/1111" : SendDate.ToString();
-                    string content = workSheet.Cells[i, j++].Value.ToString();
-                    var V1 = workSheet.Cells[i, j++].Value;
+                    string content = workSheet.Cells[i, 5].Value.ToString();
+                    var V1 = workSheet.Cells[i, 6].Value;
                     string v1 = V1 == null ? "false" : V1.ToString();
-                    var V2 = workSheet.Cells[i, j++].Value;
+                    var V2 = workSheet.Cells[i, 7].Value;
                     string v2 = V2 == null ? "false" : V2.ToString();
-                    var V3 = workSheet.Cells[i, j++].Value;
+                    var V3 = workSheet.Cells[i, 8].Value;
                     string v3 = V3 == null ? "false" : V3.ToString();
-                    string status = workSheet.Cells[i, j++].Value.ToString();
-                    string link = workSheet.Cells[i, j++].Value.ToString();
+                    string status = workSheet.Cells[i, 9].Value.ToString();
+                    string link = workSheet.Cells[i, 10].Value.ToString();
                     Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, link);
                     return procedure;
                 }
