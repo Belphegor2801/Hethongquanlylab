@@ -27,7 +27,10 @@
             <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
             <p>/</p>
             <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Quy trình</h2></a>
+            <a>@TempData["msg"]</a>
         </div>
+
+        
 
         <div style="width: 1030px;margin: auto;text-align: right;">
             <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProcedure", "BNS")'">Thêm Quy trình</button>

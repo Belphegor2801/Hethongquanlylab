@@ -6,7 +6,8 @@ using Hethongquanlylab.DAO;
 using OfficeOpenXml;
 using System.IO;
 using System.Data;
-
+using System.Net;
+using System.Net.Mail;
 
 namespace Hethongquanlylab.Common
 {
@@ -107,5 +108,72 @@ namespace Hethongquanlylab.Common
                 }
             }
         }
+
+        public string SendEmail(string receiver, string subject, string message)
+        {
+                    var senderEmail = new MailAddress("ngoxuanhinham123@gmail.com", "Hinh");
+                    var receiverEmail = new MailAddress(receiver, "Receiver");
+                    var password = "xivkcaxctodstpag";
+                    var sub = subject;
+                    var body = message;
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderEmail.Address, password)
+                    };
+                    using (var mess = new MailMessage(senderEmail, receiverEmail)
+                    {
+                        Subject = subject,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(mess);
+                    }
+                return "Gửi mail tànhh công";
+            
+
+        }
+
+        public ExcelPackage OpenFile_Excel(string FileName)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/" + FileName));
+
+            return package;
+        }
+
+        public ItemDisplay<Notification> getNotifications(string page)
+        {
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+            ItemDisplay<Notification> notificationList = new ItemDisplay<Notification>();
+            notificationList.CurrentPage = currentPage;
+
+            List<Notification> notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+
+            notificationList.Paging(notifications, 5);
+
+            if (notificationList.PageCount > 0)
+            {
+                if (notificationList.CurrentPage > notificationList.PageCount) notificationList.CurrentPage = notificationList.PageCount;
+                if (notificationList.CurrentPage < 1) notificationList.CurrentPage = 1;
+                if (notificationList.CurrentPage != notificationList.PageCount)
+                    try
+                    {
+                        notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.Items.Count % notificationList.PageSize == 0 ? notificationList.PageSize : notificationList.Items.Count % notificationList.PageSize);
+            }
+
+            return notificationList;
+        }
+
     }
 }

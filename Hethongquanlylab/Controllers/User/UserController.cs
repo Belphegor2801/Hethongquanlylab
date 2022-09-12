@@ -9,6 +9,7 @@ using System.Linq;
 using Hethongquanlylab.DAO;
 using Hethongquanlylab.Models;
 using Hethongquanlylab.Models.Login;
+using Hethongquanlylab.Common;
 using SelectPdf;
 using System.Web;
 
@@ -18,8 +19,12 @@ namespace Hethongquanlylab.Controllers.User
     {
         public IActionResult Index()
         {
-            var notifications = NotificationDAO.Instance.GetNotificationList_Excel();
-            return View("./Views/User/UserHome.cshtml", notifications);
+            String page;
+            var urlQuery = Request.HttpContext.Request.Query;
+            page = urlQuery["page"];
+
+            var notificationList = Function.Instance.getNotifications(page);
+            return View("./Views/User/UserHome.cshtml", notificationList);
         }
 
         public IActionResult Infor()
@@ -32,7 +37,7 @@ namespace Hethongquanlylab.Controllers.User
         [HttpPost]
         public IActionResult ExportToPDF(string GridHtml)
         {
-            SelectPdf.GlobalProperties.HtmlEngineFullPath = Path.GetFullPath("~/bin/Debug/netcoreapp3.1/Select.Html.dep").Replace("~\\", "");
+            GlobalProperties.HtmlEngineFullPath = Path.GetFullPath("~/bin/Debug/netcoreapp3.1/Select.Html.dep").Replace("~\\", "");
             GridHtml = GridHtml.Replace("StrTag", "<").Replace("EndTag", ">");
             HtmlToPdf pHtml = new HtmlToPdf();
             string baseUrl = string.Format("{0}://{1}",
@@ -40,7 +45,7 @@ namespace Hethongquanlylab.Controllers.User
             PdfDocument pdfDocument = pHtml.ConvertHtmlString(GridHtml, baseUrl);
             byte[] pdf = pdfDocument.Save();
             pdfDocument.Close();
-            return File(pdf, "application/pdf", "Grid.pdf");
+            return File(pdf, "application/pdf", "CV.pdf");
 
         }
 
@@ -78,6 +83,5 @@ namespace Hethongquanlylab.Controllers.User
             var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
             return View("./Views/Shared/NotificationDetail.cshtml", notification);
         }
-
     }
 }
