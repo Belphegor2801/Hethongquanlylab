@@ -26,29 +26,8 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             String page;
             var urlQuery = Request.HttpContext.Request.Query;
             page = urlQuery["page"];
-            page = page == null ? "1" : page;
-            int currentPage = Convert.ToInt32(page);
-            ItemDisplay<Notification> notificationList = new ItemDisplay<Notification>();
-            notificationList.CurrentPage = currentPage;
 
-            List<Notification> notifications = NotificationDAO.Instance.GetNotificationList_Excel();
-
-            notificationList.Paging(notifications, 5);
-
-            if (notificationList.PageCount > 0)
-            {
-                if (notificationList.CurrentPage > notificationList.PageCount) notificationList.CurrentPage = notificationList.PageCount;
-                if (notificationList.CurrentPage < 1) notificationList.CurrentPage = 1;
-                if (notificationList.CurrentPage != notificationList.PageCount)
-                    try
-                    {
-                        notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.PageSize);
-                    }
-                    catch { }
-
-                else
-                    notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.Items.Count % notificationList.PageSize == 0 ? notificationList.PageSize : notificationList.Items.Count % notificationList.PageSize);
-            }
+            var notificationList = Function.Instance.getNotifications(page);
             return View("./Views/BNS/BNSHome.cshtml", notificationList);
         }
 
@@ -110,9 +89,9 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
         public IActionResult DeleteMember()
         {
-                var urlQuery = Request.HttpContext.Request.Query;
-                String LabID_delete = urlQuery["LabID"];
-                UserDAO.Instance.DeleteMember(LabID_delete);
+            var urlQuery = Request.HttpContext.Request.Query;
+            String LabID_delete = urlQuery["LabID"];
+            UserDAO.Instance.DeleteMember(LabID_delete);
             
             return RedirectToAction("Member");
         }
@@ -126,6 +105,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             String page;
 
             var urlQuery = Request.HttpContext.Request.Query;
+
             sortOrder = urlQuery["sort"];
             searchField = urlQuery["searchField"];
             searchString = urlQuery["SearchString"];
@@ -211,7 +191,10 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             procedureList.CurrentSearchString = searchString;
             procedureList.CurrentPage = currentPage;
 
-            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel();
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+
+            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
             procedures = Function.Instance.searchItems(procedures, procedureList);
             procedures = Function.Instance.sortItems(procedures, procedureList.SortOrder);
 
@@ -247,7 +230,10 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var CurrentID = urlPath.ToString().Split('/').Last();
             var currenId = Convert.ToInt32(CurrentID);
 
-            var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(currenId);
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+
+            var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, currenId);
             return View("./Views/BNS/ProcedureDetail.cshtml", procedure);
         }
         public IActionResult AddProcedure()
@@ -262,12 +248,13 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
             var unit = userSession.UserName; // unit
             var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link);
-            ProcedureDAO.Instance.AddProcedure(newProcedure);
+
+            ProcedureDAO.Instance.AddProcedure(unit, newProcedure);
             return RedirectToAction("Procedure");
         }
 
         [HttpPost]
-        public IActionResult EditProcedure(String Name, String Content, String Link)
+        public IActionResult EditProcedure(String Name, String Content, String Link, String IsSendToApproval)
         {
             var reqUrl = Request.HttpContext.Request;
             var urlPath = reqUrl.Path;
@@ -277,7 +264,13 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
             var unit = userSession.UserName; // unit
             var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link);
-            ProcedureDAO.Instance.EditProcedure(newProcedure);
+            ProcedureDAO.Instance.EditProcedure(unit, newProcedure);
+            if (IsSendToApproval == "y")
+            {
+                ProcedureDAO.Instance.SendToApproval(newProcedure);
+                
+                TempData["msg"] = Function.Instance.SendEmail("ngoxuanhinhad4@gmail.com", "Duyệt quy trình", "Bạn có quy trình cần duyệt");
+            }
             return RedirectToAction("Procedure");
         }
 
@@ -285,13 +278,20 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         {
             var urlQuery = Request.HttpContext.Request.Query;
             String ProcedureId_delete = urlQuery["procedureID"];
-            ProcedureDAO.Instance.DeleteProcedure(ProcedureId_delete);
+
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+
+            ProcedureDAO.Instance.DeleteProcedure(unit, ProcedureId_delete);
 
             return RedirectToAction("Procedure");
         }
         public IActionResult ExportProcedureToExcel()
         {
-            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel();
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = userSession.UserName; // unit
+
+            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
             var stream = Function.Instance.ExportToExcel<Procedure>(procedures);
             return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachQuytrinhBanNhansu.xlsx");
         }

@@ -18,6 +18,9 @@ namespace Hethongquanlylab.Models
         private String currentSearchField;
         private List<String> searchFieldList;
 
+        private string message;
+        private bool isMessage;
+
         public int PageCount { get => pageCount; set => pageCount = value; }
         public int PageSize { get => pageSize; set => pageSize = value; }
         public int CurrentPage { get => currentPage; set => currentPage = value; }
@@ -28,6 +31,9 @@ namespace Hethongquanlylab.Models
         public String CurrentSearchString { get => currentSearchString; set => currentSearchString = value; }
         public String CurrentSearchField { get => currentSearchField; set => currentSearchField = value; }
         public List<String> SearchFieldList { get => searchFieldList; set => searchFieldList = value; }
+
+        public string Message { get => message; set => message = value; }
+        public bool IsMessage { get => isMessage; set => isMessage = value; }
 
         public Dictionary<string, string> NameVar { get; set; }
 
@@ -44,6 +50,8 @@ namespace Hethongquanlylab.Models
                 this.searchFieldList.Add(attr.Name.ToString());
                 this.NameVar.Add(attr.Name.ToString(), attr.Name.ToString());
             }
+            this.isMessage = false;
+            this.message = "";
 
             this.NameVar["LabID"] = "LabID";
             this.NameVar["Name"] = "Tên";

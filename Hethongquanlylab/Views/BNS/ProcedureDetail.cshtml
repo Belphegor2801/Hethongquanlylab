@@ -38,13 +38,11 @@
         <button class="btn-excel">Xuất file PDF</button>
     </div>
 <form asp-action="EditProcedure" asp-route-id="@Model.ID" method="post">
-
     <style>
         .text-ProcedureTitle {
             justify-content: center;
             font-size: 30px;
-            font-weight: 600;
-            
+            font-weight: 600;  
         }
     </style>
     <div style="display: flex; margin-bottom: 30px;" class="text-ProcedureTitle" >
@@ -114,13 +112,16 @@
 
 
     <div class="" style="margin-left: 62%;">
-        <button class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button">
+        <input type="hidden" id="isSendToApproval" name="IsSendToApproval" />
+
+        <button class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button" id="Send">
             <i class="fa-solid fa-plus"></i>
             Lưu
         </button>
-        <button style="margin-top:30px; margin-left: 42px;" class="add-nhanSu btn-confirm" type="button">
+
+        <button class="add-nhanSu btn-confirm" onclick="confirm_change_and_send()" type="button" id="SaveAndSend">
             <i class="fa-solid fa-plus"></i>
-            Lưu & Gửi Duyệt
+            Lưu và gửi duyệt
         </button>
 
     </div>
@@ -137,8 +138,16 @@
 
     <script>
         function confirm_change() {
+            document.getElementById("isSendToApproval").value = "n";
             document.getElementById("change-confirm").style.display = "block";
         }
+
+        function confirm_change_and_send() {
+            document.getElementById("isSendToApproval").value = "y";
+            document.getElementById("change-confirm").style.display = "block";
+        }
+
+
         function confirm_change_disabled() {
             document.getElementById("change-confirm").style.display = "none";
         }
