@@ -1,0 +1,75 @@
+﻿@model Procedure
+
+@{
+    @section Buttons{
+        <a asp-action="Notification" class="header-item">Thông báo</a>
+        <a asp-action="Training" class="header-item">Bài đào tạo</a>
+        <a asp-action="Project" class="header-item">Dự án</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.js"></script>
+</head>
+<body>
+    <div class="wrap-back" style="display:flex;">
+        <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
+        <p>/</p>
+        <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Quy trình</h2></a>
+        <p>/</p>
+        <a asp-action="AddProcedure"><h2 style="padding-left: 10px;" class="backMainPage"> Thêm quy trình</h2></a>
+    </div>
+    <form asp-action="AddProcedure" method="post" id="form-addprocedure">
+        <div class="wrap-themDuAn">
+            <div>
+                <label for="">
+                    Tên Quy Trình:
+                    <input type="text" name="Name" value="">
+                </label>
+            </div>
+            <label for="">
+                Nội Dung:
+                <textarea style="width: 1030px; margin: 12px 0; min-height: 500px;" name="Content" id="procedure_content" cols="30" rows="10"></textarea>
+            </label>
+
+            <label style="width: 1030px; " for="">
+                Link Tài Liệu:
+                <input type="text" , name="Link" value="">
+            </label>
+
+            <div class="" style="text-align:left;">
+                <button type="submit" class="add-nhanSu">
+                    <i class="fa-solid fa-plus"></i>
+                    Lưu
+                </button>
+            </div>
+
+        </div>
+    </form>
+    <script src="./js/dataNhanSu.js"></script>
+    <script src="./js/dataDuAn.js"></script>
+    <script>
+        const editor = Jodit.make('#procedure_content');
+    </script>
+
+</body>
+</html>
+
