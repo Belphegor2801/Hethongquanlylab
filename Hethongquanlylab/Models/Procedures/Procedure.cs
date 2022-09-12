@@ -49,7 +49,7 @@ namespace Hethongquanlylab.Models
             this.Status = "Chưa duyệt";
         }
 
-        public Procedure(int id, string name, string unit, string senddate, string content, string v1, string v2, string v3, string link) // Load từ excel
+        public Procedure(int id, string name, string unit, string senddate, string content, string v1, string v2, string v3, string status, string link) // Load từ excel
         {
             this.ID = id;
             this.Name = name;
@@ -62,12 +62,7 @@ namespace Hethongquanlylab.Models
             this.V2 = Convert.ToBoolean(v2);
             this.V3 = Convert.ToBoolean(v3);
 
-            if ((!this.V1) && (!this.V2) && (!this.V3))
-                this.Status = "Chưa duyệt";
-            else if ((this.V1) && (this.V2) && (this.V3))
-                this.Status = "Đã duyệt";
-            else
-                this.Status = "Đang duyệt";
+            this.status = status;
 
         }
 

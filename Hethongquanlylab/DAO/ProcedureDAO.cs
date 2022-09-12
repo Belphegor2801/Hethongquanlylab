@@ -50,7 +50,7 @@ namespace Hethongquanlylab.DAO
                 string v3 = V3 == null ? "false" : V3.ToString();
                 string status = workSheet.Cells[i, j++].Value.ToString();
                 string link = workSheet.Cells[i, j++].Value.ToString();
-                Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, link);
+                Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, status, link);
                 procedureList.Add(procedure);
                 i++;
             }
@@ -80,7 +80,7 @@ namespace Hethongquanlylab.DAO
                     string v3 = V3 == null ? "false" : V3.ToString();
                     string status = workSheet.Cells[i, j++].Value.ToString();
                     string link = workSheet.Cells[i, j++].Value.ToString();
-                    Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, link);
+                    Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, status, link);
                     return procedure;
                 }
             }
@@ -151,8 +151,8 @@ namespace Hethongquanlylab.DAO
                 int j = 1;
                 int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
                 string name = workSheet.Cells[i, j++].Value.ToString();
-                var SendDate = workSheet.Cells[i, j++].Value;
                 j++;
+                var SendDate = workSheet.Cells[i, j++].Value;
                 string senddate = SendDate == null ? "01/01/1111" : SendDate.ToString();
                 string content = workSheet.Cells[i, j++].Value.ToString();
                 var V1 = workSheet.Cells[i, j++].Value;
@@ -163,7 +163,7 @@ namespace Hethongquanlylab.DAO
                 string v3 = V3 == null ? "false" : V3.ToString();
                 string status = workSheet.Cells[i, j++].Value.ToString();
                 string link = workSheet.Cells[i, j++].Value.ToString();
-                Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, link);
+                Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, status, link);
                 procedureList.Add(procedure);
                 i++;
             }
@@ -181,8 +181,8 @@ namespace Hethongquanlylab.DAO
                 {
                     int j = 2;
                     string name = workSheet.Cells[i, j++].Value.ToString();
-                    var SendDate = workSheet.Cells[i, j++].Value;
                     j++;
+                    var SendDate = workSheet.Cells[i, j++].Value;
                     string senddate = SendDate == null ? "01/01/1111" : SendDate.ToString();
                     string content = workSheet.Cells[i, j++].Value.ToString();
                     var V1 = workSheet.Cells[i, j++].Value;
@@ -193,7 +193,7 @@ namespace Hethongquanlylab.DAO
                     string v3 = V3 == null ? "false" : V3.ToString();
                     string status = workSheet.Cells[i, j++].Value.ToString();
                     string link = workSheet.Cells[i, j++].Value.ToString();
-                    Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, link);
+                    Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, status, link);
                     return procedure;
                 }
             }

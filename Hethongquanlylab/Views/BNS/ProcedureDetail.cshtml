@@ -34,10 +34,7 @@
         <p>/</p>
         <a asp-action="ProcedureDetail"><h2 style="padding-left: 10px;" class="backMainPage"> Chi tiết quy trình</h2></a>
     </div>
-    <div style="width: 1030px;margin: auto;text-align: right;">
-        <button class="btn-excel">Xuất file PDF</button>
-    </div>
-<form asp-action="EditProcedure" asp-route-id="@Model.ID" method="post">
+<form asp-action="EditProcedure" asp-route-id="@Model.ID" method="post" id="form">
     <style>
         .text-ProcedureTitle {
             justify-content: center;
@@ -47,7 +44,7 @@
     </style>
     <div style="display: flex; margin-bottom: 30px;" class="text-ProcedureTitle" >
         <div id="name-DuAn">@Model.Name</div>
-        <input style="display: none;" class="text-ProcedureTitle" id="name-input" type="text" placeholder="Tên Dự Án" value="@Model.Name" name="Name">
+        <input style="display: none;" class="text-ProcedureTitle" id="name-input" type="text" placeholder="Tên Dự Án" value="@Model.Name" name="Name" required>
         <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-DuAn"></i>
     </div>
 
@@ -106,7 +103,7 @@
                 window.open(url, "_blank");
             });
         </script>
-        <input style="display:none; height:30px; margin: auto 0;" type="text" id="input-link" value="@Model.Link" name="Link">
+        <input style="display:none; width: 50%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link" value="@Model.Link" name="Link">
         <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link"></i>
     </div>
 
@@ -137,16 +134,28 @@
 </form>
 
     <script>
+
         function confirm_change() {
-            document.getElementById("isSendToApproval").value = "n";
-            document.getElementById("change-confirm").style.display = "block";
+            var urlValid = document.getElementById('input-link').checkValidity();
+            if (urlValid) {
+                document.getElementById("isSendToApproval").value = "n";
+                document.getElementById("change-confirm").style.display = "block";
+            }
+            else {
+                alert("Link không hợp lệ!")
+            }
         }
 
         function confirm_change_and_send() {
-            document.getElementById("isSendToApproval").value = "y";
-            document.getElementById("change-confirm").style.display = "block";
+            var urlValid = document.getElementById('input-link').checkValidity();
+            if (urlValid) {
+                document.getElementById("isSendToApproval").value = "y";
+                document.getElementById("change-confirm").style.display = "block";
+            }
+            else {
+                alert("Link không hợp lệ!")
+            }
         }
-
 
         function confirm_change_disabled() {
             document.getElementById("change-confirm").style.display = "none";
@@ -168,6 +177,9 @@
             console.log(textName);
             if (textName) {
                 document.getElementById('name-DuAn').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('name-DuAn').innerText = `Tên Quy trình`;
             }
         })
         $('#name-input').focusout(function () {
@@ -209,6 +221,9 @@
             if (textName) {
                 document.getElementById('text-noiDung').innerText = `${textName} `;
             }
+            else {
+                document.getElementById('text-noiDung').innerText = `Nội dung Quy trình`;
+            }
         })
         $('#input-noiDung').focusout(function () {
             document.getElementById("text-noiDung").style.display = 'block';
@@ -222,13 +237,15 @@
             var end = input.value.length;
             input.setSelectionRange(end, end);
             input.focus();
-            
         })
 
         $('#input-link').change(function () {
             var textName = this.value;
             if (textName) {
                 document.getElementById('text-link').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('text-link').innerText = `https://www.LinkQuytrinh.com/`;
             }
         })
         $('#input-link').focusout(function () {
