@@ -54,6 +54,28 @@ namespace Hethongquanlylab.Models
             this.BdhReply = "Chưa có phản hồi";
             this.BcvReply = "Chưa có phản hồi";
         }
+        public Procedure(int id, string name, string unit, string content, string bdh, string bcv, string link) // Phản hồi
+        {
+            this.ID = id;
+            this.Name = name;
+            this.Unit = unit;
+            this.Link = link;
+            this.Content = content;
+
+            DateTime day = DateTime.Today;
+            DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+            string senddate = day.ToString("d", fmt);
+
+            this.Senddate = senddate;
+
+            this.V1 = false;
+            this.V2 = false;
+            this.V3 = false;
+
+            this.Status = "Chưa duyệt";
+            this.BdhReply = bdh;
+            this.BcvReply = bcv;
+        }
 
         public Procedure(int id, string name, string unit, string senddate, string content, string v1, string v2, string v3, string status, string link, string bdh, string bcv) // Load từ excel
         {

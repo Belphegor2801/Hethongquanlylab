@@ -104,7 +104,7 @@ namespace Hethongquanlylab.DAO
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
 
-            int i = 3;
+            int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
                 i++;
@@ -214,7 +214,6 @@ namespace Hethongquanlylab.DAO
         {
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-
             return workSheet.Dimension.End.Row;
         }
 
@@ -223,7 +222,7 @@ namespace Hethongquanlylab.DAO
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
 
-            int i = 3;
+            int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
                 i++;
@@ -323,13 +322,86 @@ namespace Hethongquanlylab.DAO
             workSheet.Cells[i, 6].Value = false;
             workSheet.Cells[i, 7].Value = false;
             workSheet.Cells[i, 8].Value = false;
-            workSheet.Cells[i, 9].Value = "Chưa duyệt";
+            workSheet.Cells[i, 9].Value = "Chờ Ban Điều Hành duyệt";
             workSheet.Cells[i, 10].Value = procedure.Link;
-            workSheet.Cells[i, 11].Value = procedure.ID;
-            package.Save();
-
-
-            
+            workSheet.Cells[i, 11].Value = procedure.BdhReply;
+            workSheet.Cells[i, 12].Value = procedure.BcvReply;
+            package.Save();  
         }
+        public void BDHFeedbackProcedure(Procedure procedure, string feedback)
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i;
+            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                string Id = workSheet.Cells[i, 1].Value.ToString();
+                if (procedure.ID.ToString() == Id)
+                {
+                    break;
+                }
+            }
+            procedure.Status = "Ban Điều hành phản hồi";
+            workSheet.Cells[i, 9].Value = procedure.Status;
+            procedure.BdhReply = feedback;
+            workSheet.Cells[i, 11].Value = procedure.BdhReply;
+            package.Save();
+            UpdateDatatoUnitSheet(procedure, procedure.Unit);
+        }
+        public void UpdateDatatoUnitSheet(Procedure procedure, string unit)
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
+
+            int i;
+            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                string Id = workSheet.Cells[i, 1].Value.ToString();
+                string Unit = workSheet.Cells[i, 3].Value.ToString();
+                if ((procedure.ID.ToString() == Id) && (procedure.Unit == Unit))
+                {
+                    break;
+                }
+            }
+            workSheet.DeleteRow(i);
+
+            workSheet.Cells[i, 1].Value = procedure.ID;
+            workSheet.Cells[i, 2].Value = procedure.Name;
+            workSheet.Cells[i, 3].Value = procedure.Unit;
+            workSheet.Cells[i, 4].Value = procedure.Senddate;
+            workSheet.Cells[i, 5].Value = procedure.Content;
+            workSheet.Cells[i, 6].Value = procedure.V1;
+            workSheet.Cells[i, 7].Value = procedure.V2;
+            workSheet.Cells[i, 8].Value = procedure.V3;
+            workSheet.Cells[i, 9].Value = procedure.Status;
+            workSheet.Cells[i, 10].Value = procedure.Link;
+            workSheet.Cells[i, 11].Value = procedure.BdhReply;
+            workSheet.Cells[i, 12].Value = procedure.BcvReply;
+            package.Save();
+        }
+        public void BDHApproval(Procedure procedure, string feedback)
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i;
+            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                string Id = workSheet.Cells[i, 1].Value.ToString();
+                if (procedure.ID.ToString() == Id)
+                {
+                    break;
+                }
+            }
+            workSheet.Cells[i, 6].Value = true;
+            procedure.Status = "Ban Điều hành duyệt";
+            workSheet.Cells[i, 9].Value = procedure.Status;
+            procedure.BdhReply = feedback;
+            workSheet.Cells[i, 11].Value = procedure.BdhReply;
+            package.Save();
+            UpdateDatatoUnitSheet(procedure, procedure.Unit);
+        }
+
     }
 }

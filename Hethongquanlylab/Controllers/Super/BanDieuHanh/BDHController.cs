@@ -346,6 +346,17 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
                 }
             }
         }
+        public IActionResult ProcedureDetail()
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var currenId = Convert.ToInt32(CurrentID);
+
+
+            var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(currenId);
+            return View("./Views/BDH/Detail/ProcedureDetail.cshtml", procedure);
+        }
         public IActionResult DeleteProcedure()
         {
             var urlQuery = Request.HttpContext.Request.Query;
@@ -353,6 +364,26 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             ProcedureDAO.Instance.DeleteProcedure(ProcedureId_delete);
 
             return RedirectToAction("Procedure");
+        }
+
+        [HttpPost]
+        public IActionResult FeedbackProcedure(String BDHfeedback, String IsSendToApproval)
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var ID = Convert.ToInt32(CurrentID);
+            Procedure newProcedure = ProcedureDAO.Instance.GetProcedureModel_Excel(ID);
+            if (IsSendToApproval == "y")
+            {
+                ProcedureDAO.Instance.BDHApproval(newProcedure, BDHfeedback);
+            }
+            else
+            {
+                ProcedureDAO.Instance.BDHFeedbackProcedure(newProcedure, BDHfeedback);
+            }
+            return RedirectToAction("Procedure");
+
         }
         public IActionResult Notification()
         {
