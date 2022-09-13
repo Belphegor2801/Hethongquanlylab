@@ -97,20 +97,51 @@
             <p style="margin-right: 12px;">Link Quy Trình: </p>
             <a style="margin: auto 0" class="link" id="text-link">@Model.Link</a>
             <script>
-            var text = document.getElementById("text-link");
-            var url = text.innerText;
-            if (!url.match(/^https?:\/\//i)) {
-                url = 'http://' + url;
-            }
-            $("#text-link").on('click', function () {
-                alert("Đến quy trình");
-                window.open(url, "_blank");
-            });
+                var text = document.getElementById("text-link");
+                var url = text.innerText;
+                if (!url.match(/^https?:\/\//i)) {
+                    url = 'http://' + url;
+                }
+                $("#text-link").on('click', function () {
+                    alert("Đến quy trình");
+                    window.open(url, "_blank");
+                });
             </script>
             <input style="display:none; height:30px; margin: auto 0;" type="text" id="input-link" value="@Model.Link" name="Link">
             <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link"></i>
         </div>
-
+        <div style="width: 65%;margin: auto;">
+            <p>Phản hồi của Ban Điều hành <i style="margin-left: 20px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-noiDung"></i></p>
+            <style>
+                .text-ProcedureContent {
+                    height: 300px;
+                    background-color: #f5f5f5;
+                    border: 2px solid #ccc;
+                    line-height: 34px;
+                    padding: 20px 10px;
+                }
+            </style>
+            <div style="display: block; width: 65%;" class="text-ProcedureContent"
+                 id="text-noiDung">
+                @Html.Raw(Model.BdhReply)
+            </div>
+        </div>
+        <div style="width: 65%;margin: auto;">
+            <p>Phản hồi của Ban Cố vấn <i style="margin-left: 20px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-noiDung"></i></p>
+            <style>
+                .text-ProcedureContent {
+                    height: 300px;
+                    background-color: #f5f5f5;
+                    border: 2px solid #ccc;
+                    line-height: 34px;
+                    padding: 20px 10px;
+                }
+            </style>
+            <div style="display: block; width: 65%;" class="text-ProcedureContent"
+                 id="text-noiDung">
+                @Html.Raw(Model.BcvReply)
+            </div>
+        </div>
 
         <div class="" style="margin-left: 62%;">
             <button class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button">

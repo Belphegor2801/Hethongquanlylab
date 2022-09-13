@@ -15,6 +15,8 @@ namespace Hethongquanlylab.Models
         private bool v3;
         private string status;
         private string link;
+        private string bdhReply;
+        private string bcvReply;
         
 
         public int ID { get => id; set => id = value; }
@@ -27,6 +29,8 @@ namespace Hethongquanlylab.Models
         public bool V3 { get => v3; set => v3 = value; }
         public string Status { get => status; set => status = value; }
         public string Link { get => link; set => link = value; }
+        public string BdhReply { get => bdhReply; set => bdhReply = value; }
+        public string BcvReply { get => bcvReply; set => bcvReply = value; }
 
         public Procedure(int id, string name, string unit, string content, string link) // Thêm mới
         {
@@ -47,9 +51,11 @@ namespace Hethongquanlylab.Models
             this.V3 = false;
 
             this.Status = "Chưa duyệt";
+            this.BdhReply = "Chưa có phản hồi";
+            this.BcvReply = "Chưa có phản hồi";
         }
 
-        public Procedure(int id, string name, string unit, string senddate, string content, string v1, string v2, string v3, string status, string link) // Load từ excel
+        public Procedure(int id, string name, string unit, string senddate, string content, string v1, string v2, string v3, string status, string link, string bdh, string bcv) // Load từ excel
         {
             this.ID = id;
             this.Name = name;
@@ -62,7 +68,9 @@ namespace Hethongquanlylab.Models
             this.V2 = Convert.ToBoolean(v2);
             this.V3 = Convert.ToBoolean(v3);
 
-            this.status = status;
+            this.Status = status;
+            this.BdhReply = bdh;
+            this.BcvReply = bcv;
 
         }
 
