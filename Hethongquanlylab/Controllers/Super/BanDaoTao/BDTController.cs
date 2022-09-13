@@ -266,7 +266,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             procedureList.CurrentSearchString = searchString;
             procedureList.CurrentPage = currentPage;
 
-            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel();
+            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel("BanDaoTao");
             procedures = Function.Instance.searchItems(procedures, procedureList);
             procedures = Function.Instance.sortItems(procedures, procedureList.SortOrder);
 

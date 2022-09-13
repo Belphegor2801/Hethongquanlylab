@@ -230,8 +230,8 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var CurrentID = urlPath.ToString().Split('/').Last();
             var currenId = Convert.ToInt32(CurrentID);
 
-            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
-            var unit = userSession.UserName; // unit
+            //var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var unit = "BanNhanSu"; // unit
 
             var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, currenId);
             return View("./Views/BNS/ProcedureDetail.cshtml", procedure);

@@ -138,19 +138,19 @@
                     }
                 </td>
                 <td style="user-select: auto; text-align: center;">
-                    @if (item.Status == "Chưa duyệt")
+                    @if (@item.Status == "Chưa duyệt")
                     {
                         <a style="color: #4800ff">@item.Status</a>
                     }
-                    else if (item.Status == "Chờ duyệt")
+                    else if (@item.Status == "Chờ duyệt")
                     {
                         <a style="color: #ff6a00">@item.Status</a>
                     }
-                    else if (item.Status == "Đã duyệt")
+                    else if (@item.Status == "Đã duyệt bởi Ban Điều Hành")
                     {
                         <a style="color: #0f0">@item.Status</a>
                     }
-                    else if (item.Status == "Trả lại")
+                    else if (@item.Status == "Ban Điều Hành phản hồi")
                     {
                         <a style="color: #f00">@item.Status</a>
                     }

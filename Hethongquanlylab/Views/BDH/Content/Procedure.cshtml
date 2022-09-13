@@ -85,13 +85,10 @@
                         </button>
                     </th>
                     <th>
-                        V1
-                    </th>
-                    <th>
-                        V2
-                    </th>
-                    <th>
-                        V3
+                        Đơn vị
+                        <button name="sortOrder" id="Senddate" value="Senddate" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
                     </th>
                     <th>
                         Trạng thái
@@ -113,37 +110,7 @@
                             <td style="user-select: auto; text-align: center;"> @item.ID</td>
                             <td style="user-select: auto;"> @item.Name</td>
                             <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
-                            <td style="user-select: auto; text-align: center;">
-                                @if (item.V1)
-                                {
-                                    <i class="fa-solid fa-square-check"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa-solid fa-square-xmark"></i>
-                                }
-
-                            </td>
-                            <td style="user-select: auto; text-align: center;">
-                                @if (item.V2)
-                                {
-                                    <i class="fa-solid fa-square-check"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa-solid fa-square-xmark"></i>
-                                }
-                            </td>
-                            <td style="user-select: auto; text-align: center;">
-                                @if (item.V3)
-                                {
-                                    <i class="fa-solid fa-square-check"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa-solid fa-square-xmark"></i>
-                                }
-                            </td>
+                            <td style="user-select: auto; text-align: center;"> @item.Unit</td>
                             <td style="user-select: auto; text-align: center;"> @item.Status</td>
                             <td style="user-select: auto; text-align: center;">
                                 <button type="button" onclick="location.href='@Url.Action("ProcedureDetail", "BDH", new { id = item.ID })'">
@@ -331,20 +298,6 @@
             box-shadow: 0px 0px 17px 2px #edcd1f;
         }
     </style>
-
-    @if (Model.PageCount >= 0)
-    {
-        foreach (var item in Model.Items)
-        {
-            <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.ID">
-                <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa quy trình có ID = @item.ID không? </a>
-                <div>
-                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteProcedure", "BDH", new{ ID = @item.ID})'" value="Có">Có</button>
-                    <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
-                </div>
-            </div>
-        }
-    }
 
 
     <script>
