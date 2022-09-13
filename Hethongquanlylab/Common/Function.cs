@@ -109,10 +109,11 @@ namespace Hethongquanlylab.Common
             }
         }
 
-        public string SendEmail(string receiver, string subject, string message)
+        public string SendEmail(string subject, string message)
         {
             try
             {
+                string receiver = "ngoxuanhinhad4@gmail.com";
                 var senderEmail = new MailAddress("ngoxuanhinham123@gmail.com", "Hinh");
                 var receiverEmail = new MailAddress(receiver, "Receiver");
                 var password = "xivkcaxctodstpag";
