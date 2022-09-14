@@ -80,8 +80,6 @@ namespace Hethongquanlylab.Models
             foreach (var attr in typeof(T).GetProperties().ToList())
             {
                 this.searchFieldList.Add(attr.Name.ToString());
-                if (!this.nameVar.ContainsKey(attr.Name.ToString()))
-                    this.nameVar[attr.Name.ToString()] = attr.Name.ToString();
             }
 
             this.isMessage = false;
@@ -100,8 +98,6 @@ namespace Hethongquanlylab.Models
             foreach (var attr in typeof(T).GetProperties().ToList())
             {
                 this.searchFieldList.Add(attr.Name.ToString());
-                if (!this.nameVar.ContainsKey(attr.Name.ToString()))
-                    this.nameVar[attr.Name.ToString()] = attr.Name.ToString();
             }
 
             this.isMessage = false;

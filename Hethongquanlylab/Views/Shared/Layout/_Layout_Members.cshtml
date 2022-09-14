@@ -56,8 +56,8 @@
 
         <div style="width: 1030px;margin: auto;text-align: right;">
             @RenderSection("Field", required: false)
-            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember", "BNS")'">Thêm Nhân Sự</button>
-            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportMemberToExcel", "BNS")'">Xuất file Excel</button>
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember")'">Thêm Nhân Sự</button>
+            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportMemberToExcel")'">Xuất file Excel</button>
         </div>
 
         <div class="wrap-sreach">
@@ -70,7 +70,7 @@
 
                 @foreach (var item in Model.SearchFieldList)
                 {
-                    @if ((item != Model.CurrentSearchField) && item != "Avt")
+                    @if ((item != Model.CurrentSearchField) && Model.NameVar.ContainsKey(item))
                     {
                         <option value="@item">@Model.NameVar[@item]</option>
                     }
@@ -98,7 +98,7 @@
                         </button>
                     </th>
                     <th style="text-align: center; width: 5%;">GIỚI TÍNH</th>
-                    <th style="text-align: center; width: 7.5%;">
+                    <th style="text-align: center; width: 15%;">
                         NGÀY SINH
                         <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
@@ -111,13 +111,13 @@
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th style="text-align: center; width: 25%;">
+                    <th style="text-align: center; width: 20%;">
                         Đơn vị
                         <button name="sortOrder" id="Unit" value="Unit" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th style="text-align: center; width: 25%;">CHỨC VỤ</th>
+                    <th style="text-align: center; width: 20%;">CHỨC VỤ</th>
                     <th style="text-align: center;">Chức năng</th>
 
                     <script>
@@ -160,24 +160,16 @@
                             <td style="user-select: auto; text-align: center;"> @item.Sex</td>
                             <td style="user-select: auto; text-align: center;"> @item.Birthday</td>
                             <td style="user-select: auto; text-align: center;"> @item.Gen</td>
-                            <td style="user-select: auto;"> @item.Unit</td>
-                            <td style="user-select: auto;"> @item.Position</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Unit</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Position</td>
                             <td style="user-select: auto; text-align: center;">
-                                <a href="@Url.Action("MemberDetail", new { id = item.LabID })" target="_blank">
-                                    <button type="button"><i class="fa fa-info-circle"></i></button>
-                                </a>
-                                <button type="button" onclick="confirm_detele(@item.LabID)" id="deleteMember" value="@item.LabID">
+                                <button type="button" onclick="inforDetail(@item.Key)"><i class="fa fa-info-circle"></i></button>
+                                <button type="button" onclick="confirm_detele(@item.Key)" id="deleteMember" value="@item.LabID">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr id="1">
-                        Không tìm thấy kết quả hợp lệ!!!
-                    </tr>
                 }
             </table>
         </div>
@@ -320,18 +312,95 @@
             border-radius: 24px !important;
             padding: 30px 30px 40px;
             background-color: #fff;
-            box-shadow: 0px 0px 17px 2px #edcd1f;
+            box-shadow: 0px 0px 4px 2px #edcd1f;
         }
     </style>
 
     @if (Model.PageCount >= 0)
     {
+        <style>
+            .form-frame table tr td{
+                height: 18px;
+            }
+
+            .form-frame table td:nth-child(odd) {
+                font-weight: bold;
+            }
+
+            .nutan {
+                height: 40px;
+                width: 100px;
+                background-color: #edcd1f;
+                border-radius: 12px;
+            }
+        </style>
         foreach (var item in Model.Items)
-        {
-            <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.LabID">
+        {       
+            <div style="display: none; width: 80%; height: 80%; top: 110px; left: 10%; z-index: 1;" class="form-frame infor-form" id="@item.Key">
+                <div class="avt" style="text-align: center; width: 30%; margin-right: 50px; border: 1px #ffd800 solid;">
+                    <div style="padding-top: 20px; padding-bottom: 30px; width: 85%; height: auto; margin: auto;">
+                        <img style="border: 1px #ffd800 solid; width: 100%; height: 100%;" src="~/img/avt/@item.Avt" alt="">
+                    </div>
+                    <div style="text-align: center; color: #edcd1f; font-weight: bold; font-size: 18px;">
+                        @item.Name
+                    </div>
+                    <div style="text-align: center; color: #a00; font-weight: bold; font-size: 24px; margin-top: 10px;">
+                        Gen: @item.Gen
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        @if (item.IsPassPTBT)
+                        {<a style="color: #0a0;"> Đã qua Phát triển bản thân </a>}
+                        else
+                        {<a style="color: #ff6a00;"> Chưa qua Phát triển bản thân </a>}
+                    </div>
+                </div>
+
+                <div style="width: 60%;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="text-align: center;" colspan="4">THÔNG TIN THÀNH VIÊN: <span style="font-weight: bold; color: #ffd800">@item.LabID</span> </td>
+                        </tr>
+                        <tr> <td width="25%"> Tên thành viên</td><td colspan="3"> @item.Name</td></tr>
+                        <tr> <td width="25%"> Giới tính:</td><td width="32%"> @item.Sex</td><td width="18%"> Ngày sinh:</td><td> @item.Birthday</td></tr>
+                        <tr> <td width="25%"> Số điện thoại:</td><td colspan="3"> @item.Phone</td></tr>
+                        <tr> <td width="25%"> Email:</td><td colspan="3"> @item.Email</td></tr>
+                        <tr> <td width="25%"> Địa chỉ: </td><td colspan="3"> @item.Address</td></tr>
+                        <tr> <td width="25%"> Chuyên ngành: </td><td colspan="3"> @item.Specialization</td></tr>
+                        <tr> <td width="25%"> Trường: </td><td colspan="3"> @item.Univeristy</td></tr>
+                        <tr> <td width="25%"> Đơn vị:</td><td colspan="3"> @item.Unit</td></tr>
+                        <tr> <td width="25%"> Chức vụ:</td><td colspan="3"> @item.Position</td></tr>
+                    </table>
+                    <div>
+                        @if (Model.SessionVar == "Ban Nhân Sự")
+                        {
+                        <div style="margin-top: 2%;">
+                            <a href="@Url.Action("MemberCV", new{ Key = @item.Key})" target="_blank">
+                                <button type="button" class="nutan">CV</button>
+                            </a>
+                            <button type="button" style="left: 20%;" class="nutan" onclick="location.href='@Url.Action("EditMember", new{ Key = @item.Key})'">Sửa thông tin</button>
+                            <button type="button" style="left: 40%;" class="nutan" onclick="confirm_detele(@item.Key)">Xóa</button>
+                            <button type="button" style="float: right !important;" onclick="inforDetail_disabled()" class="nutan">Thoát</button>
+                        </div>
+                        }
+                        else
+                        {
+                            <div style="margin-top: 2%;">
+                                <a href="@Url.Action("MemberCV", new{ Key = @item.Key})" target="_blank">
+                                    <button type="button" class="nutan">CV</button>
+                                </a>
+                                <button type="button" style="left: 0%;" class="nutan" onclick="confirm_detele(@item.Key)">Xóa</button>
+                                <button type="button" style="float: right !important;" onclick="inforDetail_disabled()" class="nutan">Thoát</button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 2;" class="form-frame delete-form" id="@item.Key">
                 <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa thành viên có LabID = @item.LabID không? </a>
                 <div>
-                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteMember", new{ LabID = @item.LabID})'" value="Có">Có</button>
+                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteMember", new{ Key = @item.Key})'" value="Có">Có</button>
                     <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
                 </div>
             </div>
@@ -340,11 +409,28 @@
 
 
     <script>
+        function inforDetail(id) {
+            var subScene = document.getElementsByClassName("infor-form");
+            for (let i = 0; i < subScene.length; i++) {
+                subScene[i].style.display = "none";
+                if (subScene[i].id == id) {
+                    subScene[i].style.display = "flex";
+                }
+            }
+        }
+
+        function inforDetail_disabled() {
+            var subScene = document.getElementsByClassName("infor-form");
+            for (let i = 0; i < subScene.length; i++) {
+                subScene[i].style.display = "none";
+            }
+        }
+
         function confirm_detele(id) {
             var subScene = document.getElementsByClassName("delete-form");
             for (let i = 0; i < subScene.length; i++) {
                 subScene[i].style.display = "none";
-                if (subScene[i].id == id) {
+                if (subScene[i].id.valueOf() == id.valueOf()) {
                     subScene[i].style.display = "block";
                 }
             }

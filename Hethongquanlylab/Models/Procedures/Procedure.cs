@@ -7,21 +7,24 @@ namespace Hethongquanlylab.Models
 {
     public class Procedure
     {
-        private int id;
+        private string id;
+        private string subid;
         private string name;
         private string unit;
         private string senddate;
         private string content;
         private bool v1;
+        private string bdhReply;
         private bool v2;
+        private string bcvReply;
         private bool v3;
+        private string nslReply;
         private string status;
         private string link;
-        private string bdhReply;
-        private string bcvReply;
-        
+        private Dictionary<DateTime, String> eventLog;
 
-        public int ID { get => id; set => id = value; }
+        public string ID { get => id; set => id = value; }
+        public string SubID { get => subid; set => subid = value; }
         public string Name { get => name; set => name = value; }
         public string Unit { get => unit; set => unit = value; }
         public string Senddate { get => senddate; set => senddate = value; }
@@ -33,12 +36,15 @@ namespace Hethongquanlylab.Models
         public string Link { get => link; set => link = value; }
         public string BdhReply { get => bdhReply; set => bdhReply = value; }
         public string BcvReply { get => bcvReply; set => bcvReply = value; }
+        public string NSLReply { get => nslReply; set => nslReply = value; }
+        public Dictionary<DateTime, String> EventLog { get => eventLog; set => eventLog = value; }
 
         public static Dictionary<string, string> ColorVar { get; set; }
 
-        public Procedure(int id, string name, string unit, string content, string link) // Thêm mới
+        public Procedure(string name, string unit, string content, string link, string id = "1", string subid = "BNS") // Thêm mới + chỉnh sửa
         {
             this.ID = id;
+            this.SubID = subid;
             this.Name = name;
             this.Unit = unit;
             this.Link = link;
@@ -58,7 +64,7 @@ namespace Hethongquanlylab.Models
             this.BdhReply = "Chưa có phản hồi";
             this.BcvReply = "Chưa có phản hồi";
         }
-        public Procedure(int id, string name, string unit, string content, string bdh, string bcv, string link) // Phản hồi
+        public Procedure(string id, string name, string unit, string content, string bdh, string bcv, string link) // Phản hồi
         {
             this.ID = id;
             this.Name = name;
@@ -81,9 +87,10 @@ namespace Hethongquanlylab.Models
             this.BcvReply = bcv;
         }
 
-        public Procedure(int id, string name, string unit, string senddate, string content, string v1, string v2, string v3, string status, string link, string bdh, string bcv) // Load từ excel
+        public Procedure(string id, string subid, string name, string unit, string senddate, string content, bool v1, string bdh,  bool v2, string bcv, bool v3, string nsl, string status, string link) // Load từ excel
         {
             this.ID = id;
+            this.SubID = subid;
             this.Name = name;
             this.Unit = unit;
             this.Senddate = senddate;
@@ -97,23 +104,14 @@ namespace Hethongquanlylab.Models
             this.Status = status;
             this.BdhReply = bdh;
             this.BcvReply = bcv;
+            this.NSLReply = nsl;
+            this.Status = status;
 
             ColorVar = new Dictionary<string, string>();
             ColorVar.Add("Chưa duyệt", "#4800ff");
             ColorVar.Add("Chờ duyệt", "#ff6a00");
             ColorVar.Add("Đã duyệt bởi Ban Điều Hành", "#0a0");
             ColorVar.Add("Trả lại", "#00f");
-
-        }
-
-        public Procedure(int id, string name, string senddate, string content, string link, string status)
-        {
-            this.ID = id;
-            this.Name = name;
-            this.Link = link;
-            this.Senddate = senddate;
-            this.Content = content; 
-            this.Status = status;
         }
     }
 }

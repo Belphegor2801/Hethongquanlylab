@@ -22,246 +22,247 @@ namespace Hethongquanlylab.DAO
 
         private ExcelPackage OpenFile()
         {
-            var package = Function.Instance.OpenFile_Excel("procedure.xlsx");
-            
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/procedures.xlsx"));
             return package;
         }
 
-        public List<Procedure> GetProcedureList_Excel()
+        private Procedure LoadData(ExcelWorksheet workSheet, int row)
+        {
+            int j = 1;
+            var id = workSheet.Cells[row, j++].Value;
+            var subid = workSheet.Cells[row, j++].Value;
+            var name = workSheet.Cells[row, j++].Value;
+            var unit = workSheet.Cells[row, j++].Value;
+            var senddate = workSheet.Cells[row, j++].Value;
+            var content= workSheet.Cells[row, j++].Value;
+            var link = workSheet.Cells[row, j++].Value;
+            var v1 = workSheet.Cells[row, j++].Value;
+            var bdhReply = workSheet.Cells[row, j++].Value;
+            var v2 = workSheet.Cells[row, j++].Value;
+            var bcvReply = workSheet.Cells[row, j++].Value;
+            var v3 = workSheet.Cells[row, j++].Value;
+            var nslReply = workSheet.Cells[row, j++].Value;
+            var status = workSheet.Cells[row, j++].Value;
+            var eventLog = workSheet.Cells[row, j++].Value;
+
+            string ID = id == null ? "N/A" : id.ToString();
+            string SubID = subid == null ? "N/A" : subid.ToString();
+            string Name = name == null ? "N/A" : name.ToString();
+            string Unit = unit == null ? "N/A" : unit.ToString();
+            string Senddate = senddate == null ? "N/A" : senddate.ToString();
+            string Content = content == null ? "N/A" : content.ToString();
+            bool V1;
+            try { V1 = v1 == null ? false : Convert.ToBoolean(v1.ToString()); }
+            catch { V1 = false; }
+            string BDHRePly = bdhReply == null ? "Chưa có phản hồi" : bdhReply.ToString();
+            bool V2;
+            try { V2 = v2 == null ? false : Convert.ToBoolean(v2.ToString()); }
+            catch { V2 = false; }
+            string BCVRePly = bcvReply == null ? "Chưa có phản hồi" : bcvReply.ToString();
+            bool V3;
+            try { V3 = v3 == null ? false : Convert.ToBoolean(v3.ToString()); }
+            catch { V3 = false; }
+            string NSLReply = nslReply == null ? "Chưa có phản hồi" : nslReply.ToString();
+            string Status = status == null ? "Chưa duyệt" : status.ToString();
+            string Link = link == null ? "N/A" : link.ToString();
+
+            Procedure procedure = new Procedure(ID, SubID, Name, Unit, Senddate, Content, V1, BDHRePly, V2, BCVRePly, V3, NSLReply, Status, Link);
+            return procedure;
+        }
+
+        private ExcelWorksheet UpdateData(ExcelWorksheet workSheet, Procedure procedure, int row)
+        {
+            int j = 1;
+            workSheet.Cells[row, j++].Value = procedure.ID;
+            workSheet.Cells[row, j++].Value = procedure.SubID;
+            workSheet.Cells[row, j++].Value = procedure.Name;
+            workSheet.Cells[row, j++].Value = procedure.Unit;
+            workSheet.Cells[row, j++].Value = procedure.Senddate;
+            workSheet.Cells[row, j++].Value = procedure.Content;
+            workSheet.Cells[row, j++].Value = procedure.Link;
+            workSheet.Cells[row, j++].Value = procedure.V1;
+            workSheet.Cells[row, j++].Value = procedure.BdhReply;
+            workSheet.Cells[row, j++].Value = procedure.V2;
+            workSheet.Cells[row, j++].Value = procedure.BcvReply;
+            workSheet.Cells[row, j++].Value = procedure.V3;
+            workSheet.Cells[row, j++].Value = procedure.NSLReply;
+            workSheet.Cells[row, j++].Value = procedure.Status;
+            return workSheet;
+        }
+
+        private void resetKey()
         {
             var package = OpenFile();
-            List<Procedure> procedureList = new List<Procedure>();// mở file excel
+
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
             int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
-                int j = 1;
-                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
-                string name = workSheet.Cells[i, 2].Value.ToString();
-                string unit = workSheet.Cells[i, 3].Value.ToString();
-                var SendDate = workSheet.Cells[i, 4].Value;
-                string senddate = SendDate == null? "01/01/1111": SendDate.ToString();
-                string content = workSheet.Cells[i, 5].Value.ToString();
-                var V1 = workSheet.Cells[i, 6].Value;
-                string v1 = V1 == null ? "false" : V1.ToString();
-                var V2 = workSheet.Cells[i, 7].Value;
-                string v2 = V2 == null ? "false" : V2.ToString();
-                var V3 = workSheet.Cells[i, 8].Value;
-                string v3 = V3 == null ? "false" : V3.ToString();
-                string status = workSheet.Cells[i, 9].Value.ToString();
-                string link = workSheet.Cells[i, 10].Value.ToString();
-                string bdh = workSheet.Cells[i, 11].Value.ToString();
-                string bcv = workSheet.Cells[i, 12].Value.ToString();
-                Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, status, link,bdh,bcv);
+                i++;
+            }
+
+            int rowCount = i;
+            i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                workSheet.Cells[i, 1].Value = rowCount - i;
+                i++;
+            }
+            package.Save();
+        }
+
+        private void resetKey(string unit)
+        {
+            var package = OpenFile();
+
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
+
+            int i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                i++;
+            }
+
+            int rowCount = i; // Sô hàng + 1
+            i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                workSheet.Cells[i, 1].Value = rowCount - i;
+                i++;
+            }
+            package.Save();
+        }
+
+        private List<Procedure> getProcedureList(ExcelWorksheet workSheet)
+        {
+            List<Procedure> procedureList = new List<Procedure>();
+            int i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                Procedure procedure = LoadData(workSheet, i);
                 procedureList.Add(procedure);
                 i++;
             }
             return procedureList;
         }
 
-        public Procedure GetProcedureModel_Excel(int procedureid)
+        public List<Procedure> GetProcedureList_Excel()
         {
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            return getProcedureList(workSheet);
+        }
+
+        public List<Procedure> GetProcedureList_Excel(string unit)
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
+            return getProcedureList(workSheet);
+        }
+
+
+        private Procedure getProcedure(ExcelWorksheet workSheet, string procedureid)
+        {
             for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
-                if (id == procedureid)
+                var id = workSheet.Cells[i, 1].Value;
+                string ID = id == null ? "N/A" : id.ToString();
+                if (ID == procedureid)
                 {
-                    int j = 2;
-                    string name = workSheet.Cells[i, 2].Value.ToString();
-                    string unit = workSheet.Cells[i, 3].Value.ToString();
-                    var SendDate = workSheet.Cells[i, 4].Value;
-                    string senddate = SendDate == null ? "01/01/1111" : SendDate.ToString();
-                    string content = workSheet.Cells[i, 5].Value.ToString();
-                    var V1 = workSheet.Cells[i, 6].Value;
-                    string v1 = V1 == null ? "false" : V1.ToString();
-                    var V2 = workSheet.Cells[i, 7].Value;
-                    string v2 = V2 == null ? "false" : V2.ToString();
-                    var V3 = workSheet.Cells[i, 8].Value;
-                    string v3 = V3 == null ? "false" : V3.ToString();
-                    string status = workSheet.Cells[i, 9].Value.ToString();
-                    string link = workSheet.Cells[i, 10].Value.ToString();
-                    string bdh = workSheet.Cells[i, 11].Value.ToString();
-                    string bcv = workSheet.Cells[i, 12].Value.ToString();
-                    Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, status, link, bdh, bcv);
+                    Procedure procedure = LoadData(workSheet, i);
                     return procedure;
                 }
             }
             return null;
         }
 
-        public int GetMaxID()
+        public Procedure GetProcedureModel_Excel(string procedureid)
         {
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            return getProcedure(workSheet, procedureid);
+        }
 
-            return workSheet.Dimension.End.Row;
+        public Procedure GetProcedureModel_Excel(string unit, string procedureid)
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
+            return getProcedure(workSheet, procedureid);
+        }
+
+        private ExcelWorksheet addProcedure(ExcelWorksheet workSheet, Procedure procedure)
+        {
+            int i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                i++;
+            }
+
+            procedure.ID = (i - 1).ToString();
+            if (procedure.SubID == "BNS")
+            {
+                procedure.SubID = "BNS" + (i - 1).ToString();
+            }
+
+            int lastRow = i;
+            workSheet = UpdateData(workSheet, procedure, lastRow);
+            return workSheet;
         }
 
         public void AddProcedure(Procedure procedure)
         {
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-
-            int i = 2;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                i++;
-            }
-
-            int lastRow = i;
-            workSheet.Cells[lastRow, 1].Value = procedure.ID;
-            workSheet.Cells[lastRow, 2].Value = procedure.Name;
-            workSheet.Cells[lastRow, 3].Value = procedure.Unit;
-            workSheet.Cells[lastRow, 4].Value = procedure.Senddate;
-            workSheet.Cells[lastRow, 5].Value = procedure.Content;
-            workSheet.Cells[lastRow, 6].Value = procedure.V1;
-            workSheet.Cells[lastRow, 7].Value = procedure.V2;
-            workSheet.Cells[lastRow, 8].Value = procedure.V3;
-            workSheet.Cells[lastRow, 9].Value = procedure.Status;
-            workSheet.Cells[lastRow, 10].Value = procedure.Link;
-            workSheet.Cells[lastRow, 11].Value = "Chưa có phản hồi";
-            workSheet.Cells[lastRow, 12].Value = "Chưa có phản hồi";
+            workSheet = addProcedure(workSheet, procedure);
             package.Save();
-        }
-
-        public void DeleteProcedure(String id)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-
-            List<Notification> notificationList = new List<Notification>();
-            int i = 2;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                string Id = workSheet.Cells[i, 1].Value.ToString();
-                if (id == Id)
-                {
-                    break;
-                }
-                i++;
-            }
-            workSheet.DeleteRow(i);
-            package.Save();
-        }
-
-        public List<Procedure> GetProcedureList_Excel(string unit)
-        {
-            var package = OpenFile();
-            List<Procedure> procedureList = new List<Procedure>();// mở file excel
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-            int i = 2;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                int j = 1;
-                int id = Convert.ToInt32(workSheet.Cells[i, j++].Value);
-                string name = workSheet.Cells[i, j++].Value.ToString();
-                j++;
-                var SendDate = workSheet.Cells[i, j++].Value;
-                string senddate = SendDate == null ? "01/01/1111" : SendDate.ToString();
-                string content = workSheet.Cells[i, j++].Value.ToString();
-                var V1 = workSheet.Cells[i, j++].Value;
-                string v1 = V1 == null ? "false" : V1.ToString();
-                var V2 = workSheet.Cells[i, j++].Value;
-                string v2 = V2 == null ? "false" : V2.ToString();
-                var V3 = workSheet.Cells[i, j++].Value;
-                string v3 = V3 == null ? "false" : V3.ToString();
-                string status = workSheet.Cells[i, j++].Value.ToString();
-                string link = workSheet.Cells[i, j++].Value.ToString();
-                string bdh = workSheet.Cells[i, j++].Value.ToString();
-                string bcv = workSheet.Cells[i, j++].Value.ToString();
-                Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, status, link, bdh, bcv);
-                procedureList.Add(procedure);
-                i++;
-            }
-            return procedureList;
-        }
-
-        public Procedure GetProcedureModel_Excel(string unit, int procedureid)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-            for (int i = workSheet.Dimension.Start.Row; i <= workSheet.Dimension.End.Row; i++)
-            {
-                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
-                if (id == procedureid)
-                {
-                    int j = 2;
-                    string name = workSheet.Cells[i, 2].Value.ToString();
-                    j++;
-                    var SendDate = workSheet.Cells[i, 4].Value;
-                    string senddate = SendDate == null ? "01/01/1111" : SendDate.ToString();
-                    string content = workSheet.Cells[i, 5].Value.ToString();
-                    var V1 = workSheet.Cells[i, 6].Value;
-                    string v1 = V1 == null ? "false" : V1.ToString();
-                    var V2 = workSheet.Cells[i, 7].Value;
-                    string v2 = V2 == null ? "false" : V2.ToString();
-                    var V3 = workSheet.Cells[i, 8].Value;
-                    string v3 = V3 == null ? "false" : V3.ToString();
-                    string status = workSheet.Cells[i, 9].Value.ToString();
-                    string link = workSheet.Cells[i, 10].Value.ToString();
-                    string bdh = workSheet.Cells[i, 11].Value.ToString();
-                    string bcv = workSheet.Cells[i, 12].Value.ToString();
-                    Procedure procedure = new Procedure(id, name, unit, senddate, content, v1, v2, v3, status, link, bdh, bcv);
-                    return procedure;
-                }
-            }
-            return null;
-        }
-
-        public int GetMaxID(string unit)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-            return workSheet.Dimension.End.Row;
+            resetKey();
         }
 
         public void AddProcedure(string unit, Procedure procedure)
         {
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-
-            int i = 1;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                i++;
-            }
-
-            int lastRow = i;
-            workSheet.Cells[lastRow, 1].Value = procedure.ID;
-            workSheet.Cells[lastRow, 2].Value = procedure.Name;
-            workSheet.Cells[lastRow, 3].Value = procedure.Unit;
-            workSheet.Cells[lastRow, 4].Value = procedure.Senddate;
-            workSheet.Cells[lastRow, 5].Value = procedure.Content;
-            workSheet.Cells[lastRow, 6].Value = procedure.V1;
-            workSheet.Cells[lastRow, 7].Value = procedure.V2;
-            workSheet.Cells[lastRow, 8].Value = procedure.V3;
-            workSheet.Cells[lastRow, 9].Value = procedure.Status;
-            workSheet.Cells[lastRow, 10].Value = procedure.Link;
-            workSheet.Cells[lastRow, 11].Value = procedure.BdhReply;
-            workSheet.Cells[lastRow, 12].Value = procedure.BcvReply;
+            workSheet = addProcedure(workSheet, procedure);
             package.Save();
+            resetKey(unit);
         }
 
-        public void DeleteProcedure(string unit, String id)
+        public void DeleteProcedure(string unit, string procedureid)
         {
             var package = OpenFile();
+            string ProcedureSubID = "";
             ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-
-            List<Notification> notificationList = new List<Notification>();
-            int i = 2;
-            while (workSheet.Cells[i, 1].Value != null)
+            int i = 0;
+            
+            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                string Id = workSheet.Cells[i, 1].Value.ToString();
-                if (id == Id)
+                var id = workSheet.Cells[i, 1].Value;
+                string ID = id == null ? "N/A" : id.ToString();
+                if (ID == procedureid)
+                {
+                    ProcedureSubID = workSheet.Cells[i, 2].Value.ToString();
+                    break;
+                }
+            }
+            workSheet.DeleteRow(i);
+
+            workSheet = package.Workbook.Worksheets.First();
+
+            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                var subid = workSheet.Cells[i, 2].Value;
+                string SubID = subid == null ? "N/A" : subid.ToString();
+                if (ProcedureSubID == SubID)
                 {
                     break;
                 }
-                i++;
             }
             workSheet.DeleteRow(i);
             package.Save();
+            resetKey();
+            resetKey(unit);
         }
 
         public void EditProcedure(string unit, Procedure procedure)
@@ -269,27 +270,22 @@ namespace Hethongquanlylab.DAO
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
 
-            List<Notification> notificationList = new List<Notification>();
             int i;
             for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                string Id = workSheet.Cells[i, 1].Value.ToString();
-                if (procedure.ID.ToString() == Id)
+                var id = workSheet.Cells[i, 1].Value;
+                string ID = id == null ? "N/A" : id.ToString();
+                if (procedure.ID.ToString() == ID)
                 {
                     break;
                 }
             }
-            workSheet.Cells[i, 1].Value = procedure.ID;
-            workSheet.Cells[i, 2].Value = procedure.Name;
-            workSheet.Cells[i, 3].Value = procedure.Unit;
-            workSheet.Cells[i, 4].Value = procedure.Senddate;
-            workSheet.Cells[i, 5].Value = procedure.Content;
-            workSheet.Cells[i, 6].Value = procedure.V1;
-            workSheet.Cells[i, 7].Value = procedure.V2;
-            workSheet.Cells[i, 8].Value = procedure.V3;
-            workSheet.Cells[i, 9].Value = procedure.Status;
-            workSheet.Cells[i, 10].Value = procedure.Link;
+
+            int row = i;
+            workSheet.DeleteRow(row);
+            workSheet = addProcedure(workSheet, procedure);
             package.Save();
+            resetKey(unit);
         }
 
         public void SendToApproval(Procedure procedure)
@@ -300,34 +296,20 @@ namespace Hethongquanlylab.DAO
             int i;
             for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                string Id = workSheet.Cells[i, 11].Value.ToString();
-                string Unit = workSheet.Cells[i, 3].Value.ToString();
-                if ((procedure.ID.ToString() == Id) && (procedure.Unit == Unit))
+                var subid = workSheet.Cells[i, 2].Value;
+                string SubID = subid == null ? "N/A" : subid.ToString();
+                if ((procedure.SubID.ToString() == SubID))
                 {
                     break;
                 }
             }
             workSheet.DeleteRow(i);
 
-            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
-            {
-                workSheet.Cells[i, 1].Value = i;
-            }
-
-            workSheet.Cells[i, 1].Value = i;
-            workSheet.Cells[i, 2].Value = procedure.Name;
-            workSheet.Cells[i, 3].Value = procedure.Unit;
-            workSheet.Cells[i, 4].Value = procedure.Senddate;
-            workSheet.Cells[i, 5].Value = procedure.Content;
-            workSheet.Cells[i, 6].Value = false;
-            workSheet.Cells[i, 7].Value = false;
-            workSheet.Cells[i, 8].Value = false;
-            workSheet.Cells[i, 9].Value = "Chờ Ban Điều Hành duyệt";
-            workSheet.Cells[i, 10].Value = procedure.Link;
-            workSheet.Cells[i, 11].Value = procedure.BdhReply;
-            workSheet.Cells[i, 12].Value = procedure.BcvReply;
-            package.Save();  
+            workSheet = addProcedure(workSheet, procedure);
+            package.Save();
+            resetKey();
         }
+
         public void BDHFeedbackProcedure(Procedure procedure, string feedback)
         {
             var package = OpenFile();
@@ -336,20 +318,20 @@ namespace Hethongquanlylab.DAO
             int i;
             for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                string Id = workSheet.Cells[i, 1].Value.ToString();
-                if (procedure.ID.ToString() == Id)
+                string SubID = workSheet.Cells[i, 2].Value.ToString();
+                if (procedure.SubID.ToString() == SubID)
                 {
                     break;
                 }
             }
             procedure.Status = "Ban Điều hành phản hồi";
-            workSheet.Cells[i, 9].Value = procedure.Status;
+            workSheet.Cells[i, 14].Value = procedure.Status;
             procedure.BdhReply = feedback;
-            workSheet.Cells[i, 11].Value = procedure.BdhReply;
+            workSheet.Cells[i, 9].Value = procedure.BdhReply;
             package.Save();
-            UpdateDatatoUnitSheet(procedure, procedure.Unit);
+            UpdateDatatoUnitSheet(procedure.Unit, procedure);
         }
-        public void UpdateDatatoUnitSheet(Procedure procedure, string unit)
+        public void UpdateDatatoUnitSheet(string unit, Procedure procedure)
         {
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
@@ -357,28 +339,13 @@ namespace Hethongquanlylab.DAO
             int i;
             for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                string Id = workSheet.Cells[i, 1].Value.ToString();
-                string Unit = workSheet.Cells[i, 3].Value.ToString();
-                if ((procedure.ID.ToString() == Id) && (procedure.Unit == Unit))
+                string SubID = workSheet.Cells[i, 2].Value.ToString();
+                if (procedure.SubID.ToString() == SubID)
                 {
                     break;
                 }
             }
-            workSheet.DeleteRow(i);
-
-            workSheet.Cells[i, 1].Value = procedure.ID;
-            workSheet.Cells[i, 2].Value = procedure.Name;
-            workSheet.Cells[i, 3].Value = procedure.Unit;
-            workSheet.Cells[i, 4].Value = procedure.Senddate;
-            workSheet.Cells[i, 5].Value = procedure.Content;
-            workSheet.Cells[i, 6].Value = procedure.V1;
-            workSheet.Cells[i, 7].Value = procedure.V2;
-            workSheet.Cells[i, 8].Value = procedure.V3;
-            workSheet.Cells[i, 9].Value = procedure.Status;
-            workSheet.Cells[i, 10].Value = procedure.Link;
-            workSheet.Cells[i, 11].Value = procedure.BdhReply;
-            workSheet.Cells[i, 12].Value = procedure.BcvReply;
-            package.Save();
+            EditProcedure(unit, procedure);
         }
         public void BDHApproval(Procedure procedure, string feedback)
         {
@@ -388,19 +355,19 @@ namespace Hethongquanlylab.DAO
             int i;
             for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                string Id = workSheet.Cells[i, 1].Value.ToString();
-                if (procedure.ID.ToString() == Id)
+                string SubID = workSheet.Cells[i, 2].Value.ToString();
+                if (procedure.SubID.ToString() == SubID)
                 {
                     break;
                 }
             }
-            workSheet.Cells[i, 6].Value = true;
-            procedure.Status = "Ban Điều hành duyệt";
-            workSheet.Cells[i, 9].Value = procedure.Status;
+            workSheet.Cells[i, 8].Value = true;
+            procedure.Status = "Ban Điều hành đã duyệt";
+            workSheet.Cells[i, 14].Value = procedure.Status;
             procedure.BdhReply = feedback;
-            workSheet.Cells[i, 11].Value = procedure.BdhReply;
+            workSheet.Cells[i, 9].Value = procedure.BdhReply;
             package.Save();
-            UpdateDatatoUnitSheet(procedure, procedure.Unit);
+            UpdateDatatoUnitSheet(procedure.Unit, procedure);
         }
 
     }

@@ -145,7 +145,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
         // Upload avt: trong Thêm thành viên
         [HttpPost]
-        public IActionResult UploadAvt(IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
+        public IActionResult UploadAvt(string var, string key, IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
         {
             string fileName = $"{hostingEnvironment.WebRootPath}/img/avt/{file.FileName}";
             // Dẩy file vào thư mục
@@ -155,16 +155,27 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
                 fileStream.Flush();
             }
             TempData["avt"] = file.FileName; // Lưu tên vào TempData => Lưu vào Excel
-            return RedirectToAction("AddMember", "BNS", new { avt = file.FileName });
+            if (var == "edit")
+                return RedirectToAction("EditMember", new { avt = file.FileName, Key = key });
+            else
+            {
+                return RedirectToAction("AddMember", new { avt = file.FileName });
+            }
+            
         }
 
         [HttpPost]
-        public IActionResult AddMember(String LabID, String Name, String Sex, String Birthday, String Gen, String Unit, String Position)
+        public IActionResult AddMember(String LabID, String Name, String Sex, String Birthday, String Gen, String Specicalization, String University, String Phone, String Email, String Address,  String Unit, String Position, bool IsLT, bool IsPassPTBT)
         {
             String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
             var unit = Unit == null ? "Chưa có" : Unit;
             var position = Position == null ? "Chưa có" : Position;
-            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, unit, position);
+            var phone = Phone == null ? "N/A" : Phone;
+            var email = Email == null ? "N/A" : Email;
+            var address = Address == null ? "N/A" : Address;
+            var specializaion = Specicalization == null ? "N/A" : Specicalization;
+            var university = University == null ? "N/A" : University;
+            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT);
             UserDAO.Instance.AddMember(newMember);
             return RedirectToAction("Member");
         }
@@ -174,22 +185,51 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         public IActionResult DeleteMember()
         {
             var urlQuery = Request.HttpContext.Request.Query;
-            String LabID_delete = urlQuery["LabID"]; // Url: .../DeteleMeber?LabID={LabID}
-            UserDAO.Instance.DeleteMember(LabID_delete);
+            String Key_delete = urlQuery["Key"]; // Url: .../DeteleMeber?LabID={LabID}
+            UserDAO.Instance.DeleteMember(Key_delete);
 
             return RedirectToAction("Member");
         }
 
         // Thông tin chi tiết thành viên: đưa đến 1 trang CV riêng ở tab mới
-        public IActionResult MemberDetail()
+        public IActionResult MemberCV()
         {
-            var reqUrl = Request.HttpContext.Request;
-            var urlPath = reqUrl.Path;
-            var CurrentID = urlPath.ToString().Split('/').Last();
+            var urlQuery = Request.HttpContext.Request.Query;
+            String CurrentID = urlQuery["Key"]; // Url: .../DeteleMeber?LabID={LabID}
 
             var user = UserDAO.Instance.GetUserByID_Excel(CurrentID);
             return View("./Views/Shared/MemberDetail.cshtml", user);
         }
+
+        // Chỉnh sửa thông tin thành viên
+        public IActionResult EditMember()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String CurrentID = urlQuery["Key"]; // Url: .../DeteleMeber?Key={key}
+            String avt = urlQuery["avt"];
+
+            var member = UserDAO.Instance.GetUserByID_Excel(CurrentID);
+            if (avt != null) member.Avt = avt;
+            var item = new ItemDetail<Member>(member, unit);
+            return View("./Views/BNS/EditMember.cshtml", item);
+        }
+
+        [HttpPost]
+        public IActionResult EditMember(String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Specicalization, String University, String Phone, String Email, String Address, String Unit, String Position, bool IsLT, bool IsPassPTBT)
+        {
+            String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
+            var unit = Unit == null ? "Chưa có" : Unit;
+            var position = Position == null ? "Chưa có" : Position;
+            var phone = Phone == null ? "N/A" : Phone;
+            var email = Email == null ? "email@gmail.com" : Email;
+            var address = Address == null ? "N/A" : Address;
+            var specializaion = Specicalization == null ? "N/A" : Specicalization;
+            var university = University == null ? "N/A" : University;
+            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT, Key);
+            UserDAO.Instance.EditMember(newMember);
+            return RedirectToAction("Member");
+        }
+
         //// End: Thông tin thành viên
 
         //// Begin: Thông tin quy trình
@@ -256,21 +296,20 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var reqUrl = Request.HttpContext.Request;
             var urlPath = reqUrl.Path;
             var CurrentID = urlPath.ToString().Split('/').Last();
-            var currenId = Convert.ToInt32(CurrentID);
 
-            var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, currenId);
-            return View("./Views/BNS/ProcedureDetail.cshtml", procedure);
+            var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, CurrentID);
+            var item = new ItemDetail<Procedure>(procedure, unit);
+            return View("./Views/BNS/ProcedureDetail.cshtml", item);
         }
 
         // Chỉnh sửa quy trình
         [HttpPost]
-        public IActionResult EditProcedure(String Name, String Content, String Link, String IsSendToApproval)
+        public IActionResult EditProcedure(String Name, String Content, String Link, String SubID, String IsSendToApproval)
         {
             var reqUrl = Request.HttpContext.Request;
             var urlPath = reqUrl.Path;
-            var CurrentID = urlPath.ToString().Split('/').Last();
-            var ID = Convert.ToInt32(CurrentID);
-            var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link); // Khởi tạo trạng thái mặc định quy trình: Status: Chưa duyệt
+            var ID = urlPath.ToString().Split('/').Last();
+            var newProcedure = new Procedure(Name, unit, Content.ToString(), Link, ID, SubID); // Khởi tạo trạng thái mặc định quy trình: Status: Chưa duyệt
             
             if (IsSendToApproval == "y") // Nếu người dùng nhấn "Lưu và gửi duyệt"
             {
@@ -289,20 +328,19 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         // Thêm quy trình
         public IActionResult AddProcedure()
         {
-
             return View("./Views/BNS/AddProcedure.cshtml", "BanNhanSu");
         }
 
         [HttpPost]
         public IActionResult AddProcedure(String Name, String Content, String Link, String IsSendToApproval)
         {
-            int ID = ProcedureDAO.Instance.GetMaxID() + 1;
-            var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link);
+            var newProcedure = new Procedure(Name, unit, Content.ToString(), Link);
 
             if (IsSendToApproval == "y")
             {
                 newProcedure.Status = "Chờ duyệt";
                 ProcedureDAO.Instance.AddProcedure(unit, newProcedure);
+                ProcedureDAO.Instance.SendToApproval(newProcedure);
                 ViewData["msg"] = Function.Instance.SendEmail("Duyệt quy trình", "Bạn có quy trình cần duyệt");
             }
             else
@@ -375,7 +413,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
                     if (item.Split(":").Last() == "1")
                     {
                         i++;
-                        Procedure procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, Convert.ToInt32(item.Split(":").First()));
+                        Procedure procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, item.Split(":").First());
                         procedure.V1 = false;
                         procedure.V2 = false;
                         procedure.V3 = false;
