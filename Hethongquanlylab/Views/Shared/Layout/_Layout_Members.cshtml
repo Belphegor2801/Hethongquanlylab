@@ -1,14 +1,30 @@
-﻿@model ItemDisplay<Notification>
+﻿@model ItemDisplay<Member>
+
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     @section Buttons{
-        <a class="header-item"></a>
-        <a asp-action="Notification" class="header-item">Thông báo</a>
-        <a asp-action="Training" class="header-item">Bài đào tạo</a>
-        <a asp-action="Project" class="header-item">Dự án</a>
-        <a asp-action="Procedure" class="header-item">Quy trình</a>
-        <a asp-action="Member" class="header-item">Nhân sự</a>
-        <a asp-action="Index" class="header-item">Trang chủ</a>
+        @if (Model.SessionVar == "Ban Nhân Sự")
+        {
+            <a class="header-item"></a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar == "Ban Đào Tạo")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else
+        {
+            <a class="header-item"></a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+
     }
 
     @section Login{
@@ -21,24 +37,27 @@
     }
 }
 
+
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
 </head>
 <body>
-    <form asp-action="Notification" method="post" style="z-index: 0;">
+    @RenderBody()
+    <form asp-action="Member" method="post" style="z-index: 0;">
         <div class="wrap-back" style="display:flex;">
             <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
             <p>/</p>
-            <a asp-action="Notification"><h2 style="padding-left: 10px;" class="backMainPage">Thông báo</h2></a>
+            <a asp-action="Member"><h2 style="padding-left: 10px;" class="backMainPage"> Nhân Sự</h2></a>
         </div>
 
+
+
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddNotification", "BDT")'">Thêm quy trình</button>
-            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportNotificationToExcel", "BDT")'">Xuất file Excel</button>
+            @RenderSection("Field", required: false)
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember", "BNS")'">Thêm Nhân Sự</button>
+            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportMemberToExcel", "BNS")'">Xuất file Excel</button>
         </div>
 
         <div class="wrap-sreach">
@@ -63,67 +82,94 @@
             </button>
         </div>
 
-
         <div class="container mt-2">
-            <table class="table-quyTrinh">
+            <table class="table">
                 <tr>
-                    <th>
-                        ID
-                        <button name="sortOrder" id="Id" value="Id" onchange="this.forms.submit">
-                            <i class="fa fa-sort"></i>
-                        </button>
-                    </th>
-                    <th>
-                        Tên thông báo
-                        <button name="sortOrder" id="Title" value="Title" onchange="this.forms.submit">
-                            <i class="fa fa-sort"></i>
-                        </button>
-                    </th>
-                    <th>
-                        Ngày Gửi Đi
-                        <button name="sortOrder" id="Date" value="Date" onchange="this.forms.submit">
-                            <i class="fa fa-sort"></i>
-                        </button>
-                    </th>
                     <th style="text-align: center; width: 5%;">
-                        Chức năng
+                        LAB ID
+                        <button name="sortOrder" id="LabID" value="LabID" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
                     </th>
+                    <th style="text-align: center; width: 17.5%;">
+                        TÊN THÀNH VIÊN
+                        <button name="sortOrder" id="Name" value="Name" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+                    <th style="text-align: center; width: 5%;">GIỚI TÍNH</th>
+                    <th style="text-align: center; width: 7.5%;">
+                        NGÀY SINH
+                        <button name="sortOrder" id="Birthday" value="Birthday" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+
+                    <th style="text-align: center; width: 5%;">
+                        THẾ HỆ
+                        <button name="sortOrder" id="Gen" value="Gen" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+                    <th style="text-align: center; width: 25%;">
+                        Đơn vị
+                        <button name="sortOrder" id="Unit" value="Unit" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+                    <th style="text-align: center; width: 25%;">CHỨC VỤ</th>
+                    <th style="text-align: center;">Chức năng</th>
+
+                    <script>
+                            var modelSortOrder = "@Html.Raw(Model.SortOrder)";
+                            var idSort = document.getElementById("LabID");
+                            if (modelSortOrder === "LabID") {
+                                idSort.value = "LabID_desc";
+                            }
+
+                            var idSort = document.getElementById("Name");
+                            if (modelSortOrder === "Name") {
+                                idSort.value = "Name_desc";
+                            }
+
+                            var idSort = document.getElementById("Birthday");
+                            if (modelSortOrder === "Birthday") {
+                                idSort.value = "Birthday_desc";
+                            }
+
+                            var idSort = document.getElementById("Gen");
+                            if (modelSortOrder === "Gen") {
+                                idSort.value = "Gen_desc";
+                            }
+
+                            var idSort = document.getElementById("Unit");
+                            if (modelSortOrder === "Unit") {
+                                idSort.value = "Unit_desc";
+                            }
+
+                    </script>
                 </tr>
 
-
-                @if (Model.PageCount > 0)
+                @if (Model.PageCount >= 0)
                 {
                     foreach (var item in Model.Items)
                     {
                         <tr id="0" style="user-select: auto;">
-                            <td style="user-select: auto; text-align: center;"> @item.ID</td>
-                            <td style="user-select: auto;"> @item.Title</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Date</td>
+                            <td style="user-select: auto; text-align: center;"> @item.LabID</td>
+                            <td style="user-select: auto;"> @item.Name</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Sex</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Birthday</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Gen</td>
+                            <td style="user-select: auto;"> @item.Unit</td>
+                            <td style="user-select: auto;"> @item.Position</td>
                             <td style="user-select: auto; text-align: center;">
-                                <button type="button" onclick="location.href='@Url.Action("NotificationDetail", "BDT", new { ID = item.ID })'">
-                                    <i class="fa fa-info-circle"></i>
-                                </button>
-                                <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
+                                <a href="@Url.Action("MemberDetail", new { id = item.LabID })" target="_blank">
+                                    <button type="button"><i class="fa fa-info-circle"></i></button>
+                                </a>
+                                <button type="button" onclick="confirm_detele(@item.LabID)" id="deleteMember" value="@item.LabID">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </td>
-                            <script>
-                            var modelSortOrder = "@Html.Raw(Model.SortOrder)";
-                            var idSort = document.getElementById("ID");
-                            if (modelSortOrder === "ID") {
-                                idSort.value = "ID_desc";
-                            }
-
-                            var idSort = document.getElementById("Title");
-                            if (modelSortOrder === "Title") {
-                                idSort.value = "Title_desc";
-                            }
-
-                            var idSort = document.getElementById("Date");
-                            if (modelSortOrder === "Date") {
-                                idSort.value = "Date_desc";
-                            }
-                            </script>
                         </tr>
                     }
                 }
@@ -139,8 +185,13 @@
         <table>
             <tr style="font-size: 20px;">
                 <td>
-                    <a>Tổng quy trình: </a>
+                    <a>Tổng Thành Viên: </a>
                     <span id="total">@Model.ItemCount</span>
+                </td>
+
+                <td>
+                    <a>Trang: </a>
+                    <span id="total">@Model.CurrentPage/@Model.PageCount</span>
                 </td>
 
                 <td>
@@ -201,8 +252,6 @@
                                 }
                             }
                         }
-
-
 
 
                         @if (Model.CurrentPage != Model.PageCount)
@@ -279,10 +328,10 @@
     {
         foreach (var item in Model.Items)
         {
-            <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.ID">
-                <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa thông báo có ID = @item.ID không? </a>
+            <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.LabID">
+                <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa thành viên có LabID = @item.LabID không? </a>
                 <div>
-                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteNotification", "BDT", new{ notiID = @item.ID})'" value="Có">Có</button>
+                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteMember", new{ LabID = @item.LabID})'" value="Có">Có</button>
                     <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
                 </div>
             </div>
@@ -301,7 +350,6 @@
             }
         }
 
-
         function confirm_delete_disabled() {
             var subScene = document.getElementsByClassName("delete-form");
             for (let i = 0; i < subScene.length; i++) {
@@ -309,6 +357,6 @@
             }
         }
     </script>
+
 </body>
 </html>
-

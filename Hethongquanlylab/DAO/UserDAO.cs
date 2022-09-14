@@ -85,10 +85,11 @@ namespace Hethongquanlylab.DAO
             int i = 3;
             while(workSheet.Cells[i, 1].Value != null)
             {
-                string labID = workSheet.Cells[i, 1].Value.ToString();
-                string name = workSheet.Cells[i, 2].Value.ToString();
-                string sex = workSheet.Cells[i, 3].Value.ToString();
-                string sDate = (workSheet.Cells[i, 4].Value).ToString();
+                var j = 1;
+                string labID = workSheet.Cells[i, j++].Value.ToString();
+                string name = workSheet.Cells[i, j++].Value.ToString();
+                string sex = workSheet.Cells[i, j++].Value.ToString();
+                string sDate = (workSheet.Cells[i, j++].Value).ToString();
                 string birthday;
                 try
                 {
@@ -100,12 +101,113 @@ namespace Hethongquanlylab.DAO
                 {
                     birthday = sDate;
                 }
-                string gen = workSheet.Cells[i, 5].Value.ToString();
-                string unit = workSheet.Cells[i, 6].Value.ToString();
-                string position = workSheet.Cells[i, 7].Value.ToString();
-                string avt = workSheet.Cells[i, 8].Value == null? "default.jpg": workSheet.Cells[i, 8].Value.ToString();
+                string gen = workSheet.Cells[i, j++].Value.ToString();
+                string unit = workSheet.Cells[i, j++].Value.ToString();
+                string position = workSheet.Cells[i, j++].Value.ToString();
+                var AVT = workSheet.Cells[i, j++].Value;
+                string avt = AVT == null? "default.jpg": AVT.ToString();
                 Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
                 userList.Add(user);
+                i++;
+            }
+            return userList;
+        }
+        public List<Member> GetListUser_Excel(string Unit)
+        {
+            List<Member> userList = new List<Member>();// mở file excel
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            int i = 3;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                string unit = workSheet.Cells[i, 6].Value.ToString();
+                if (unit == "LT")
+                {
+                    string position = workSheet.Cells[i, 7].Value.ToString();
+                    if (position != "Thành viên")
+                    {
+                        var j = 1;
+                        string labID = workSheet.Cells[i, j++].Value.ToString();
+                        string name = workSheet.Cells[i, j++].Value.ToString();
+                        string sex = workSheet.Cells[i, j++].Value.ToString();
+                        string sDate = (workSheet.Cells[i, j++].Value).ToString();
+                        string birthday;
+                        try
+                        {
+                            double date = Convert.ToDouble(sDate);
+                            DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+                            birthday = DateTime.FromOADate(date).ToString("d", fmt);
+                        }
+                        catch
+                        {
+                            birthday = sDate;
+                        }
+                        string gen = workSheet.Cells[i, j++].Value.ToString();
+                        j++;
+                        j++;
+                        string avt = workSheet.Cells[i, j++].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
+                        Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
+                        userList.Add(user);
+                    }
+                }
+                else if (unit == "PT")
+                {
+                    if (unit.Contains("PT"))
+                    {
+                        var j = 1;
+                        string labID = workSheet.Cells[i, j++].Value.ToString();
+                        string name = workSheet.Cells[i, j++].Value.ToString();
+                        string sex = workSheet.Cells[i, j++].Value.ToString();
+                        string sDate = (workSheet.Cells[i, j++].Value).ToString();
+                        string birthday;
+                        try
+                        {
+                            double date = Convert.ToDouble(sDate);
+                            DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+                            birthday = DateTime.FromOADate(date).ToString("d", fmt);
+                        }
+                        catch
+                        {
+                            birthday = sDate;
+                        }
+                        string gen = workSheet.Cells[i, j++].Value.ToString();
+                        j++;
+                        string position = workSheet.Cells[i, j++].Value.ToString();
+                        string avt = workSheet.Cells[i, j++].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
+                        Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
+                        userList.Add(user);
+                    }
+                }
+                else
+                {
+                    if (unit.Contains(Unit))
+                    {
+                        var j = 1;
+                        string labID = workSheet.Cells[i, j++].Value.ToString();
+                        string name = workSheet.Cells[i, j++].Value.ToString();
+                        string sex = workSheet.Cells[i, j++].Value.ToString();
+                        string sDate = (workSheet.Cells[i, j++].Value).ToString();
+                        string birthday;
+                        try
+                        {
+                            double date = Convert.ToDouble(sDate);
+                            DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+                            birthday = DateTime.FromOADate(date).ToString("d", fmt);
+                        }
+                        catch
+                        {
+                            birthday = sDate;
+                        }
+                        string gen = workSheet.Cells[i, j++].Value.ToString();
+                        j++;
+                        string position = workSheet.Cells[i, j++].Value.ToString();
+                        string avt = workSheet.Cells[i, j++].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
+                        Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
+                        userList.Add(user);
+                    }
+                }
+                
                 i++;
             }
             return userList;
@@ -169,118 +271,6 @@ namespace Hethongquanlylab.DAO
                 }    
             }
             package.Save();
-        }
-        
-        public List<Member> FindMemberbyName(string nameUser)
-        {
-            List<Member> memberList = new List<Member>();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            int i = 3;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                string name = workSheet.Cells[i, 2].Value.ToString();
-                if (name.Contains(nameUser))
-                {
-                    string labID = workSheet.Cells[i, 1].Value.ToString();
-                    string sex = workSheet.Cells[i, 3].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 4].Value).ToString();
-                    string birthday;
-                    try
-                    {
-                        double date = Convert.ToDouble(sDate);
-                        DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                        birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                    }
-                    catch
-                    {
-                        birthday = sDate;
-                    }
-                    string gen = workSheet.Cells[i, 5].Value.ToString();
-                    string unit = workSheet.Cells[i, 6].Value.ToString();
-                    string position = workSheet.Cells[i, 7].Value.ToString();
-                    string avt = workSheet.Cells[i, 8].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
-                    Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
-                    memberList.Add(user);
-                }
-                i++;
-            }
-            return memberList;
-        }
-        public List<Member> FindMemberbyGen(string Gen)
-        {
-            List<Member> memberList = new List<Member>();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            int i = 3;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                string gen = workSheet.Cells[i, 5].Value.ToString();
-                if (Gen == gen)
-                {
-                    string labID = workSheet.Cells[i, 1].Value.ToString();
-                    string name = workSheet.Cells[i, 2].Value.ToString();
-                    string sex = workSheet.Cells[i, 3].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 4].Value).ToString();
-                    string birthday;
-                    try
-                    {
-                        double date = Convert.ToDouble(sDate);
-                        DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                        birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                    }
-                    catch
-                    {
-                        birthday = sDate;
-                    }
-                    string unit = workSheet.Cells[i, 6].Value.ToString();
-                    string position = workSheet.Cells[i, 7].Value.ToString();
-                    string avt = workSheet.Cells[i, 8].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
-                    Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
-                    memberList.Add(user);
-                }
-                i++;
-            }
-            return memberList;
-        }
-        public List<Member> FindMemberbyUnit(string Unit)
-        {
-            List<Member> memberList = new List<Member>();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            int i = 3;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                string unit = workSheet.Cells[i, 6].Value.ToString();
-                if (unit.Contains(Unit))
-                {
-                    string labID = workSheet.Cells[i, 1].Value.ToString();
-                    string name = workSheet.Cells[i, 2].Value.ToString();
-                    string sex = workSheet.Cells[i, 3].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 4].Value).ToString();
-                    string birthday;
-                    try
-                    {
-                        double date = Convert.ToDouble(sDate);
-                        DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                        birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                    }
-                    catch
-                    {
-                        birthday = sDate;
-                    }
-                    string gen = workSheet.Cells[i, 5].Value.ToString();
-                    string position = workSheet.Cells[i, 7].Value.ToString();
-                    string avt = workSheet.Cells[i, 8].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
-                    Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
-                    memberList.Add(user);
-                }
-                i++;
-            }
-            return memberList;
         }
 
         public void AddMember(Member member)

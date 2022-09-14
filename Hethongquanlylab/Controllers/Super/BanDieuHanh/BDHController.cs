@@ -196,7 +196,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             memberList.CurrentSearchString = searchString;
             memberList.CurrentPage = currentPage;
 
-            List<Member> members = UserDAO.Instance.FindMemberbyUnit("PT");
+            List<Member> members = UserDAO.Instance.GetListUser_Excel("PT");
             members = Function.Instance.searchItems(members, memberList);
             members = Function.Instance.sortItems(members, memberList.SortOrder);
 

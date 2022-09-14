@@ -8,6 +8,9 @@ using System.IO;
 using System.Data;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Hethongquanlylab.Models.Login;
 
 namespace Hethongquanlylab.Common
 {
@@ -65,6 +68,7 @@ namespace Hethongquanlylab.Common
             }
             return items;
         }
+
 
         public MemoryStream ExportToExcel<T>(List<T> items)
         {
