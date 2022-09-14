@@ -233,8 +233,8 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             //var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
             var unit = "BanNhanSu"; // unit
 
-            var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, currenId);
-            return View("./Views/BNS/ProcedureDetail.cshtml", procedure);
+            var procedures = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, currenId);
+            return View("./Views/BNS/ProcedureDetail.cshtml", procedures);
         }
 
         [HttpPost]
@@ -254,7 +254,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
                 newProcedure.Status = "Chờ duyệt";
                 ProcedureDAO.Instance.EditProcedure(unit, newProcedure);
                 ProcedureDAO.Instance.SendToApproval(newProcedure);
-                ViewData["msg"] = Function.Instance.SendEmail("ngoxuanhinhad4@gmail.com", "Duyệt quy trình", "Bạn có quy trình cần duyệt");
+                ViewData["msg"] = Function.Instance.SendEmail("Duyệt quy trình", "Bạn có quy trình cần duyệt");
             }
             else
             {
@@ -269,14 +269,24 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         }
 
         [HttpPost]
-        public IActionResult AddProcedure(String Name, String Content, String Link)
+        public IActionResult AddProcedure(String Name, String Content, String Link, String IsSendToApproval)
         {
             int ID = ProcedureDAO.Instance.GetMaxID() + 1;
             var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
             var unit = userSession.UserName; // unit
             var newProcedure = new Procedure(ID, Name, unit, Content.ToString(), Link);
 
-            ProcedureDAO.Instance.AddProcedure(unit, newProcedure);
+            if (IsSendToApproval == "y")
+            {
+                newProcedure.Status = "Chờ duyệt";
+                ProcedureDAO.Instance.AddProcedure(unit, newProcedure);
+                ViewData["msg"] = Function.Instance.SendEmail("Duyệt quy trình", "Bạn có quy trình cần duyệt");
+            }
+            else
+            {
+                ProcedureDAO.Instance.AddProcedure(unit, newProcedure);
+            }
+
             return RedirectToAction("Procedure");
         }
 
@@ -359,7 +369,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
                         
                     }
                 }
-                ViewData["msg"] = Function.Instance.SendEmail("ngoxuanhinhad4@gmail.com", "Duyệt quy trình", "Bạn có " + i.ToString() +" quy trình cần duyệt");
+                ViewData["msg"] = Function.Instance.SendEmail("Duyệt quy trình", "Bạn có " + i.ToString() +" quy trình cần duyệt");
                 return RedirectToAction("Procedure");
             }
             return RedirectToAction("SendProceduresToApproval", "BNS", new { sort = sortOrder, searchField = searchField, searchString = searchString});

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Hethongquanlylab.Models
 {
@@ -31,6 +33,8 @@ namespace Hethongquanlylab.Models
         public string Link { get => link; set => link = value; }
         public string BdhReply { get => bdhReply; set => bdhReply = value; }
         public string BcvReply { get => bcvReply; set => bcvReply = value; }
+
+        public static Dictionary<string, string> ColorVar { get; set; }
 
         public Procedure(int id, string name, string unit, string content, string link) // Thêm mới
         {
@@ -93,6 +97,12 @@ namespace Hethongquanlylab.Models
             this.Status = status;
             this.BdhReply = bdh;
             this.BcvReply = bcv;
+
+            ColorVar = new Dictionary<string, string>();
+            ColorVar.Add("Chưa duyệt", "#4800ff");
+            ColorVar.Add("Chờ duyệt", "#ff6a00");
+            ColorVar.Add("Đã duyệt bởi Ban Điều Hành", "#0a0");
+            ColorVar.Add("Trả lại", "#00f");
 
         }
 
