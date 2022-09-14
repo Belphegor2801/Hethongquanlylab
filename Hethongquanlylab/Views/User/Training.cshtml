@@ -25,28 +25,61 @@
     <title>Document</title>
 </head>
 <body>
-    <div style="display: flex; margin-bottom: 0px; max-height: 600px;">
-        <div style="width: 100%;">
-            <iframe style="width: 100%; height: 100%;" src="@Model[(int)ViewData["currentTraining"]].Link" title="Bài đào tạo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <p>@Model[(int)ViewData["currentTraining"]].Name</p>
-        </div>
-        <div class="col-2">
-            <div id="accordion-course" style="overflow: scroll; height: auto; max-height: 100%;">
-                @foreach (var item in Model)
-                {
-                    <h3 > @item.Id: @item.Name</h3>
-                    <h3>
-                        <a asp-action="Training" asp-route-id="@item.Id">Xem</a>
-                        <a asp-action="Training" asp-route-id="@item.Id">Xem</a>
-                        <a asp-action="Training" asp-route-id="@item.Id">Xem</a>
-                        <a asp-action="Training" asp-route-id="@item.Id">Xem</a>
-                        <a asp-action="Training" asp-route-id="@item.Id">Xem</a>
-                        <a asp-action="Training" asp-route-id="@item.Id">Xem</a>
-                    </h3>
-                }
+    <div class="training-wrap">
+        <div style="display: flex; margin-bottom: 0px; max-height: 600px; height: 100%">
+            <div style="width: 100%; height: 100%;">
+       
+                <iframe style="width: 100%; height: 100%; margin: auto;" src="@Model[(int)ViewData["currentTraining"]].Link" title="Bài đào tạo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
+        <div class="training-content" style="overflow: scroll;">
+            <style>
+                .training-content {
+                    min-height: 400px;
+                    padding: 0 8.5%;
+                }
+            </style>
+            <p style="font-size: 30px; font-weight:600">@Model[(int)ViewData["currentTraining"]].Name</p>
+            <p style="font-style:italic">Cập nhật: @Model[(int)ViewData["currentTraining"]].Date</p>
+            <p>Đơn vị: @Model[(int)ViewData["currentTraining"]].Unit</p>
+            <p>@Model[(int)ViewData["currentTraining"]].Content</p>
+        </div>
+        
+        <style>
+            .training-wrap {
+                bottom: 50px;
+                left: 0;
+                overflow-x: hidden;
+                overscroll-behavior: contain;
+                top: 0;
+                width: 70%;
+                height: 900px;
+            }
+        </style>
     </div>
+    <div class="track-wraper">
+        <style>
+            .track-wraper {
+                border-left: 1px solid #e7e7e7;
+                bottom: 50px;
+                margin-top: 100px;
+                position: fixed;
+                right: 0;
+                top: 0;
+                width: 30%;
+            }
+        </style>
+        <div id="accordion-course" style="overflow: scroll; height: auto; max-height: 100%;">
+            @foreach (var item in Model)
+            {
+                <h3> @item.Id: @item.Name</h3>
+                <h3>
+                    <a asp-action="Training" asp-route-id="@item.Id">Xem</a>
+                </h3>
+            }
+        </div>
+    </div>
+    
 </body>
 <script>
     $(function () {
