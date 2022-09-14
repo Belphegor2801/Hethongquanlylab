@@ -1,15 +1,15 @@
-﻿@model Procedure
+﻿@model ItemDetail<Procedure>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     @section Buttons{
-        @if (Model.Unit == "Ban Nhân Sự")
+        @if (Model.SessionVar == "Ban Nhân Sự")
         {
             <a class="header-item"></a>
             <a asp-action="Member" class="header-item">Thông tin thành viên</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model.Unit == "Ban Đào Tạo")
+        else if (Model.SessionVar == "Ban Đào Tạo")
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -56,7 +56,8 @@
         <p>/</p>
         <a asp-action="ProcedureDetail"><h2 style="padding-left: 10px;" class="backMainPage"> Chi tiết quy trình</h2></a>
     </div>
-    <form asp-action="EditProcedure" asp-route-id="@Model.ID" method="post" id="form">
+    <form asp-action="EditProcedure" asp-route-id="@Model.Item.ID" method="post" id="form">
+        <input type="hidden" name="SubID" value="@Model.Item.SubID"/>
         <style>
             .text-ProcedureTitle {
                 justify-content: center;
@@ -65,8 +66,8 @@
             }
         </style>
         <div style="display: flex; margin-bottom: 30px;" class="text-ProcedureTitle">
-            <div id="name-DuAn">@Model.Name</div>
-            <input style="display: none;" class="text-ProcedureTitle" id="name-input" type="text" placeholder="Tên Dự Án" value="@Model.Name" name="Name" required>
+            <div id="name-DuAn">@Model.Item.Name</div>
+            <input style="display: none;" class="text-ProcedureTitle" id="name-input" type="text" placeholder="Tên Dự Án" value="@Model.Item.Name" name="Name" required>
             <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-DuAn"></i>
         </div>
 
@@ -75,8 +76,8 @@
             <div style="display:flex" class="start">
                 <p style="font-weight: bold">Thời gian cập nhật cuối: </p>
                 <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-date">
-                    <div id="text-date">@Model.Senddate</div>
-                    <input style="display: none; height: 25px;" id="input-date" type="date" name="Sendate" value="@Model.Senddate">
+                    <div id="text-date">@Model.Item.Senddate</div>
+                    <input style="display: none; height: 25px;" id="input-date" type="date" name="Sendate" value="@Model.Item.Senddate">
                 </div>
             </div>
 
@@ -84,11 +85,11 @@
                 <p style="margin-right: 10px; font-weight: bold;">Trạng Thái: </p>
                 @try
                 {
-                    <p style="color: @Procedure.ColorVar[Model.Status]">@Model.Status</p>
+                    <p style="color: @Procedure.ColorVar[Model.Item.Status]">@Model.Item.Status</p>
                 }
                 catch
                 {
-                    <p style="color: #4800ff">@Model.Status</p>
+                    <p style="color: #4800ff">@Model.Item.Status</p>
                 }
             </div>
 
@@ -115,9 +116,9 @@
             </style>
             <div style="display: block;" class="text-ProcedureContent"
                  id="text-noiDung">
-                @Html.Raw(Model.Content)
+                @Html.Raw(Model.Item.Content)
             </div>
-            <textarea name="Content" style="display: none; padding: 20px 10px; line-height: 34px; width: 100%; height: 200px; " id="input-noiDung" cols="30" rows="40" value="Nội dung">@Html.Raw(Model.Content)</textarea>
+            <textarea name="Content" style="display: none; padding: 20px 10px; line-height: 34px; width: 100%; height: 200px; " id="input-noiDung" cols="30" rows="40" value="Nội dung">@Html.Raw(Model.Item.Content)</textarea>
         </div>
 
         <style>
@@ -129,7 +130,7 @@
         </style>
         <div style="display: flex; width: 65%; margin: auto;">
             <p style="margin-right: 12px;">Link Quy Trình: </p>
-            <a style="margin: auto 0" class="link" id="text-link">@Model.Link</a>
+            <a style="margin: auto 0" class="link" id="text-link">@Model.Item.Link</a>
             <script>
                 var text = document.getElementById("text-link");
                 var url = text.innerText;
@@ -141,13 +142,13 @@
                     window.open(url, "_blank");
                 });
             </script>
-            <input style="display:none; width: 50%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link" value="@Model.Link" name="Link">
+            <input style="display:none; width: 50%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link" value="@Model.Item.Link" name="Link">
             <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link"></i>
         </div>
 
         <table style="width: 65%; height: auto;">
             <tr>
-                <td width="20%;">
+                <td width="25%">
                     <strong>Phản hồi</strong>
                 </td>
                 <td>
@@ -159,7 +160,7 @@
                     <strong>Ban Điều Hành</strong>
                 </td>
                 <td>
-                    @Html.Raw(Model.BdhReply)
+                    @Html.Raw(Model.Item.BdhReply)
                 </td>
             </tr>
             <tr>
@@ -167,7 +168,23 @@
                     <strong>Ban Cố Vấn</strong>
                 </td>
                 <td>
-                    @Html.Raw(Model.BcvReply)
+                    @Html.Raw(Model.Item.BcvReply)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Nhà Sáng Lập</strong>
+                </td>
+                <td>
+                    @Html.Raw(Model.Item.NSLReply)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Nhà Đồng Sáng Lập</strong>
+                </td>
+                <td>
+                    @Html.Raw(Model.Item.NSLReply)
                 </td>
             </tr>
         </table>

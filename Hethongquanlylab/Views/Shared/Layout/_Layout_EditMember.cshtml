@@ -1,16 +1,15 @@
-﻿@model List<String>
-
+﻿@model ItemDetail<Member>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     @section Buttons{
-        @if (Model[0] == "Ban Nhân Sự")
+        @if (Model.SessionVar == "Ban Nhân Sự")
         {
             <a class="header-item"></a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model[0] == "Ban Đào Tạo")
+        else if (Model.SessionVar == "Ban Đào Tạo")
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -84,10 +83,12 @@
     <div style="min-width: 60%; height: 100%; top: 120px;" class="form-frame">
         <div class="avt" style="text-align: center; width: 45%; margin-right: 50px; border: 1px #ffd800 solid;">
             <div style="padding-top: 20px; padding-bottom: 30px; width: 85%; height: auto; margin: auto;">
-                <img style="border: 1px #ffd800 solid; width: 100%; height: 100%;" src="~/img/avt/@Model[1]" alt="">
+                <img style="border: 1px #ffd800 solid; width: 100%; height: 100%;" src="~/img/avt/@Model.Item.Avt" alt="">
             </div>
 
             <form asp-action="UploadAvt" method="post" enctype="multipart/form-data">
+                <input name="var" type="hidden" value="edit" />
+                <input name="key" type="hidden" value="@Model.Item.Key" />
                 <input name="file" type="file" required />
                 <button type="submit" class="nutan">Upload ảnh</button>
             </form>
@@ -111,13 +112,14 @@
                 font-size: 20px;
             }
 
-            table tr td{
+            table tr td {
                 height: 20px;
             }
         </style>
 
         <div style="width: 60%;">
-            <form asp-action="AddMember" method="post">
+            <form asp-action="EditMember" method="post">
+                <input type="hidden" name="Key" value="@Model.Item.Key"/>
                 <table style="width: 100%;">
                     <tr style="background-color: #373F51;">
                         <td style="text-align: center; color: #fff;"> THÔNG TIN THÀNH VIÊN</td>
@@ -129,7 +131,7 @@
                             LabID
                         </td>
                         <td colspan="3">
-                            <input name="LabID" type="text" class="form-control" placeholder="LabID" id="name" value="" style="width: 100%;" required>
+                            <input name="LabID" type="text" class="form-control" placeholder="LabID" id="name" value="@Model.Item.LabID" style="width: 100%;" required>
                         </td>
                     </tr>
                     <tr>
@@ -137,7 +139,7 @@
                             Tên thành viên
                         </td>
                         <td colspan="3">
-                            <input name="Name" type="text" class="form-control" placeholder="Họ và tên" id="name" value="" style="width: 100%;" required>
+                            <input name="Name" type="text" class="form-control" placeholder="Họ và tên" id="name" value="@Model.Item.Name" style="width: 100%;" required>
                         </td>
                     </tr>
                     <tr>
@@ -145,7 +147,7 @@
                             Giới tính
                         </td>
                         <td width="25%">
-                            <select name="Sex" class="form-control">
+                            <select name="Sex" class="form-control" value="@Model.Item.Sex">
                                 <option>Nam</option>
                                 <option>Nữ</option>
                                 <option>Khác</option>
@@ -156,7 +158,7 @@
                             Thế hệ
                         </td>
                         <td>
-                            <select name="Gen" class="form-control">
+                            <select name="Gen" class="form-control" value="@Model.Item.Gen">
                                 <option>1,2</option>
                                 <option>3</option>
                                 <option>4</option>
@@ -171,7 +173,7 @@
                             Ngày sinh
                         </td>
                         <td colspan="3">
-                            <input name="Birthday" type="date" id="date" class="form-control" style="width: 40%;" required>
+                            <input name="Birthday" type="date" id="date" class="form-control" value="@Model.Item.Birthday" style="width: 40%;" required>
                         </td>
                     </tr>
                     <tr>
@@ -179,7 +181,7 @@
                             Chuyên ngành
                         </td>
                         <td colspan="3">
-                            <input name="Specicalization" type="text" class="form-control" placeholder="Chuyên ngành" id="specialization" value="" style="width: 100%;">
+                            <input name="Specicalization" type="text" class="form-control" placeholder="Chuyên ngành" id="specialization" value="@Model.Item.Specialization" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -187,7 +189,7 @@
                             Trường
                         </td>
                         <td colspan="3">
-                            <input name="University" type="text" class="form-control" placeholder="Trường đang học" id="university" value="" style="width: 100%;">
+                            <input name="University" type="text" class="form-control" placeholder="Trường đang học" id="university" value="@Model.Item.Univeristy" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -195,7 +197,7 @@
                             Số điện thoại
                         </td>
                         <td colspan="3">
-                            <input name="Phone" type="text" class="form-control" placeholder="Số điện thoại" id="phone" value="" style="width: 100%;">
+                            <input name="Phone" type="text" class="form-control" placeholder="Số điện thoại" id="phone" value="@Model.Item.Phone" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -203,7 +205,7 @@
                             Email
                         </td>
                         <td colspan="3">
-                            <input name="Email" type="email" class="form-control" placeholder="Email" id="email" value="" style="width: 100%;">
+                            <input name="Email" type="email" class="form-control" placeholder="Email" id="email" value="@Model.Item.Email" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -211,7 +213,7 @@
                             Địa chỉ
                         </td>
                         <td colspan="3">
-                            <input name="Address" type="text" class="form-control" placeholder="Địa chỉ" id="address" value="" style="width: 100%;">
+                            <input name="Address" type="text" class="form-control" placeholder="Địa chỉ" id="address" value="@Model.Item.Address" style="width: 100%;">
                         </td>
                     </tr>
 
@@ -220,7 +222,7 @@
                             Đơn vị
                         </td>
                         <td colspan="3">
-                            <input name="Unit" type="text" class="form-control" placeholder="Đơn Vị" id="unit" value="" style="width: 100%;">
+                            <input name="Unit" type="text" class="form-control" placeholder="Đơn Vị" id="unit" value="@Model.Item.Unit" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -228,7 +230,7 @@
                             Chức vụ
                         </td>
                         <td colspan="3">
-                            <input name="Position" type="text" class="form-control" placeholder="Chức Vụ" id="position" value="" style="width: 100%;">
+                            <input name="Position" type="text" class="form-control" placeholder="Chức Vụ" id="position" value="@Model.Item.Position" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -236,13 +238,28 @@
                             Leader Team?
                         </td>
                         <td>
-                            <input name="IsLT" type="checkbox" id="isLT" value="true" style="width: 30px; height: 30px;">
+                            @if (Model.Item.IsLT)
+                            {
+                                <input name="IsLT" type="checkbox" id="isLT" value="true" style="width: 30px; height: 30px;" checked="checked">
+                            }
+                            else
+                            {
+                                <input name="IsLT" type="checkbox" id="isLT" value="true" style="width: 30px; height: 30px;" checked="checked">
+                            }
                         </td>
                         <td>
                             Đã qua PTBT?
                         </td>
                         <td>
-                            <input name="IsPassPTBT" type="checkbox" id="isPassPTBT" value="true" style="width: 30px; height: 30px;">
+                            @if (Model.Item.IsPassPTBT)
+                            {
+                                <input name="IsPassPTBT" type="checkbox" id="isPassPTBT" value="true" style="width: 30px; height: 30px;" checked="checked">
+                            }
+                            else
+                            {
+                                <input name="IsPassPTBT" type="checkbox" id="isPassPTBT" value="true" style="width: 30px; height: 30px;">
+                            }
+
                         </td>
                     </tr>
 
@@ -254,6 +271,7 @@
                                 $(this).attr("value", "false");
                             }
                         });
+
                     </script>
                 </table>
                 <div>

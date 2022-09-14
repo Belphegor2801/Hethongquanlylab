@@ -33,7 +33,7 @@ namespace Hethongquanlylab.Common
                 {
                     if (attr.Name.ToString() == "Name") result = items.OrderBy(s => attr.GetValue(s, null).ToString().Split(" ").Last());
                     else if (attr.Name.ToString() == "Birthday") result = items.OrderBy(s => attr.GetValue(s, null).ToString().Split("/").Last());
-                    else if (attr.Name.ToString().Contains("ID")) result = items.OrderBy(s => Convert.ToInt32(attr.GetValue(s, null)));
+                    else if (attr.Name.ToString().Contains("ID")) result = items.OrderBy(s => attr.GetValue(s, null));
                     else
                         result = items.OrderBy(s => attr.GetValue(s, null));
                 }
@@ -41,7 +41,7 @@ namespace Hethongquanlylab.Common
                 {
                     if (attr.Name.ToString() == "Name") result = items.OrderByDescending(s => attr.GetValue(s, null).ToString().Split(" ").Last());
                     else if (attr.Name.ToString() == "Birthday") result = items.OrderByDescending(s => attr.GetValue(s, null).ToString().Split("/").Last());
-                    else if (attr.Name.ToString().Contains("ID")) result = items.OrderByDescending(s => Convert.ToInt32(attr.GetValue(s, null)));
+                    else if (attr.Name.ToString().Contains("ID")) result = items.OrderByDescending(s => attr.GetValue(s, null));
                     else
                         result = items.OrderByDescending(s => attr.GetValue(s, null));
                 }
@@ -147,14 +147,6 @@ namespace Hethongquanlylab.Common
                 return "Gửi mail thất bại";
             }
 
-        }
-
-        public ExcelPackage OpenFile_Excel(string FileName)
-        {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/" + FileName));
-
-            return package;
         }
 
         public ItemDisplay<Notification> getNotifications(string page)

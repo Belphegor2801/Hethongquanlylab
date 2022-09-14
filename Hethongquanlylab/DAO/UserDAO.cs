@@ -60,7 +60,6 @@ namespace Hethongquanlylab.DAO
             }
             return list;
         }
-
         public List<Member> GetListUserbyGroup(string groupname) // thống kê list các User theo ban
         {
             List<Member> list = new List<Member>();
@@ -76,246 +75,290 @@ namespace Hethongquanlylab.DAO
         }
 
 
-        public List<Member> GetListUser_Excel()
+        private ExcelPackage OpenFile()
         {
-            List<Member> userList = new List<Member>();// mở file excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            int i = 3;
-            while(workSheet.Cells[i, 1].Value != null)
-            {
-                var j = 1;
-                string labID = workSheet.Cells[i, j++].Value.ToString();
-                string name = workSheet.Cells[i, j++].Value.ToString();
-                string sex = workSheet.Cells[i, j++].Value.ToString();
-                string sDate = (workSheet.Cells[i, j++].Value).ToString();
-                string birthday;
-                try
-                {
-                    double date = Convert.ToDouble(sDate);
-                    DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                    birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                }
-                catch
-                {
-                    birthday = sDate;
-                }
-                string gen = workSheet.Cells[i, j++].Value.ToString();
-                string unit = workSheet.Cells[i, j++].Value.ToString();
-                string position = workSheet.Cells[i, j++].Value.ToString();
-                var AVT = workSheet.Cells[i, j++].Value;
-                string avt = AVT == null? "default.jpg": AVT.ToString();
-                Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
-                userList.Add(user);
-                i++;
-            }
-            return userList;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/members.xlsx"));
+            return package;
         }
-        public List<Member> GetListUser_Excel(string Unit)
+
+        private void resetKey()
         {
-            List<Member> userList = new List<Member>();// mở file excel
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
+            var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            int i = 3;
+
+            int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
-                string unit = workSheet.Cells[i, 6].Value.ToString();
-                if (unit == "LT")
+                workSheet.Cells[i, 1].Value = i;
+                i++;
+            }
+            package.Save();
+        }
+
+        private Member LoadData(ExcelWorksheet workSheet, int row)
+        {
+            var j = 1;
+            var key = workSheet.Cells[row, j++].Value;
+            var labid = workSheet.Cells[row, j++].Value;
+            var avt = workSheet.Cells[row, j++].Value;
+            var name = workSheet.Cells[row, j++].Value;
+            var sex = workSheet.Cells[row, j++].Value;
+            var birthday = workSheet.Cells[row, j++].Value;
+            var gen = workSheet.Cells[row, j++].Value;
+            var specialization = workSheet.Cells[row, j++].Value;
+            var university = workSheet.Cells[row, j++].Value;
+            var phone = workSheet.Cells[row, j++].Value;
+            var mail = workSheet.Cells[row, j++].Value;
+            var address = workSheet.Cells[row, j++].Value;
+            var unit = workSheet.Cells[row, j++].Value;
+            var position = workSheet.Cells[row, j++].Value;
+            var isLT = workSheet.Cells[row, j++].Value;
+            var isPassPTBT = workSheet.Cells[row, j++].Value;
+
+            string Key = key.ToString();
+            string LabID = labid == null ? "N/A" : labid.ToString();
+            string AVT = avt == null ? "default.jpg" : avt.ToString();
+            string Name = name == null ? "N/A" : name.ToString();
+            string Sex = sex == null ? "N/A" : sex.ToString();
+            string Birthday = birthday == null ? "N/A" : birthday.ToString();
+            try
+            {
+                double date = Convert.ToDouble(Birthday);
+                DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+                Birthday = DateTime.FromOADate(date).ToString("d", fmt);
+            }
+            catch { }
+            string Gen = gen == null ? "N/A" : gen.ToString();
+            string Specialization = specialization == null ? "N/A" : specialization.ToString();
+            string University = university == null ? "N/A" : university.ToString();
+            string Phone = phone == null ? "N/A" : phone.ToString();
+            string Mail = mail == null ? "N/A" : mail.ToString();
+            string Address = address == null ? "N/A" : address.ToString();
+            string Unit = unit == null ? "N/A" : unit.ToString();
+            string Position = position == null ? "N/A" : position.ToString();
+            bool IsLT;
+            try { IsLT = isLT == null ? false : Convert.ToBoolean(isLT.ToString()); }
+            catch { IsLT = false; }
+            bool IsPassPTBT;
+            try { IsPassPTBT = isPassPTBT == null ? false : Convert.ToBoolean(isPassPTBT.ToString()); }
+            catch { IsPassPTBT = false; }
+
+            Member member = new Member(LabID, AVT, Name, Sex, Birthday, Gen, Specialization, University, Phone, Mail, Address, Unit, Position, IsLT, IsPassPTBT, Key);
+            return member;
+        }
+
+        public List<Member> GetListUser_Excel()
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            List<Member> members = new List<Member>();
+
+            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                Member member = LoadData(workSheet, i);
+                members.Add(member);
+            }
+            return members;
+        }
+
+        public List<Member> GetListUser_Excel(string UnitVar)
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            List<Member> members = new List<Member>();
+
+            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            {
+                if (UnitVar == "LT")
                 {
-                    string position = workSheet.Cells[i, 7].Value.ToString();
-                    if (position != "Thành viên")
+                    var isLT = workSheet.Cells[i, 15].Value;
+                    bool IsLT;
+                    try { IsLT = isLT == null ? false : Convert.ToBoolean(isLT.ToString()); }
+                    catch { IsLT = false; }
+                    if (IsLT)
                     {
-                        var j = 1;
-                        string labID = workSheet.Cells[i, j++].Value.ToString();
-                        string name = workSheet.Cells[i, j++].Value.ToString();
-                        string sex = workSheet.Cells[i, j++].Value.ToString();
-                        string sDate = (workSheet.Cells[i, j++].Value).ToString();
-                        string birthday;
-                        try
-                        {
-                            double date = Convert.ToDouble(sDate);
-                            DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                            birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                        }
-                        catch
-                        {
-                            birthday = sDate;
-                        }
-                        string gen = workSheet.Cells[i, j++].Value.ToString();
-                        j++;
-                        j++;
-                        string avt = workSheet.Cells[i, j++].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
-                        Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
-                        userList.Add(user);
+                        Member member = LoadData(workSheet, i);
+                        members.Add(member);
                     }
                 }
-                else if (unit == "PT")
+                else if (UnitVar == "PT")
                 {
-                    if (unit.Contains("PT"))
+                    var unit = workSheet.Cells[i, 13].Value;
+                    string Unit = unit == null ? "N/A" : unit.ToString();
+                    if (Unit.Contains("PT") || Unit.Contains("PowerTeam"))
                     {
-                        var j = 1;
-                        string labID = workSheet.Cells[i, j++].Value.ToString();
-                        string name = workSheet.Cells[i, j++].Value.ToString();
-                        string sex = workSheet.Cells[i, j++].Value.ToString();
-                        string sDate = (workSheet.Cells[i, j++].Value).ToString();
-                        string birthday;
-                        try
-                        {
-                            double date = Convert.ToDouble(sDate);
-                            DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                            birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                        }
-                        catch
-                        {
-                            birthday = sDate;
-                        }
-                        string gen = workSheet.Cells[i, j++].Value.ToString();
-                        j++;
-                        string position = workSheet.Cells[i, j++].Value.ToString();
-                        string avt = workSheet.Cells[i, j++].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
-                        Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
-                        userList.Add(user);
+                        Member member = LoadData(workSheet, i);
+                        members.Add(member);
                     }
                 }
                 else
                 {
-                    if (unit.Contains(Unit))
+                    var unit = workSheet.Cells[i, 13].Value;
+                    string Unit = unit == null ? "N/A" : unit.ToString();
+                    if (Unit.Contains(UnitVar))
                     {
-                        var j = 1;
-                        string labID = workSheet.Cells[i, j++].Value.ToString();
-                        string name = workSheet.Cells[i, j++].Value.ToString();
-                        string sex = workSheet.Cells[i, j++].Value.ToString();
-                        string sDate = (workSheet.Cells[i, j++].Value).ToString();
-                        string birthday;
-                        try
-                        {
-                            double date = Convert.ToDouble(sDate);
-                            DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                            birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                        }
-                        catch
-                        {
-                            birthday = sDate;
-                        }
-                        string gen = workSheet.Cells[i, j++].Value.ToString();
-                        j++;
-                        string position = workSheet.Cells[i, j++].Value.ToString();
-                        string avt = workSheet.Cells[i, j++].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
-                        Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
-                        userList.Add(user);
+                        Member member = LoadData(workSheet, i);
+                        members.Add(member);
                     }
                 }
-                
-                i++;
+
             }
-            return userList;
+            return members;
         }
+
         public Member GetUserByID_Excel(string ID)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
+            var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            int i = 3;
-            while (workSheet.Cells[i, 1].Value != null)
+            List<Member> members = new List<Member>();
+            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
             {
-                int j = 1;
-                string labID = workSheet.Cells[i, 1].Value.ToString();
-                if (labID == ID)
+                var key = workSheet.Cells[i, 1].Value;
+                string Key = key == null ? "N/A" : key.ToString();
+                if (Key == ID)
                 {
-                    string name = workSheet.Cells[i, 2].Value.ToString();
-                    string sex = workSheet.Cells[i, 3].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 4].Value).ToString();
-                    string birthday;
-                    try
-                    {
-                        double date = Convert.ToDouble(sDate);
-                        DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
-                        birthday = DateTime.FromOADate(date).ToString("d", fmt);
-                    }
-                    catch
-                    {
-                        birthday = sDate;
-                    }
-                    string gen = workSheet.Cells[i, 5].Value.ToString();
-                    string unit = workSheet.Cells[i, 6].Value.ToString();
-                    string position = workSheet.Cells[i, 7].Value.ToString();
-                    string avt = workSheet.Cells[i, 8].Value == null ? "default.jpg" : workSheet.Cells[i, 8].Value.ToString();
-                    Member user = new Member(labID, avt, name, sex, birthday, gen, unit, position);
-                    return user;
+                    Member member = LoadData(workSheet, i);
+                    return member;
                 }
-                i++;
             }
             return null;
         }
 
-        public void EditUserInfomtion_Excel(string id, string name, string sex, string birthday, string gen, string unit, string position)
-        {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
-            {
-                int j = 1;
-                string labID = workSheet.Cells[i, j++].Value.ToString();
-                if(labID == id)
-                {
-                    workSheet.Cells[i, j++].Value = name;
-                    workSheet.Cells[i, j++].Value = sex;
-                    workSheet.Cells[i, j++].Value = birthday;
-                    workSheet.Cells[i, j++].Value = gen;
-                    workSheet.Cells[i, j++].Value = unit;
-                    workSheet.Cells[i, j++].Value = position;
-                    break;
-                }    
-            }
-            package.Save();
-        }
-
         public void AddMember(Member member)
         {
-            List<Member> memberList = new List<Member>();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
+            var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
 
-            int i = 3;
+            int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
                 i++;
             }
 
-            int lastRow = i;
-            workSheet.Cells[lastRow, 1].Value = member.LabID;
-            workSheet.Cells[lastRow, 2].Value = member.Name;
-            workSheet.Cells[lastRow, 3].Value = member.Sex;
-            workSheet.Cells[lastRow, 4].Value = member.Birthday;
-            workSheet.Cells[lastRow, 5].Value = member.Gen;
-            workSheet.Cells[lastRow, 6].Value = member.Unit;
-            workSheet.Cells[lastRow, 7].Value = member.Position;
-            workSheet.Cells[lastRow, 8].Value = member.Avt;
+            int j = 1;
+            workSheet.Cells[i, j++].Value = i;
+            workSheet.Cells[i, j++].Value = member.LabID;
+            workSheet.Cells[i, j++].Value = member.Avt;
+            workSheet.Cells[i, j++].Value = member.Name;
+            workSheet.Cells[i, j++].Value = member.Sex;
+            workSheet.Cells[i, j++].Value = member.Birthday;
+            workSheet.Cells[i, j++].Value = member.Gen;
+            workSheet.Cells[i, j++].Value = member.Specialization;
+            workSheet.Cells[i, j++].Value = member.Univeristy;
+            workSheet.Cells[i, j++].Value = member.Phone;
+            workSheet.Cells[i, j++].Value = member.Email;
+            workSheet.Cells[i, j++].Value = member.Address;
+            workSheet.Cells[i, j++].Value = member.Unit;
+            workSheet.Cells[i, j++].Value = member.Position;
+            workSheet.Cells[i, j++].Value = member.IsLT;
+            workSheet.Cells[i, j++].Value = member.IsPassPTBT;
             package.Save();
         }
 
-        public void DeleteMember(String LabID)
+        public void EditMember(Member member)
         {
-            List<Member> memberList = new List<Member>();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/users.xlsx"));
+            var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
 
-            int i = 3;
+            int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
-                string labID = workSheet.Cells[i, 1].Value.ToString();
-                if (labID == LabID)
+                var key = workSheet.Cells[i, 1].Value;
+                string Key = key == null ? "N/A" : key.ToString();
+                if (Key == member.Key)
+                {
+                    break;
+                }
+                i++;
+            }
+
+            int j = 2;
+
+            workSheet.Cells[i, j++].Value = member.LabID;
+            workSheet.Cells[i, j++].Value = member.Avt;
+            workSheet.Cells[i, j++].Value = member.Name;
+            workSheet.Cells[i, j++].Value = member.Sex;
+            workSheet.Cells[i, j++].Value = member.Birthday;
+            workSheet.Cells[i, j++].Value = member.Gen;
+            workSheet.Cells[i, j++].Value = member.Specialization;
+            workSheet.Cells[i, j++].Value = member.Univeristy;
+            workSheet.Cells[i, j++].Value = member.Phone;
+            workSheet.Cells[i, j++].Value = member.Email;
+            workSheet.Cells[i, j++].Value = member.Address;
+            workSheet.Cells[i, j++].Value = member.Unit;
+            workSheet.Cells[i, j++].Value = member.Position;
+            workSheet.Cells[i, j++].Value = member.IsLT;
+            workSheet.Cells[i, j++].Value = member.IsPassPTBT;
+            package.Save();
+        }
+
+        public void DeleteMember(String id)
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                var key = workSheet.Cells[i, 1].Value;
+                string Key = key == null ? "N/A" : key.ToString();
+                if (Key == id)
                 {
                     break;
                 }
                 i++;
             }
             workSheet.DeleteRow(i);
+            resetKey();
+            package.Save();
+        }
+
+        public void DeleteMemberFromUnit(String ID, String Unit)
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+
+            int i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                var labID = workSheet.Cells[i, 1].Value;
+                string LabID = labID == null ? "N/A" : labID.ToString();
+                if (LabID == ID)
+                {
+                    break;
+                }
+                i++;
+            }
+            try
+            {
+                var units = workSheet.Cells[i, 13].Value.ToString();
+                var unit = units.Split(",");
+                var newUnits = new List<string>();
+                foreach (var item in unit)
+                {
+                    if (!unit.Contains(Unit))
+                    {
+                        newUnits.Add(item);
+                    }
+                }
+                if (newUnits.Count > 1)
+                {
+                    workSheet.Cells[i, 13].Value = string.Join(",", newUnits);
+                }
+                else if (newUnits.Count == 1)
+                {
+                    workSheet.Cells[i, 13].Value = newUnits[0];
+                }
+                else
+                {
+                    workSheet.Cells[i, 13].Value = "Chưa có";
+                }
+            }
+            catch
+            {
+                workSheet.Cells[i, 13].Value = "Chưa có";
+            }
             package.Save();
         }
     }
