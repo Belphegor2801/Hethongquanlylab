@@ -2,10 +2,6 @@
 @{
     @section Buttons{
         <a >
-            <form asp-action="ExportToPDF" method="post" class="header-item">
-                <input type="hidden" name="GridHtml" />
-                <button type="submit" class="header-item" type="submit" id="btnSubmit" value="Export">Export</button>
-            </form>
             <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
             <script type="text/javascript">
                 $(function () {
@@ -297,6 +293,15 @@
                 <div class="profile_container">
                     <div class="profile_profileImg">
                         <img src="~/img/avt/@Model.Avt" alt="@Model.Avt" class="cv_img">
+                        <button class="upload-avt" type="button" onclick="location.href='@Url.Action("AddProcedure", "BDH")'">Upload ảnh</button>
+						<style>
+                            .upload-avt {
+                                height: 52px;
+                                width: 132px;
+                                background-color: #edcd1f;
+								justify-content: center;
+                            }
+						</style>
                     </div>
                     <div>
                         <h1 class="profile_name">
@@ -323,63 +328,42 @@
                     </ul>
                 </div>
                 <div class="ref">
-                    <h3 class="cv_title">Thành tích</h3>
+                    <h3 class="cv_title">Thành tích <i style="margin-left: 20px; cursor: pointer;" class="fa-regular fa-pen-to-square" id="cv-achivement"></i></h3>
                     <div class="ref_item">
                         <h4 class="ref_name">Vật lý</h4>
                         <p class="cv_description">2 Giải nhì Quốc gia môn Vật lý, 2 Giải nhì Thành phố môn Vật Lý</p>
                     </div>
-                    <div class="ref_item">
-                        <h4 class="ref_name">Toán học</h4>
-                        <p class="cv_description">4 Giải thành phố môn Toán</p>
-                    </div>
+                    <textarea name="Achievement" style="display: none; padding: 20px 10px; line-height: 34px; width: 100%; height: 300px; " id="input-achievement" cols="30" rows="40" value="Phản hồi bởi Ban Điều hành"></textarea>
                 </div>
 
                 <div class="edu">
-                    <h3 class="cv_title">Học tập</h3>
+                    <h3 class="cv_title">Học tập<i style="margin-left: 20px; cursor: pointer;" class="fa-regular fa-pen-to-square" id="cv-education"></i></h3>
                     <div class="edu_item">
                         <p class="item_preTitle">10/2020</p>
                         <h4 class="item_title">Đại học Bách Khoa Hà Nội</h4>
                         <p class="item_subtitle">
                             Công nghệ thông tin Việt Nhật
                         </p>
+                        <textarea name="Achievement" style="display: none; padding: 20px 10px; line-height: 34px; width: 100%; height: 300px; " id="input-education" cols="30" rows="40" value="Phản hồi bởi Ban Điều hành"></textarea>
                     </div>
                 </div>
             </div>
             <div class="group-2">
-                <div class="exp">
-                    <h3 class="cv_title">Dự án tham gia</h3>
-                    <div class="exp_item">
-                        <p class="item_preTitle">8/2022 - nay</p>
-                        <h4 class="item_title">Quản lý nhân sự Lab Thầy Sinh</h4>
-                        <p class="item_subtitle">Lập trình front-end</p>
-                    </div>
-                </div>
-
                 <div class="certification">
-                    <h3 class="cv_title">Chứng chỉ</h3>
+                    <h3 class="cv_title">Chứng chỉ <i style="margin-left: 20px; cursor: pointer;" class="fa-regular fa-pen-to-square" id="cv-certification"></i></h3>
                     <div class="certification_item">
-                        <p class="item_preTitle">2018</p>
-                        <h4 class="item_title">Frontend Developer</h4>
+                        <p class="item_title">2018</p>
+                        <p class="item_title">Frontend Developer</p>
                     </div>
+                    <textarea name="Achievement" style="display: none; padding: 20px 10px; line-height: 34px; width: 100%; height: 300px; " id="input-certification" cols="30" rows="40" value="Phản hồi bởi Ban Điều hành"></textarea>
                 </div>
 
                 <div class="cv_interest">
-                    <h3 class="cv_title">SỞ THÍCH</h3>
+                    <h3 class="cv_title">SỞ THÍCH <i style="margin-left: 20px; cursor: pointer;" class="fa-regular fa-pen-to-square" id="cv-hobby"></h3>
                     <div class="interest_items">
-                        <div class="interest_item">
-                            <i data-feather="music"></i>
-                            <span>Nghe nhạc</span>
-                        </div>
-                        <div class="interest_item">
-                            <i data-feather="book"></i>
-                            <span>Đọc sách</span>
-                        </div>
-                        <div class="interest_item">
-                            <i data-feather="map"></i>
-                            <span>Vẽ Tranh</span>
-                        </div>
+                        <p class="interest_title">Đọc sách</p>
+                        <textarea name="Achievement" style="display: none; padding: 20px 10px; line-height: 34px; width: 100%; height: 300px; " id="input-hobby" cols="30" rows="40" value="Phản hồi bởi Ban Điều hành"></textarea>
                     </div>
-
                 </div>
             </div>
         </div>
