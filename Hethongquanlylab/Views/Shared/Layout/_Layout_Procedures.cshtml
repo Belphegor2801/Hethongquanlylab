@@ -67,7 +67,7 @@
 
                 @foreach (var item in Model.SearchFieldList)
                 {
-                    @if ((item != Model.CurrentSearchField))
+                    @if ((item != Model.CurrentSearchField) && Model.NameVar.ContainsKey(item))
                     {
                         <option value="@item">@Model.NameVar[@item]</option>
                     }
@@ -131,32 +131,32 @@
                             <td style="user-select: auto; text-align: center;">
                                 @if (item.V1)
                                 {
-                                    <i class="fa-solid fa-square-check"></i>
+                                    <i style="font-size: 20px; color: #0a0;" class="fa-solid fa-square-check"></i>
                                 }
                                 else
                                 {
-                                    <i class="fa-solid fa-square-xmark"></i>
+                                    <i style="font-size: 20px; color: #a00;" class="fa-solid fa-square-xmark"></i>
                                 }
 
                             </td>
                             <td style="user-select: auto; text-align: center;">
                                 @if (item.V2)
                                 {
-                                    <i class="fa-solid fa-square-check"></i>
+                                    <i style="font-size: 20px; color: #0a0;" class="fa-solid fa-square-check"></i>
                                 }
                                 else
                                 {
-                                    <i class="fa-solid fa-square-xmark"></i>
+                                    <i style="font-size: 20px; color: #a00;" class="fa-solid fa-square-xmark"></i>
                                 }
                             </td>
                             <td style="user-select: auto; text-align: center;">
                                 @if (item.V3)
                                 {
-                                    <i class="fa-solid fa-square-check"></i>
+                                    <i style="font-size: 20px; color: #0a0;" class="fa-solid fa-square-check"></i>
                                 }
                                 else
                                 {
-                                    <i class="fa-solid fa-square-xmark"></i>
+                                    <i style="font-size: 20px; color: #a00;" class="fa-solid fa-square-xmark"></i>
                                 }
                             </td>
                             <td style="user-select: auto; text-align: center;">
