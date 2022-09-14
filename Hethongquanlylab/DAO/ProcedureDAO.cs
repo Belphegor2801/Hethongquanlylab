@@ -182,7 +182,7 @@ namespace Hethongquanlylab.DAO
         {
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            for (int i = workSheet.Dimension.Start.Row; i <= workSheet.Dimension.End.Row; i++)
             {
                 int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                 if (id == procedureid)
@@ -222,7 +222,7 @@ namespace Hethongquanlylab.DAO
             var package = OpenFile();
             ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
 
-            int i = 2;
+            int i = 1;
             while (workSheet.Cells[i, 1].Value != null)
             {
                 i++;
