@@ -29,8 +29,8 @@ namespace Hethongquanlylab.Controllers.User
 
         public IActionResult Infor()
         {
-            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
-            var user = UserDAO.Instance.GetUserByID_Excel("110");
+            //var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var user = UserDAO.Instance.GetUserByID_Excel("1");
             return View("./Views/User/Infor/Infor.cshtml", user);
         }
 
@@ -51,9 +51,37 @@ namespace Hethongquanlylab.Controllers.User
 
         public IActionResult EditInfor()
         {
-            return View("./Views/User/Infor/EditInfor.cshtml");
+            var user = UserDAO.Instance.GetUserByID_Excel("1");
+            return View("./Views/User/Infor/EditInfor.cshtml", user);
         }
-        
+        [HttpPost]
+        public IActionResult EditInfor(String Name, String Sex, String Birthday, String Specialization, String University, String Phone, String Email, String Address )
+        {
+            var user = UserDAO.Instance.GetUserByID_Excel("1");
+            user.Name = Name;
+            user.Sex = Sex;
+            user.Specialization = Specialization;
+            user.Univeristy = University;
+            user.Phone = Phone;
+            user.Email = Email;
+            user.Address = Address;
+            UserDAO.Instance.EditMember(user);
+            return RedirectToAction("Infor");
+        }
+        [HttpPost]
+        public IActionResult UploadAvt(string var, string key, IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
+        {
+            string fileName = $"{hostingEnvironment.WebRootPath}/img/avt/{file.FileName}";
+            // Dẩy file vào thư mục
+            using (FileStream fileStream = System.IO.File.Create(fileName))
+            {
+                file.CopyTo(fileStream);
+                fileStream.Flush();
+            }
+            TempData["avt"] = file.FileName; // Lưu tên vào TempData => Lưu vào Excel
+            return RedirectToAction("EditInfor", new { avt = file.FileName, Key = key });
+
+        }
         public IActionResult Training()
         {
             var reqUrl = Request.HttpContext.Request;
