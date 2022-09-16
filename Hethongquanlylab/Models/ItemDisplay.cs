@@ -46,9 +46,16 @@ namespace Hethongquanlylab.Models
             {"LT", "Thành viên Leader Team" },
             {"PT", "Thành viên Power Team" },
             {"BNS","Thành viên Ban Nhân Sự"},
-            {"BĐT","Thành viên Ban Đào Tạo"},
-            {"BĐH","Thành viên Ban Điều Hành"},
+            {"BDT","Thành viên Ban Đào Tạo"},
+            {"BDH","Thành viên Ban Điều Hành"},
             {"BCV","Thành viên Ban Cố Vấn"},
+        };
+
+        private Dictionary<string, string> procedureVar = new Dictionary<string, string>()
+        {
+            {"All", "Toàn bộ quy trình" },
+            {"BDH","Quy trình Ban Điều Hành"},
+            {"BCV","Quy trình Ban Cố Vấn"},
         };
 
         public int PageCount { get => pageCount; set => pageCount = value; }
@@ -69,6 +76,7 @@ namespace Hethongquanlylab.Models
 
         public Dictionary<string, string> NameVar { get => nameVar; set => nameVar = value; }
         public Dictionary<string, string> UnitVar { get => unitVar; set => unitVar = value; }
+        public Dictionary<string, string> ProcedureVar { get => procedureVar; set => procedureVar = value; }
 
         public static Boolean IsAddMember = false;
 

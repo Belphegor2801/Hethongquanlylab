@@ -20,14 +20,14 @@ namespace Hethongquanlylab.DAO
 
         private ProcedureDAO() { }
 
-        private ExcelPackage OpenFile()
+        private ExcelPackage OpenFile() // Mở file
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/procedures.xlsx"));
             return package;
         }
 
-        private Procedure LoadData(ExcelWorksheet workSheet, int row)
+        private Procedure LoadData(ExcelWorksheet workSheet, int row) // Load dữ liệu từ hàng row trong workSheet
         {
             int j = 1;
             var id = workSheet.Cells[row, j++].Value;
@@ -69,9 +69,9 @@ namespace Hethongquanlylab.DAO
 
             Procedure procedure = new Procedure(ID, SubID, Name, Unit, Senddate, Content, V1, BDHRePly, V2, BCVRePly, V3, NSLReply, Status, Link);
             return procedure;
-        }
+        } 
 
-        private ExcelWorksheet UpdateData(ExcelWorksheet workSheet, Procedure procedure, int row)
+        private ExcelWorksheet UpdateData(ExcelWorksheet workSheet, Procedure procedure, int row) // Update dữ liệu đến hàng row trong workSheet
         {
             int j = 1;
             workSheet.Cells[row, j++].Value = procedure.ID;
@@ -91,34 +91,10 @@ namespace Hethongquanlylab.DAO
             return workSheet;
         }
 
-        private void resetKey()
+        private void resetKey(string sheetName) // Cập nhật lại key theo thứ tự số tự nhiên giảm dần
         {
             var package = OpenFile();
-
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-
-            int i = 2;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                i++;
-            }
-
-            int rowCount = i;
-            i = 2;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                workSheet.Cells[i, 1].Value = rowCount - i;
-                i++;
-            }
-            package.Save();
-        }
-
-        private void resetKey(string unit)
-        {
-            var package = OpenFile();
-
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[sheetName];
             int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
@@ -135,8 +111,54 @@ namespace Hethongquanlylab.DAO
             package.Save();
         }
 
-        private List<Procedure> getProcedureList(ExcelWorksheet workSheet)
+        private int findRow(ExcelWorksheet workSheet, string key, int var = 0)
         {
+            if (var == 0)
+            {
+                int i = 2;
+                while (workSheet.Cells[i, 1].Value != null)
+                {
+                    var id = workSheet.Cells[i, 1].Value;
+                    string ID = id == null ? "N/A" : id.ToString();
+                    if (ID == key)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+                return i;
+            }
+            else
+            {
+                int i = 2;
+                while (workSheet.Cells[i, 1].Value != null)
+                {
+                    var subid = workSheet.Cells[i, 2].Value;
+                    string SubID = subid == null ? "N/A" : subid.ToString();
+                    if (SubID == key)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+                return i;
+            }
+            
+        }
+
+        public List<Procedure> GetProcedureList_Excel(string sheetName) // Lấy danh sách quy trình
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet;
+            try
+            {
+                workSheet = package.Workbook.Worksheets[sheetName];
+            }
+            catch
+            {
+                workSheet = package.Workbook.Worksheets.Add(sheetName);
+            }
+            
             List<Procedure> procedureList = new List<Procedure>();
             int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
@@ -145,229 +167,138 @@ namespace Hethongquanlylab.DAO
                 procedureList.Add(procedure);
                 i++;
             }
+            package.Save();
             return procedureList;
         }
 
-        public List<Procedure> GetProcedureList_Excel()
+        public Procedure GetProcedureModel_Excel(string sheetName, string procedureid) // Lấy thông tin quy trình có ID = procedureID
         {
             var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            return getProcedureList(workSheet);
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[sheetName];
+            int i = findRow(workSheet, procedureid);
+            Procedure procedure = LoadData(workSheet, i);
+            return procedure;
         }
 
-        public List<Procedure> GetProcedureList_Excel(string unit)
+        public void AddProcedure(string sheetName, Procedure procedure) // Thêm mới quy trình vào sheetName
         {
             var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-            return getProcedureList(workSheet);
-        }
-
-
-        private Procedure getProcedure(ExcelWorksheet workSheet, string procedureid)
-        {
-            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
-            {
-                var id = workSheet.Cells[i, 1].Value;
-                string ID = id == null ? "N/A" : id.ToString();
-                if (ID == procedureid)
-                {
-                    Procedure procedure = LoadData(workSheet, i);
-                    return procedure;
-                }
-            }
-            return null;
-        }
-
-        public Procedure GetProcedureModel_Excel(string procedureid)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            return getProcedure(workSheet, procedureid);
-        }
-
-        public Procedure GetProcedureModel_Excel(string unit, string procedureid)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-            return getProcedure(workSheet, procedureid);
-        }
-
-        private ExcelWorksheet addProcedure(ExcelWorksheet workSheet, Procedure procedure)
-        {
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[sheetName];
             int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
                 i++;
             }
 
-            procedure.ID = (i - 1).ToString();
-            if (procedure.SubID == "BNS")
+            if (procedure.SubID == "SubID")
             {
-                procedure.SubID = "BNS" + (i - 1).ToString();
+                procedure.SubID = sheetName + (i - 1).ToString();
             }
 
             int lastRow = i;
             workSheet = UpdateData(workSheet, procedure, lastRow);
-            return workSheet;
-        }
-
-        public void AddProcedure(Procedure procedure)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            workSheet = addProcedure(workSheet, procedure);
             package.Save();
-            resetKey();
+            resetKey(sheetName);
         }
 
-        public void AddProcedure(string unit, Procedure procedure)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-            workSheet = addProcedure(workSheet, procedure);
-            package.Save();
-            resetKey(unit);
-        }
-
-        public void DeleteProcedure(string unit, string procedureid)
+        private string getSubID(string sheetName, string procedureID) // Lấy subID của quy trình
         {
             var package = OpenFile();
             string ProcedureSubID = "";
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-            int i = 0;
-            
-            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
-            {
-                var id = workSheet.Cells[i, 1].Value;
-                string ID = id == null ? "N/A" : id.ToString();
-                if (ID == procedureid)
-                {
-                    ProcedureSubID = workSheet.Cells[i, 2].Value.ToString();
-                    break;
-                }
-            }
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[sheetName];
+
+            int i = findRow(workSheet, procedureID);
+            ProcedureSubID = workSheet.Cells[i, 2].Value.ToString();
+            return ProcedureSubID;
+        }
+         
+        private void deleteProcedure(string sheetName, string procedureSubID)  // Xóa ở Sheet [sheetName]
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[sheetName];
+            int i = findRow(workSheet, procedureSubID, 1);
+
             workSheet.DeleteRow(i);
+            workSheet.Cells[10, 10].Value = "hang xoa = " + i;
+            workSheet.Cells[11, 10].Value = "subid=" + procedureSubID;
+            package.Save();
+            resetKey(sheetName);
+        }
 
-            workSheet = package.Workbook.Worksheets.First();
+        public void DeleteProcedure(string sheetName, string procedureid)
+        {
+            string ProcedureSubID = getSubID(sheetName, procedureid);
+            deleteProcedure(sheetName, ProcedureSubID);
+            deleteProcedure("Ban Điều Hành duyệt", ProcedureSubID);
+            deleteProcedure("Ban Cố Vấn duyệt", ProcedureSubID);
+            deleteProcedure("Nhà Sáng Lập duyệt", ProcedureSubID);
 
-            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
-            {
-                var subid = workSheet.Cells[i, 2].Value;
-                string SubID = subid == null ? "N/A" : subid.ToString();
-                if (ProcedureSubID == SubID)
-                {
-                    break;
-                }
-            }
+        } // Xóa ở tất cả các nhánh
+
+        public void EditProcedure(string sheetName, Procedure procedure)
+        {
+            DeleteProcedure(sheetName, procedure.ID); // Xóa ở tất cả các sheet
+            AddProcedure(sheetName, procedure); // Thêm mới vào cuối sheet cần thêm
+            resetKey(sheetName);
+        }
+
+        public void SendToApproval(string sheetName, Procedure procedure)
+        {
+            var package = OpenFile();
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[sheetName];
+            int i = findRow(workSheet, procedure.SubID, 0);
             workSheet.DeleteRow(i);
             package.Save();
-            resetKey();
-            resetKey(unit);
+            AddProcedure(sheetName, procedure);
+        }      
+
+        public void ReturnProcedure(string unit, Procedure procedure, string feedback) // Trả lại quy trình của đơn vị unit
+        {
+            procedure.Status = unit + " trả lại";
+            procedure.V1 = false;
+            procedure.V2 = false;
+            procedure.V3 = false;
+            if (unit == "Ban Điều Hành")
+            {
+                procedure.BdhReply = feedback;
+            }
+            if (unit == "Ban Cố Vấn")
+            {
+                procedure.BcvReply = feedback;
+            }
+            EditProcedure(procedure.Unit, procedure); // Đã có xóa ở sheet này
         }
 
-        public void EditProcedure(string unit, Procedure procedure)
+        public void ApprovalProcedure(string unit, Procedure procedure, string feedback)
         {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
-
-            int i;
-            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            procedure.Status = unit + " đã duyệt";
+            if (unit == "Ban Điều Hành")
             {
-                var id = workSheet.Cells[i, 1].Value;
-                string ID = id == null ? "N/A" : id.ToString();
-                if (procedure.ID.ToString() == ID)
-                {
-                    break;
-                }
+                procedure.V1 = true;
+                procedure.BdhReply = feedback;
             }
-
-            int row = i;
-            workSheet.DeleteRow(row);
-            workSheet = addProcedure(workSheet, procedure);
-            package.Save();
-            resetKey(unit);
-        }
-
-        public void SendToApproval(Procedure procedure)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-
-            int i;
-            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            if (unit == "Ban Cố Vấn")
             {
-                var subid = workSheet.Cells[i, 2].Value;
-                string SubID = subid == null ? "N/A" : subid.ToString();
-                if ((procedure.SubID.ToString() == SubID))
-                {
-                    break;
-                }
+                procedure.V2 = true;
+                procedure.BcvReply = feedback;
             }
-            workSheet.DeleteRow(i);
-
-            workSheet = addProcedure(workSheet, procedure);
-            package.Save();
-            resetKey();
-        }
-
-        public void BDHFeedbackProcedure(Procedure procedure, string feedback)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-
-            int i;
-            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            if (unit == "Nhà Sáng Lập")
             {
-                string SubID = workSheet.Cells[i, 2].Value.ToString();
-                if (procedure.SubID.ToString() == SubID)
-                {
-                    break;
-                }
+                procedure.V3 = true;
+                procedure.NSLReply = feedback;
             }
-            procedure.Status = "Ban Điều hành phản hồi";
-            workSheet.Cells[i, 14].Value = procedure.Status;
-            procedure.BdhReply = feedback;
-            workSheet.Cells[i, 9].Value = procedure.BdhReply;
-            package.Save();
-            UpdateDatatoUnitSheet(procedure.Unit, procedure);
-        }
-        public void UpdateDatatoUnitSheet(string unit, Procedure procedure)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[unit];
+            EditProcedure(procedure.Unit, procedure); // Đã xóa ở sheet này
 
-            int i;
-            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            AddProcedure(unit + " duyệt", procedure); // Thêm lại vào sheet này
+            if (unit == "Ban Cố Vấn")
             {
-                string SubID = workSheet.Cells[i, 2].Value.ToString();
-                if (procedure.SubID.ToString() == SubID)
-                {
-                    break;
-                }
+                AddProcedure("Ban Điều Hành duyệt", procedure); // Thêm lại vào sheet của BĐH
             }
-            EditProcedure(unit, procedure);
-        }
-        public void BDHApproval(Procedure procedure, string feedback)
-        {
-            var package = OpenFile();
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-
-            int i;
-            for (i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+            if (unit == "Nhà Sáng Lập")
             {
-                string SubID = workSheet.Cells[i, 2].Value.ToString();
-                if (procedure.SubID.ToString() == SubID)
-                {
-                    break;
-                }
+                AddProcedure("Ban Điều Hành duyệt", procedure); // Thêm lại vào sheet của BĐH
+                AddProcedure("Ban Cố Vấn duyệt", procedure); // Thêm lại vào sheet của BCV
             }
-            workSheet.Cells[i, 8].Value = true;
-            procedure.Status = "Ban Điều hành đã duyệt";
-            workSheet.Cells[i, 14].Value = procedure.Status;
-            procedure.BdhReply = feedback;
-            workSheet.Cells[i, 9].Value = procedure.BdhReply;
-            package.Save();
-            UpdateDatatoUnitSheet(procedure.Unit, procedure);
         }
 
     }

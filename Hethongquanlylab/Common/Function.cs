@@ -99,7 +99,7 @@ namespace Hethongquanlylab.Common
                         if (attr.Name != "Avt")
                         {
                             object value = attr.GetValue(item);
-                            worksheet.Cells[currentRow, col++].Value = value.ToString();
+                            worksheet.Cells[currentRow, col++].Value = value == null?"N/A": value.ToString();
                         }
                     }
 

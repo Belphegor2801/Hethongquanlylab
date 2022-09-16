@@ -29,8 +29,8 @@ namespace Hethongquanlylab.Models
         public string Unit { get => unit; set => unit = value; }
         public string Senddate { get => senddate; set => senddate = value; }
         public string Content { get => content; set => content = value; }
-        public bool V1 { get => v1; set => v3 = value; }
-        public bool V2 { get => v2; set => v3 = value; }
+        public bool V1 { get => v1; set => v1 = value; }
+        public bool V2 { get => v2; set => v2 = value; }
         public bool V3 { get => v3; set => v3 = value; }
         public string Status { get => status; set => status = value; }
         public string Link { get => link; set => link = value; }
@@ -41,7 +41,7 @@ namespace Hethongquanlylab.Models
 
         public static Dictionary<string, string> ColorVar { get; set; }
 
-        public Procedure(string name, string unit, string content, string link, string id = "1", string subid = "BNS") // Thêm mới + chỉnh sửa
+        public Procedure(string name, string unit, string content, string link, string id = "1", string subid = "SubID") // Thêm mới + chỉnh sửa
         {
             this.ID = id;
             this.SubID = subid;
@@ -110,8 +110,12 @@ namespace Hethongquanlylab.Models
             ColorVar = new Dictionary<string, string>();
             ColorVar.Add("Chưa duyệt", "#4800ff");
             ColorVar.Add("Chờ duyệt", "#ff6a00");
-            ColorVar.Add("Đã duyệt bởi Ban Điều Hành", "#0a0");
-            ColorVar.Add("Trả lại", "#00f");
+            ColorVar.Add("Ban Điều Hành đã duyệt", "#0a0");
+            ColorVar.Add("Ban Cố Vấn đã duyệt", "#0c0");
+            ColorVar.Add("Nhà Sáng Lập đã duyệt", "#0f0");
+            ColorVar.Add("Ban Điều Hành trả lại", "#a00");
+            ColorVar.Add("Ban Cố Vấn trả lại", "#c00");
+            ColorVar.Add("Nhà Sáng Lập trả lại", "#f00");
         }
     }
 }
