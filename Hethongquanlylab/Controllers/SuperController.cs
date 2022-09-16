@@ -49,6 +49,9 @@ namespace Hethongquanlylab.Controllers
         }
         //// End: Trang chủ
 
+
+
+
         //// Begin Thông tin thành viên
         /// Bảng nhân sự
         public IActionResult Member()
@@ -493,5 +496,149 @@ namespace Hethongquanlylab.Controllers
             return RedirectToAction("SendProceduresToApproval", new { sort = sortOrder, searchField = searchField, searchString = searchString });
         }
         //// End: Thông tin quy trình
+        ///
+
+        public IActionResult Training()
+        {
+            // Khởi tạo
+            String field;
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            /// Lấy query, không có => đặt mặc định
+            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
+            field = urlQuery["field"];
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            if (unit == "Ban Đào Tạo")
+                field = field == null ? "All" : field;
+            else
+                field = field == null ? unitVar : field;
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            ItemDisplay<Training> trainingList = new ItemDisplay<Training>();
+            trainingList.SortOrder = sortOrder;
+            trainingList.CurrentSearchField = searchField;
+            trainingList.CurrentSearchString = searchString;
+            trainingList.CurrentPage = currentPage;
+
+
+            List<Training> trainings;
+            if (field == unitVar)
+                trainings = TrainingDAO.Instance.GetTrainingList_Excel(unitVar);
+            else
+                trainings = TrainingDAO.Instance.GetTrainingList_Excel("All");
+
+            trainings = Function.Instance.searchItems(trainings, trainingList);
+            trainings = Function.Instance.sortItems(trainings, trainingList.SortOrder);
+
+            trainingList.Paging(trainings, 10);
+
+            if (trainingList.PageCount > 0)
+            {
+                if (trainingList.CurrentPage > trainingList.PageCount) trainingList.CurrentPage = trainingList.PageCount;
+                if (trainingList.CurrentPage < 1) trainingList.CurrentPage = 1;
+                if (trainingList.CurrentPage != trainingList.PageCount)
+                    try
+                    {
+                        trainingList.Items = trainingList.Items.GetRange((trainingList.CurrentPage - 1) * trainingList.PageSize, trainingList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    trainingList.Items = trainingList.Items.GetRange((trainingList.CurrentPage - 1) * trainingList.PageSize, trainingList.Items.Count % trainingList.PageSize == 0 ? trainingList.PageSize : trainingList.Items.Count % trainingList.PageSize);
+            }
+
+            trainingList.SessionVar = unit;
+            return View(String.Format("./Views/{0}/Trainings/Training.cshtml", unitVar), trainingList);
+        }
+        [HttpPost]
+        public IActionResult Training(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        {
+            return RedirectToAction("Training", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+        }
+        public IActionResult TrainingDetail()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            string ID = urlQuery["trainingID"];
+            Training training;
+            if (unit == "Ban Đào Tạo")
+            {
+                training = TrainingDAO.Instance.GetTrainingModelbyId_Excel("All", ID);
+            }
+            else
+            {
+                training = TrainingDAO.Instance.GetTrainingModelbyId_Excel(unit, ID);
+            }
+            var item = new ItemDetail<Training>(training, unit);
+            return View(String.Format("./Views/{0}/Trainings/TrainingDetail.cshtml", unitVar), item);
+        }
+
+        [HttpPost]
+        public IActionResult EditTraining(String Name, String Content, String Link, String SubID)
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var ID = urlPath.ToString().Split('/').Last();
+            var training = new Training(Name, unit, Content.ToString(), Link, ID, SubID); // Khởi tạo trạng thái mặc định quy trình: Status: Chưa duyệt
+            if (unit == "Ban Đào Tạo")
+            {
+                TrainingDAO.Instance.EditTraing("All", training);
+            }
+            else
+            {
+                TrainingDAO.Instance.EditTraing(unit, training);
+            }
+
+            return RedirectToAction("Training");
+        }
+
+        public IActionResult AddTraining()
+        {
+            return View(String.Format("./Views/{0}/Trainings/AddTraining.cshtml", unitVar), unit);
+        }
+
+        [HttpPost]
+        public IActionResult AddTraining(String Name, String Content, String Link, String IsSendToApproval)
+        {
+            var training = new Training(Name, unit, Content.ToString(), Link);
+
+            if (unit == "Ban Đào Tạo")
+            {
+                TrainingDAO.Instance.AddTraining("All", training);
+            }
+            else
+            {
+                TrainingDAO.Instance.AddTraining(unit, training);
+            }
+            return RedirectToAction("Training");
+        }
+
+
+        public IActionResult ExportTrainingToExcel()
+        {
+            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
+            string exportVar = urlQuery["exportVar"];
+            exportVar = exportVar == null ? unitVar : exportVar;
+            List<Training> trainings;
+            if (exportVar == unitVar)
+                trainings = TrainingDAO.Instance.GetTrainingList_Excel(unitVar);
+            else
+                trainings = TrainingDAO.Instance.GetTrainingList_Excel("All");
+
+            List<Training> training = TrainingDAO.Instance.GetTrainingList_Excel("All");
+            var stream = Function.Instance.ExportToExcel<Training>(training);
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách bài đào tạo.xlsx");
+        }
     }
 }
