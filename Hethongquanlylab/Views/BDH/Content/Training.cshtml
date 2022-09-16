@@ -77,14 +77,20 @@
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Ngày xuất bản
                         <button name="sortOrder" id="Date" value="Date" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Đơn vị
+                        <button name="sortOrder" id="Unit" value="Unit" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+                    <th>
+                        Link
                         <button name="sortOrder" id="Unit" value="Unit" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
@@ -107,7 +113,12 @@
                             <td style="user-select: auto; text-align: center;"> @item.Date</td>
                             <td style="user-select: auto; text-align: center;"> @item.Unit</td>
                             <td style="user-select: auto; text-align: center;">
-                                <button type="button" onclick="location.href='@Url.Action("TrainingDetail", "BDH", new { id = item.Id })'">
+                                <a target="_blank" href="https://docs.google.com/presentation/d/1ApGqHs31wDqIQiPTCS-mLVFFsQC9bg9r/edit?usp=sharing&ouid=106497193726750421354&rtpof=true&sd=true">
+                                    https://docs.google.com/presentation/d/1ApGqHs31wDqIQiPTCS-mLVFFsQC9bg9r/edit?usp=sharing&ouid=106497193726750421354&rtpof=true&sd=true
+                                </a>
+                            </td>
+                            <td style="user-select: auto; text-align: center;">
+                                <button type="button" onclick="location.href='@Url.Action("TrainingDetail", new { TrainingID = item.Id })'">
                                     <i class="fa fa-info-circle"></i>
                                 </button>
                                 <button type="button" onclick="confirm_detele(@item.Id)" id="deleteMember" value="@item.Id">

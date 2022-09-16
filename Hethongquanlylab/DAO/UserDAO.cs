@@ -144,7 +144,7 @@ namespace Hethongquanlylab.DAO
             try { IsPassPTBT = isPassPTBT == null ? false : Convert.ToBoolean(isPassPTBT.ToString()); }
             catch { IsPassPTBT = false; }
 
-            Member member = new Member(LabID, AVT, Name, Sex, Birthday, Gen, Specialization, University, Phone, Mail, Address, Unit, Position, IsLT, IsPassPTBT, Key);
+            Member member = new Member(LabID, AVT, Name, Sex, Birthday, Gen, Phone, Mail, Address, Specialization, University, Unit, Position, IsLT, IsPassPTBT, Key);
             return member;
         }
 

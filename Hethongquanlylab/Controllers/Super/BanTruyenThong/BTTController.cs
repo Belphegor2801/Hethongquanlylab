@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Hethongquanlylab.Controllers.Super.BanTruyenThong
+﻿namespace Hethongquanlylab.Controllers.Super.BanTruyenThong
 {
-    public class BTTController : Controller
+    public class BTTController : SuperController
     {
-        public IActionResult Index()
+        public BTTController()
         {
-            return View();
+            unit = "Ban Truyền Thông";
+            unitVar = "BTT";
         }
     }
 }

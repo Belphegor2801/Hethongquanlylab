@@ -11,7 +11,6 @@
   <ItemGroup>
     <Folder Include="Controllers\Admin\" />
     <Folder Include="DAO\Login\" />
-    <Folder Include="Views\BTT\" />
     <Folder Include="wwwroot\data\avt\" />
   </ItemGroup>
 
@@ -29,23 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\BDT\AddProcedure.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\BDT\Member.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\BDT\Procedure.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\BDT\ProcedureDetail.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\BDT\SendProceduresToApproval.cshtml">
+    <Content Update="Views\BDT\Members\Member.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

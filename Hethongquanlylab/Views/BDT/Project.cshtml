@@ -49,7 +49,7 @@
 
                 @foreach (var item in Model.SearchFieldList)
                 {
-                    @if ((item != Model.CurrentSearchField) && item != "Avt")
+                    @if ((item != Model.CurrentSearchField) && Model.NameVar.ContainsKey(item))
                     {
                         <option value="@item">@Model.NameVar[@item]</option>
                     }

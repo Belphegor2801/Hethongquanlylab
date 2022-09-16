@@ -56,6 +56,40 @@ namespace Hethongquanlylab.DAO
             return trainingList;
         }
 
+        public List<Training> GetTrainingList_Excel(string unitVar)
+        {
+            List<Training> trainingList = new List<Training>();// mở file excel
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/training.xlsx"));
+            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            int i = 2;
+            while (workSheet.Cells[i, 1].Value != null)
+            {
+                int j = 1;
+                int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
+                string name = workSheet.Cells[i, 2].Value.ToString();
+                string link = workSheet.Cells[i, 3].Value.ToString();
+                string sDate = (workSheet.Cells[i, 4].Value).ToString();
+                string date;
+                try
+                {
+                    double day = Convert.ToDouble(sDate);
+                    DateTimeFormatInfo fmt = (new CultureInfo("fr-FR")).DateTimeFormat;
+                    date = DateTime.FromOADate(day).ToString("d", fmt);
+                }
+                catch
+                {
+                    date = sDate;
+                }
+                string unit = workSheet.Cells[i, 5].Value.ToString();
+                string content = workSheet.Cells[i, 6].Value.ToString();
+                Training training = new Training(id, name, link, date, unit, content);
+                trainingList.Add(training);
+                i++;
+            }
+            return trainingList;
+        }
+
         public Training GetTrainingModelbyId_Excel(int trainingid)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
