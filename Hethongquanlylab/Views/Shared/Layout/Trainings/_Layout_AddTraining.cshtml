@@ -1,0 +1,96 @@
+﻿@model String
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @section Buttons{
+        @if (Model == "Ban Nhân Sự")
+        {
+            <a class="header-item"></a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model == "Ban Đào Tạo")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else
+        {
+            <a class="header-item"></a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+
+    }
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+
+
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="~/css/subScene.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.js"></script>
+</head>
+<body>
+    @RenderBody()
+    <div class="wrap-back" style="display:flex;">
+        <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
+        <p>/</p>
+        <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Quy trình</h2></a>
+        <p>/</p>
+        <a asp-action="AddProcedure"><h2 style="padding-left: 10px;" class="backMainPage"> Thêm quy trình</h2></a>
+    </div>
+    <form asp-action="AddTraining" method="post" id="form-addprocedure">
+        <div class="wrap-themDuAn">
+            <div>
+                <label for="">
+                    <strong style="font-size:20px;">Tên bài đào tạo: </strong>
+                    <input type="text" name="Name" value="" required>
+                </label>
+            </div>
+
+            <table><tr><td style="font-size: 20px; font-weight: bold;">Nội dung</td></tr></table>
+            <label for="">
+                <textarea style="width: 1030px; margin: 12px 0; min-height: 500px;" name="Content" id="content" cols="30" rows="10" required></textarea>
+                <script>
+                    const editor = Jodit.make('#content', { height: 300 })
+                </script>
+            </label>
+
+            <label style="width: 1030px; " for="">
+                <strong style="font-size:20px;">Link tài liệu: </strong>
+                <input type="url" id="input-link" name="Link" value="" required>
+            </label>
+
+            <div class="" style="margin-left: 62%;">
+                <button type="submit" class="add-nhanSu">
+                    <i class="fa-solid fa-plus"></i>
+                    Lưu
+                </button>
+            </div>
+        </div>
+
+    </form>
+    <script src="./js/dataNhanSu.js"></script>
+    <script src="./js/dataDuAn.js"></script>
+
+</body>
+</html>
+
