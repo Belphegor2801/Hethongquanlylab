@@ -72,9 +72,9 @@
         <div id="accordion-course" style="overflow: scroll; height: auto; max-height: 100%;">
             @foreach (var item in Model)
             {
-                <h3> @item.Id: @item.Name</h3>
+                <h3> @item.ID: @item.Name</h3>
                 <h3>
-                    <a asp-action="Training" asp-route-id="@item.Id">Xem</a>
+                    <a asp-action="Training" asp-route-id="@item.ID">Xem</a>
                 </h3>
             }
         </div>

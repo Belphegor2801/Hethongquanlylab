@@ -1,13 +1,30 @@
 ﻿@model ItemDisplay<Training>
 
+
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     @section Buttons{
-        <a class="header-item"></a>
-        <a asp-action="Notification" class="header-item">Thông báo</a>
-        <a asp-action="Project" class="header-item">Dự án</a>
-        <a asp-action="Procedure" class="header-item">Quy trình</a>
-        <a asp-action="Member" class="header-item">Nhân sự</a>
-        <a asp-action="Index" class="header-item">Trang chủ</a>
+        @if (Model.SessionVar == "Ban Nhân Sự")
+        {
+            <a class="header-item"></a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar == "Ban Đào Tạo")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else
+        {
+            <a class="header-item"></a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+
     }
 
     @section Login{
@@ -19,14 +36,15 @@
         </li>
     }
 }
+
+
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
 </head>
 <body>
+    @RenderBody()
     <form asp-action="Training" method="post" style="z-index: 0;">
         <div class="wrap-back" style="display:flex;">
             <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
@@ -35,7 +53,15 @@
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel", "BDH")'">Xuất file Excel</button>
+            @if (Model.SessionVar == "Ban Đào Tạo")
+            {
+                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
+            }
+            else
+            {
+                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddTraining")'">Thêm bài đào tạo</button>
+                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
+            }
 
         </div>
         <div class="wrap-sreach">
@@ -48,7 +74,7 @@
 
                 @foreach (var item in Model.SearchFieldList)
                 {
-                    @if ((item != Model.CurrentSearchField))
+                    @if ((item != Model.CurrentSearchField) && Model.NameVar.ContainsKey(item))
                     {
                         <option value="@item">@Model.NameVar[@item]</option>
                     }
@@ -89,50 +115,50 @@
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Link
                         <button name="sortOrder" id="Unit" value="Unit" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Chức năng
                     </th>
                 </tr>
-
-
-
 
                 @if (Model.ItemCount > 0)
                 {
                     foreach (var item in Model.Items)
                     {
                         <tr id="0" style="user-select: auto;">
-                            <td style="user-select: auto; text-align: center;"> @item.Id</td>
+                            <td style="user-select: auto; text-align: center;"> @item.ID</td>
                             <td style="user-select: auto;"> @item.Name</td>
                             <td style="user-select: auto; text-align: center;"> @item.Date</td>
                             <td style="user-select: auto; text-align: center;"> @item.Unit</td>
-                            <td style="user-select: auto; text-align: center;">
-                                <a target="_blank" href="https://docs.google.com/presentation/d/1ApGqHs31wDqIQiPTCS-mLVFFsQC9bg9r/edit?usp=sharing&ouid=106497193726750421354&rtpof=true&sd=true">
-                                    https://docs.google.com/presentation/d/1ApGqHs31wDqIQiPTCS-mLVFFsQC9bg9r/edit?usp=sharing&ouid=106497193726750421354&rtpof=true&sd=true
+                            <td style="user-select: auto; text-align: center; text-decoration: underline;">
+                                <a style="color: #00a; text-decoration: underline;" target="_blank" href="@item.Link">
+                                    Link
                                 </a>
                             </td>
                             <td style="user-select: auto; text-align: center;">
-                                <button type="button" onclick="location.href='@Url.Action("TrainingDetail", new { TrainingID = item.Id })'">
-                                    <i class="fa fa-info-circle"></i>
-                                </button>
-                                <button type="button" onclick="confirm_detele(@item.Id)" id="deleteMember" value="@item.Id">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
+
+                                @if (Model.SessionVar != "Ban Đào Tạo")
+                                {
+                                    <button type="button" onclick="location.href='@Url.Action("TrainingDetail", new { TrainingID = item.ID })'">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+                                    <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" onclick="inforDetail(@item.ID)"><i class="fa fa-info-circle"></i></button>
+                                }
+
                             </td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr id="1">
-                        Không tìm thấy kết quả hợp lệ!!!
-                    </tr>
                 }
                 <script>
                             var modelSortOrder = "@Html.Raw(Model.SortOrder)";
@@ -235,8 +261,6 @@
                         }
 
 
-
-
                         @if (Model.CurrentPage != Model.PageCount)
                         {
                             <a href="javascript:PagerClick(@Model.CurrentPage + 1);" class="page-btn"> Sau </a>
@@ -306,30 +330,114 @@
     </style>
     @if (Model.PageCount >= 0)
     {
-        foreach (var item in Model.Items)
+        <style>
+            .form-frame table tr td {
+                height: 17px;
+            }
+
+            .form-frame table td:nth-child(odd) {
+                font-weight: bold;
+            }
+
+            .nutan {
+                height: 40px;
+                width: 100px;
+                background-color: #edcd1f;
+                border-radius: 12px;
+            }
+        </style>
+        if (Model.SessionVar == "Ban Đào Tạo")
         {
-            <div style="display: none; min-width: 40%; height: 30%; left: 20%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.Id">
-                <div>
-                    <a style="text-align: center; color: #fff;"> Bạn có chắc chắn muốn xóa thông báo có ID = @item.Id không? </a>
+            foreach (var item in Model.Items)
+            {
+                <div style="display: none; width: 80%; height: 70%; top: 110px; left: 10%; z-index: 1;" class="form-frame infor-form" id="@item.ID">
+                    <div style="width: 50%;">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="text-align: center;" colspan="4">THÔNG TIN BÀI ĐÀO TẠO: <span style="font-weight: bold; color: #ffd800">@item.SubID</span> </td>
+                            </tr>
+                            <tr> <td width="35%"> Tên bài đào tạo:</td><td> @item.Name</td></tr>
+                            <tr> <td width="35%"> Đơn vị:</td><td> @item.Unit </td>
+                            <tr> <td width="35%"> Ngày xuất bản:</td><td> @item.Date</td></tr>
+                            <tr>
+                                <td width="35%"> Link</td>
+                                <td nowrap>
+                                    <a style="color: #00a; text-decoration: underline;" target="_blank" href="@item.Link">
+                                        Link
+                                    </a>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <div>
+                            @if (Model.SessionVar == "Ban Đào Tạo")
+                            {
+                                <div style="margin-top: 2%;">
+                                    <button type="button" style="left: 20%;" class="nutan" onclick="location.href='@Url.Action("FeedbackTraining", new { traingID = @item.ID})'">Phản hồi</button>
+                                    <button type="button" style="float: right !important;" onclick="inforDetail_disabled()" class="nutan">Thoát</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="margin-top: 2%;">
+                                    <button type="button" style="left: 20%;" class="nutan" onclick="location.href='@Url.Action("EditTraining", new { trainingID = @item.ID })'">Sửa bài đào tạo</button>
+                                    <button type="button" style="left: 40%;" class="nutan" onclick="confirm_detele(@item.ID)">Xóa</button>
+                                    <button type="button" style="float: right !important;" onclick="inforDetail_disabled()" class="nutan">Thoát</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div style="width: 50%;">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="text-align: center;">NỘI DUNG BÀI ĐÀO TẠO </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="scroll">
+                                        @Html.Raw(item.Content)
+                                        <style>
+                                            .scroll {
+                                                height: 300px;
+                                                max-width: 100%;
+                                                word-break: break-word;
+                                                overflow: scroll;
+                                                overflow: -moz-scrollbars-none;
+                                                border: 1px #000 solid;
+                                            }
+
+                                                .scroll::-webkit-scrollbar {
+                                                    width: 0 !important;
+                                                    display: none;
+                                                }
+                                        </style>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                <div>
-                    <input class="form-submit" type="button" onclick="location.href='@Url.Action("DeleteProcedure", "BNS", new{procedureID = @item.Id})'" style="margin-top: 15px;" value="Có">
-                    <input class="form-submit" type="button" onclick="confirm_delete_disabled()" style="margin-top: 15px;" value="Không">
+            }
+        }
+        else
+        {
+            foreach (var item in Model.Items)
+            {
+                <div style="display: none; width: 40%; height: 30%; left: 30%; top: 30%; z-index: 2; text-align: center;" class="form-frame delete-form" id="@item.ID">
+                    <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa bài đào tạo ID = @item.ID không? </a>
+                    <div>
+                        <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteTraining", new{ trainingID = @item.ID})'" value="Có">Có</button>
+                        <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
+                    </div>
                 </div>
-            </div>
+            }
         }
     }
-    <style>
-        .form-frame {
-            position: fixed !important;
-            border-radius: 24px !important;
-            padding: 30px 30px 40px;
-            background-color: #000;
-        }
-    </style>
+
+
     <script>
-        function confirm_detele(id) {
-            var subScene = document.getElementsByClassName("delete-form");
+        function inforDetail(id) {
+            var subScene = document.getElementsByClassName("infor-form");
             for (let i = 0; i < subScene.length; i++) {
                 subScene[i].style.display = "none";
                 if (subScene[i].id == id) {
@@ -338,6 +446,22 @@
             }
         }
 
+        function inforDetail_disabled() {
+            var subScene = document.getElementsByClassName("infor-form");
+            for (let i = 0; i < subScene.length; i++) {
+                subScene[i].style.display = "none";
+            }
+        }
+
+        function confirm_detele(id) {
+            var subScene = document.getElementsByClassName("delete-form");
+            for (let i = 0; i < subScene.length; i++) {
+                subScene[i].style.display = "none";
+                if (subScene[i].id == id) {
+                    subScene[i].style.display = "block";
+                }
+            }
+        }
 
         function confirm_delete_disabled() {
             var subScene = document.getElementsByClassName("delete-form");
@@ -347,4 +471,5 @@
         }
     </script>
 </body>
+</html>
 </html>
