@@ -205,10 +205,10 @@ namespace Hethongquanlylab.DAO
         {
             var package = OpenFile();
             string ProcedureSubID = "";
-            ExcelWorksheet workSheet = package.Workbook.Worksheets[sheetName];
-
+            ExcelWorksheet workSheet = package.Workbook.Worksheets[sheetName]; 
             int i = findRow(workSheet, procedureID);
-            ProcedureSubID = workSheet.Cells[i, 2].Value.ToString();
+            var procedureSubID = workSheet.Cells[i, 2].Value;
+            ProcedureSubID = procedureSubID == null ? "N/A" : procedureSubID.ToString();
             return ProcedureSubID;
         }
          
