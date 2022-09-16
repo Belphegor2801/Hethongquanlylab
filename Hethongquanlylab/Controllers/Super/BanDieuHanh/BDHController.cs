@@ -18,6 +18,8 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
     public class BDHController : Controller
     {
         string unit = "Ban Điều Hành";
+        //// Begin: Trang chủ
+        /// Trang chủ
         public IActionResult Index()
         {
             String page;
@@ -111,7 +113,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             //
 
             memberList.SessionVar = unit; // SessionVar => Để Section phần Header
-            return View("./Views/BDH/Content/Member.cshtml", memberList);
+            return View("./Views/BDH/Members/Member.cshtml", memberList);
         }
 
         [HttpPost]
@@ -134,7 +136,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             var urlQuery = Request.HttpContext.Request.Query;
             String avt = urlQuery["avt"];
             avt = avt == null ? "default.jpg" : avt; // Đặt avt mặc định nếu không up avt lên
-            return View("./Views/BDH/Add/AddMember.cshtml", new List<string>() { unit, avt });
+            return View("./Views/BDH/Members/AddMember.cshtml", new List<string>() { unit, avt });
         }
 
         // Upload avt: trong Thêm thành viên
@@ -179,7 +181,7 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
         public IActionResult DeleteMember()
         {
             var urlQuery = Request.HttpContext.Request.Query;
-            String Key_delete = urlQuery["Key"]; // Url: .../DeteleMeber?LabID={LabID}
+            String Key_delete = urlQuery["Key"]; // Url: .../DeteleMeber?Key={key}
             UserDAO.Instance.DeleteMember(Key_delete);
 
             return RedirectToAction("Member");
@@ -196,37 +198,75 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
         }
 
         // Chỉnh sửa thông tin thành viên
-        
+        public IActionResult EditMember()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String CurrentID = urlQuery["Key"]; // Url: .../DeteleMeber?Key={key}
+            String avt = urlQuery["avt"];
+
+            var member = UserDAO.Instance.GetUserByID_Excel(CurrentID);
+            if (avt != null) member.Avt = avt;
+            var item = new ItemDetail<Member>(member, unit);
+            return View("./Views/BDH/Members/EditMember.cshtml", item);
+        }
+
+        [HttpPost]
+        public IActionResult EditMember(String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Specicalization, String University, String Phone, String Email, String Address, String Unit, String Position, bool IsLT, bool IsPassPTBT)
+        {
+            String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
+            var unit = Unit == null ? "Chưa có" : Unit;
+            var position = Position == null ? "Chưa có" : Position;
+            var phone = Phone == null ? "N/A" : Phone;
+            var email = Email == null ? "email@gmail.com" : Email;
+            var address = Address == null ? "N/A" : Address;
+            var specializaion = Specicalization == null ? "N/A" : Specicalization;
+            var university = University == null ? "N/A" : University;
+            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT, Key);
+            UserDAO.Instance.EditMember(newMember);
+            return RedirectToAction("Member");
+        }
+
         //// End: Thông tin thành viên
 
         //// Begin: Thông tin quy trình
         /// Bảng quy trình
         public IActionResult Procedure()
         {
+            String field;
             String sortOrder;
             String searchField;
             String searchString;
             String page;
 
             var urlQuery = Request.HttpContext.Request.Query;
+            field = urlQuery["field"];
             sortOrder = urlQuery["sort"];
             searchField = urlQuery["searchField"];
             searchString = urlQuery["SearchString"];
             page = urlQuery["page"];
 
-            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            field = field == null ? "All" : field;
+            sortOrder = sortOrder == null ? "ID" : sortOrder;
             searchField = searchField == null ? "ID" : searchField;
             searchString = searchString == null ? "" : searchString;
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
 
+
             ItemDisplay<Procedure> procedureList = new ItemDisplay<Procedure>();
+            procedureList.Field = field;
             procedureList.SortOrder = sortOrder;
             procedureList.CurrentSearchField = searchField;
             procedureList.CurrentSearchString = searchString;
             procedureList.CurrentPage = currentPage;
 
-            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel();
+            List<Procedure> procedures;
+            if (procedureList.Field == "All")
+                procedures = ProcedureDAO.Instance.GetProcedureList_Excel("Ban Điều Hành duyệt");
+            else if (procedureList.Field == "BDH")
+                procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
+            else
+                procedures = ProcedureDAO.Instance.GetProcedureList_Excel("Ban Điều Hành duyệt");
             procedures = Function.Instance.searchItems(procedures, procedureList);
             procedures = Function.Instance.sortItems(procedures, procedureList.SortOrder);
 
@@ -248,42 +288,183 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             }
 
             procedureList.SessionVar = unit;
-            return View("./Views/BDH/Content/Procedure.cshtml", procedureList);
+            return View("./Views/BDH/Procedures/Procedure.cshtml", procedureList);
         }
 
         [HttpPost]
-        public IActionResult Procedure(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        public IActionResult Procedure(String Field, String sortOrder, String searchString, String searchField, int currentPage = 1)
         {
-            return RedirectToAction("Procedure", "BDH", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+            return RedirectToAction("Procedure", "BDH", new { field = Field, sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
         }
 
         // Chi tiết quy trình
         public IActionResult ProcedureDetail()
         {
-            var reqUrl = Request.HttpContext.Request;
-            var urlPath = reqUrl.Path;
-            var CurrentID = urlPath.ToString().Split('/').Last();
+            var urlQuery = Request.HttpContext.Request.Query;
+            String ID = urlQuery["procedureID"];
+            String Field = urlQuery["field"];
 
-            var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(CurrentID);
-            return View("./Views/BDH/Detail/ProcedureDetail.cshtml", procedure);
+            Procedure procedure;
+            if (Field == "BDH")
+            {
+                procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, ID);
+            }
+            else
+            {
+                procedure = ProcedureDAO.Instance.GetProcedureModel_Excel("Ban Điều Hành duyệt", ID);
+            }
+
+            var item = new ItemDetail<Procedure>(procedure, unit);
+            item.FieldVar = Field;
+            return View("./Views/BDH/Procedures/ProcedureDetail.cshtml", item);
         }
+
+        // Chỉnh sửa quy trình
         [HttpPost]
-        public IActionResult FeedbackProcedure(String BDHfeedback, String IsSendToApproval)
+        public IActionResult EditProcedure(String Name, String Content, String Link, String SubID, String IsSendToApproval)
         {
             var reqUrl = Request.HttpContext.Request;
             var urlPath = reqUrl.Path;
             var ID = urlPath.ToString().Split('/').Last();
-            Procedure newProcedure = ProcedureDAO.Instance.GetProcedureModel_Excel(ID);
-            if (IsSendToApproval == "y")
+            var newProcedure = new Procedure(Name, unit, Content.ToString(), Link, ID, SubID); // Khởi tạo trạng thái mặc định quy trình: Status: Chưa duyệt
+
+            if (IsSendToApproval == "y") // Nếu người dùng nhấn "Lưu và gửi duyệt"
             {
-                ProcedureDAO.Instance.BDHApproval(newProcedure, BDHfeedback);
+                newProcedure.Status = "Chờ duyệt";
+                ProcedureDAO.Instance.EditProcedure(unit, newProcedure);
+                ProcedureDAO.Instance.SendToApproval("Ban Điều Hành duyệt", newProcedure);
+                ViewData["msg"] = Function.Instance.SendEmail("Duyệt quy trình", "Bạn có quy trình cần duyệt"); // Gửi mail và trả về thông báo
             }
             else
             {
-                ProcedureDAO.Instance.BDHFeedbackProcedure(newProcedure, BDHfeedback);
+                ProcedureDAO.Instance.EditProcedure(unit, newProcedure);
+            }
+            return RedirectToAction("Procedure", new { field = "BDH" });
+        }
+
+        // Thêm quy trình
+        public IActionResult AddProcedure()
+        {
+            return View("./Views/BDH/Procedures/AddProcedure.cshtml", unit);
+        }
+
+        [HttpPost]
+        public IActionResult AddProcedure(String Name, String Content, String Link, String IsSendToApproval)
+        {
+            var newProcedure = new Procedure(Name, unit, Content.ToString(), Link);
+
+            if (IsSendToApproval == "y")
+            {
+                newProcedure.Status = "Chờ duyệt";
+                ProcedureDAO.Instance.AddProcedure(unit, newProcedure);
+                ProcedureDAO.Instance.SendToApproval("Ban Điều Hành duyệt", newProcedure);
+                ViewData["msg"] = Function.Instance.SendEmail("Duyệt quy trình", "Bạn có quy trình cần duyệt");
+            }
+            else
+            {
+                ProcedureDAO.Instance.AddProcedure(unit, newProcedure);
+            }
+
+            return RedirectToAction("Procedure", new { field = "BDH" });
+        }
+
+        // Xóa quy trình
+        public IActionResult DeleteProcedure()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String ProcedureId_delete = urlQuery["procedureID"];
+
+            ProcedureDAO.Instance.DeleteProcedure(unit, ProcedureId_delete);
+
+            return RedirectToAction("Procedure", new { field = "BDH" });
+        }
+
+        // Xuất file Excel Quy trình * Chưa xong
+        public IActionResult ExportProcedureToExcel()
+        {
+            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
+            var stream = Function.Instance.ExportToExcel<Procedure>(procedures);
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách quy trình " + unit + ".xlsx");
+        }
+
+        // Gửi duyệt quy trình
+        public IActionResult SendProceduresToApproval()
+        {
+            String sortOrder;
+            String searchField;
+            String searchString;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+
+            ItemDisplay<Procedure> procedureList = new ItemDisplay<Procedure>();
+            procedureList.SortOrder = sortOrder;
+            procedureList.CurrentSearchField = searchField;
+            procedureList.CurrentSearchString = searchString;
+
+            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
+            procedures = Function.Instance.searchItems(procedures, procedureList);
+            procedures = Function.Instance.sortItems(procedures, procedureList.SortOrder);
+            procedureList.Items = procedures;
+            procedureList.SessionVar = unit;
+
+            return View("./Views/BDH/Procedures/SendProceduresToApproval.cshtml", procedureList);
+        }
+
+        [HttpPost]
+        public IActionResult SendProceduresToApproval(String sortOrder, String searchString, String searchField, string isSendToApproval, string SendVar)
+        {
+            TempData["Sendvar"] = SendVar;
+            if (isSendToApproval == "y")
+            {
+                int i = 0;
+                // SendVar: 1:1-2:1-3:on-4:on-5:on-7:on-8:on-9:on-10:on-11:on-12:on-13:on-14:on-15:on- (ID:var[1: checked; on: unchecked])
+                foreach (string item in SendVar.Split("-"))
+                {
+                    if (item.Split(":").Last() == "1")
+                    {
+                        i++;
+                        Procedure procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, item.Split(":").First());
+                        procedure.V1 = false;
+                        procedure.V2 = false;
+                        procedure.V3 = false;
+                        procedure.Status = "Chờ duyệt";
+                        ProcedureDAO.Instance.EditProcedure(unit, procedure);
+                        ProcedureDAO.Instance.SendToApproval("Ban Điều Hành duyệt", procedure);
+                    }
+                }
+                if (i > 0)
+                {
+                    ViewData["msg"] = Function.Instance.SendEmail("Duyệt quy trình", "Bạn có " + i.ToString() + " quy trình cần duyệt");
+                }
+                return RedirectToAction("Procedure", new { field = "BDH" });
+            }
+            return RedirectToAction("SendProceduresToApproval", "BDH", new { sort = sortOrder, searchField = searchField, searchString = searchString });
+        }
+        //// End: Thông tin quy trình
+
+        [HttpPost]
+        public IActionResult FeedbackProcedure(String feedback, String IsApproval)
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var ID = urlPath.ToString().Split('/').Last();
+            Procedure newProcedure = ProcedureDAO.Instance.GetProcedureModel_Excel("Ban Điều Hành duyệt", ID);
+            if (IsApproval == "y")
+            {
+                ProcedureDAO.Instance.ApprovalProcedure(unit, newProcedure, feedback);
+            }
+            else
+            {
+                ProcedureDAO.Instance.ReturnProcedure(unit, newProcedure, feedback);
             }
             return RedirectToAction("Procedure");
-
         }
         public IActionResult Notification()
         {
@@ -304,7 +485,6 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
 
-            var unit = "Ban Điều hành";
             ItemDisplay<Notification> itemList = new ItemDisplay<Notification>();
             itemList.SortOrder = sortOrder;
             itemList.CurrentSearchField = searchField;
@@ -392,7 +572,6 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
 
-            var unit = "BanDaoTao";
             ItemDisplay<Project> itemList = new ItemDisplay<Project>();
             itemList.SortOrder = sortOrder;
             itemList.CurrentSearchField = searchField;

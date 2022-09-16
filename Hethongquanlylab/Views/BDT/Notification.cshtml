@@ -2,7 +2,6 @@
 
 @{
     @section Buttons{
-        <a class="header-item"></a>
         <a asp-action="Notification" class="header-item">Thông báo</a>
         <a asp-action="Training" class="header-item">Bài đào tạo</a>
         <a asp-action="Project" class="header-item">Dự án</a>
@@ -37,7 +36,7 @@
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddNotification", "BDT")'">Thêm quy trình</button>
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddNotification", "BDT")'">Thêm thông báo</button>
             <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportNotificationToExcel", "BDT")'">Xuất file Excel</button>
         </div>
 
@@ -51,7 +50,7 @@
 
                 @foreach (var item in Model.SearchFieldList)
                 {
-                    @if ((item != Model.CurrentSearchField) && item != "Avt")
+                    @if ((item != Model.CurrentSearchField) && Model.NameVar.ContainsKey(item))
                     {
                         <option value="@item">@Model.NameVar[@item]</option>
                     }
