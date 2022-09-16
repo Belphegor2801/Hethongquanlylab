@@ -1,4 +1,4 @@
-﻿@model ItemDetail<Procedure>
+﻿@model ItemDetail<Training>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -52,12 +52,12 @@
     <div class="wrap-back" style="display:flex;">
         <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
         <p>/</p>
-        <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Quy trình</h2></a>
+        <a asp-action="Training"><h2 style="padding-left: 10px;" class="backMainPage"> Bài đào tạo</h2></a>
         <p>/</p>
-        <a asp-action="ProcedureDetail"><h2 style="padding-left: 10px;" class="backMainPage"> Chi tiết quy trình</h2></a>
+        <a asp-action="TrainingDetail"><h2 style="padding-left: 10px;" class="backMainPage"> Chi tiết bài đào tạo</h2></a>
     </div>
-    <form asp-action="EditProcedure" asp-route-id="@Model.Item.ID" method="post" id="form">
-        <input type="hidden" name="SubID" value="@Model.Item.SubID"/>
+    <form asp-action="EditTraining" asp-route-id="@Model.Item.ID" method="post" id="form">
+        <input type="hidden" name="SubID" value="@Model.Item.SubID" />
         <style>
             .text-ProcedureTitle {
                 justify-content: center;
@@ -72,27 +72,14 @@
         </div>
 
 
-        <div style="display: flex; justify-content: space-between; margin: auto; width: 65%;" class="date-DuAn">
+        <div style="justify-content: space-between; margin: auto; width: 65%;" class="date-DuAn">
             <div style="display:flex" class="start">
-                <p style="font-weight: bold">Thời gian cập nhật cuối: </p>
+                <p style="font-weight: bold">Thời gian xuất bản: </p>
                 <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-date">
-                    <div id="text-date">@Model.Item.Senddate</div>
-                    <input style="display: none; height: 25px;" id="input-date" type="date" name="Sendate" value="@Model.Item.Senddate">
+                    <div id="text-date">@Model.Item.Date</div>
+                    <input style="display: none; height: 25px;" id="input-date" type="date" name="Sendate" value="@Model.Item.Date">
                 </div>
             </div>
-
-            <div style="display:flex;" class="trangThai">
-                <p style="margin-right: 10px; font-weight: bold;">Trạng Thái: </p>
-                @try
-                {
-                    <p style="color: @Procedure.ColorVar[Model.Item.Status]; font-weight: bold;">@Model.Item.Status</p>
-                }
-                catch
-                {
-                    <p style="color: #4800ff; font-weight: bold;">@Model.Item.Status</p>
-                }
-            </div>
-
         </div>
 
         <table style="width: 65%; margin: auto; ">
@@ -102,6 +89,7 @@
                 </td>
             </tr>
         </table>
+
         <div style="width: 65%;margin: auto; ">
             <style>
                 .text-ProcedureContent {
@@ -138,7 +126,7 @@
                     url = 'http://' + url;
                 }
                 $("#text-link").on('click', function () {
-                    alert("Đến quy trình");
+                    alert("Đến bài đào tạo");
                     window.open(url, "_blank");
                 });
             </script>
@@ -146,71 +134,16 @@
             <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link"></i>
         </div>
 
-        <table style="width: 65%; height: auto;">
-            <tr>
-                <td width="25%">
-                    <strong>Phản hồi</strong>
-                </td>
-                <td>
-                    <strong>Nội dung</strong>
-                </td>
-            </tr>
-            @if (!(Model.SessionVar == "Ban Điều Hành"))
-            {
-                <tr>
-                    <td>
-                        <strong>Ban Điều Hành</strong>
-                    </td>
-                    <td>
-                        @Html.Raw(Model.Item.BdhReply)
-                    </td>
-                </tr>
-            }
-
-            <tr>
-                <td>
-                    <strong>Ban Cố Vấn</strong>
-                </td>
-                <td>
-                    @Html.Raw(Model.Item.BcvReply)
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>Nhà Sáng Lập</strong>
-                </td>
-                <td>
-                    @Html.Raw(Model.Item.NSLReply)
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>Nhà Đồng Sáng Lập</strong>
-                </td>
-                <td>
-                    @Html.Raw(Model.Item.NSLReply)
-                </td>
-            </tr>
-        </table>
-
-        <div class="" style="margin-left: 62%; margin-top: 20px;">/>
-
-            <button class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button" id="Send">
+        <div class="" style="width: 65%; margin-top: 20px; margin: auto;">
+            <button style="margin-left : 80%;" class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button" id="Send">
                 <i class="fa-solid fa-plus"></i>
                 Lưu
             </button>
-
-            <input type="hidden" id="isSendToApproval" name="IsSendToApproval" />
-            <button class="add-nhanSu btn-confirm" onclick="confirm_change_and_send()" type="button" id="SaveAndSend">
-                <i class="fa-solid fa-plus"></i>
-                Lưu và gửi duyệt
-            </button>
-
         </div>
 
 
         <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame" id="change-confirm">
-            <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn thay đổi quy trình này không? </a>
+            <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn thay đổi thông tin bài đào tạo này không? </a>
             <div>
                 <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" type="submit">Có</button>
                 <button class="form-submit" type="button" onclick="confirm_change_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
@@ -223,18 +156,6 @@
         function confirm_change() {
             var urlValid = document.getElementById('input-link').checkValidity();
             if (urlValid) {
-                document.getElementById("isSendToApproval").value = "n";
-                document.getElementById("change-confirm").style.display = "block";
-            }
-            else {
-                alert("Link không hợp lệ!")
-            }
-        }
-
-        function confirm_change_and_send() {
-            var urlValid = document.getElementById('input-link').checkValidity();
-            if (urlValid) {
-                document.getElementById("isSendToApproval").value = "y";
                 document.getElementById("change-confirm").style.display = "block";
             }
             else {

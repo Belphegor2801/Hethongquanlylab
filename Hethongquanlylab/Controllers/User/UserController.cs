@@ -69,7 +69,7 @@ namespace Hethongquanlylab.Controllers.User
                 ViewData["currentTraining"] = 0;
             }
             
-            var training = TrainingDAO.Instance.GetTrainingList_Excel();
+            var training = TrainingDAO.Instance.GetTrainingList_Excel("All");
             return View("./Views/User/Training.cshtml", training);
         }
 
