@@ -46,20 +46,27 @@ namespace Hethongquanlylab.Controllers.User
             byte[] pdf = pdfDocument.Save();
             pdfDocument.Close();
             return File(pdf, "application/pdf", "CV.pdf");
-
         }
 
         public IActionResult EditInfor()
         {
-            var user = UserDAO.Instance.GetUserByID_Excel("1");
-            return View("./Views/User/Infor/EditInfor.cshtml", user);
+            var urlQuery = Request.HttpContext.Request.Query;
+            String CurrentID = urlQuery["Key"]; 
+            String avt = urlQuery["avt"];
+
+            var member = UserDAO.Instance.GetUserByID_Excel(CurrentID);
+            if (avt != null) member.Avt = avt;
+            return View("./Views/User/Infor/EditInfor.cshtml", member);
         }
         [HttpPost]
-        public IActionResult EditInfor(String Name, String Sex, String Birthday, String Specialization, String University, String Phone, String Email, String Address )
+        public IActionResult EditInfor(String Name, String Sex, String Birthday, String Specialization, String University, String Phone, String Email, String Address, String Key )
         {
-            var user = UserDAO.Instance.GetUserByID_Excel("1");
+            String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
+            var user = UserDAO.Instance.GetUserByID_Excel(Key);
             user.Name = Name;
+            user.Avt = avt;
             user.Sex = Sex;
+            user.Birthday = Birthday;
             user.Specialization = Specialization;
             user.Univeristy = University;
             user.Phone = Phone;
@@ -80,8 +87,8 @@ namespace Hethongquanlylab.Controllers.User
             }
             TempData["avt"] = file.FileName; // Lưu tên vào TempData => Lưu vào Excel
             return RedirectToAction("EditInfor", new { avt = file.FileName, Key = key });
-
         }
+
         public IActionResult Training()
         {
             var reqUrl = Request.HttpContext.Request;

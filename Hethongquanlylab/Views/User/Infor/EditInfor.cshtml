@@ -29,9 +29,9 @@
     <div class="wrap-back" style="display:flex;">
         <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
         <p>/</p>
-        <a asp-action="Member"><h2 style="padding-left: 10px;" class="backMainPage"> Nhân Sự</h2></a>
+        <a asp-action="Infor"><h2 style="padding-left: 10px;" class="backMainPage"> Thông tin thành viên</h2></a>
         <p>/</p>
-        <a asp-action="AddMember"><h2 style="padding-left: 10px;" class="backMainPage"> Thêm nhân sự</h2></a>
+        <a asp-action="EditInfor"><h2 style="padding-left: 10px;" class="backMainPage"> Chỉnh sửa thông tin</h2></a>
     </div>
 
     <style>
@@ -103,20 +103,14 @@
         <div style="width: 60%;">
             <form asp-action="EditInfor" method="post">
                 <input type="hidden" name="Key" value="@Model.Key" />
+                <input type="hidden" name="Key" value="@Model.LabID" />
+
                 <table style="width: 100%;">
                     <tr style="background-color: #373F51;">
-                        <td style="text-align: center; color: #fff;"> THÔNG TIN THÀNH VIÊN</td>
+                        <td style="text-align: center; color: #fff;"> THÔNG TIN THÀNH VIÊN: <span style="font-weight: bold; color: #ffd800">@Model.LabID</span> </td>
                     </tr>
                 </table>
                 <table style="width: 100%;">
-                    <tr>
-                        <td width="25%">
-                            LabID
-                        </td>
-                        <td colspan="3" style="color: black">
-                            @Model.LabID
-                        </td>
-                    </tr>
                     <tr>
                         <td>
                             Tên thành viên
@@ -141,7 +135,7 @@
                             Thế hệ
                         </td>
                         <td>
-                            @Model.Gen
+                            <a style="font-weight: bold; color: #ffd800">@Model.Gen</a>
                         </td>
                     </tr>
                     <tr>
@@ -157,7 +151,7 @@
                             Chuyên ngành
                         </td>
                         <td colspan="3">
-                            <input name="Specicalization" type="text" class="form-control" placeholder="Chuyên ngành" id="specialization" value="@Model.Specialization" style="width: 100%;">
+                            <input name="Specialization" type="text" class="form-control" placeholder="Chuyên ngành" id="specialization" value="@Model.Specialization" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -209,46 +203,7 @@
                             @Model.Position
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            Leader Team?
-                        </td>
-                        <td>
-                            @if (Model.IsLT)
-                            {
-                                <input name="IsLT" type="checkbox" id="isLT" value="true" style="width: 30px; height: 30px;" checked="checked">
-                            }
-                            else
-                            {
-                                <input name="IsLT" type="checkbox" id="isLT" value="true" style="width: 30px; height: 30px;" checked="checked">
-                            }
-                        </td>
-                        <td>
-                            Đã qua PTBT?
-                        </td>
-                        <td>
-                            @if (Model.IsPassPTBT)
-                            {
-                                <input name="IsPassPTBT" type="checkbox" id="isPassPTBT" value="true" style="width: 30px; height: 30px;" checked="checked">
-                            }
-                            else
-                            {
-                                <input name="IsPassPTBT" type="checkbox" id="isPassPTBT" value="true" style="width: 30px; height: 30px;">
-                            }
-
-                        </td>
-                    </tr>
-
-                    <script>
-                        $(document).on("click", "[type='checkbox']", function (e) {
-                            if (this.checked) {
-                                $(this).attr("value", "true");
-                            } else {
-                                $(this).attr("value", "false");
-                            }
-                        });
-
-                    </script>
+                 
                 </table>
                 <div>
                     <div style="margin-top: 5%;">
