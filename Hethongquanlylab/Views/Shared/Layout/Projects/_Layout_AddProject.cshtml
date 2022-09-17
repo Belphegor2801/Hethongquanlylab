@@ -1,12 +1,29 @@
 ﻿@model String
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     @section Buttons{
-        <a asp-action="Training" class="header-item">Bài đào tạo</a>
-        <a asp-action="Project" class="header-item">Dự án</a>
-        <a asp-action="Procedure" class="header-item">Quy trình</a>
-        <a asp-action="Member" class="header-item">Nhân sự</a>
-        <a asp-action="Index" class="header-item">Trang chủ</a>
+        @if (Model == "Ban Nhân Sự")
+        {
+            <a class="header-item"></a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model == "Ban Đào Tạo")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else
+        {
+            <a class="header-item"></a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+
     }
 
     @section Login{
@@ -30,19 +47,32 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.js"></script>
 </head>
 <body>
+    @RenderBody()
     <div class="wrap-back" style="display:flex;">
         <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
         <p>/</p>
-        <a asp-action="Notification"><h2 style="padding-left: 10px;" class="backMainPage"> Thông báo</h2></a>
+        <a asp-action="Project"><h2 style="padding-left: 10px;" class="backMainPage"> Thông báo</h2></a>
         <p>/</p>
-        <a asp-action="AddNotification"><h2 style="padding-left: 10px;" class="backMainPage"> Gửi thông báo</h2></a>
+        <a asp-action="AddProject"><h2 style="padding-left: 10px;" class="backMainPage"> Gửi thông báo</h2></a>
     </div>
-    <form asp-action="AddNotification" method="post" id="form-addnotification">
+    <form asp-action="AddProject" method="post" id="form-addnotification">
         <div class="wrap-themDuAn">
-            <div>
+            <div style="width: 1030px">
                 <label for="">
-                    Tên thông báo:
-                    <input type="text" name="Title" value="">
+                    Tên Dự Án:
+                    <input type="text" value="Name">
+                </label>
+                <label for="">
+                    Loại Dự Án:
+                    <input type="text" value="ProjectType">
+                </label>
+                <label for="">
+                    Ngày Bắt Đầu:
+                    <input id="dateStart" type="text" value="Startday">
+                </label>
+                <label for="">
+                    Ngày Kết Thúc:
+                    <input id="dateEnd" type="text" value="Endday">
                 </label>
             </div>
             <label for="">
