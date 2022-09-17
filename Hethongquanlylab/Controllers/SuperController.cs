@@ -35,6 +35,12 @@ namespace Hethongquanlylab.Controllers
             return View(String.Format("./Views/{0}/{0}Home.cshtml", unitVar), notificationList);
         }
 
+        [HttpPost]
+        public IActionResult Index(int currentPage = 1)
+        {
+            return RedirectToAction("Index", new { page = currentPage });
+        }
+
         /// Thông tin chi tiết thông báo
         public IActionResult NotificationDetail()
         {
@@ -44,12 +50,10 @@ namespace Hethongquanlylab.Controllers
             var currenId = Convert.ToInt32(CurrentID); // Url: .../NotificationDetail/{ID}
 
             var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
-
-            return View("./Views/Shared/NotificationDetail.cshtml", notification);
+            var item = new ItemDetail<Notification>(notification, unit);
+            return View("./Views/Shared/NotificationDetail.cshtml", item);
         }
         //// End: Trang chủ
-
-
 
 
         //// Begin Thông tin thành viên
@@ -157,17 +161,77 @@ namespace Hethongquanlylab.Controllers
         }
 
         // Thêm thành viên
-        public IActionResult AddMember()
+        public virtual IActionResult AddMember()
         {
-            var urlQuery = Request.HttpContext.Request.Query;
-            String avt = urlQuery["avt"];
-            avt = avt == null ? "default.jpg" : avt; // Đặt avt mặc định nếu không up avt lên
-            return View(String.Format("./Views/{0}/Members/AddMember.cshtml", unitVar), new List<string>() { unit, avt });
+            // Khởi tạo
+            String field;
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            /// Lấy query, không có => đặt mặc định
+            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
+            field = urlQuery["field"];
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            if (unit == "Ban Nhân Sự")
+            {
+                field = field == null ? "All" : field;
+            }
+            else
+            {
+                field = field == null ? unitVar : field;
+            }
+
+            sortOrder = sortOrder == null ? "LabID" : sortOrder; ;
+            searchField = searchField == null ? "LabID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            /// Khởi tạo ItemDisplay<>
+            ItemDisplay<Member> memberList = new ItemDisplay<Member>();
+            memberList.Field = field;
+            memberList.SortOrder = sortOrder;
+            memberList.CurrentSearchField = searchField;
+            memberList.CurrentSearchString = searchString;
+            memberList.CurrentPage = currentPage;
+
+            List<Member> members;
+            members = UserDAO.Instance.GetListUser_Excel();
+
+            members = Function.Instance.searchItems(members, memberList); // Tìm kiếm
+            members = Function.Instance.sortItems(members, memberList.SortOrder); // Sắp xếp
+
+            // Lấy danh sách items trong trang hiện tại
+            memberList.Paging(members, 10);
+            if (memberList.PageCount > 0)
+            {
+                if (memberList.CurrentPage > memberList.PageCount) memberList.CurrentPage = memberList.PageCount;
+                if (memberList.CurrentPage < 1) memberList.CurrentPage = 1;
+                if (memberList.CurrentPage != memberList.PageCount)
+                    try
+                    {
+                        memberList.Items = memberList.Items.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    memberList.Items = memberList.Items.GetRange((memberList.CurrentPage - 1) * memberList.PageSize, memberList.Items.Count % memberList.PageSize == 0 ? memberList.PageSize : memberList.Items.Count % memberList.PageSize);
+            }
+            //
+
+            memberList.SessionVar = unit; // SessionVar => Để Section phần Header
+            return View(String.Format("./Views/{0}/Members/AddMember.cshtml", unitVar), memberList);
         }
 
         // Upload avt: trong Thêm thành viên
         [HttpPost]
-        public IActionResult UploadAvt(string var, string key, IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
+        public virtual IActionResult UploadAvt(string var, string key, IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
         {
             string fileName = $"{hostingEnvironment.WebRootPath}/img/avt/{file.FileName}";
             // Dẩy file vào thư mục
@@ -186,19 +250,30 @@ namespace Hethongquanlylab.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddMember(String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
+        public virtual IActionResult AddMember(String sortOrder, String searchString, String searchField, string IsAdd, string MembersVar, String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
         {
-            String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
-            var unit = Unit == null ? "Chưa có" : Unit;
-            var position = Position == null ? "Chưa có" : Position;
-            var phone = Phone == null ? "N/A" : Phone;
-            var email = Email == null ? "N/A" : Email;
-            var address = Address == null ? "N/A" : Address;
-            var specializaion = Specicalization == null ? "N/A" : Specicalization;
-            var university = University == null ? "N/A" : University;
-            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT);
-            UserDAO.Instance.AddMember(newMember);
-            return RedirectToAction("Member");
+            if (IsAdd == "y")
+            {
+                int i = 0;
+                // SendVar: 1:1-2:1-3:on-4:on-5:on-7:on-8:on-9:on-10:on-11:on-12:on-13:on-14:on-15:on- (ID:var[1: checked; on: unchecked])
+                foreach (string item in MembersVar.Split("-"))
+                {
+                    if (item.Split(":").Last() == "1")
+                    {
+                        i++;
+                        Member member = UserDAO.Instance.GetUserByID_Excel(item.Split(":").First());
+                        if (member.Unit == "Chưa có") member.Unit = unit;
+                        else member.Unit = member.Unit + unit;
+                        UserDAO.Instance.EditMember(member);
+                    }
+                }
+                if (i > 0)
+                {
+                    ViewData["msg"] = Function.Instance.SendEmail("Duyệt quy trình", "Bạn có " + i.ToString() + " quy trình cần duyệt");
+                }
+                return RedirectToAction("Member");
+            }
+            return RedirectToAction("AddMember", new { sort = sortOrder, searchField = searchField, searchString = searchString });
         }
         // End: thêm thành viên
 
@@ -252,6 +327,8 @@ namespace Hethongquanlylab.Controllers
         }
 
         //// End: Thông tin thành viên
+
+
 
         //// Begin: Thông tin quy trình
         /// Bảng quy trình
@@ -640,6 +717,7 @@ namespace Hethongquanlylab.Controllers
             var stream = Function.Instance.ExportToExcel<Training>(training);
             return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách bài đào tạo.xlsx");
         }
+        
         public IActionResult Project()
         {
             // Khởi tạo
@@ -836,6 +914,19 @@ namespace Hethongquanlylab.Controllers
         {
             return RedirectToAction("Notification", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
         }
+
+        public IActionResult NotiDetail()
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var currenId = Convert.ToInt32(CurrentID); // Url: .../NotificationDetail/{ID}
+
+            var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
+            var item = new ItemDetail<Notification>(notification, unit);
+            return View(String.Format("./Views/{0}/Notifications/NotificationDetail.cshtml", unitVar), item);
+        }
+
         public IActionResult AddNotification()
         {
             return View(String.Format("./Views/{0}/Notifications/AddNotification.cshtml", unitVar));
