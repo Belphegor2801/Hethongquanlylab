@@ -1,14 +1,30 @@
 ﻿@model ItemDisplay<Notification>
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     @section Buttons{
-        <a asp-action="Notification" class="header-item">Thông báo</a>
-        <a asp-action="Training" class="header-item">Bài đào tạo</a>
-        <a asp-action="Project" class="header-item">Dự án</a>
-        <a asp-action="Procedure" class="header-item">Quy trình</a>
-        <a asp-action="Member" class="header-item">Nhân sự</a>
-        <a asp-action="Index" class="header-item">Trang chủ</a>
-    }
+        @if (Model.SessionVar == "Ban Nhân Sự")
+        {
+            <a class="header-item"></a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar == "Ban Đào Tạo")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else
+        {
+            <a class="header-item"></a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+
+}
 
     @section Login{
         <li class="user-info-item">
@@ -19,7 +35,6 @@
         </li>
     }
 }
-
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -28,6 +43,7 @@
     <link rel="stylesheet" href="~/css/procedures.css">
 </head>
 <body>
+    @RenderBody()
     <form asp-action="Notification" method="post" style="z-index: 0;">
         <div class="wrap-back" style="display:flex;">
             <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
@@ -36,8 +52,8 @@
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddNotification", "BDT")'">Thêm thông báo</button>
-            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportNotificationToExcel", "BDT")'">Xuất file Excel</button>
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddNotification")'">Thêm thông báo</button>
+            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportNotificationToExcel")'">Xuất file Excel</button>
         </div>
 
         <div class="wrap-sreach">
@@ -99,7 +115,7 @@
                             <td style="user-select: auto;"> @item.Title</td>
                             <td style="user-select: auto; text-align: center;"> @item.Date</td>
                             <td style="user-select: auto; text-align: center;">
-                                <button type="button" onclick="location.href='@Url.Action("NotificationDetail", "BDT", new { ID = item.ID })'">
+                                <button type="button" onclick="location.href='@Url.Action("NotificationDetail", new { ID = item.ID })'">
                                     <i class="fa fa-info-circle"></i>
                                 </button>
                                 <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
@@ -310,4 +326,3 @@
     </script>
 </body>
 </html>
-

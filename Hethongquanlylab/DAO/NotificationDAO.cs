@@ -31,9 +31,8 @@ namespace Hethongquanlylab.DAO
                 int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                 string title = workSheet.Cells[i, 2].Value.ToString();
                 string content = workSheet.Cells[i, 3].Value.ToString();
-                string image = workSheet.Cells[i, 4].Value == null? "default.png": workSheet.Cells[i, 4].Value.ToString();
-                string unit = workSheet.Cells[i, 5].Value.ToString();
-                string sDate = (workSheet.Cells[i, 6].Value).ToString();
+                string unit = workSheet.Cells[i, 4].Value.ToString();
+                string sDate = (workSheet.Cells[i, 5].Value).ToString();
                 string date;
                 try
                 {
@@ -45,7 +44,7 @@ namespace Hethongquanlylab.DAO
                 {
                     date = sDate;
                 }
-                string link = workSheet.Cells[i, 7].Value == null? "none": workSheet.Cells[i, 7].Value.ToString(); ;
+                string link = workSheet.Cells[i, 6].Value == null? "none": workSheet.Cells[i, 6].Value.ToString(); ;
                 Notification notification = new Notification(id, title, content, unit, date, link);
                 notificationList.Add(notification);
             }
@@ -65,9 +64,8 @@ namespace Hethongquanlylab.DAO
                 {
                     string title = workSheet.Cells[i, 2].Value.ToString();
                     string content = workSheet.Cells[i, 3].Value.ToString();
-                    string image = workSheet.Cells[i, 4].Value == null ? "default.png" : workSheet.Cells[i, 4].Value.ToString();
-                    string unit = workSheet.Cells[i, 5].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 6].Value).ToString();
+                    string unit = workSheet.Cells[i, 4].Value.ToString();
+                    string sDate = (workSheet.Cells[i, 5].Value).ToString();
                     string date;
                     try
                     {
@@ -79,7 +77,7 @@ namespace Hethongquanlylab.DAO
                     {
                         date = sDate;
                     }
-                    string link = workSheet.Cells[i, 7].Value == null ? "none" : workSheet.Cells[i, 7].Value.ToString(); ;
+                    string link = workSheet.Cells[i, 6].Value == null ? "none" : workSheet.Cells[i, 6].Value.ToString(); ;
                     Notification notification = new Notification(id, title, content, unit, date, link);
                     return notification;
                 }
@@ -101,8 +99,8 @@ namespace Hethongquanlylab.DAO
                 {
                     int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                     string content = workSheet.Cells[i, 3].Value.ToString();
-                    string unit = workSheet.Cells[i, 5].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 6].Value).ToString();
+                    string unit = workSheet.Cells[i, 4].Value.ToString();
+                    string sDate = (workSheet.Cells[i, 5].Value).ToString();
                     string date;
                     try
                     {
@@ -114,7 +112,7 @@ namespace Hethongquanlylab.DAO
                     {
                         date = sDate;
                     }
-                    string link = workSheet.Cells[i, 7].Value.ToString();
+                    string link = workSheet.Cells[i, 6].Value.ToString();
                     Notification notification = new Notification(id, title, content, unit, date, link);
                     notificationList.Add(notification);
                 }
@@ -128,16 +126,16 @@ namespace Hethongquanlylab.DAO
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/notification.xlsx"));
             ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            int i = 3;
+            int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
-                string unit = workSheet.Cells[i, 5].Value.ToString();
+                string unit = workSheet.Cells[i, 4].Value.ToString();
                 if (Unit == unit)
                 {
                     int id = Convert.ToInt32(workSheet.Cells[i, 1].Value);
                     string title = workSheet.Cells[i, 2].Value.ToString();
                     string content = workSheet.Cells[i, 3].Value.ToString();
-                    string sDate = (workSheet.Cells[i, 6].Value).ToString();
+                    string sDate = (workSheet.Cells[i, 5].Value).ToString();
                     string date;
                     try
                     {
@@ -149,7 +147,7 @@ namespace Hethongquanlylab.DAO
                     {
                         date = sDate;
                     }
-                    string link = workSheet.Cells[i, 7].Value.ToString();
+                    string link = workSheet.Cells[i, 6].Value.ToString();
                     Notification notification = new Notification(id, title, content, unit, date, link);
                     notificationList.Add(notification);
                 }
@@ -193,9 +191,9 @@ namespace Hethongquanlylab.DAO
             workSheet.Cells[lastRow, 1].Value = notification.ID;
             workSheet.Cells[lastRow, 2].Value = notification.Title;
             workSheet.Cells[lastRow, 3].Value = notification.Content;
-            workSheet.Cells[lastRow, 5].Value = notification.Unit;
-            workSheet.Cells[lastRow, 6].Value = DateTime.Now.ToString("dd/MM/yyyy hh:mm");
-            workSheet.Cells[lastRow, 7].Value = notification.Link;
+            workSheet.Cells[lastRow, 4].Value = notification.Unit;
+            workSheet.Cells[lastRow, 5].Value = DateTime.Now.ToString("dd/MM/yyyy hh:mm");
+            workSheet.Cells[lastRow, 6].Value = notification.Link;
             package.Save();
         }
         public int GetMaxID()
@@ -225,8 +223,8 @@ namespace Hethongquanlylab.DAO
             workSheet.Cells[i, 1].Value = notification.ID;
             workSheet.Cells[i, 2].Value = notification.Title;
             workSheet.Cells[i, 3].Value = notification.Content;
-            workSheet.Cells[i, 4].Value = DateTime.Now.ToString("dd/mm/yyyy HH:mm:ss");
-            workSheet.Cells[i, 5].Value = notification.Content;
+            workSheet.Cells[i, 5].Value = DateTime.Now.ToString("dd/mm/yyyy HH:mm:ss");
+            workSheet.Cells[i, 6].Value = notification.Link;
             package.Save();
         }
     }

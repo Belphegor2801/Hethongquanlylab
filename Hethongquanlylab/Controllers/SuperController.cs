@@ -640,5 +640,236 @@ namespace Hethongquanlylab.Controllers
             var stream = Function.Instance.ExportToExcel<Training>(training);
             return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách bài đào tạo.xlsx");
         }
+        public IActionResult Project()
+        {
+            // Khởi tạo
+            String field;
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            /// Lấy query, không có => đặt mặc định
+            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
+            field = urlQuery["field"];
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            if (unit == "Ban Đào Tạo")
+                field = field == null ? "All" : field;
+            else
+                field = field == null ? unitVar : field;
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            ItemDisplay<Project> projectList = new ItemDisplay<Project>();
+            projectList.SortOrder = sortOrder;
+            projectList.CurrentSearchField = searchField;
+            projectList.CurrentSearchString = searchString;
+            projectList.CurrentPage = currentPage;
+
+
+            List<Project> projects;
+            if (field == unitVar)
+                projects = ProjectDAO.Instance.GetProjectList_Excel(unitVar);
+            else
+                projects = ProjectDAO.Instance.GetProjectList_Excel("All");
+
+            projects = Function.Instance.searchItems(projects, projectList);
+            projects = Function.Instance.sortItems(projects, projectList.SortOrder);
+
+            projectList.Paging(projects, 10);
+
+            if (projectList.PageCount > 0)
+            {
+                if (projectList.CurrentPage > projectList.PageCount) projectList.CurrentPage = projectList.PageCount;
+                if (projectList.CurrentPage < 1) projectList.CurrentPage = 1;
+                if (projectList.CurrentPage != projectList.PageCount)
+                    try
+                    {
+                        projectList.Items = projectList.Items.GetRange((projectList.CurrentPage - 1) * projectList.PageSize, projectList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    projectList.Items = projectList.Items.GetRange((projectList.CurrentPage - 1) * projectList.PageSize, projectList.Items.Count % projectList.PageSize == 0 ? projectList.PageSize : projectList.Items.Count % projectList.PageSize);
+            }
+
+            projectList.SessionVar = unit;
+            return View(String.Format("./Views/{0}/Projects/Project.cshtml", unitVar), projectList);
+        }
+        [HttpPost]
+        public IActionResult Project(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        {
+            return RedirectToAction("Project", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+        }
+        public IActionResult ProjectDetail()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            string ID = urlQuery["ProjectID"];
+            Project project;
+            if (unit == "Ban Đào Tạo")
+            {
+                project = ProjectDAO.Instance.GetProjectModelbyId_Excel("All", ID);
+            }
+            else
+            {
+                project = ProjectDAO.Instance.GetProjectModelbyId_Excel(unit, ID);
+            }
+            var item = new ItemDetail<Project>(project, unit);
+            return View(String.Format("./Views/{0}/Projects/ProjectDetail.cshtml", unitVar), item);
+        }
+
+        [HttpPost]
+        /*public IActionResult EditProject(String Name, String Content, String Link, String SubID)
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var ID = urlPath.ToString().Split('/').Last();
+            var project = new Project(Name, unit, Content.ToString(), Link, ID, SubID); // Khởi tạo trạng thái mặc định quy trình: Status: Chưa duyệt
+            if (unit == "Ban Đào Tạo")
+            {
+                ProjectDAO.Instance.EditProject("All", project);
+            }
+            else
+            {
+                ProjectDAO.Instance.EditProject(unit, project);
+            }
+
+            return RedirectToAction("Project");
+        }
+        */
+        public IActionResult AddProject()
+        {
+            return View(String.Format("./Views/{0}/Projects/AddProject.cshtml", unitVar), unit);
+        }
+
+        [HttpPost]
+        /*public IActionResult AddProject(String Name, String Content, String Link, String Status, String IsSendToApproval)
+        {
+            var project = new Project(Name, unit, Content.ToString(), Link);
+
+            if (unit == "Ban Đào Tạo")
+            {
+                ProjectDAO.Instance.AddProject("All", project);
+            }
+            else
+            {
+                ProjectDAO.Instance.AddProject(unit, project);
+            }
+            return RedirectToAction("Project");
+        }*/
+
+
+        public IActionResult ExportProjectToExcel()
+        {
+            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
+            string exportVar = urlQuery["exportVar"];
+            exportVar = exportVar == null ? unitVar : exportVar;
+            List<Project> projects;
+            if (exportVar == unitVar)
+                projects = ProjectDAO.Instance.GetProjectList_Excel(unitVar);
+            else
+                projects = ProjectDAO.Instance.GetProjectList_Excel("All");
+
+            List<Project> project = ProjectDAO.Instance.GetProjectList_Excel("All");
+            var stream = Function.Instance.ExportToExcel<Project>(project);
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách bài đào tạo.xlsx");
+        }
+        public IActionResult Notification()
+        {
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            var urlQuery = Request.HttpContext.Request.Query;
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            
+            ItemDisplay<Notification> itemList = new ItemDisplay<Notification>();
+            itemList.SortOrder = sortOrder;
+            itemList.CurrentSearchField = searchField;
+            itemList.CurrentSearchString = searchString;
+            itemList.CurrentPage = currentPage;
+
+            List<Notification> items = NotificationDAO.Instance.GetNotificationListbyUnit(unit);
+            items = Function.Instance.searchItems(items, itemList);
+            items = Function.Instance.sortItems(items, itemList.SortOrder);
+
+            itemList.Paging(items, 10);
+
+            if (itemList.PageCount > 0)
+            {
+                if (itemList.CurrentPage > itemList.PageCount) itemList.CurrentPage = itemList.PageCount;
+                if (itemList.CurrentPage < 1) itemList.CurrentPage = 1;
+                if (itemList.CurrentPage != itemList.PageCount)
+                    try
+                    {
+                        itemList.Items = itemList.Items.GetRange((itemList.CurrentPage - 1) * itemList.PageSize, itemList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    itemList.Items = itemList.Items.GetRange((itemList.CurrentPage - 1) * itemList.PageSize, itemList.Items.Count % itemList.PageSize == 0 ? itemList.PageSize : itemList.Items.Count % itemList.PageSize);
+            }
+            itemList.SessionVar = unit;
+            return View(String.Format("./Views/{0}/Notifications/Notification.cshtml", unitVar), itemList);
+        }
+        [HttpPost]
+        public IActionResult Notification(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        {
+            return RedirectToAction("Notification", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+        }
+        public IActionResult AddNotification()
+        {
+            return View(String.Format("./Views/{0}/Notifications/AddNotification.cshtml", unitVar));
+        }
+
+        [HttpPost]
+        public IActionResult AddNotification(String Title, String Content, String Date, String Link)
+        {
+            int ID = NotificationDAO.Instance.GetMaxID() + 1;
+            var newNotification = new Notification(ID, Title, Content, unit, Date, Link);
+            NotificationDAO.Instance.AddNotification(newNotification);
+            return RedirectToAction("Notification");
+        }
+        [HttpPost]
+        public IActionResult EditNotification(String Title, String Content, String Date, String Link)
+        {
+            var reqUrl = Request.HttpContext.Request;
+            var urlPath = reqUrl.Path;
+            var CurrentID = urlPath.ToString().Split('/').Last();
+            var ID = Convert.ToInt32(CurrentID);
+
+            var newNotification = new Notification(ID, Title, Content.ToString(), unit, Date, Link);
+            NotificationDAO.Instance.EditNotification(newNotification);
+            return RedirectToAction("Notification");
+        }
+
+        public IActionResult DeleteNotification()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String ID_delete = urlQuery["notiID"];
+            NotificationDAO.Instance.DeleteNotification(ID_delete);
+            return RedirectToAction("Notification");
+        }
+
+
     }
 }

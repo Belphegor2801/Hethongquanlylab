@@ -55,20 +55,19 @@ namespace Hethongquanlylab.Controllers.User
             return View("./Views/User/Infor/EditInfor.cshtml", user);
         }
         [HttpPost]
-        public IActionResult EditInfor(String Name, String Sex, String Birthday, String Specialization, String University, String Phone, String Email, String Address )
+        public IActionResult EditInfor(String Name, String Sex, String Birthday, String Specialization, String University, String Phone, String Email, String Address, String Key)
         {
-            var user = UserDAO.Instance.GetUserByID_Excel("1");
-            user.Name = Name;
-            user.Sex = Sex;
-            user.Specialization = Specialization;
-            user.Univeristy = University;
-            user.Phone = Phone;
-            user.Email = Email;
-            user.Address = Address;
-            UserDAO.Instance.EditMember(user);
+            String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
+            var phone = Phone == null ? "N/A" : Phone;
+            var email = Email == null ? "email@gmail.com" : Email;
+            var address = Address == null ? "N/A" : Address;
+            var specialization = Specialization == null ? "N/A" : Specialization;
+            var university = University == null ? "N/A" : University;
+            var newMember = new Member(avt, Name, Sex, Birthday, phone, email, address, specialization, university, Key);
+            UserDAO.Instance.EditMember(newMember);
             return RedirectToAction("Infor");
         }
-        [HttpPost]
+            [HttpPost]
         public IActionResult UploadAvt(string var, string key, IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
         {
             string fileName = $"{hostingEnvironment.WebRootPath}/img/avt/{file.FileName}";

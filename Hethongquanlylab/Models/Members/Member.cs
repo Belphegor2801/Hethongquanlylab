@@ -62,6 +62,24 @@ namespace Hethongquanlylab.Models
             this.IsLT = isLT;
             this.isPassPTBT = isPassPTBT;
         }
+        public Member( string avt, string name, string sex, string birthday, string phone, string email, string address, string specilization, string university, string key = "1")
+        {
+            this.Key = key;
+            this.Avt = avt;
+            this.Name = name;
+            this.Sex = sex;
+            this.Birthday = birthday;
+            this.Gen = gen;
+            this.Phone = phone;
+            this.Email = email;
+            this.Address = address;
+            this.Specialization = specilization;
+            this.Univeristy = university;
+            this.Unit = unit;
+            this.Position = position;
+            this.IsLT = isLT;
+            this.isPassPTBT = isPassPTBT;
+        }
         public Member(DataRow row)
         {
             this.LabID = (string)row["idMenu"];

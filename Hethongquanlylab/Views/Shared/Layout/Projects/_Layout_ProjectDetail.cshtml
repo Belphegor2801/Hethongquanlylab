@@ -1,15 +1,29 @@
-﻿@model Project
+﻿@model ItemDetail<Project>
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     @section Buttons{
-        <a class="header-item"></a>
-        <a asp-action="Notification" class="header-item">Thông báo</a>
-        <a asp-action="Project" class="header-item">Bài đào tạo</a>
-        <a asp-action="Procedure" class="header-item">Quy trình</a>
-        <a asp-action="Member" class="header-item">Nhân sự</a>
-        <a asp-action="Index" class="header-item">Trang chủ</a>
+        @if (Model.SessionVar == "Ban Nhân Sự")
+        {
+            <a class="header-item"></a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar == "Ban Đào Tạo")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else
+        {
+            <a class="header-item"></a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
     }
-
     @section Login{
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
@@ -19,6 +33,7 @@
         </li>
     }
 }
+
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -27,6 +42,7 @@
     <link rel="stylesheet" href="~/css/procedures.css">
 </head>
 <body>
+    @RenderBody()
     <div class="wrap-back" style="display:flex;">
         <a href="./banDaoTao.html"><h2 class="backMainPage"> Trang Chủ</h2></a>
         <p>/</p>
@@ -43,12 +59,12 @@
             font-size: 30px;
             font-weight: 600;
             margin-bottom: 30px;" id="wrap-DuAn">
-        <div id="name-DuAn">@Model.Name </div>
-        <input style="display:none;" id="name-input" type="text" placeholder="@Model.Name">
+        <div id="name-DuAn">@Model.Item.Name </div>
+        <input style="display:none;" id="name-input" type="text" placeholder="@Model.Item.Name" value="@Model.Item.Name" name="Name">
         <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
     </div>
     <div style="display:flex; justify-content: center;" id="wrap-DuAn2">
-        <div id="name-DuAn2">Loại dự án: @Model.ProjectType </div>
+        <div id="name-DuAn2">Loại dự án: @Model.Item.ProjectType </div>
         <input style="display:none;" id="name-input2" type="d" placeholder="Loại Dự Án">
         <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
     </div>
@@ -57,7 +73,7 @@
         <div style="display:flex" class="start">
             <p>Ngày Bắt Đầu: </p>
             <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-DuAn3">
-                <div id="name-DuAn3">@Model.Startday </div>
+                <div id="name-DuAn3">@Model.Item.Startday</div>
                 <input style="display:none;" id="name-input3" type="text" placeholder="dd/mm/yy">
                 <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
             </div>
@@ -65,7 +81,7 @@
         <div style="display:flex" class="end">
             <p>Ngày Kết Thúc: </p>
             <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-DuAn4">
-                <div id="name-DuAn4">@Model.Endday </div>
+                <div id="name-DuAn4">@Model.Item.Endday </div>
                 <input style="display:none;" id="name-input4" type="text" placeholder="dd/mm/yy">
                 <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
             </div>

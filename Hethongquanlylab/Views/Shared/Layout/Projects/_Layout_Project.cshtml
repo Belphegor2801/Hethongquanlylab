@@ -1,13 +1,29 @@
 ﻿@model ItemDisplay<Project>
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     @section Buttons{
-        <a class="header-item"></a>
-        <a asp-action="Project" class="header-item">Thông báo</a>
-        <a asp-action="Training" class="header-item">Bài đào tạo</a>
-        <a asp-action="Project" class="header-item">Quy trình</a>
-        <a asp-action="Member" class="header-item">Nhân sự</a>
-        <a asp-action="Index" class="header-item">Trang chủ</a>
+        @if (Model.SessionVar == "Ban Nhân Sự")
+        {
+            <a class="header-item"></a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar == "Ban Đào Tạo")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else
+        {
+            <a class="header-item"></a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+
     }
 
     @section Login{
@@ -28,15 +44,24 @@
     <link rel="stylesheet" href="~/css/procedures.css">
 </head>
 <body>
+    @RenderBody()
     <form asp-action="Project" method="post" style="z-index: 0;">
         <div class="wrap-back" style="display:flex;">
             <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
             <p>/</p>
-            <a asp-action="Project"><h2 style="padding-left: 10px;" class="backMainPage">Thông báo</h2></a>
+            <a asp-action="Project"><h2 style="padding-left: 10px;" class="backMainPage">Dự án</h2></a>
         </div>
 
         <div style="width: 1030px;margin: auto;text-align: right;">
-            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportProjectToExcel", "BDT")'">Xuất file Excel</button>
+            @if (Model.SessionVar == "Ban Đào Tạo")
+            {
+                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
+            }
+            else
+            {
+                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProject")'">Thêm bài đào tạo</button>
+                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
+            }
         </div>
 
         <div class="wrap-sreach">
@@ -117,23 +142,32 @@
                 {
                     foreach (var item in Model.Items)
                     {
-            <tr id="0" style="user-select: auto;">
-                <td style="user-select: auto; text-align: center;"> @item.Id</td>
-                <td style="user-select: auto;"> @item.Name</td>
-                <td style="user-select: auto; text-align: center;"> @item.Startday</td>
-                <td style="user-select: auto; text-align: center;"> @item.Endday</td>
-                <td style="user-select: auto; text-align: center;"> @item.ProjectType</td>
-                <td style="user-select: auto; text-align: center;"> @item.Unit</td>
-                <td style="user-select: auto; text-align: center;"> @item.Status</td>
-                <td style="user-select: auto; text-align: center;">
-                    <button type="button" onclick="location.href='@Url.Action("ProjectDetail", "BDT", new { id = item.Id })'">
-                        <i class="fa fa-info-circle"></i>
-                    </button>
-                    <button type="button" onclick="confirm_detele(@item.Id)" id="deleteMember" value="@item.Id">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </td>
-                <script>
+                        <tr id="0" style="user-select: auto;">
+                            <td style="user-select: auto; text-align: center;"> @item.SubID</td>
+                            <td style="user-select: auto;"> @item.Name</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Startday</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Endday</td>
+                            <td style="user-select: auto; text-align: center;"> @item.ProjectType</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Unit</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Status</td>
+                            <td style="user-select: auto; text-align: center;">
+                                @if (Model.SessionVar != "Ban Đào Tạo")
+                                {
+                                    <button type="button" onclick="location.href='@Url.Action("ProjectDetail", new { ProjectID = item.Id })'">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+                                    <button type="button" onclick="confirm_detele(@item.Id)" id="deleteMember" value="@item.Id">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" onclick="location.href='@Url.Action("ProjectDetail", new { ProjectID = item.Id })'">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+                                }
+                            </td>
+                            <script>
                             var modelSortOrder = "@Html.Raw(Model.SortOrder)";
                             var idSort = document.getElementById("Id");
                             if (modelSortOrder === "Id") {
@@ -162,8 +196,8 @@
                         idSort.value = "Status_desc";
                     }
 
-                </script>
-            </tr>
+                            </script>
+                        </tr>
                     }
                 }
                 else
@@ -321,7 +355,7 @@
             <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.Id">
                 <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa thông báo có ID = @item.Id không? </a>
                 <div>
-                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteProject", "BDT", new{ ID = @item.Id})'" value="Có">Có</button>
+                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteProject", new{ ID = @item.Id})'" value="Có">Có</button>
                     <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
                 </div>
             </div>
