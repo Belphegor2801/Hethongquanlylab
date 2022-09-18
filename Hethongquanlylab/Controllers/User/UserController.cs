@@ -60,7 +60,7 @@ namespace Hethongquanlylab.Controllers.User
             var urlQuery = Request.HttpContext.Request.Query;
             String CurrentID = urlQuery["Key"]; // Url: .../DeteleMeber?Key={key}
             String avt = urlQuery["avt"];
-            avt = avt == null ? "default.jpg" : avt;
+
             var member = UserDAO.Instance.GetUserByID_Excel(CurrentID);
             if (avt != null) member.Avt = avt;
             return View("./Views/User/Infor/EditInfor.cshtml", member);
@@ -85,15 +85,17 @@ namespace Hethongquanlylab.Controllers.User
         public IActionResult EditInfor(String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
         {
             String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
-            var unit = Unit == null ? "Chưa có" : Unit;
-            var position = Position == null ? "Chưa có" : Position;
-            var phone = Phone == null ? "N/A" : Phone;
-            var email = Email == null ? "email@gmail.com" : Email;
-            var address = Address == null ? "N/A" : Address;
-            var specializaion = Specicalization == null ? "N/A" : Specicalization;
-            var university = University == null ? "N/A" : University;
-            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT, Key);
-            UserDAO.Instance.EditMember(newMember);
+            var member = UserDAO.Instance.GetUserByID_Excel(Key);
+            member.Avt = avt;
+            member.Name = Name;
+            member.Sex = Sex;
+            member.Birthday = Birthday;
+            member.Phone = Phone;
+            member.Email = Email;
+            member.Address = Address;
+            member.Specialization = Specicalization;
+            member.University = University;
+            UserDAO.Instance.EditMember(member);
             return RedirectToAction("Infor");
         }
 

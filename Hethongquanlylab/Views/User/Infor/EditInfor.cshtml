@@ -166,7 +166,7 @@
                             Trường
                         </td>
                         <td colspan="3">
-                            <input name="University" type="text" class="form-control" placeholder="Trường đang học" id="university" value="@Model.Univeristy" style="width: 100%;">
+                            <input name="University" type="text" class="form-control" placeholder="Trường đang học" id="university" value="@Model.University" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -208,35 +208,6 @@
                         </td>
                         <td colspan="3">
                             @Model.Position
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Leader Team?
-                        </td>
-                        <td>
-                            @if (Model.IsLT)
-                            {
-                                <input name="IsLT" type="checkbox" id="isLT" value="true" style="width: 30px; height: 30px;" checked="checked">
-                            }
-                            else
-                            {
-                                <input name="IsLT" type="checkbox" id="isLT" value="true" style="width: 30px; height: 30px;" checked="checked">
-                            }
-                        </td>
-                        <td>
-                            Đã qua PTBT?
-                        </td>
-                        <td>
-                            @if (Model.IsPassPTBT)
-                            {
-                                <input name="IsPassPTBT" type="checkbox" id="isPassPTBT" value="true" style="width: 30px; height: 30px;" checked="checked">
-                            }
-                            else
-                            {
-                                <input name="IsPassPTBT" type="checkbox" id="isPassPTBT" value="true" style="width: 30px; height: 30px;">
-                            }
-
                         </td>
                     </tr>
 

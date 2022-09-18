@@ -245,7 +245,7 @@ namespace Hethongquanlylab.DAO
             workSheet.Cells[i, j++].Value = member.Birthday;
             workSheet.Cells[i, j++].Value = member.Gen;
             workSheet.Cells[i, j++].Value = member.Specialization;
-            workSheet.Cells[i, j++].Value = member.Univeristy;
+            workSheet.Cells[i, j++].Value = member.University;
             workSheet.Cells[i, j++].Value = member.Phone;
             workSheet.Cells[i, j++].Value = member.Email;
             workSheet.Cells[i, j++].Value = member.Address;
@@ -282,7 +282,7 @@ namespace Hethongquanlylab.DAO
             workSheet.Cells[i, j++].Value = member.Birthday;
             workSheet.Cells[i, j++].Value = member.Gen;
             workSheet.Cells[i, j++].Value = member.Specialization;
-            workSheet.Cells[i, j++].Value = member.Univeristy;
+            workSheet.Cells[i, j++].Value = member.University;
             workSheet.Cells[i, j++].Value = member.Phone;
             workSheet.Cells[i, j++].Value = member.Email;
             workSheet.Cells[i, j++].Value = member.Address;

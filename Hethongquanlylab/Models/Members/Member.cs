@@ -34,7 +34,7 @@ namespace Hethongquanlylab.Models
         public string Birthday { get => birthday; set => birthday = value; }
         public string Gen { get => gen; set => gen = value; }
         public string Specialization { get => specialization; set => specialization = value; }
-        public string Univeristy { get => university; set => university = value; }
+        public string University { get => university; set => university = value; }
         public string Phone { get => phone; set => phone = value; }
         public string Email { get => email; set => email = value; }
         public string Address { get => address; set => address = value; }
@@ -56,7 +56,7 @@ namespace Hethongquanlylab.Models
             this.Email = email;
             this.Address = address;
             this.Specialization = specilization;
-            this.Univeristy = university;
+            this.University = university;
             this.Unit = unit;
             this.Position = position;
             this.IsLT = isLT;
@@ -74,7 +74,7 @@ namespace Hethongquanlylab.Models
             this.Email = email;
             this.Address = address;
             this.Specialization = specilization;
-            this.Univeristy = university;
+            this.University = university;
             this.Unit = unit;
             this.Position = position;
             this.IsLT = isLT;
