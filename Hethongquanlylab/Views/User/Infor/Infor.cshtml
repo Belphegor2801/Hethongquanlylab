@@ -42,7 +42,6 @@
         <style>
             * {
                 padding: 0;
-                margin: 0;
                 box-sizing: border-box;
             }
 
@@ -52,7 +51,6 @@
             }
 
             html {
-                font-size: 10px;
                 scroll-behavior: smooth;
             }
 
@@ -74,8 +72,8 @@
             }
 
             .cv_description {
+                font-size: 15px;
                 margin-top: 1rem;
-                font-size: 1.5rem;
                 font-weight: 400;
                 color: var(--text-color);
             }
@@ -192,6 +190,7 @@
                 font-size: 1.5rem;
                 font-weight: 400;
                 text-transform: uppercase;
+                font-size: 15px;
             }
 
             .downloadBtn {
@@ -219,6 +218,7 @@
             /* Ref  */
             .ref_item {
                 margin-top: 2rem;
+                font-size: 15px;
             }
 
             .ref_name {
@@ -366,13 +366,11 @@
                             <h2 style="margin-top: 10px" class="profile_title">Điện thoại: @Model.Phone</h2>
                             <h2 style="margin-top: 10px" class="profile_title">Email: @Model.Email</h2>
                             <h2 style="margin-top: 10px" class="profile_title">Địa chỉ: @Model.Address</h2>
-
-
                         </div>
                     </div>
                 </div>
                 <div style="margin: auto; margin-top: 20px">
-                    <button class="edit-nhanSu" type="button" onclick="location.href='@Url.Action("EditInfor", "User")'">Chỉnh sửa thông tin cá nhân</button>
+                    <button class="edit-nhanSu" type="button" onclick="location.href='@Url.Action("EditInfor", "User", new { Key = Model.Key })'">Chỉnh sửa thông tin cá nhân</button>
                     <style>
                         .edit-nhanSu {
                             border: none;
@@ -413,15 +411,6 @@
                                 @Model.Specialization
                             </p>
 
-                        </div>
-                    </div>
-                    <div class="group-2">
-                        <div class="cv_interest">
-                            <h3 class="cv_title">SỞ THÍCH</h3>
-                            <div class="interest_items">
-                                <p class="interest_title">Đọc sách</p>
-
-                            </div>
                         </div>
                     </div>
                 </div>

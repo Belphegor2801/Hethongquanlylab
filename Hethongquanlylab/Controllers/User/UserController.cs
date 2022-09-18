@@ -57,22 +57,43 @@ namespace Hethongquanlylab.Controllers.User
 
         public IActionResult EditInfor()
         {
-            var user = UserDAO.Instance.GetUserByID_Excel("1");
-            return View("./Views/User/Infor/EditInfor.cshtml", user);
+            var urlQuery = Request.HttpContext.Request.Query;
+            String CurrentID = urlQuery["Key"]; // Url: .../DeteleMeber?Key={key}
+            String avt = urlQuery["avt"];
+            avt = avt == null ? "default.jpg" : avt;
+            var member = UserDAO.Instance.GetUserByID_Excel(CurrentID);
+            if (avt != null) member.Avt = avt;
+            return View("./Views/User/Infor/EditInfor.cshtml", member);
         }
+
         [HttpPost]
-        public IActionResult EditInfor(String Name, String Sex, String Birthday, String Specicalization, String University, String Phone, String Email, String Address)
+        public virtual IActionResult UploadAvt(string var, string key, IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
         {
-            var user = UserDAO.Instance.GetUserByID_Excel("1");
-            user.Name = Name;
-            user.Sex = Sex;
-            user.Birthday = Birthday;
-            user.Specialization = Specicalization;
-            user.Univeristy = University;
-            user.Phone = Phone;
-            user.Email = Email;
-            user.Address = Address;
-            UserDAO.Instance.EditMember(user);
+            string fileName = $"{hostingEnvironment.WebRootPath}/img/avt/{file.FileName}";
+            // Dẩy file vào thư mục
+            using (FileStream fileStream = System.IO.File.Create(fileName))
+            {
+                file.CopyTo(fileStream);
+                fileStream.Flush();
+            }
+            TempData["avt"] = file.FileName; // Lưu tên vào TempData => Lưu vào Excel
+            return RedirectToAction("EditInfor", new { avt = file.FileName, Key = key });
+        }
+
+
+        [HttpPost]
+        public IActionResult EditInfor(String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
+        {
+            String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
+            var unit = Unit == null ? "Chưa có" : Unit;
+            var position = Position == null ? "Chưa có" : Position;
+            var phone = Phone == null ? "N/A" : Phone;
+            var email = Email == null ? "email@gmail.com" : Email;
+            var address = Address == null ? "N/A" : Address;
+            var specializaion = Specicalization == null ? "N/A" : Specicalization;
+            var university = University == null ? "N/A" : University;
+            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT, Key);
+            UserDAO.Instance.EditMember(newMember);
             return RedirectToAction("Infor");
         }
 
