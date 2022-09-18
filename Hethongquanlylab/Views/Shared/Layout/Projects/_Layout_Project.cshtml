@@ -60,7 +60,7 @@
             }
             else
             {
-                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProject")'">Thêm bài đào tạo</button>
+                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProject")'">Thêm dự án</button>
                 <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
             }
         </div>
@@ -213,7 +213,7 @@
         <table>
             <tr style="font-size: 20px;">
                 <td>
-                    <a>Tổng quy trình: </a>
+                    <a>Tổng dự án: </a>
                     <span id="total">@Model.ItemCount</span>
                 </td>
 
@@ -354,7 +354,7 @@
         foreach (var item in Model.Items)
         {
             <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.Id">
-                <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa thông báo có ID = @item.Id không? </a>
+                <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa dự án có ID = @item.Id không? </a>
                 <div>
                     <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteProject", new{ ID = @item.Id})'" value="Có">Có</button>
                     <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
