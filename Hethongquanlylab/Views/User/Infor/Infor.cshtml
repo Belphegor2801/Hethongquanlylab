@@ -42,7 +42,6 @@
         <style>
             * {
                 padding: 0;
-                margin: 0;
                 box-sizing: border-box;
             }
 
@@ -52,7 +51,6 @@
             }
 
             html {
-                font-size: 10px;
                 scroll-behavior: smooth;
             }
 
@@ -74,8 +72,8 @@
             }
 
             .cv_description {
+                font-size: 15px;
                 margin-top: 1rem;
-                font-size: 1.5rem;
                 font-weight: 400;
                 color: var(--text-color);
             }
@@ -192,6 +190,7 @@
                 font-size: 1.5rem;
                 font-weight: 400;
                 text-transform: uppercase;
+                font-size: 15px;
             }
 
             .downloadBtn {
@@ -219,6 +218,7 @@
             /* Ref  */
             .ref_item {
                 margin-top: 2rem;
+                font-size: 15px;
             }
 
             .ref_name {
@@ -357,7 +357,7 @@
                         </div>
                         <div>
                             <h1 class="profile_name">
-                                <span class="profile_name_firstName">ID: @Model.LabID</span>
+                                <span class="profile_name_firstName" style="font-size: 20px;">ID: @Model.LabID</span>
                                 <br />
                                 <span class="profile_name_lastName" style="font-size: 30px">@Model.Name</span>
                             </h1>
@@ -366,13 +366,11 @@
                             <h2 style="margin-top: 10px" class="profile_title">Điện thoại: @Model.Phone</h2>
                             <h2 style="margin-top: 10px" class="profile_title">Email: @Model.Email</h2>
                             <h2 style="margin-top: 10px" class="profile_title">Địa chỉ: @Model.Address</h2>
-
-
                         </div>
                     </div>
                 </div>
                 <div style="margin: auto; margin-top: 20px">
-                    <button class="edit-nhanSu" type="button" onclick="location.href='@Url.Action("EditInfor", "User")'">Chỉnh sửa thông tin cá nhân</button>
+                    <button class="edit-nhanSu" type="button" onclick="location.href='@Url.Action("EditInfor", "User", new { Key = Model.Key })'">Chỉnh sửa thông tin cá nhân</button>
                     <style>
                         .edit-nhanSu {
                             border: none;
@@ -387,11 +385,11 @@
             <div class="col-2">
                 <div class="group-1">
                     <div class="skills">
-                        <h3 class="cv_title">Đánh giá của ban cố vấn</h3>
+                        <h3 class="cv_title">Đánh giá</h3>
                         <ul class="skills_list description">
                             <li class="cv_description">Hoành thành tốt công việc được giao</li>
-                            <li class="cv_description">Có tinh thần cầu tiến</li>
-                            <li class="cv_description">Ngoan ngoãn, hiền lành</li>
+                            <li class="cv_description">Có tinh thần cầu tiến, </li>
+                            <li class="cv_description">Ngoan ngoãn, hiền lành, có tinh thần trách nhiệm</li>
                         </ul>
                     </div>
                     <div class="ref">
@@ -408,20 +406,11 @@
                     <div class="edu">
                         <h3 class="cv_title">Học tập</h3>
                         <div class="edu_item">
-                            <h4 class="item_title">@Model.Univeristy</h4>
+                            <h4 class="item_title">@Model.University</h4>
                             <p class="item_subtitle">
                                 @Model.Specialization
                             </p>
 
-                        </div>
-                    </div>
-                    <div class="group-2">
-                        <div class="cv_interest">
-                            <h3 class="cv_title">SỞ THÍCH</h3>
-                            <div class="interest_items">
-                                <p class="interest_title">Đọc sách</p>
-
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -71,7 +71,7 @@
 
             <form asp-action="UploadAvt" method="post" enctype="multipart/form-data">
                 <input name="var" type="hidden" value="edit" />
-                <input name="key" type="hidden" value="@Model.Key" />
+                <input name="Key" type="hidden" value="@Model.Key" />
                 <input name="file" type="file" required />
                 <button type="submit" class="nutan">Upload ảnh</button>
             </form>
@@ -103,6 +103,7 @@
         <div style="width: 60%;">
             <form asp-action="EditInfor" method="post">
                 <input type="hidden" name="Key" value="@Model.Key" />
+                <input type="hidden" name="LabID" value="@Model.LabID" />
                 <table style="width: 100%;">
                     <tr style="background-color: #373F51;">
                         <td style="text-align: center; color: #fff;"> THÔNG TIN THÀNH VIÊN</td>
@@ -165,7 +166,7 @@
                             Trường
                         </td>
                         <td colspan="3">
-                            <input name="University" type="text" class="form-control" placeholder="Trường đang học" id="university" value="@Model.Univeristy" style="width: 100%;">
+                            <input name="University" type="text" class="form-control" placeholder="Trường đang học" id="university" value="@Model.University" style="width: 100%;">
                         </td>
                     </tr>
                     <tr>
@@ -207,35 +208,6 @@
                         </td>
                         <td colspan="3">
                             @Model.Position
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Leader Team?
-                        </td>
-                        <td>
-                            @if (Model.IsLT)
-                            {
-                                <input name="IsLT" type="checkbox" id="isLT" value="true" style="width: 30px; height: 30px;" checked="checked">
-                            }
-                            else
-                            {
-                                <input name="IsLT" type="checkbox" id="isLT" value="true" style="width: 30px; height: 30px;" checked="checked">
-                            }
-                        </td>
-                        <td>
-                            Đã qua PTBT?
-                        </td>
-                        <td>
-                            @if (Model.IsPassPTBT)
-                            {
-                                <input name="IsPassPTBT" type="checkbox" id="isPassPTBT" value="true" style="width: 30px; height: 30px;" checked="checked">
-                            }
-                            else
-                            {
-                                <input name="IsPassPTBT" type="checkbox" id="isPassPTBT" value="true" style="width: 30px; height: 30px;">
-                            }
-
                         </td>
                     </tr>
 

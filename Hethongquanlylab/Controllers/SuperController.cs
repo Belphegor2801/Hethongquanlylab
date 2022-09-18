@@ -303,7 +303,6 @@ namespace Hethongquanlylab.Controllers
             var urlQuery = Request.HttpContext.Request.Query;
             String CurrentID = urlQuery["Key"]; // Url: .../DeteleMeber?Key={key}
             String avt = urlQuery["avt"];
-
             var member = UserDAO.Instance.GetUserByID_Excel(CurrentID);
             if (avt != null) member.Avt = avt;
             var item = new ItemDetail<Member>(member, unit);
