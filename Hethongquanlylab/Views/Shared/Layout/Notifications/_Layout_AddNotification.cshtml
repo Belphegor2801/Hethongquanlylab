@@ -53,25 +53,31 @@
         <p>/</p>
         <a asp-action="Notification"><h2 style="padding-left: 10px;" class="backMainPage"> Thông báo</h2></a>
         <p>/</p>
-        <a asp-action="AddNotification"><h2 style="padding-left: 10px;" class="backMainPage"> Gửi thông báo</h2></a>
+        <a asp-action="AddNotification"><h2 style="padding-left: 10px;" class="backMainPage"> Thêm thông báo</h2></a>
     </div>
     <form asp-action="AddNotification" method="post" id="form-addnotification">
         <div class="wrap-themDuAn">
-            <div style="width: 1030px">
+            <div>
                 <label for="">
-                    Tên thông báo:
-                    <input type="text" name="Title" value="">
+                    <strong style="font-size:20px;">Tên thông báo: </strong>
+                    <input type="text" name="Title" value="" required>
                 </label>
             </div>
+
+            <table><tr><td style="font-size: 20px; font-weight: bold;">Nội dung</td></tr></table>
             <label for="">
-                Nội Dung:
-                <textarea style="width: 1030px; margin: 12px 0; min-height: 500px;" name="Content" id="notification_content" cols="30" rows="10"></textarea>
+                <textarea style="width: 1030px; margin: 12px 0; min-height: 500px;" name="Content" id="content" cols="30" rows="10" required></textarea>
+                <script>
+                    const editor = Jodit.make('#content', { height: 300 })
+                </script>
             </label>
 
+
             <label style="width: 1030px; " for="">
-                Link Tài Liệu:
-                <input type="text" , name="Link" value="">
+                <strong style="font-size:20px;">Link đính kèm: </strong>
+                <input type="url" id="input-link" name="Link" value="">
             </label>
+
             <div class="" style="text-align:left; margin-left: 70%;">
                 <button type="submit" class="add-nhanSu">
                     <i class="fa-solid fa-plus"></i>
@@ -84,7 +90,7 @@
     <script src="./js/dataNhanSu.js"></script>
     <script src="./js/dataDuAn.js"></script>
     <script>
-        const editor = Jodit.make('#notification_content');
+        const editor = Jodit.make('#content');
     </script>
 
 </body>

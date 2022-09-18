@@ -27,9 +27,15 @@ namespace Hethongquanlylab.Controllers.User
             return View("./Views/User/UserHome.cshtml", notificationList);
         }
 
+        [HttpPost]
+        public IActionResult Index(int currentPage = 1)
+        {
+            return RedirectToAction("Index", new {page = currentPage});
+        }
+
         public IActionResult Infor()
         {
-            //var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
+            var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
             var user = UserDAO.Instance.GetUserByID_Excel("1");
             return View("./Views/User/Infor/Infor.cshtml", user);
         }
@@ -51,36 +57,9 @@ namespace Hethongquanlylab.Controllers.User
 
         public IActionResult EditInfor()
         {
-            var user = UserDAO.Instance.GetUserByID_Excel("1");
-            return View("./Views/User/Infor/EditInfor.cshtml", user);
+            return View("./Views/User/Infor/EditInfor.cshtml");
         }
-        [HttpPost]
-        public IActionResult EditInfor(String Name, String Sex, String Birthday, String Specialization, String University, String Phone, String Email, String Address, String Key)
-        {
-            String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
-            var phone = Phone == null ? "N/A" : Phone;
-            var email = Email == null ? "email@gmail.com" : Email;
-            var address = Address == null ? "N/A" : Address;
-            var specialization = Specialization == null ? "N/A" : Specialization;
-            var university = University == null ? "N/A" : University;
-            var newMember = new Member(avt, Name, Sex, Birthday, phone, email, address, specialization, university, Key);
-            UserDAO.Instance.EditMember(newMember);
-            return RedirectToAction("Infor");
-        }
-            [HttpPost]
-        public IActionResult UploadAvt(string var, string key, IFormFile file, [FromServices] IWebHostEnvironment hostingEnvironment)
-        {
-            string fileName = $"{hostingEnvironment.WebRootPath}/img/avt/{file.FileName}";
-            // Dẩy file vào thư mục
-            using (FileStream fileStream = System.IO.File.Create(fileName))
-            {
-                file.CopyTo(fileStream);
-                fileStream.Flush();
-            }
-            TempData["avt"] = file.FileName; // Lưu tên vào TempData => Lưu vào Excel
-            return RedirectToAction("EditInfor", new { avt = file.FileName, Key = key });
-
-        }
+        
         public IActionResult Training()
         {
             var reqUrl = Request.HttpContext.Request;
