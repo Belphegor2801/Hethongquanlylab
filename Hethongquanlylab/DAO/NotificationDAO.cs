@@ -147,8 +147,9 @@ namespace Hethongquanlylab.DAO
                     {
                         date = sDate;
                     }
-                    string link = workSheet.Cells[i, 6].Value.ToString();
-                    Notification notification = new Notification(id, title, content, unit, date, link);
+                    var link = workSheet.Cells[i, 6].Value;
+                    string Link = link == null? "": link.ToString();
+                    Notification notification = new Notification(id, title, content, unit, date, Link);
                     notificationList.Add(notification);
                 }
                 i++;

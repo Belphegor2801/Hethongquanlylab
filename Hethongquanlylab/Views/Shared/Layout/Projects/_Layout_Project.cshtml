@@ -55,6 +55,7 @@
         <div style="width: 1030px;margin: auto;text-align: right;">
             @if (Model.SessionVar == "Ban Đào Tạo")
             {
+                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProject")'">Thêm bài đào tạo</button>
                 <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
             }
             else
