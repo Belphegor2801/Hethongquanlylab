@@ -1,6 +1,5 @@
 ﻿@model ItemDisplay<Member>
 
-
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     @section Buttons{
@@ -15,6 +14,19 @@
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
             <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if ((Model.SessionVar == "Ban Truyền Thông") || (Model.SessionVar == "Ban Sự Kiện"))
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar == "Ban Điều Hành")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
@@ -173,9 +185,9 @@
                                 }
                                 else if ((Model.SessionVar == "Ban Điều Hành") && (Model.Field == "LT"))
                                 {
-                                        <button type="button" onclick="confirm_detele(@item.Key)" id="deleteMember" value="@item.LabID">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
+                                    <button type="button" onclick="confirm_detele(@item.Key)" id="deleteMember" value="@item.LabID">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
                                 }
                             </td>
                         </tr>
@@ -327,7 +339,7 @@
     @if (Model.PageCount >= 0)
     {
         <style>
-            .form-frame table tr td{
+            .form-frame table tr td {
                 height: 18px;
             }
 
@@ -343,7 +355,7 @@
             }
         </style>
         foreach (var item in Model.Items)
-        {       
+        {
             <div style="display: none; width: 80%; height: 80%; top: 110px; left: 10%; z-index: 1;" class="form-frame infor-form" id="@item.Key">
                 <div class="avt" style="text-align: center; width: 30%; margin-right: 50px; border: 1px #ffd800 solid;">
                     <div style="padding-top: 20px; padding-bottom: 30px; width: 85%; height: auto; margin: auto;">
@@ -381,28 +393,28 @@
                     <div>
                         @if (Model.SessionVar == "Ban Nhân Sự")
                         {
-                        <div style="margin-top: 2%;">
-                            <a href="@Url.Action("MemberCV", new{ Key = @item.Key})" target="_blank">
-                                <button type="button" class="nutan">CV</button>
-                            </a>
-                            <button type="button" style="left: 20%;" class="nutan" onclick="location.href='@Url.Action("EditMember", new{ Key = @item.Key})'">Sửa thông tin</button>
-                            <button type="button" style="left: 40%;" class="nutan" onclick="confirm_detele(@item.Key)">Xóa</button>
-                            <button type="button" style="float: right !important;" onclick="inforDetail_disabled()" class="nutan">Thoát</button>
-                        </div>
+                            <div style="margin-top: 2%;">
+                                <a href="@Url.Action("MemberCV", new{ Key = @item.Key})" target="_blank">
+                                    <button type="button" class="nutan">CV</button>
+                                </a>
+                                <button type="button" style="left: 20%;" class="nutan" onclick="location.href='@Url.Action("EditMember", new{ Key = @item.Key})'">Sửa thông tin</button>
+                                <button type="button" style="left: 40%;" class="nutan" onclick="confirm_detele(@item.Key)">Xóa</button>
+                                <button type="button" style="float: right !important;" onclick="inforDetail_disabled()" class="nutan">Thoát</button>
+                            </div>
                         }
                         else
                         {
-                    <div style="margin-top: 2%;">
-                        <a href="@Url.Action("MemberCV", new{ Key = @item.Key})" target="_blank">
-                            <button type="button" class="nutan">CV</button>
-                        </a>
-                        @if (!((Model.Field == "All") || (Model.Field == "LT") || (Model.Field == "PT")))
-                        {
-                            <button type="button" style="left: 0%;" class="nutan" onclick="confirm_detele(@item.Key)">Xóa</button>
-                        }
+                            <div style="margin-top: 2%;">
+                                <a href="@Url.Action("MemberCV", new{ Key = @item.Key})" target="_blank">
+                                    <button type="button" class="nutan">CV</button>
+                                </a>
+                                @if (!((Model.Field == "All") || (Model.Field == "LT") || (Model.Field == "PT")))
+                                {
+                                    <button type="button" style="left: 0%;" class="nutan" onclick="confirm_detele(@item.Key)">Xóa</button>
+                                }
 
-                        <button type="button" style="float: right !important;" onclick="inforDetail_disabled()" class="nutan">Thoát</button>
-                    </div>
+                                <button type="button" style="float: right !important;" onclick="inforDetail_disabled()" class="nutan">Thoát</button>
+                            </div>
                         }
 
                     </div>
