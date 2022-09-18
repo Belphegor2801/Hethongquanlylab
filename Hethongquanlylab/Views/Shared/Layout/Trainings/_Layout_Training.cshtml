@@ -117,9 +117,6 @@
                     </th>
                     <th style="text-align: center;">
                         Link
-                        <button name="sortOrder" id="Unit" value="Unit" onchange="this.forms.submit">
-                            <i class="fa fa-sort"></i>
-                        </button>
                     </th>
                     <th style="text-align: center;">
                         Chức năng
@@ -172,14 +169,9 @@
                                 idSort.value = "Name_desc";
                             }
 
-                            var idSort = document.getElementById("Senddate");
-                            if (modelSortOrder === "Senddate") {
-                                idSort.value = "Senddate_desc";
-                            }
-
-                            var idSort = document.getElementById("Status");
-                            if (modelSortOrder === "Status") {
-                                idSort.value = "Status_desc";
+                            var idSort = document.getElementById("Date");
+                            if (modelSortOrder === "Date") {
+                                idSort.value = "Date_desc";
                             }
 
                             var idSort = document.getElementById("Unit");
@@ -198,7 +190,11 @@
                         <a>Tổng Quy trình: </a>
                         <span id="total">@Model.ItemCount</span>
                     </div>
+                </td>
 
+                <td>
+                    <a>Trang: </a>
+                    <span id="total">@Model.CurrentPage/@Model.PageCount</span>
                 </td>
 
                 <td>

@@ -66,7 +66,7 @@
                 </label>
             </div>
 
-            <table><tr><td style="font-size: 20px; font-weight: bold;">Nội dung</td></tr></table>
+            <table><tr><td style="font-size: 20px; font-weight: bold;">Mô tả quy trình:</td></tr></table>
             <label for="">
                 <textarea style="width: 1030px; margin: 12px 0; min-height: 500px;" name="Content" id="procedure_content" cols="30" rows="10" required></textarea>
                 <script>
@@ -93,9 +93,12 @@
             </div>
 
 
-
             <script>
                 function confirm_change_and_send() {
+                    if (document.getElementById('procedure_content').value.length == 0) {
+                        alert("Chưa nhập mô tả quy trình!")
+                    }
+
                     var urlValid = document.getElementById('input-link').checkValidity();
                     if (urlValid) {
                         document.getElementById("change-confirm").style.display = "block";

@@ -66,7 +66,7 @@
                 </label>
             </div>
 
-            <table><tr><td style="font-size: 20px; font-weight: bold;">Nội dung</td></tr></table>
+            <table><tr><td style="font-size: 20px; font-weight: bold;">Nội dung bài đào tạo</td></tr></table>
             <label for="">
                 <textarea style="width: 1030px; margin: 12px 0; min-height: 500px;" name="Content" id="content" cols="30" rows="10" required></textarea>
                 <script>
@@ -75,18 +75,27 @@
             </label>
 
             <label style="width: 1030px; " for="">
-                <strong style="font-size:20px;">Link tài liệu: </strong>
+                <strong style="font-size:20px;">Link tài liệu (*chỉ nhập link nhúng): </strong>
                 <input type="url" id="input-link" name="Link" value="" required>
             </label>
 
-            <div class="" style="margin-left: 62%;">
-                <button type="submit" class="add-nhanSu">
+            <div class="" style="margin-left: 70%;">
+                <button style="width: 200px;" type="button" class="add-nhanSu" onclick="confirm()">
                     <i class="fa-solid fa-plus"></i>
-                    Lưu
+                    Lưu bài
                 </button>
             </div>
         </div>
-
+        <script>
+            function confirm() {
+                if (document.getElementById('content').value.length > 0) {
+                    document.forms[0].submit();
+                }
+                else {
+                    alert("Chưa nhập nội dung bài đào tạo!")
+                }
+            }
+        </script>
     </form>
     <script src="./js/dataNhanSu.js"></script>
     <script src="./js/dataDuAn.js"></script>
