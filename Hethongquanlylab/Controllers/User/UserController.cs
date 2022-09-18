@@ -57,9 +57,25 @@ namespace Hethongquanlylab.Controllers.User
 
         public IActionResult EditInfor()
         {
-            return View("./Views/User/Infor/EditInfor.cshtml");
+            var user = UserDAO.Instance.GetUserByID_Excel("1");
+            return View("./Views/User/Infor/EditInfor.cshtml", user);
         }
-        
+        [HttpPost]
+        public IActionResult EditInfor(String Name, String Sex, String Birthday, String Specicalization, String University, String Phone, String Email, String Address)
+        {
+            var user = UserDAO.Instance.GetUserByID_Excel("1");
+            user.Name = Name;
+            user.Sex = Sex;
+            user.Birthday = Birthday;
+            user.Specialization = Specicalization;
+            user.Univeristy = University;
+            user.Phone = Phone;
+            user.Email = Email;
+            user.Address = Address;
+            UserDAO.Instance.EditMember(user);
+            return RedirectToAction("Infor");
+        }
+
         public IActionResult Training()
         {
             var reqUrl = Request.HttpContext.Request;
