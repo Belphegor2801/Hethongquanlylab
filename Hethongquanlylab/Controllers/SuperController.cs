@@ -31,7 +31,7 @@ namespace Hethongquanlylab.Controllers
             var urlQuery = Request.HttpContext.Request.Query;
             page = urlQuery["page"]; // Lấy trang thông báo
             var notificationList = Function.Instance.getNotifications(page);
-
+            
             return View(String.Format("./Views/{0}/{0}Home.cshtml", unitVar), notificationList);
         }
 
@@ -55,6 +55,23 @@ namespace Hethongquanlylab.Controllers
         }
         //// End: Trang chủ
 
+        public IActionResult EditLinks()
+        {
+            var links = LinkDAO.Instance.GetLinkList();
+            var linkList = new ItemDisplay<Link>();
+            linkList.Items = links;
+            linkList.SessionVar = unit;
+            return View(String.Format("./Views/{0}/Links/EditLinks.cshtml", unitVar), linkList);
+        }
+
+        [HttpPost]
+        public IActionResult EditLinks(string Link_bieumau, string Link_lich)
+        {
+            LinkDAO.Instance.EditLink("Biểu mẫu", Link_bieumau);
+            LinkDAO.Instance.EditLink("Lịch làm việc", Link_lich);
+
+            return RedirectToAction("EditLinks");
+        }
 
         //// Begin Thông tin thành viên
         /// Bảng nhân sự
@@ -346,7 +363,15 @@ namespace Hethongquanlylab.Controllers
             searchString = urlQuery["SearchString"];
             page = urlQuery["page"];
 
-            field = field == null ? unitVar : field;
+            if ((unitVar == "BDH") || (unitVar == "BCV") || (unitVar == "NSL"))
+            {
+                field = field == null ? "All" : field;
+            }
+            else
+            {
+                field = field == null ? unitVar : field;
+            }
+            
             sortOrder = sortOrder == null ? "ID" : sortOrder;
             searchField = searchField == null ? "ID" : searchField;
             searchString = searchString == null ? "" : searchString;
@@ -402,7 +427,6 @@ namespace Hethongquanlylab.Controllers
         {
             var urlQuery = Request.HttpContext.Request.Query;
             String ID = urlQuery["procedureID"];
-
             var procedure = ProcedureDAO.Instance.GetProcedureModel_Excel(unit, ID);
             var item = new ItemDetail<Procedure>(procedure, unit);
             return View(String.Format("./Views/{0}/Procedures/ProcedureDetail.cshtml", unitVar), item);

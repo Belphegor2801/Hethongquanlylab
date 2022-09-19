@@ -1,9 +1,14 @@
 ﻿@model ItemDisplay<Notification>
+
+<script>
+    alert(@Model.Message)
+</script>
 @{
     Layout = "~/Views/Shared/_Layout_Home.cshtml";
     @section Buttons{
+        <a target="_blank" href="@Model.Message" class="header-item">Biểu mẫu</a>hb
         <a class="header-item"></a>
-        <a asp-action="Training" class="header-item">Các bài đào tạo</a>
+        <a asp-action="Training" class="header-item">Đào tạo</a>
         <a asp-action="Infor" class="header-item">Thông tin cá nhân</a>
         <a asp-action="Index" class="header-item">Trang chủ</a>
     }

@@ -22,6 +22,5 @@ namespace Hethongquanlylab.Controllers.Super.BanDaoTao
             unit = "Ban Đào Tạo";
             unitVar = "BDT";
         }
-
     }
 }
