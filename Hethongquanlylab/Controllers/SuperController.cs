@@ -559,6 +559,8 @@ namespace Hethongquanlylab.Controllers
             List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
             procedures = Function.Instance.searchItems(procedures, procedureList);
             procedures = Function.Instance.sortItems(procedures, procedureList.SortOrder);
+            procedures = procedures.Where(s => !s.Status.Contains("đã duyệt")).ToList();
+            procedures = procedures.Where(s => !s.Status.Contains("Chờ duyệt")).ToList();
             procedureList.Items = procedures;
             procedureList.SessionVar = unit;
 
