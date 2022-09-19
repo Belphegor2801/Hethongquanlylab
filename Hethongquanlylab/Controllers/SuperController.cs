@@ -157,7 +157,7 @@ namespace Hethongquanlylab.Controllers
                 members = UserDAO.Instance.GetListUser_Excel(unit);
 
             var stream = Function.Instance.ExportToExcel<Member>(members);
-            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThanhVien.xlsx");
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThanhVien-" + exportVar +".xlsx");
         }
 
         // Thêm thành viên
@@ -496,9 +496,18 @@ namespace Hethongquanlylab.Controllers
         // Xuất file Excel Quy trình * Chưa xong
         public IActionResult ExportProcedureToExcel()
         {
-            List<Procedure> procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
+            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
+            string exportVar = urlQuery["exportVar"];
+            exportVar = exportVar == null ? unitVar : exportVar;
+
+            List<Procedure> procedures;
+            if (exportVar == "All")
+                procedures = ProcedureDAO.Instance.GetProcedureList_Excel("All");
+            else
+                procedures = ProcedureDAO.Instance.GetProcedureList_Excel(unit);
+
             var stream = Function.Instance.ExportToExcel<Procedure>(procedures);
-            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách quy trình " + unit + ".xlsx");
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách quy trình " + exportVar + ".xlsx");
         }
 
         // Gửi duyệt quy trình
@@ -846,19 +855,9 @@ namespace Hethongquanlylab.Controllers
 
         public IActionResult ExportProjectToExcel()
         {
-            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
-            string exportVar = urlQuery["exportVar"];
-            exportVar = exportVar == null ? unitVar : exportVar;
-            List<Project> projects;
-            if (exportVar == unitVar)
-                projects = ProjectDAO.Instance.GetProjectList_Excel(unitVar);
-            else
-                projects = ProjectDAO.Instance.GetProjectList_Excel("All");
-
-            List<Project> project = ProjectDAO.Instance.GetProjectList_Excel("All");
-            var stream = Function.Instance.ExportToExcel<Project>(project);
-            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách bài đào tạo.xlsx");
+            return View();
         }
+
         public IActionResult Notification()
         {
             String sortOrder;
@@ -912,6 +911,21 @@ namespace Hethongquanlylab.Controllers
         public IActionResult Notification(String sortOrder, String searchString, String searchField, int currentPage = 1)
         {
             return RedirectToAction("Notification", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+        }
+
+        public IActionResult ExportNotificationToExcel()
+        {
+            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
+            string exportVar = urlQuery["exportVar"];
+            exportVar = exportVar == null ? unitVar : exportVar;
+            List<Notification> notifications;
+            if (exportVar == unitVar)
+                notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+            else
+                notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+
+            var stream = Function.Instance.ExportToExcel<Notification>(notifications);
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách thông báo.xlsx");
         }
 
         public IActionResult NotiDetail()

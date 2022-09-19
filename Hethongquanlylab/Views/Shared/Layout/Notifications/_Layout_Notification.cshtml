@@ -53,7 +53,7 @@
 
         <div style="width: 1030px;margin: auto;text-align: right;">
             <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddNotification")'">Thêm thông báo</button>
-            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportNotificationToExcel")'">Xuất file Excel</button>
+            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportNotificationToExcel", new { exportVar = Model.Field })'">Xuất file Excel</button>
         </div>
 
         <div class="wrap-sreach">
@@ -82,7 +82,7 @@
         <div class="container mt-2">
             <table class="table-quyTrinh">
                 <tr>
-                    <th>
+                    <th style="text-align: center;">
                         ID
                         <button name="sortOrder" id="Id" value="Id" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
@@ -94,11 +94,14 @@
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Ngày Gửi Đi
                         <button name="sortOrder" id="Date" value="Date" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
+                    </th>
+                    <th style="text-align: center;" width="20%">
+                        Link
                     </th>
                     <th style="text-align: center; width: 5%;">
                         Chức năng
@@ -114,6 +117,11 @@
                             <td style="user-select: auto; text-align: center;"> @item.ID</td>
                             <td style="user-select: auto;"> @item.Title</td>
                             <td style="user-select: auto; text-align: center;"> @item.Date</td>
+                            <td style="user-select: auto; text-align: center; text-decoration: underline;">
+                                <a style="color: #00a; text-decoration: underline;" target="_blank" href="@item.Link">
+                                    Link
+                                </a>
+                            </td>
                             <td style="user-select: auto; text-align: center;">
                                 <button type="button" onclick="location.href='@Url.Action("NotiDetail", new { ID = item.ID })'">
                                     <i class="fa fa-info-circle"></i>
@@ -142,12 +150,6 @@
                         </tr>
                     }
                 }
-                else
-                {
-                    <tr id="1">
-                        Không tìm thấy kết quả hợp lệ!!!
-                    </tr>
-                }
             </table>
         </div>
 
@@ -156,6 +158,11 @@
                 <td>
                     <a>Tổng quy trình: </a>
                     <span id="total">@Model.ItemCount</span>
+                </td>
+
+                <td>
+                    <a>Trang: </a>
+                    <span id="total">@Model.CurrentPage/@Model.PageCount</span>
                 </td>
 
                 <td>
@@ -244,7 +251,6 @@
                     </a>
                 </td>
             </tr>
-
         </table>
 
     </form>

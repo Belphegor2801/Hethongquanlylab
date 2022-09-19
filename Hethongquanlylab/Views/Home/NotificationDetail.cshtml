@@ -39,7 +39,6 @@
     <div style="display: flex; margin-bottom: 30px;" class="text-ProcedureTitle">
         <div id="name-DuAn">@Model.Item.Title</div>
         <input style="display: none;" class="text-ProcedureTitle" id="name-input" type="text" placeholder="Tiêu đề" value="@Model.Item.Title" name="Title" required>
-        <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-DuAn"></i>
     </div>
 
 
@@ -86,7 +85,7 @@
         }
     </style>
     <div style="display: flex; width: 65%; margin: auto;">
-        <p style="margin-right: 12px;">Link bài viết: </p>
+        <p style="margin-right: 12px; white-space: nowrap;">Link bài viết: </p>
         <a style="margin: auto 0" class="link" id="text-link">@Model.Item.Link</a>
         <script>
                 var text = document.getElementById("text-link");

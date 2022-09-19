@@ -62,7 +62,7 @@
             }
             else
             {
-                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportProcedureToExcel")'">Xuất file Excel</button>
+                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportProcedureToExcel", new {exportVar = Model.Field })'">Xuất file Excel</button>
             }
 
         </div>
@@ -254,7 +254,11 @@
                         <a>Tổng Quy trình: </a>
                         <span id="total">@Model.ItemCount</span>
                     </div>
+                </td>
 
+                <td>
+                    <a>Trang: </a>
+                    <span id="total">@Model.CurrentPage/@Model.PageCount</span>
                 </td>
 
                 <td>
