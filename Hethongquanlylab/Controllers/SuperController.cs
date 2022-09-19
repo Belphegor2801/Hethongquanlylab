@@ -31,7 +31,8 @@ namespace Hethongquanlylab.Controllers
             var urlQuery = Request.HttpContext.Request.Query;
             page = urlQuery["page"]; // Lấy trang thông báo
             var notificationList = Function.Instance.getNotifications(page);
-            
+            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
+            notificationList.Link = formLink;
             return View(String.Format("./Views/{0}/{0}Home.cshtml", unitVar), notificationList);
         }
 

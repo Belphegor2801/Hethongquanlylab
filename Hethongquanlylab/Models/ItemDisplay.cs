@@ -23,6 +23,7 @@ namespace Hethongquanlylab.Models
 
         private string message;
         private bool isMessage;
+        private string link;
         private string sessionVar;
 
         private Dictionary<string, string> nameVar = new Dictionary<string, string>()
@@ -73,6 +74,7 @@ namespace Hethongquanlylab.Models
         public string Message { get => message; set => message = value; }
         public bool IsMessage { get => isMessage; set => isMessage = value; }
         public string SessionVar { get => sessionVar; set => sessionVar = value; }
+        public string Link { get => link; set => link = value; }
 
         public Dictionary<string, string> NameVar { get => nameVar; set => nameVar = value; }
         public Dictionary<string, string> UnitVar { get => unitVar; set => unitVar = value; }
