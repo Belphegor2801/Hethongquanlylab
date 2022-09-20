@@ -74,6 +74,118 @@ namespace Hethongquanlylab.Controllers
             return RedirectToAction("EditLinks");
         }
 
+        public IActionResult Account()
+        {
+            // Khởi tạo
+            String field;
+            String sortOrder;
+            String searchField;
+            String searchString;
+            String page;
+
+            /// Lấy query, không có => đặt mặc định
+            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
+            field = urlQuery["field"];
+            sortOrder = urlQuery["sort"];
+            searchField = urlQuery["searchField"];
+            searchString = urlQuery["SearchString"];
+            page = urlQuery["page"];
+
+            if (unit == "Ban Nhân Sự")
+            {
+                field = field == null ? "All" : field;
+            }
+            else
+            {
+                field = field == null ? unitVar : field;
+            }
+
+            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
+            searchField = searchField == null ? "ID" : searchField;
+            searchString = searchString == null ? "" : searchString;
+            page = page == null ? "1" : page;
+            int currentPage = Convert.ToInt32(page);
+
+            /// Khởi tạo ItemDisplay<>
+            var accountList = new ItemDisplay<Account>();
+            accountList.Field = field;
+            accountList.SortOrder = sortOrder;
+            accountList.CurrentSearchField = searchField;
+            accountList.CurrentSearchString = searchString;
+            accountList.CurrentPage = currentPage;
+            
+            var accounts = AccountDAO.Instance.GetAccountList_Excel();
+
+            accounts = Function.Instance.searchItems(accounts, accountList); // Tìm kiếm
+            accounts = Function.Instance.sortItems(accounts, accountList.SortOrder); // Sắp xếp
+
+            // Lấy danh sách items trong trang hiện tại
+            accountList.Paging(accounts, 10);
+            accountList.Paging(accounts, 10);
+            if (accountList.PageCount > 0)
+            {
+                if (accountList.CurrentPage > accountList.PageCount) accountList.CurrentPage = accountList.PageCount;
+                if (accountList.CurrentPage < 1) accountList.CurrentPage = 1;
+                if (accountList.CurrentPage != accountList.PageCount)
+                    try
+                    {
+                        accountList.Items = accountList.Items.GetRange((accountList.CurrentPage - 1) * accountList.PageSize, accountList.PageSize);
+                    }
+                    catch { }
+
+                else
+                    accountList.Items = accountList.Items.GetRange((accountList.CurrentPage - 1) * accountList.PageSize, accountList.Items.Count % accountList.PageSize == 0 ? accountList.PageSize : accountList.Items.Count % accountList.PageSize);
+            }
+            //
+
+            accountList.SessionVar = unit;
+            return View(String.Format("./Views/{0}/Accounts/Account.cshtml", unitVar), accountList);
+        }
+
+        [HttpPost]
+        public IActionResult Account(String Field, String sortOrder, String searchString, String searchField, int currentPage = 1)
+        {
+            return RedirectToAction("Account", new { field = Field, sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+        }
+
+        [HttpPost]
+        public IActionResult AddAccount(String UserName, String Password, String AccountType)
+        {
+            var newAccount = new Account("0", UserName, Password, AccountType);
+            AccountDAO.Instance.AddAccount(newAccount);
+            return RedirectToAction("Account");
+        }
+
+        public IActionResult GenerateAccounts()
+        {
+            var Users = UserDAO.Instance.GetListUser_Excel();
+            var Accounts = AccountDAO.Instance.GetAccountList_Excel();
+            var UserNameList = new List<String>();
+            foreach (var item in Accounts)
+            {
+                UserNameList.Add(item.Username);
+            }
+
+            foreach (var item in Users)
+            {
+               if (!UserNameList.Contains(item.LabID))
+                {
+                    var newAccount = new Account("0", item.LabID, item.LabID, "User");
+                    AccountDAO.Instance.AddAccount(newAccount);
+                }
+            }
+            return RedirectToAction("Account");
+        }
+
+        public IActionResult DeleteAccount()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String Key_delete = urlQuery["ID"]; // Url: .../DeteleMeber?LabID={LabID}
+            AccountDAO.Instance.DeleteAccount(Key_delete);
+
+            return RedirectToAction("Account");
+        }
+
         //// Begin Thông tin thành viên
         /// Bảng nhân sự
         public IActionResult Member()

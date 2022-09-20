@@ -38,7 +38,8 @@ namespace Hethongquanlylab.Models
             {"Position","Chức vụ"},
             {"Senddate","Ngày gửi"},
             {"Status","Tình trạng"},
-            {"Content","Nội dung"}
+            {"Content","Nội dung"},
+            {"Type", "Loại" },
         };
 
         private Dictionary<string, string> unitVar = new Dictionary<string, string>()
