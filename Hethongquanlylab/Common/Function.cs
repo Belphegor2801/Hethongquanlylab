@@ -177,8 +177,10 @@ namespace Hethongquanlylab.Common
             notificationList.CurrentPage = currentPage;
 
             List<Notification> notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+            notifications.Reverse();
 
             notificationList.Paging(notifications, 5);
+            
 
             if (notificationList.PageCount > 0)
             {
@@ -194,6 +196,7 @@ namespace Hethongquanlylab.Common
                 else
                     notificationList.Items = notificationList.Items.GetRange((notificationList.CurrentPage - 1) * notificationList.PageSize, notificationList.Items.Count % notificationList.PageSize == 0 ? notificationList.PageSize : notificationList.Items.Count % notificationList.PageSize);
             }
+            
 
             return notificationList;
         }
