@@ -24,6 +24,8 @@ namespace Hethongquanlylab.Controllers.User
             page = urlQuery["page"];
 
             var notificationList = Function.Instance.getNotifications(page);
+            string formLink = LinkDAO.Instance.GetLink("Biểu mẫu");
+            notificationList.Link = formLink;
             return View("./Views/User/UserHome.cshtml", notificationList);
         }
 

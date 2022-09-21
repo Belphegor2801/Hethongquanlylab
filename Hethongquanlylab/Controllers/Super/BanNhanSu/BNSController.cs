@@ -69,7 +69,13 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
             var university = University == null ? "N/A" : University;
             var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT);
             UserDAO.Instance.AddMember(newMember);
-            return RedirectToAction("Member");
+
+            ItemDisplay<Member> memberList = new ItemDisplay<Member>();
+            List<Member> members = UserDAO.Instance.GetListUser_Excel();
+
+            // Lấy danh sách items trong trang hiện tại
+            memberList.Paging(members, 10);
+            return RedirectToAction("Member", new { page = memberList.PageCount });
         }
         // End: thêm thành viên
     }

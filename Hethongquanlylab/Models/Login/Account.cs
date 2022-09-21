@@ -14,12 +14,14 @@ namespace Hethongquanlylab.Models
         private string password;
         private string accountType;
 
+        public string ID { get; set; }
         public string Username { get => username; set => username = value; }
         public string Password { get => password; set => password = value; }
         public string AccountType { get => accountType; set => accountType = value; }
 
-        public Account (string username, string password, string accounttype)
+        public Account (string ID, string username, string password, string accounttype)
         {
+            this.ID = ID;
             this.Username = username;
             this.Password = password;
             this.AccountType = accounttype;
