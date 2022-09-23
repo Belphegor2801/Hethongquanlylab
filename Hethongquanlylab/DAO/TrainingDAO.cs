@@ -101,25 +101,23 @@ namespace Hethongquanlylab.DAO
 
         }
 
-        public List<Training> GetTrainingList_Excel(string sheetName)
+        public List<Training> GetTrainingList_Excel(string unit)
         {
             var package = OpenFile();
             List<Training> trainingList = new List<Training>();// mở file excel
             ExcelWorksheet workSheet;
-            try
-            {
-                workSheet = package.Workbook.Worksheets[sheetName];
-            }
-            catch
-            {
-                workSheet = package.Workbook.Worksheets.Add(sheetName);
-            }
+            workSheet = package.Workbook.Worksheets.First();
 
             int i = 2;
             while (workSheet.Cells[i, 1].Value != null)
             {
-                var training = LoadData(workSheet, i);
-                trainingList.Add(training);
+                var u = workSheet.Cells[i, 6].Value;
+                string U = u == null ? "N/A" : u.ToString();
+                if (U == unit)
+                {
+                    var training = LoadData(workSheet, i);
+                    trainingList.Add(training);
+                }
                 i++;
             }
             return trainingList;
