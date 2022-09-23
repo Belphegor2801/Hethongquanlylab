@@ -84,7 +84,6 @@
             @RenderSection("Field", required: false)
             <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember")'">Thêm Nhân Sự</button>
             <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportMemberToExcel", new { exportVar = Model.Field})'">Xuất file Excel</button>
-
         </div>
 
         <div class="wrap-sreach">

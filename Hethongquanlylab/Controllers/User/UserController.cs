@@ -103,21 +103,35 @@ namespace Hethongquanlylab.Controllers.User
 
         public IActionResult Training()
         {
-            var reqUrl = Request.HttpContext.Request;
-            var urlPath = reqUrl.Path;
-            var CurrentID = urlPath.ToString().Split('/').Last();
+            var urlQuery = Request.HttpContext.Request.Query;
+            String field = urlQuery["Field"];
+            String currentID = urlQuery["TrainingID"];
+
+            field = field == null ? "PT PTBT" : field;
+            currentID = currentID == null ? "1" : currentID;
+
 
             try
             {
-                ViewData["currentTraining"] = Convert.ToInt32(CurrentID) - 1;
+                ViewData["currentTraining"] = Convert.ToInt32(currentID) - 1;
             }
             catch
             {
                 ViewData["currentTraining"] = 0;
             }
             
-            var training = TrainingDAO.Instance.GetTrainingList_Excel("All");
-            return View("./Views/User/Training.cshtml", training);
+            var training = TrainingDAO.Instance.GetTrainingList_Excel(field);
+            var trainingList = new ItemDisplay<Training>();
+            trainingList.Field = field;
+            trainingList.Items = training;
+            trainingList.SessionVar = "PT Lập trình";
+            return View("./Views/User/Training.cshtml", trainingList);
+        }
+
+        [HttpPost]
+        public IActionResult Training(String Field)
+        {
+            return RedirectToAction("Training", new { Field = Field });
         }
 
         public IActionResult NotificationDetail()
