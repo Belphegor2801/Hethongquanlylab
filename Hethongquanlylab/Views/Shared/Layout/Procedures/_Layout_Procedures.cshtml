@@ -6,7 +6,8 @@
     @section Buttons{
         @if (Model.SessionVar == "Ban Nhân Sự")
         {
-            <a class="header-item"></a>
+            <a asp-action="Account" class="header-item">Tài khoản</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
             <a asp-action="Member" class="header-item">Thông tin thành viên</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
@@ -148,48 +149,48 @@
                             <td style="user-select: auto; text-align: center;"> @item.ID</td>
                             <td style="user-select: auto;"> @item.Name</td>
                             <td style="user-select: auto; text-align: center;"> @item.Senddate</td>
-                            
+
                             @if (Model.Field == "All")
                             {
                                 <td style="user-select: auto; text-align: center;">
-                                     @item.Unit
+                                    @item.Unit
                                 </td>
                             }
                             else
                             {
-                                        <td style="user-select: auto; text-align: center;">
-                                        @if (item.V1)
-                                        {
-                                            <i style="font-size: 20px; color: #0a0;" class="fa-solid fa-square-check"></i>
-                                        }
-                                        else
-                                        {
-                                            <i style="font-size: 20px; color: #a00;" class="fa-solid fa-square-xmark"></i>
-                                        }
+                                <td style="user-select: auto; text-align: center;">
+                                    @if (item.V1)
+                                    {
+                                        <i style="font-size: 20px; color: #0a0;" class="fa-solid fa-square-check"></i>
+                                    }
+                                    else
+                                    {
+                                        <i style="font-size: 20px; color: #a00;" class="fa-solid fa-square-xmark"></i>
+                                    }
 
-                                    </td>
-                                    <td style="user-select: auto; text-align: center;">
-                                        @if (item.V2)
-                                        {
-                                            <i style="font-size: 20px; color: #0a0;" class="fa-solid fa-square-check"></i>
-                                        }
-                                        else
-                                        {
-                                            <i style="font-size: 20px; color: #a00;" class="fa-solid fa-square-xmark"></i>
-                                        }
-                                    </td>
-                                    <td style="user-select: auto; text-align: center;">
-                                        @if (item.V3)
-                                        {
-                                            <i style="font-size: 20px; color: #0a0;" class="fa-solid fa-square-check"></i>
-                                        }
-                                        else
-                                        {
-                                            <i style="font-size: 20px; color: #a00;" class="fa-solid fa-square-xmark"></i>
-                                        }
-                                    </td>
+                                </td>
+                                <td style="user-select: auto; text-align: center;">
+                                    @if (item.V2)
+                                    {
+                                        <i style="font-size: 20px; color: #0a0;" class="fa-solid fa-square-check"></i>
+                                    }
+                                    else
+                                    {
+                                        <i style="font-size: 20px; color: #a00;" class="fa-solid fa-square-xmark"></i>
+                                    }
+                                </td>
+                                <td style="user-select: auto; text-align: center;">
+                                    @if (item.V3)
+                                    {
+                                        <i style="font-size: 20px; color: #0a0;" class="fa-solid fa-square-check"></i>
+                                    }
+                                    else
+                                    {
+                                        <i style="font-size: 20px; color: #a00;" class="fa-solid fa-square-xmark"></i>
+                                    }
+                                </td>
                             }
-                            
+
                             <td style="user-select: auto; text-align: center;">
                                 @try
                                 {
@@ -208,10 +209,10 @@
                                 </button>
                                 @if (!(Model.Field == "All"))
                                 {
-                                        <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
-                                } 
+                                    <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                }
                             </td>
                             <script>
                             var modelSortOrder = "@Html.Raw(Model.SortOrder)";

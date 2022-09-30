@@ -142,7 +142,8 @@ namespace Hethongquanlylab.Controllers.User
             var currenId = Convert.ToInt32(CurrentID);
 
             var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
-            return View("./Views/Shared/NotificationDetail.cshtml", notification);
+            var item = new ItemDetail<Notification>(notification, "Home");
+            return View("./Views/Shared/NotificationDetail.cshtml", item);
         }
     }
 }
