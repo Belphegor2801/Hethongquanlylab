@@ -5,16 +5,18 @@
     @section Buttons{
         @if (Model == "Ban Nhân Sự")
         {
-            <a class="header-item"></a>
+            <a asp-action="Account" class="header-item">Tài khoản</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
             <a asp-action="Member" class="header-item">Thông tin thành viên</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model == "Ban Đào Tạo")
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
-            <a asp-action="Project" class="header-item">Dự án</a>
             <a asp-action="Training" class="header-item">Bài đào tạo</a>
-            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else
@@ -59,22 +61,22 @@
     </div>
     <form asp-action="AddProcedure" method="post" id="form-addprocedure">
         <div class="wrap-themDuAn">
-            <div>
+            <div style="width: 100%;">
                 <label for="">
                     <strong style="font-size:20px;">Tên Quy Trình: </strong>
                     <input type="text" name="Name" value="" required>
                 </label>
             </div>
 
-            <table><tr><td style="font-size: 20px; font-weight: bold;">Mô tả quy trình:</td></tr></table>
+            <table><tr><td style="font-size: 20px; font-weight: bold; width: 100%">Mô tả quy trình:</td></tr></table>
             <label for="">
-                <textarea style="width: 1030px; margin: 12px 0; min-height: 500px;" name="Content" id="procedure_content" cols="30" rows="10" required></textarea>
+                <textarea style="width: 100%; margin: 12px 0; min-height: 500px;" name="Content" id="procedure_content" cols="30" rows="10" required></textarea>
                 <script>
                     const editor = Jodit.make('#procedure_content', { height: 300 })
                 </script>
             </label>
 
-            <label style="width: 1030px; " for="">
+            <label style="width: 100%; " for="">
                 <strong style="font-size:20px;">Link tài liệu: </strong>
                 <input type="url" id="input-link" name="Link" value="" required>
             </label>
