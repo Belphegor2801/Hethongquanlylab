@@ -5,12 +5,9 @@
     @section Buttons{
         @if (Model.SessionVar == "Ban Nhân Sự")
         {
-            <a class="header-item"></a>
-            //<a asp-action="Notification" class="header-item">Thông báo</a>
-            //<a asp-action="Project" class="header-item">Dự án</a>
-            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Account" class="header-item">Tài khoản</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            //<a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model.SessionVar == "Ban Đào Tạo")
@@ -341,10 +338,10 @@
                     <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
                 </div>
             </div>
-            }
         }
+    }
 
-    <div style = "display: none; width: 40%; height: 40%; left: 30%; top: 30%; z-index: 2; text-align: center;" class="form-frame" id="add_account-form">
+    <div style="display: none; width: 40%; height: 40%; left: 30%; top: 30%; z-index: 2; text-align: center;" class="form-frame" id="add_account-form">
         <form asp-action="AddAccount" method="Post">
             <table style="width: 100%;">
                 <tr>
@@ -386,7 +383,7 @@
                 <button class="nutan" style="color:#000; border: 1px #edcd1f solid;" type="button" onclick="AddAccount_disabled()">Thoát</button>
             </div>
         </form>
-        </div>
+    </div>
 
 
     <script>

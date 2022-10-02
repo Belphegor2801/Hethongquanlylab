@@ -5,8 +5,9 @@
     @section Buttons{
         @if (Model.SessionVar == "Ban Nhân Sự")
         {
-            <a class="header-item"></a>
+            <a asp-action="Account" class="header-item">Tài khoản</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model.SessionVar == "Ban Đào Tạo")
@@ -22,9 +23,9 @@
             <a class="header-item"></a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
-        }
+            }
 
-    }
+        }
 
     @section Login{
         <li class="user-info-item">
@@ -119,7 +120,7 @@
 
         <div style="width: 60%;">
             <form asp-action="EditMember" method="post">
-                <input type="hidden" name="Key" value="@Model.Item.Key"/>
+                <input type="hidden" name="Key" value="@Model.Item.Key" />
                 <table style="width: 100%;">
                     <tr style="background-color: #373F51;">
                         <td style="text-align: center; color: #fff;"> THÔNG TIN THÀNH VIÊN</td>

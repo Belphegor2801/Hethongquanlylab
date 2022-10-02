@@ -11,9 +11,10 @@
                 });
             </script>
         </a>
-
         <a class="header-item"></a>
-        <a asp-action="Training" class="header-item">Các bài đào tạo</a>
+        <a asp-action="Assignment" class="header-item">Bài tập</a>
+        <a asp-action="Training" class="header-item">Đào tạo</a>
+        <a asp-action="Infor" class="header-item">Thông tin cá nhân</a>
         <a asp-action="Index" class="header-item">Trang chủ</a>
     }
 
@@ -28,396 +29,279 @@
     }
 }
 
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <script src="https://unpkg.com/feather-icons"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/header&footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
-
 <body>
-
-    <div id="Grid" class="cv_body">
-        <style>
-            * {
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            :root {
-                --primary-color: #EDCD1F;
-                --text-color: #808080;
-            }
-
-            html {
-                scroll-behavior: smooth;
-            }
-
-            .cv_body {
-                font-family: Arial;
-                position: relative;
-                padding-top: 30px;
-                font-family: Inter, sans-serif;
-                background-color: white;
-                color: white;
-            }
-            .cv_img {
-                width: 100%;
-            }
-
-            a {
-                text-decoration: none;
-                color: white;
-            }
-
-            .cv_description {
-                font-size: 15px;
-                margin-top: 1rem;
-                font-weight: 400;
-                color: var(--text-color);
-            }
-
-            .cv_title {
-                color: var(--primary-color);
-                font-weight: 700;
-                font-size: 2rem;
-                text-transform: uppercase;
-            }
-
-            .item_preTitle {
-                font-size: 1.4rem;
-                color: var(--text-color);
-                font-weight: 300;
-            }
-
-            .item_title {
-                font-size: 1.6rem;
-                color: white;
-                font-weight: 500;
-                margin: 0.8rem 0;
-            }
-
-            .item_subtitle {
-                font-size: 1.4rem;
-                color: var(--text-color);
-                font-weight: 400;
-            }
-            /* layouts */
-            .container {
-                max-width: 1000px;
-                width: 90%;
-                margin: 0 auto;
-                display: grid;
-                padding: 5rem;
-                background: #294558;
-                grid-template-columns: 1fr 1fr;
-                gap: 4rem;
-            }
-
-            @@media only screen and (max-width: 768px) {
-                .container {
-                    width: 100%;
-                    grid-template-columns: 1fr;
-                    padding: 3rem;
-                    gap: 7rem;
-                }
-            }
-
-            .profile {
-                grid-column: 1 / -1;
-                margin-bottom: 2rem;
-            }
-
-            .group-1,
-            .group-2 {
-                display: flex;
-                flex-direction: column;
-                gap: 5rem;
-            }
-
-            .group-3 {
-                max-width: 700px;
-                width: 100%;
-                margin: 0 auto;
-                grid-column: 1/-1;
-                display: flex;
-                flex-direction: row;
-                gap: 5rem;
-            }
-
-                .group-3 > div {
-                    flex: 1;
-                }
-
-            @@media only screen and (max-width: 768px) {
-                .profile {
-                    margin-bottom: 0;
-                }
-
-                .group-3 {
-                    flex-direction: column;
-                }
-            }
-            /* profile */
-            .profile_container {
-                display: flex;
-                gap: 2rem;
-            }
-
-            .profile_profileImg {
-                max-width: 250px;
-            }
-
-            .profile_name_firstName {
-                color: white;
-                font-weight: 200;
-                font-size: clamp(2rem, 8vw, 4rem);
-                text-transform: uppercase;
-                display: block;
-                margin-bottom: -0.8rem;
-            }
-
-            .profile_name_lastName {
-                color: var(--primary-color);
-                font-weight: 700;
-                font-size: clamp(2.5rem, 15vw, 7rem);
-                text-transform: uppercase;
-                display: block;
-            }
-
-            .profile_title {
-                font-size: 1.5rem;
-                font-weight: 400;
-                text-transform: uppercase;
-                font-size: 15px;
-            }
-
-            .downloadBtn {
-                display: block;
-                text-decoration: underline;
-                font-size: 1.6rem;
-                margin-top: 1rem;
-            }
-
-                .downloadBtn:hover {
-                    color: var(--primary-color);
-                }
-
-            @@media only screen and (max-width: 768px) {
-                .profile_container {
-                    flex-direction: column;
-                }
-            }
-            /* Expertise */
-            .skills_list {
-                margin-top: 1rem;
-                margin-left: 2rem;
-                line-height: 2;
-            }
-            /* Ref  */
-            .ref_item {
-                margin-top: 2rem;
-                font-size: 15px;
-            }
-
-            .ref_name {
-                font-size: 1.6rem;
-                font-weight: 700;
-            }
-            /* eduction */
-            .edu_item {
-                margin-top: 2rem;
-            }
-
-            /* certification */
-            .certification_item {
-                margin-top: 2rem;
-            }
-            /* exp */
-            .exp_item {
-                margin-top: 2rem;
-            }
-
-            /* awards */
-            .awards_item {
-                margin-top: 2rem;
-            }
-            /* Interests */
-            .interest_items {
-                margin-top: 2rem;
-                display: flex;
-                align-items: center;
-                flex-wrap: wrap;
-                gap: 2rem;
-            }
-
-            .interest_item {
-                font-size: 1.5rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 0.5rem;
-                color: var(--text-color);
-            }
-
-                .interest_item svg {
-                    width: 2rem;
-                }
-
-            /* socials */
-            .social_items {
-                margin-top: 2rem;
-            }
-
-            /* certification */
-            .certification_item {
-                margin-top: 2rem;
-            }
-            /* exp */
-            .exp_item {
-                margin-top: 2rem;
-            }
-            /* awards */
-            .awards_item {
-                margin-top: 2rem;
-            }
-            /* Interests */
-            .interest_items {
-                margin-top: 2rem;
-                display: flex;
-                align-items: center;
-                flex-wrap: wrap;
-                gap: 2rem;
-            }
-
-            .interest_item {
-                font-size: 1.5rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 0.5rem;
-                color: var(--text-color);
-            }
-
-                .interest_item svg {
-                    width: 2rem;
-                }
-            /* socials */
-            .social_items {
-                margin-top: 2rem;
-            }
-
-            .social_item {
-                margin-top: 1.5rem;
-                font-size: 1.5rem;
-                display: flex;
-                gap: 0.5rem;
-                align-items: center;
-                justify-content: flex-start;
-                color: var(--text-color);
-            }
-
-                .social_item:hover {
-                    color: var(--primary-color);
-                }
-
-                .social_item svg {
-                    width: 2rem;
-                }
-
-            .contact_content {
-                font-size: 15px;
-            }
-
-            hr {
-                grid-column: 1/-1;
-                width: 80%;
-                margin: 0 auto;
-                margin-top: 5rem;
-                margin-bottom: 1rem;
-                border: none;
-                border-top: 2px solid rgba(128, 128, 128, 0.229);
-            }
-
-            @@media only screen and (max-width: 768px) {
-                hr {
-                    margin: 0 auto;
-                }
-            }
-        </style>
-        <div class="container">
-            <div class="col-1">
-                <div class="profile">
-                    <div class="profile_container" style="display: grid;">
-                        <div class="profile_profileImg">
-                            <img src="~/img/avt/@Model.Avt" alt="@Model.Avt" class="cv_img">
-                        </div>
-                        <div>
-                            <h1 class="profile_name">
-                                <span class="profile_name_firstName" style="font-size: 20px;">ID: @Model.LabID</span>
-                                <br />
-                                <span class="profile_name_lastName" style="font-size: 30px">@Model.Name</span>
-                            </h1>
-                            <h2 style="margin-top: 10px" class="profile_title">Giới tính: @Model.Sex</h2>
-                            <h2 style="margin-top: 10px" class="profile_title">Ngày sinh: @Model.Birthday</h2>
-                            <h2 style="margin-top: 10px" class="profile_title">Điện thoại: @Model.Phone</h2>
-                            <h2 style="margin-top: 10px" class="profile_title">Email: @Model.Email</h2>
-                            <h2 style="margin-top: 10px" class="profile_title">Địa chỉ: @Model.Address</h2>
-                        </div>
-                    </div>
+    <!-- phần CV -->
+    <div class="cv">
+        <div class="cv-col1">
+            <div class="background-avt">
+                <div class="background-avt1" style="background-color: #FCF8E0; height: 360px; width: 360px;"></div>
+                <div class="background-avt2" style="background-color: #EDCD1F;height: 360px; width: 25%;"></div>
+            </div>
+            <img src="~/img/avt/@Model.Avt" alt="@Model.Avt" class="cv-avt">
+            <div class="background-avt3">@Model.Name</div>
+            <div class="background-avt5"></div>
+            <div class="background-avt4">Gen: @Model.Gen</div>
+            <div class="info-member">
+                <div class="info-item ">
+                    <i class="fa-regular fa-user"></i>
+                    <p>@Model.Sex</p>
                 </div>
-                <div style="margin: auto; margin-top: 20px">
-                    <button class="edit-nhanSu" type="button" onclick="location.href='@Url.Action("EditInfor", "User", new { Key = Model.Key })'">Chỉnh sửa thông tin cá nhân</button>
-                    <style>
-                        .edit-nhanSu {
-                            border: none;
-                            margin-right: 20px;
-                            height: 52px;
-                            width: 132px;
-                            background-color: #edcd1f;
-                        }
-                    </style>
+                <div class="info-item ">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <p>@Model.Birthday</p>
+                </div>
+                <div class="info-item ">
+                    <i class="fa-solid fa-phone"></i>
+                    <p>@Model.Phone</p>
+                </div>
+                <div class="info-item ">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p>@Model.Email</p>
+                </div>
+                <div class="info-item ">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>@Model.Address</p>
                 </div>
             </div>
-            <div class="col-2">
-                <div class="group-1">
-                    <div class="skills">
-                        <h3 class="cv_title">Đánh giá</h3>
-                        <ul class="skills_list description">
-                            <li class="cv_description">Hoành thành tốt công việc được giao</li>
-                            <li class="cv_description">Có tinh thần cầu tiến, </li>
-                            <li class="cv_description">Ngoan ngoãn, hiền lành, có tinh thần trách nhiệm</li>
-                        </ul>
+
+            <button class="btn-cv-edit" type="button" onclick="location.href='@Url.Action("EditInfor", "User", new { Key = Model.Key })'">Chỉnh Sửa Thông Tin Cá Nhân</button>
+
+        </div>
+        <div class="cv-col2">
+            <div class="header-cv">
+                <div class="header-cv-col2-1">
+                    <div class="header-cv-id">
+                        <p>ID: </p>
+                        <p>@Model.LabID</p>
                     </div>
-                    <div class="ref">
-                        <h3 class="cv_title">Hoạt động</h3>
-                        <div class="ref_item">
-                            <h2 style="margin-top: 10px" class="profile_title">Gen: @Model.Gen</h2>
-                            <h2 style="margin-top: 10px" class="profile_title">Đã qua PTBT: @Model.IsPassPTBT</h2>
-                            <h2 style="margin-top: 10px" class="profile_title">Đơn vị: @Model.Unit</h2>
-                            <h2 style="margin-top: 10px" class="profile_title">Chức vụ: @Model.Position</h2>
+                    <p>LAB THẦY SINH</p>
+                </div>
+                <img src="~/img/logo_lab.jpg" alt="" class="header-cv-col2-2">
+            </div>
+
+            <div class="cv-content">
+                <div class="cv-col2-comment">
+                    <div class="" style="display: flex;">
+                        <h3 style="font-size: 32px;">ĐÁNH GIÁ</h3>
+                        <div class="lineYellow"></div>
+                    </div>
+                    <p>
+                        Hoành thành tốt công việc được giao
+                        Có tinh thần cầu tiến,
+                        Ngoan ngoãn, hiền lành, có tinh thần trách nhiệm
+                    </p>
+                </div>
+
+                <div class="cv-col2-Education">
+                    <div class="" style="display: flex;">
+                        <h3 style="font-size: 32px;">HỌC VẤN</h3>
+                        <div class="lineYellow"></div>
+                    </div>
+                    <p>
+                        @Model.University
+                    </p>
+                    <p> Chuyên ngành: @Model.Specialization</p>
+                </div>
+
+                <div class="cv-col2-work">
+                    <div class="" style="display: flex;">
+                        <h3 style="font-size: 32px;">HOẠT ĐỘNG</h3>
+                        <div class="lineYellow"></div>
+                    </div>
+                    <div class="">
+                        @if (Model.IsPassPTBT)
+                        {<p>Đã vượt qua Phát triển bản thân</p>}
+                        else
+                        { <p>Chưa vượt qua Phát triển bản thân</p>}
+                        @if (Model.IsLT)
+                        {<p>Là thành viên LeaderTeam</p>}
+                        <div style="display:flex;" class="">
+                            <p style="margin-top: 0;">Đơn Vị: </p>
+                            <p style="margin-top: 0;"> @Model.Unit </p>
                         </div>
-
-                    </div>
-
-                    <div class="edu">
-                        <h3 class="cv_title">Học tập</h3>
-                        <div class="edu_item">
-                            <h4 class="item_title">@Model.University</h4>
-                            <p class="item_subtitle">
-                                @Model.Specialization
-                            </p>
-
+                        <div style="display:flex;" class="">
+                            <p style="margin-top: 0;">Chức Vụ: </p>
+                            <p style="margin-top: 0;">@Model.Position </p>
                         </div>
                     </div>
                 </div>
+
+                <div class="colYellow" style="word-spacing: 5px;text-align: center;"><p class="rotate" style="font-size: 11px; transform:rotate(90deg); word-spacing: 2px">@Model.LabID</p></div>
+
             </div>
 
         </div>
+    </div>
 
+    <style>
+        .header {
+            top: 0;
+        }
+
+        .cv-content .lineYellow {
+            height: 20px;
+            width: calc(100% - 20px - 150px);
+            margin: auto;
+            background-color: #edcd1f;
+        }
+
+        .cv-content .colYellow {
+            height: 100px;
+            width: 10px;
+            background-color: #edcd1f;
+            float: right;
+        }
+
+        .cv {
+            width: 75vw;
+            margin: auto;
+            margin-top: 20px;
+            display: flex;
+        }
+
+            .cv .cv-col1 {
+                width: 360px;
+                background: #fcf8e0;
+            }
+
+        .cv-col1 .cv-avt {
+            height: 300px;
+            width: 75%;
+            position: relative;
+            top: -340px;
+            right: -44px;
+        }
+
+        .cv-col1 .background-avt {
+            display: flex;
+            width: 100%;
+        }
+
+        .cv-col1 .background-avt3 {
+            background-color: #1E2D3B;
+            height: 100px;
+            width: calc(100% + 30px );
+            position: relative;
+            top: -330px;
+            text-align: center;
+            line-height: 100px;
+            font-size: 28px;
+            color: #fff;
+        }
+
+        .cv-col1 .background-avt4 {
+            background-color: #EDCD1F;
+            width: 100%;
+            position: relative;
+            top: -360px;
+            text-align: center;
+            line-height: 55px;
+            height: 55px;
+            font-size: 28px
+        }
+
+        .background-avt5 {
+            width: 0;
+            height: 0;
+            border-bottom: 30px solid #515f6c;
+            border-right: 30px solid transparent;
+            position: relative;
+            top: -460px;
+            right: -360px;
+        }
+
+        .cv-col1 .info-item {
+            display: flex;
+        }
+
+        .cv-col1 .info-member {
+            position: relative;
+            top: -310px;
+        }
+
+        .cv-col1 .info-item i {
+            width: 24px;
+            margin-top: auto;
+            margin-bottom: auto;
+            padding: 0 18px;
+            background-color: #edcd1f;
+            padding: 18px;
+            margin: 0 16px;
+        }
+
+        .cv-col1 .btn-cv-edit {
+            width: calc(100% - 32px);
+            margin-left: 15%;
+            padding: 12px 0px;
+            font-size: 20px;
+            background-color: #edcd1f;
+            margin-right: 0;
+            border: 0;
+            border-radius: 20px;
+            font-weight: 600;
+            position: relative;
+            top: -200px;
+            width: 70%
+        }
+
+            .cv-col1 .btn-cv-edit:hover {
+                cursor: pointer;
+                background-color: #e4d169;
+            }
+
+        .cv-col2 .header-cv {
+            display: flex;
+        }
+
+        .cv .cv-col2 {
+            width: auto
+        }
+
+        .cv-col2 .header-cv-id {
+            display: flex;
+            font-size: 24px;
+        }
+
+        .cv-col2 .header-cv-col2-1 > p {
+            font-size: 56px;
+            margin: 0;
+            font-weight: 600;
+            color: #001C55;
+        }
+
+        .cv-col2 .header-cv-col2-1 {
+            width: 60%;
+            margin: 0 50px;
+        }
+
+        .cv-col2 .header-cv-col2-2 {
+            width: 25%;
+        }
+
+        .cv-col2 .cv-content {
+            margin-left: 12%;
+        }
+
+        .cv-content h3 {
+            width: 35%;
+            color: #001c55;
+        }
+
+        .cv-content p {
+            font-size: 26px;
+            line-height: 40px;
+        }
+    </style>
 </body>
 
 </html>
