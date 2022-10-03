@@ -77,7 +77,7 @@
 
 
 
-        <div style="width: 1030px;margin: auto;text-align: right;">
+        <div style="width: 65vw;margin: auto;text-align: right;">
             @RenderSection("Field", required: false)
             <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember")'">Thêm Nhân Sự</button>
             <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportMemberToExcel", new { exportVar = Model.Field})'">Xuất file Excel</button>
