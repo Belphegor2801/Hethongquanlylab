@@ -32,8 +32,10 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         {
             var urlQuery = Request.HttpContext.Request.Query;
             String avt = urlQuery["avt"];
+            String mess = urlQuery["mess"];
             avt = avt == null ? "default.jpg" : avt; // Đặt avt mặc định nếu không up avt lên
-            return View(String.Format("./Views/{0}/Members/AddMember.cshtml", unitVar), new List<string>() { unit, avt });
+            mess = mess == null ? "0" : mess;
+            return View(String.Format("./Views/{0}/Members/AddMember.cshtml", unitVar), new List<string>() {unit, avt, mess });
         }
 
 
@@ -60,18 +62,29 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         public override IActionResult AddMember(String sortOrder, String searchString, String searchField, string IsAdd, string MembersVar, String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
         {
             String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
-            var unit = Unit == null ? "Chưa có" : Unit;
-            var position = Position == null ? "Chưa có" : Position;
+            var unit = Unit == null ? "Không" : Unit;
+            var position = Position == null ? "Không" : Position;
             var phone = Phone == null ? "N/A" : Phone;
             var email = Email == null ? "N/A" : Email;
             var address = Address == null ? "N/A" : Address;
             var specializaion = Specicalization == null ? "N/A" : Specicalization;
             var university = University == null ? "N/A" : University;
+
+            List<Member> members = UserDAO.Instance.GetListUser();
+
+            foreach (var member in members)
+            {
+                if (member.LabID == LabID)
+                {
+                    return RedirectToAction("AddMember", new {mess = "1"});
+                }
+            }
+
             var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT);
             UserDAO.Instance.AddMember(newMember);
 
             ItemDisplay<Member> memberList = new ItemDisplay<Member>();
-            List<Member> members = UserDAO.Instance.GetListUser_Excel();
+
 
             // Lấy danh sách items trong trang hiện tại
             memberList.Paging(members, 10);

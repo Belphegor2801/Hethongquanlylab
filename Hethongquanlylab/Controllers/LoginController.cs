@@ -42,9 +42,14 @@ namespace Hethongquanlylab.Controllers
                     return View("./Views/Shared/Login/Login.cshtml", accountLoginInput);
                 }
 
+                if ((accountLoginInput.UserName == "Admin") && (accountLoginInput.Password == "labthaysinhadmin123"))
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+
                 Account user = AccountDAO.Instance.GetAccountbyUsername_Excel(accountLoginInput.UserName);
 
-                if (user == null && loginSubmit == "1")  // Không tìm thấy tên đăng nhập trong database
+                if (user.Username == null && loginSubmit == "1")  // Không tìm thấy tên đăng nhập trong database
                 {
                     TempData["msg"] = "Tài khoản không tồn tại!";
                     return View("./Views/Shared/Login/Login.cshtml", accountLoginInput);
@@ -71,9 +76,9 @@ namespace Hethongquanlylab.Controllers
 
                     TempData["LoginSubmit"] = "0"; // reset submit var
 
-                    if (user.AccountType == "user")
+                    if (user.AccountType == "User")
                         return RedirectToAction("Index", "User");
-                    else if (user.AccountType == "super")
+                    else if (user.AccountType == "Super")
                     {
                         TempData["LoginSubmit"] = "0";
 
@@ -89,7 +94,7 @@ namespace Hethongquanlylab.Controllers
                         else return RedirectToAction("Index", "BNS");
                     }
 
-                    else if (user.AccountType == "admin")
+                    else if (user.AccountType == "Admin")
                         return RedirectToAction("Index", "Admin");
 
                 }

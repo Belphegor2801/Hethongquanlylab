@@ -25,6 +25,7 @@ namespace Hethongquanlylab.Models
         private string position;
         private bool isLT;
         private bool isPassPTBT;
+        private int status; 
 
         public string Key { get => key; set => key = value; }
         public string LabID { get => labID; set => labID = value; }
@@ -42,8 +43,9 @@ namespace Hethongquanlylab.Models
         public string Position { get => position; set => position = value; }
         public bool IsLT { get => isLT; set => isLT = value; }
         public bool IsPassPTBT { get => isPassPTBT; set => isPassPTBT = value; }
+        public int Status { get => status; set => status = value; }
 
-        public Member(string labid, string avt, string name, string sex, string birthday, string gen, string phone, string email, string address, string specilization, string university, string unit, string position, bool isLT, bool isPassPTBT, string key = "1")
+        public Member(string labid, string avt, string name, string sex, string birthday, string gen, string phone, string email, string address, string specilization, string university, string unit, string position, bool isLT, bool isPassPTBT, string key = "1", int status = 1)
         {
             this.Key = key;
             this.LabID = labid;
@@ -61,8 +63,9 @@ namespace Hethongquanlylab.Models
             this.Position = position;
             this.IsLT = isLT;
             this.isPassPTBT = isPassPTBT;
+            this.Status = status;
         }
-        public Member( string avt, string name, string sex, string birthday, string phone, string email, string address, string specilization, string university, string key = "1")
+        public Member( string avt, string name, string sex, string birthday, string phone, string email, string address, string specialization, string university, string key = "1")
         {
             this.Key = key;
             this.Avt = avt;
@@ -73,18 +76,33 @@ namespace Hethongquanlylab.Models
             this.Phone = phone;
             this.Email = email;
             this.Address = address;
-            this.Specialization = specilization;
+            this.Specialization = specialization;
             this.University = university;
             this.Unit = unit;
             this.Position = position;
             this.IsLT = isLT;
-            this.isPassPTBT = isPassPTBT;
+            this.IsPassPTBT = isPassPTBT;
         }
         public Member(DataRow row)
         {
-            this.LabID = (string)row["idMenu"];
-            this.Name = (string)row["nameMenu"];
+            this.Key = row["Key"].ToString();
+            this.LabID = row.IsNull("LabID")? "N/A" : row["LabID"].ToString();
+            this.Avt = row.IsNull("Avt") ? "defaulf.jpg" : row["Avt"].ToString();
+            this.Name = row["Name"] == null ? "N/A" : row["Name"].ToString();
+            this.Sex = row.IsNull("Sex")? "N/A" : row["Sex"].ToString();
+            this.Birthday = row.IsNull("Birthday")? "N/A" : row["Birthday"].ToString();
+            this.Gen = row.IsNull("Gen") ? "N/A" : row["Gen"].ToString();
+            this.Phone = row.IsNull("Phone") ? "N/A" : row["Phone"].ToString();
+            this.Email = row.IsNull("Email") ? "N/A" : row["Email"].ToString();
+            this.Address = row.IsNull("Address") ? "N/A" : row["Address"].ToString();
+            this.Specialization = row.IsNull("Specialization") ? "N/A" : row["Specialization"].ToString();
+            this.University = row.IsNull("University") ? "N/A" : row["University"].ToString();
+            this.Unit = row.IsNull("Unit") ? "Chưa có" : row["Unit"].ToString();
+            this.Position = row.IsNull("Position") ? "Chưa có" : row["Position"].ToString();
+
+            this.IsLT = Convert.ToBoolean(row.IsNull("IsLT") ? 0 : row["IsLT"]);
+            this.IsPassPTBT = Convert.ToBoolean(row.IsNull("IsPassPTBT")? 0 : row["IsPassPTBT"]);
+            this.Status = Convert.ToInt32(row.IsNull("Status") ? 1 : row["Status"]);
         }
     }
-
 }

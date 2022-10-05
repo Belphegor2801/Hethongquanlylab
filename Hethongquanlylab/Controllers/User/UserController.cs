@@ -38,7 +38,7 @@ namespace Hethongquanlylab.Controllers.User
         public IActionResult Infor()
         {
             //var userSession = JsonConvert.DeserializeObject<UserLogin>(HttpContext.Session.GetString("LoginSession"));
-            var user = UserDAO.Instance.GetUserByID_Excel("1");
+            var user = UserDAO.Instance.GetUserByID("1");
             return View("./Views/User/Infor/Infor.cshtml", user);
         }
 
@@ -63,7 +63,7 @@ namespace Hethongquanlylab.Controllers.User
             String CurrentID = urlQuery["Key"]; // Url: .../DeteleMeber?Key={key}
             String avt = urlQuery["avt"];
 
-            var member = UserDAO.Instance.GetUserByID_Excel(CurrentID);
+            var member = UserDAO.Instance.GetUserByID(CurrentID);
             if (avt != null) member.Avt = avt;
             return View("./Views/User/Infor/EditInfor.cshtml", member);
         }
@@ -87,7 +87,7 @@ namespace Hethongquanlylab.Controllers.User
         public IActionResult EditInfor(String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
         {
             String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
-            var member = UserDAO.Instance.GetUserByID_Excel(Key);
+            var member = UserDAO.Instance.GetUserByID(Key);
             member.Avt = avt;
             member.Name = Name;
             member.Sex = Sex;
@@ -120,7 +120,7 @@ namespace Hethongquanlylab.Controllers.User
                 ViewData["currentTraining"] = 0;
             }
             
-            var training = TrainingDAO.Instance.GetTrainingList_Excel(field);
+            var training = TrainingDAO.Instance.GetTrainingList(field);
             var trainingList = new ItemDisplay<Training>();
             trainingList.Field = field;
             trainingList.Items = training;

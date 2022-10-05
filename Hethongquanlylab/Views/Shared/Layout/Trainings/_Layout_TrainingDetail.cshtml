@@ -73,6 +73,12 @@
             <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-DuAn"></i>
         </div>
 
+        <div style="display: flex; margin-bottom: 30px;" class="text-ProcedureTitle">
+            <div id="text-speaker">@Model.Item.Speaker</div>
+            <input style="display: none;" class="text-ProcedureTitle" id="input-speaker" type="text" placeholder="Diễn giả" value="@Model.Item.Speaker" name="Speaker">
+            <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-speaker"></i>
+        </div>
+
 
         <div style="justify-content: space-between; margin: auto; width: 65%;" class="date-DuAn">
             <div style="display:flex" class="start">
@@ -217,6 +223,31 @@
             document.getElementById("input-date").style.display = 'none';
         })
         */
+
+        $("#wrap-speaker").click(function () {
+            document.getElementById("text-speaker").style.display = 'none';
+            var input = document.getElementById("input-speaker");
+            input.style.display = 'block';
+            var end = input.value.length;
+            input.setSelectionRange(end, end);
+            input.focus();
+        })
+
+        $('#input-speaker').change(function () {
+            var textName = this.value;
+            if (textName) {
+                document.getElementById('text-speaker').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('text-speaker').innerText = `https://www.LinkQuytrinh.com/`;
+            }
+        })
+        $('#input-speaker').focusout(function () {
+            document.getElementById("text-speaker").style.display = 'block';
+            document.getElementById("input-speaker").style.display = 'none';
+        })
+
+
 
         $("#wrap-noiDung").click(function () {
             document.getElementById("text-noiDung").style.display = 'none';

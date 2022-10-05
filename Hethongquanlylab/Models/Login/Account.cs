@@ -18,19 +18,23 @@ namespace Hethongquanlylab.Models
         public string Username { get => username; set => username = value; }
         public string Password { get => password; set => password = value; }
         public string AccountType { get => accountType; set => accountType = value; }
+        public string AccountVar { get; set; }
 
-        public Account (string ID, string username, string password, string accounttype)
+        public Account (string ID, string username, string password, string accounttype, string accountVar = "")
         {
             this.ID = ID;
             this.Username = username;
             this.Password = password;
             this.AccountType = accounttype;
+            this.AccountVar = accountVar;
         }
         public Account(DataRow row)
         {
+            this.ID = row["ID"].ToString();
             this.Username = (string)row["UserName"];
             this.Password = (string)row["PassWord"];
             this.AccountType = (string)row["AccountType"];
+            this.AccountVar = row["AccountVar"] == null? "N/A": row["AccountVar"].ToString();
         }
     }
 }
