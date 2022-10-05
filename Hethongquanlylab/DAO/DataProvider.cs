@@ -7,16 +7,18 @@ using System.Data;
 
 namespace Hethongquanlylab.DAO
 {
-    public class DataProvider
+    public class DataProvider<T>
     {
-        private static DataProvider instance;
-        public static DataProvider Instance
+        private static DataProvider<T> instance;
+        public static DataProvider<T> Instance
         {
-            get { if (instance == null) instance = new DataProvider(); return DataProvider.instance; }
-            private set { DataProvider.instance = value; }
+            get { if (instance == null) instance = new DataProvider<T>(); return DataProvider<T>.instance; }
+            private set { DataProvider<T>.instance = value; }
         }
         private DataProvider() { }
-        private string connectionSTR = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=F:\Data\Cafe_Winform\Cafe_Winform\Database1.mdf;Integrated Security=True";
+
+        private string connectionSTR = @"Data Source=NGOXUANHINH2801;Initial Catalog=Hethongquanlylab;Integrated Security=True";
+
 
         public DataTable ExcuteQuery(string query, object[] parameter = null)
         {
@@ -42,11 +44,10 @@ namespace Hethongquanlylab.DAO
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
                 adapter.Fill(data);
                 connection.Close();
-
             }
-
             return data;
         }
+
         public int ExcuteNonQuery(string query, object[] parameter = null)
         {
             int data = 0;
@@ -100,6 +101,92 @@ namespace Hethongquanlylab.DAO
             }
 
             return data;
+        }
+
+        public List<T> GetListItem(string tableName = "")
+        {
+            if (tableName == "") tableName = typeof(T).Name;
+            string query = "select * from dbo." + tableName;
+            DataTable data = ExcuteQuery(query);
+
+            var list = new List<T>();
+            foreach (DataRow dr in data.Rows)
+            {
+                T item = (T)Activator.CreateInstance(typeof(T), dr);
+                list.Add(item);
+            }
+            return list;
+        }
+
+        public List<T> GetListItem(string col, string val, string tableName = "")
+        {
+            if (tableName == "") tableName = typeof(T).Name;
+            string query = String.Format("select * from dbo.{0} where [{1}] = N'{2}'", tableName, col, val);
+            DataTable data = ExcuteQuery(query);
+
+            var list = new List<T>();
+            foreach (DataRow dr in data.Rows)
+            {
+                T item = (T)Activator.CreateInstance(typeof(T), dr);
+                list.Add(item);
+            }
+            return list;
+        }
+
+        public T GetItem(string col, string val, string tableName = "")
+        {
+            if (tableName == "") tableName = typeof(T).Name;
+            string query = String.Format("select * from dbo.{0} where [{1}] = N'{2}'", tableName, col, val);
+            DataTable data = ExcuteQuery(query);
+
+            try
+            {
+                return (T)Activator.CreateInstance(typeof(T), data.Rows[0]);
+            }
+            catch
+            {
+                return (T)Activator.CreateInstance(typeof(T), null, null, null, null);
+            }
+        }
+
+        public DataTable LoadData(string tableName = "")
+        {
+            if (tableName == "") tableName = typeof(T).Name;
+            string query = "select * from " + tableName;
+            DataTable data = DataProvider<T>.Instance.ExcuteQuery(query);
+            return data;
+        }
+
+        public void UpdateData(DataTable dt, string tableName = "")
+        {
+            if (tableName == "") tableName = typeof(T).Name;
+            string query = "select * from " + tableName;
+            using (SqlConnection conn = new SqlConnection(connectionSTR))
+            {
+                SqlConnection connection = new SqlConnection(connectionSTR);
+                connection.Open();
+                SqlCommand command = new SqlCommand(query, connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+                builder.GetInsertCommand();
+                
+                adapter.Update(dt);
+                connection.Close();
+            }
+        }
+
+        public void DeleteItem(string col, string val, string tableName = "")
+        {
+            if (tableName == "") tableName = typeof(T).Name;
+            string query = String.Format("delete from dbo.{0} where [{1}] = '{2}'", tableName , col, val);
+            using (SqlConnection conn = new SqlConnection(connectionSTR))
+            {
+                SqlConnection connection = new SqlConnection(connectionSTR);
+                connection.Open();
+                SqlCommand command = new SqlCommand(query, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
         }
     }
 }

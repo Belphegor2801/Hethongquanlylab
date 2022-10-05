@@ -23,122 +23,53 @@ namespace Hethongquanlylab.DAO
         }
 
         private AccountDAO() { }
-        public List<Account> GetAccountList_Excel()
+
+        public List<Account> GetAccountList()
         {
-            List<Account> accountList = new List<Account>();// mở file excel
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/account.xlsx"));
-
-            // lấy ra sheet đầu tiên để thao tác
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            // duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. lưu ý file excel bắt đầu từ số 1 không phải số 0
-            for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
-            {
-                // biến j biểu thị cho một column trong file
-                int j = 1;
-
-                // lấy ra cột họ tên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
-                // tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
-                string username = workSheet.Cells[i, j++].Value.ToString();
-                string password = workSheet.Cells[i, j++].Value.ToString();
-                string accountType = workSheet.Cells[i, j++].Value.ToString();
-                Account account = new Account((i - 1).ToString(), username, password, accountType);
-                accountList.Add(account);
-            }
-            return accountList;
+            List<Account> items = DataProvider<Account>.Instance.GetListItem();
+            return items;
         }
-        
+
+        public List<Account> GetAccountList(string col, string val)
+        {
+            List<Account> items = DataProvider<Account>.Instance.GetListItem(col, val);
+            return items;
+        }
+
         public Account GetAccountbyUsername_Excel(string accname)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/account.xlsx"));
-
-            // lấy ra sheet đầu tiên để thao tác
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            // duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. lưu ý file excel bắt đầu từ số 1 không phải số 0
-            for (int i = workSheet.Dimension.Start.Row; i <= workSheet.Dimension.End.Row; i++)
-            {
-                // biến j biểu thị cho một column trong file
-                int j = 1;
-
-                // lấy ra cột họ tên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
-                // tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
-                string username = workSheet.Cells[i, j++].Value.ToString();
-                if(username == accname)
-                {
-                    string password = workSheet.Cells[i, j++].Value.ToString();
-                    string accountType = workSheet.Cells[i, j++].Value.ToString();
-                    Account account = new Account((i - 1).ToString(), username, password, accountType);
-                    return account;
-                }    
-            }
-            return null;
+            return DataProvider<Account>.Instance.GetItem("UserName", accname);
         }
 
-        public void DeleteAccount(String id)
+        public void DeleteAccount(String accname)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/account.xlsx"));
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-
-            int i = 2;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                var key = workSheet.Cells[i, 1].Value;
-                string Key = key == null ? "N/A" : key.ToString();
-                if (Key == id)
-                {
-                    break;
-                }
-                i++;
-            }
-            workSheet.DeleteRow(i);
-            package.Save();
+            DataProvider<Account>.Instance.DeleteItem("UserName", accname);
         }
 
         public void AddAccount(Account account)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/account.xlsx"));
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
+            DataTable data = DataProvider<Account>.Instance.LoadData();
+            DataRow newAccount = data.NewRow();
 
-            int i = 2;
-            while (workSheet.Cells[i, 1].Value != null)
-            {
-                i++;
-            }
+            var allAttr = typeof(Account).GetProperties(); // Lấy danh sách attributes của class Account
 
-            int j = 1;
-            workSheet.Cells[i, j++].Value = account.Username;
-            workSheet.Cells[i, j++].Value = account.Password;
-            workSheet.Cells[i, j++].Value = account.AccountType;
+            foreach (var attr in allAttr)
+                newAccount[attr.Name] = attr.GetValue(account);
 
-            package.Save();
+
+            data.Rows.Add(newAccount);
+
+            DataProvider<Account>.Instance.UpdateData(data);
         }
 
         public void ChangePassword(string accname, string newPass)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage package = new ExcelPackage(new FileInfo("./wwwroot/data/account.xlsx"));
+            DataTable data = DataProvider<Account>.Instance.LoadData();
+            DataRow newAccount = data.Select("UserName=" + accname).FirstOrDefault();
 
-            // lấy ra sheet đầu tiên để thao tác
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.First();
-            // duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. lưu ý file excel bắt đầu từ số 1 không phải số 0
-            for (int i = workSheet.Dimension.Start.Row; i <= workSheet.Dimension.End.Row; i++)
-            {
-                // biến j biểu thị cho một column trong file
-                int j = 1;
+            newAccount["Password"] = newPass;
 
-                // lấy ra cột họ tên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
-                // tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
-                string username = workSheet.Cells[i, j++].Value.ToString();
-                if (username == accname)
-                {
-                    workSheet.Cells[i, j++].Value = newPass;
-                    break;
-                }
-            }
-            package.Save();
+            DataProvider<Account>.Instance.UpdateData(data);
         }
     }
 }

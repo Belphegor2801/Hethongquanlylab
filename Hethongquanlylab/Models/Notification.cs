@@ -23,9 +23,9 @@ namespace Hethongquanlylab.Models
         public string Date { get => date; set => date = value; }
         public string Link { get => link; set => link = value; }
 
-        public Notification(int id, string title, string content,string unit, string date, string link)
+        public Notification(string title, string content,string unit, string date, string link, int ID = 1)
         {
-            this.ID = id;
+            this.ID = ID;
             this.Title = title;
             this.Content = content;
             this.Unit = unit;
@@ -35,9 +35,12 @@ namespace Hethongquanlylab.Models
 
         public Notification(DataRow row)
         {
-            this.ID = (int)row["id"];
-            this.Title = (string)row["title"];
-            this.Content = (string)row["content"];
+            this.ID = Convert.ToInt32(row["ID"]);
+            this.Title = row["Title"] == null ? "N/A" : row["Title"].ToString();
+            this.Unit = row.IsNull("Unit") ? "N/A" : row["Unit"].ToString();
+            this.Date = row.IsNull("Date") ? "N/A" : row["Date"].ToString();
+            this.Content = row.IsNull("Content") ? "N/A" : row["Content"].ToString();
+            this.Link = row.IsNull("Link") ? "N/A" : row["Link"].ToString();
         }
     }
 }

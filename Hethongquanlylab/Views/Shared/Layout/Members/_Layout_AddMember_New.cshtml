@@ -127,11 +127,19 @@
                 </table>
                 <table style="width: 100%;">
                     <tr>
+                        <td colspan="4">
+                            @if (Model[2] == "1")
+                            {
+                               <a>LabID này đã tồn tại</a>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
                         <td width="25%">
                             LabID
                         </td>
                         <td colspan="3">
-                            <input name="LabID" type="text" class="form-control" placeholder="LabID" id="name" value="" style="width: 100%;" required>
+                            <input name="LabID" maxlength="8" type="text" class="form-control" placeholder="LabID" id="name" value="" style="width: 100%;" required>
                         </td>
                     </tr>
                     <tr>

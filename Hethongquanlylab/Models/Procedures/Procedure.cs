@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 
 namespace Hethongquanlylab.Models
 {
@@ -21,7 +22,6 @@ namespace Hethongquanlylab.Models
         private string nslReply;
         private string status;
         private string link;
-        private Dictionary<DateTime, String> eventLog;
 
         public string ID { get => id; set => id = value; }
         public string SubID { get => subid; set => subid = value; }
@@ -37,9 +37,8 @@ namespace Hethongquanlylab.Models
         public string BdhReply { get => bdhReply; set => bdhReply = value; }
         public string BcvReply { get => bcvReply; set => bcvReply = value; }
         public string NSLReply { get => nslReply; set => nslReply = value; }
-        public Dictionary<DateTime, String> EventLog { get => eventLog; set => eventLog = value; }
 
-        public static Dictionary<string, string> ColorVar { get; set; }
+        
 
         public Procedure(string name, string unit, string content, string link, string id = "1", string subid = "SubID") // Thêm mới + chỉnh sửa
         {
@@ -106,16 +105,25 @@ namespace Hethongquanlylab.Models
             this.BcvReply = bcv;
             this.NSLReply = nsl;
             this.Status = status;
+        }
 
-            ColorVar = new Dictionary<string, string>();
-            ColorVar.Add("Chưa duyệt", "#4800ff");
-            ColorVar.Add("Chờ duyệt", "#ff6a00");
-            ColorVar.Add("Ban Điều Hành đã duyệt", "#0a0");
-            ColorVar.Add("Ban Cố Vấn đã duyệt", "#0c0");
-            ColorVar.Add("Nhà Sáng Lập đã duyệt", "#0f0");
-            ColorVar.Add("Ban Điều Hành trả lại", "#a00");
-            ColorVar.Add("Ban Cố Vấn trả lại", "#c00");
-            ColorVar.Add("Nhà Sáng Lập trả lại", "#f00");
+        public Procedure(DataRow row)
+        {
+            this.ID = row["ID"].ToString();
+            this.SubID = row.IsNull("SubID") ? "N/A" : row["SubID"].ToString();
+            this.Name = row["Name"] == null ? "N/A" : row["Name"].ToString();
+            this.Unit = row.IsNull("Unit") ? "N/A" : row["Unit"].ToString();
+            this.Senddate = row.IsNull("Senddate") ? "N/A" : row["Senddate"].ToString();
+            this.Content = row.IsNull("Content") ? "N/A" : row["Content"].ToString();
+            this.BdhReply = row.IsNull("BdhReply") ? "N/A" : row["BdhReply"].ToString();
+            this.BcvReply = row.IsNull("BcvReply") ? "N/A" : row["BcvReply"].ToString();
+            this.NSLReply = row.IsNull("NSLReply") ? "N/A" : row["NSLReply"].ToString();
+            this.Status = row.IsNull("Status") ? "N/A" : row["Status"].ToString();
+            this.Link = row.IsNull("Link") ? "N/A" : row["Link"].ToString();
+
+            this.V1 = Convert.ToBoolean(row.IsNull("V1") ? 0 : row["V1"]);
+            this.V2 = Convert.ToBoolean(row.IsNull("V2") ? 0 : row["V2"]);
+            this.V3 = Convert.ToBoolean(row.IsNull("V3") ? 1 : row["V3"]);
         }
     }
 }

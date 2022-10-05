@@ -60,6 +60,21 @@ namespace Hethongquanlylab.Models
             {"BCV","Quy trình Ban Cố Vấn"},
         };
 
+        private Dictionary<string, string> procedureColorVar = new Dictionary<string, string>()
+        {
+            {"Chưa duyệt", "#4800ff"},
+            {"Chờ duyệt", "#ff6a00"},
+            {"Ban Điều Hành đã duyệt", "#0a0"},
+            {"Ban Cố Vấn đã duyệt", "#0c0"},
+            {"Nhà Sáng Lập đã duyệt", "#0f0"},
+            {"Ban Điều Hành trả lại", "#a00"},
+            {"Ban Cố Vấn trả lại", "#c00"},
+            {"Nhà Sáng Lập trả lại", "#f00"},
+            {"Đã duyệt", "#0f0"}
+        };
+
+
+
         public int PageCount { get => pageCount; set => pageCount = value; }
         public int PageSize { get => pageSize; set => pageSize = value; }
         public int CurrentPage { get => currentPage; set => currentPage = value; }
@@ -80,6 +95,7 @@ namespace Hethongquanlylab.Models
         public Dictionary<string, string> NameVar { get => nameVar; set => nameVar = value; }
         public Dictionary<string, string> UnitVar { get => unitVar; set => unitVar = value; }
         public Dictionary<string, string> ProcedureVar { get => procedureVar; set => procedureVar = value; }
+        public Dictionary<string, string> ColorVar { get => procedureColorVar; set => procedureColorVar = value; }
 
         public static Boolean IsAddMember = false;
 

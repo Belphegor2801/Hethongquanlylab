@@ -37,6 +37,12 @@
             //<a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
+        else if (Model.SessionVar == "Admin")
+        {
+            <a class="header-item"></a>
+            <a class="header-item"></a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
         else
         {
             <a class="header-item"></a>
@@ -79,7 +85,7 @@
 
         <div style="width: 1030px;margin: auto;text-align: right;">
             @RenderSection("Field", required: false)
-            <button class="add-nhanSu" type="button" onclick="AddAccount()">Thêm tài khoản</button>
+            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("ChangeToAddAccount")'">Thêm tài khoản</button>
             <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("GenerateAccounts")'">Tạo tài khoản</button>
         </div>
 
@@ -109,12 +115,6 @@
         <div class="container mt-2">
             <table class="table">
                 <tr>
-                    <th style="text-align: center; width: 5%;">
-                        STT
-                        <button name="sortOrder" id="ID" value="ID" onchange="this.forms.submit">
-                            <i class="fa fa-sort"></i>
-                        </button>
-                    </th>
                     <th style="text-align: center;">
                         TÊN TÀI KHOẢN
                         <button name="sortOrder" id="UserName" value="UserName" onchange="this.forms.submit">
@@ -158,7 +158,6 @@
                     foreach (var item in Model.Items)
                     {
                         <tr id="0" style="user-select: auto;">
-                            <td style="user-select: auto; text-align: center;"> @item.ID</td>
                             <td style="user-select: auto;"> @item.Username</td>
                             <td style="user-select: auto; text-align: center;"> @item.Password</td>
                             <td style="user-select: auto; text-align: center;"> @item.AccountType</td>
@@ -341,59 +340,61 @@
         }
     }
 
-    <div style="display: none; width: 40%; height: 40%; left: 30%; top: 30%; z-index: 2; text-align: center;" class="form-frame" id="add_account-form">
-        <form asp-action="AddAccount" method="Post">
-            <table style="width: 100%;">
-                <tr>
-                    <td colspan="2">
-                        Thêm tài khoản
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Tên tài khoản:
-                    </td>
-                    <td>
-                        <input name="UserName" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Mật khẩu:
-                    </td>
-                    <td>
-                        <input name="Password" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Loại tài khoản:
-                    </td>
-                    <td>
-                        <select name="AccountType">
-                            <option value="User">User</option>
-                            <option value="Suser">Super</option>
-                            <option value="Admin">Admin</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <div style="float: right;">
-                <button class="nutan" style="color:#000; border: 1px #edcd1f solid;" type="submit">Thêm</button>
-                <button class="nutan" style="color:#000; border: 1px #edcd1f solid;" type="button" onclick="AddAccount_disabled()">Thoát</button>
-            </div>
-        </form>
-    </div>
+    @if (Model.Link == "Add")
+    {
+        <div style="display: block; width: 40%; height: 40%; left: 30%; top: 30%; z-index: 2; text-align: center;" class="form-frame" id="add_account-form">
+            <form asp-action="AddAccount" method="Post">
+                <table style="width: 100%;">
+                    <tr>
+                        <td colspan="2">
+                            Thêm tài khoản
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color:#f00;">
+                            @Model.Message
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tên tài khoản:
+                        </td>
+                        <td>
+                            <input name="UserName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Mật khẩu:
+                        </td>
+                        <td>
+                            <input name="Password" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Loại tài khoản:
+                        </td>
+                        <td>
+                            <select name="AccountType">
+                                <option value="User">User</option>
+                                <option value="Suser">Super</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <div style="float: right;">
+                    <button class="nutan" style="color:#000; border: 1px #edcd1f solid;" type="submit">Thêm</button>
+                    <button class="nutan" style="color:#000; border: 1px #edcd1f solid;" type="button" onclick="location.href='@Url.Action("Account")'">Thoát</button>
+                </div>
+            </form>
+        </div>
+    }
+
 
 
     <script>
-        function AddAccount() {
-            document.getElementById("add_account-form").style.display = "block";
-        }
-        function AddAccount_disabled() {
-            document.getElementById("add_account-form").style.display = "none";
-        }
-
         function confirm_detele(id) {
             var subScene = document.getElementsByClassName("delete-form");
             for (let i = 0; i < subScene.length; i++) {
