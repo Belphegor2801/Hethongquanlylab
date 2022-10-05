@@ -358,9 +358,7 @@ a {
 .space2 {
     background-image: url(/img/20220430_081003.jpg);
     background-size: 100% auto;
-    height: 700px;
-    margin-bottom: 400px;
-    margin-bottom: 90px;
+    height: 800px;
 }
 /* giá trị cốt lõi */
 .giaTri-wrapper {
@@ -407,6 +405,7 @@ a {
 
 .doiTac {
     background-color: #f7f7f7;
+    padding: 64px 0;
 }
 
     .doiTac > p {

@@ -19,7 +19,7 @@
 
 table {
     border-collapse: collapse;
-    width: 1030px;
+    width: 65vw;
     margin: auto;
 }
 
@@ -61,7 +61,7 @@ table tr:nth-child(1) {
     }
 
 .wrap-sreach {
-    width: 1030px;
+    width: 65vw;
     margin: auto;
     margin-bottom: 36px;
     margin-top: 36px;
@@ -84,7 +84,7 @@ table tr:nth-child(1) {
     }
 
 .wrap-totalMember {
-    width: 1030px;
+    width: 65vw;
     margin: auto;
     display: flex;
     margin-top: 36px;
@@ -147,7 +147,7 @@ label textarea {
 }
 
 .wrap-themDuAn {
-    width: 1030px;
+    width: 65vw;
     display: flex;
     flex-wrap: wrap;
     margin: auto;

@@ -74,6 +74,22 @@
                 <tr style="font-size: 30px;">
                     <td>
                         <div style="float: right;">
+                            <style>
+                                .page-btn,
+                                #total{
+                                    color: black;
+                                }
+                                    .page-btn:hover {
+                                        color: black;
+                                        text-decoration: underline;
+                                        cursor: pointer
+                                    }
+                                #total:hover{
+                                    color: black;
+                                    text-decoration: underline;
+                                    cursor: pointer;
+                                }
+                            </style>
                             <a href="javascript:PagerClick(1);" class="page-btn"> Đầu </a>
                             @if (Model.CurrentPage != 1)
                             {
@@ -116,9 +132,6 @@
                 margin-right: 5px;
             }
 
-                .page-btn:hover {
-                    color: #fff;
-                }
 
             .form-submit {
                 background: transparent;
