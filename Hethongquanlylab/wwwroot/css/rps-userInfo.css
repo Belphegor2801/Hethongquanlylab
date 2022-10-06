@@ -1,0 +1,57 @@
+﻿@media (max-width:1023px) {
+    .cv .cv-col1{
+        width: 40% !important;
+    }
+
+    .cv-col1 .cv-avt {
+        height: auto !important;
+    }
+    .background-avt5 {
+        right: -100% !important;
+    }
+
+    .cv-col2 .header-cv-col2-1 {
+        margin: 0 !important;
+        margin-left: 20px !important;
+    }
+    .cv-col2 .header-cv-col2-1 > p {
+        font-size: 36px !important;
+    }
+
+    .cv-col2 .header-cv-col2-2 {
+        width: 40% !important;
+    }
+}
+@media (max-width:740px) {
+    .cv {
+        display: block !important;
+    }
+
+    .cv .cv-col1{
+        width: 100% !important;
+    }
+
+    #footer {
+        margin-top: 100px !important;
+    }
+    /*responsive của file Chỉnh sửa thông tin cá nhân*/
+
+    .form-frame{
+        display: block !important;
+    }
+
+    .avt {
+        width: 100% !important;
+    }
+
+    table {
+        width: calc(100vw - 60px) !important;
+        margin: 12px 0 !important;
+    }
+
+    div > form > div > div {
+        width: calc(100vw - 60px) !important;
+    }
+
+    
+}

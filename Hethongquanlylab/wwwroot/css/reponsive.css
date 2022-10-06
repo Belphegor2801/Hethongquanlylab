@@ -1,0 +1,226 @@
+﻿/* tablet */
+@media (max-width:1023px) {
+
+    .overlay {
+        background-color: rgba(0,0,0,0.3);
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        display: none;
+    }
+
+    .header-bars {
+        display: block !important;
+        font-size: 35px;
+        color: #fff;
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 14vw;
+        height: 100px;
+        background-color: #ccc;
+    }
+
+    .header-bars i{
+        line-height: 100px;
+        margin-left: 5vw;
+    }
+
+    .header-list {
+        display: none;
+    }
+
+    .header-logo {
+        width: 86vw;
+    }
+
+    .header-mobile-list {
+        background-color: #fff;
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 34vw;
+        display: flex;
+        flex-direction: column;
+        display: none;
+    }
+
+    .header-mobile-item {
+        display: block;
+        margin: 28px 20px;
+    }
+
+    .header-mobile-list i {
+        font-size: 25px;
+        padding: 18px 0 0 26vw;
+    }
+    
+    .container-gioithieu {
+        flex-direction: column;
+    }
+
+    .dataLab {
+        font-size: 32px;
+    }
+
+    .space2 {
+        height: 478px;
+    }
+
+    .container-gioithieu-item {
+        display: flex;
+        width: 65vw;
+        justify-content: space-between;
+    }
+
+    .container-content-list {
+        padding: 0;
+        width: 46%;
+    }
+
+    .quyTac-text {
+    }
+
+    .mySlides {
+    }
+
+    .doiTac > p {
+        margin: 0 195px;
+    }
+
+    .doiTac-item {
+        font-size: 16px;
+    }
+
+    #footer iframe {
+        margin: auto !important;
+    }
+
+    .info {
+        margin: 33px 12px 0 20px;
+    }
+
+    
+}
+/* mobile */
+@media (max-width:740px) {
+
+    .header-mobile-list {
+        width: 70vw;
+    }
+
+    .header-mobile-list i {
+        padding: 18px 0 0 60vw;
+    }
+
+    .header-logo {
+        width: 80vw;
+    }
+
+    .header-bars {
+        width: 22vw;
+    }
+
+    .news tbody tr {
+        display: block;
+        width: 85vw;
+    }
+
+    .news td > a{
+        font-size: 24px !important;
+    }
+    table tbody td > div {
+        font-size: 14px;
+    }
+
+    
+
+    
+    .quyTac {
+        width: 26vw;
+    }
+
+    .splide__slide {
+        height: 242px !important;
+    }
+
+    .quyTac-text {
+        display: none;
+    }
+
+    .gioiThieu-text-title {
+        font-size: 20px;
+    }
+
+    .gioiThieu-text {
+        width: 80vw;
+    }
+
+    .title-sp-gioithieu {
+        font-size: 20px;
+    }
+
+    .container-gioithieu-item {
+        display: block;
+    }
+
+    .container-content-list {
+        padding: 0;
+        width: 100%;
+    }
+
+    .data > p {
+        font-size: 20px;
+    }
+
+    .data-text {
+        margin-top: -6px;
+    }
+
+    .wrapper-data {
+        display: flex;
+        width: 90vw;
+    }
+
+    .title {
+        font-size: 22px;
+    }
+
+    .quyTac-title {
+        color: #ff3c3c;
+        font-size: 22px;
+        margin: 0 10px;
+    }
+
+    .space2 {
+        height: 222px;
+    }
+
+    .doiTac-list {
+        flex-direction: column;
+    }
+
+    .doiTac > p {
+        margin: 0px 56px;
+        font-size: 38px;
+    }
+
+    .doiTac-item {
+        padding: 28px;
+        margin: auto;
+    }
+
+    #footer {
+        flex-direction: column;
+    }
+
+    #footer iframe {
+        margin: auto !important;
+        width: 90% !important;
+        height: 238px !important;
+        margin-top: 32px !important
+    }
+}

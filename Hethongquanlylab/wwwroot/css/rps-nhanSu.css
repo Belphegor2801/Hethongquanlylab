@@ -1,0 +1,181 @@
+﻿/*responsive bang nhan su*/
+@media (max-width:1023px) {
+
+    
+
+    form > div,
+    form > table,
+    .table {
+        width: 65vw !important;
+        margin: auto;
+    }
+
+    .wrap-back {
+        width: 65vw;
+        margin: auto
+    }
+
+    .backMainPage {
+        padding-left: 0 !important;
+        font-size: 16px;
+    }
+
+    .wrap-back p {
+        padding-right: 10px ;
+    }
+
+    form > table {
+        border-collapse: unset;
+    }
+
+    .add-nhanSu + .btn-excel{
+        margin-left: 10px !important;
+    }
+
+    .btn-excel + .btn-excel {
+        margin-left: 10px !important;
+    } 
+
+    form .wrap-btn-function {
+        display: flex;
+        justify-content: space-between;
+    }
+
+
+
+    table td > a {
+        color: #000;
+    }
+
+    form .wrap-sreach {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    form .wrap-sreach select {
+        margin: 0;
+        height: 36px !important;
+        width: 45%;
+    }
+
+    form div > select {
+        height: 50px !important;
+        margin-top: 0 !important
+    }
+
+    form .wrap-sreach > input {
+        width: 65vw;
+        margin: 12px 0;
+    }
+
+    table div > a {
+        font-size: 19px;
+        padding: 0 2px;
+        color: #000;
+    }
+
+    table div > #total {
+        
+        color: #fff;
+    }
+
+    .container table {
+        width: 65vw ;
+    }
+
+    .wrap-totalMember{
+        width: 65vw;
+        justify-content: end;
+
+    }
+
+    .container {
+        width: 65vw !important;
+        overflow-x: scroll;
+        margin: auto;
+    }
+
+    table a input[type=submit],
+    table a input[type=number] {
+        width: 100% !important;
+    }
+
+    table div > .page-btn,
+    table div > #total {
+        color: #000;
+        font-size: 19px !important;
+        padding: 0 !important;
+    }
+}
+
+@media (max-width:740px) {
+
+    form {
+        z-index: 0;
+        margin: auto;
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    form #Field {
+        width: 65vw;
+        margin: 30px 0;
+    }
+
+    form .btn-excel,
+    form .add-nhanSu {
+        width: calc(32vw - 6px);
+        margin-left: 0 !important;
+    }
+
+    .wrap-sreach > input,
+    .wrap-sreach > select {
+        width: 65vw !important;
+        margin-bottom: 12px !important;
+    }
+
+    
+
+    .container > table {
+        width: 1030px;
+    }
+
+    .table {
+        margin: auto;
+        width: 1030px !important;
+    }
+
+    form > table {
+        width: 100vw !important;
+        /*margin-left: -18vw;*/
+    }
+
+    table div > .page-btn,
+    table div > #total {
+        color: #000;
+        font-size: 19px !important;
+        padding: 16px !important;
+    }
+
+    #name-DuAn {
+        width: 65vw;
+        font-size: 26px;
+        text-align: center;
+    
+    }
+
+    .date-DuAn {
+        width: 65vw !important;
+        display: block !important;
+        margin: auto !important;
+    }
+
+    #wrap-DuAn2 {
+        width: 65vw;
+        margin: auto;
+        justify-content: normal !important;
+    }
+}

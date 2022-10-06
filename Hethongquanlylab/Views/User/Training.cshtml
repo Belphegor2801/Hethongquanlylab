@@ -1,0 +1,149 @@
+﻿@model ItemDisplay<Training>;
+@{
+    @section Buttons{
+        <a class="header-item"></a>
+        <a class="header-item"></a>
+        <a asp-action="Assignment" class="header-item">Bài tập</a>
+        <a asp-action="Training" class="header-item">Đào tạo</a>
+        <a asp-action="Infor" class="header-item">Thông tin cá nhân</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+
+
+    @section Login{
+        <li class="user-info-item">
+            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+        </li>
+        <li class="user-info-item">
+            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+        </li>
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/css/training.css">
+    <link href="~/css/reponsive.css" rel="stylesheet" />
+    <link href="~/css/rps-training.css" rel="stylesheet" />
+    <title>Document</title>
+</head>
+<body>
+    <div class="nav">
+        <a href="">
+            <i class="fa-solid fa-angle-left"></i>
+        </a>
+        <p class="nameLesson">Các bài đào tạo</p>
+        <div style="float: right;">
+            <form asp-action="Training">
+                <select style="height: 30px; width: 200px; margin-top: 10px;" name="Field" id="Field" onchange="this.form.submit()">
+                    @if (!String.IsNullOrWhiteSpace(@Model.Field))
+                    {
+                        <option value="@Model.Field">@Model.Field</option>
+                    }
+
+                    @foreach (var item in new List<string>() { "PT PTBT", Model.SessionVar })
+                    {
+                        @if ((item != Model.Field))
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    }
+                </select>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="trianingContent" style="display: flex;">
+        <div class="training-wrap">
+            <div style="display: flex; margin-bottom: 0px; max-height: 600px; height: auto">
+                <iframe style="width: 70vw; height: 70vh; margin: auto;" src="@Model.Items[(int)ViewData["currentTraining"]].Link" title="Bài đào tạo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="training-content" style="">
+                <style>
+                    .training-content {
+                        min-height: 400px;
+                        padding: 0 8.5%;
+                    }
+                </style>
+                <p style="font-size: 30px; font-weight:600">@Model.Items[(int)ViewData["currentTraining"]].Name</p>
+                <p style="font-style:italic">Cập nhật: @Model.Items[(int)ViewData["currentTraining"]].Date</p>
+                <p>Đơn vị: @Model.Items[(int)ViewData["currentTraining"]].Unit</p>
+                <p>@Model.Items[(int)ViewData["currentTraining"]].Content</p>
+            </div>
+
+            <style>
+                .training-wrap {
+                    bottom: 50px;
+                    left: 0;
+                    overflow-x: hidden;
+                    /*overscroll-behavior: contain;*/
+                    overflow-y: scroll;
+                    top: 0;
+                    /*width: 70%;*/
+                    width: 70%;
+                    height: auto;
+                }
+            </style>
+        </div>
+
+        <i style="display: none;" class="fa-solid fa-chevron-right"></i>
+        <div class="track-wraper">
+            <style>
+                .track-wraper {
+                    border-left: 1px solid #e7e7e7;
+                    bottom: 50px;
+                    /*margin-top: 100px;*/
+                    /*position: fixed;*/
+                    right: 0;
+                    top: 0;
+                    width: 30%;
+                    max-height: 900px;
+                    /*display: inline-block !important;*/
+                    overflow: scroll;
+                }
+            </style>
+            </style>
+            <div style="display: none;" class="closeListCourse">
+                Đóng Danh Sách Khóa Học
+            <i class="fa-solid fa-xmark"></i>
+
+            </div>
+            <div id="accordion-course" style=" height: auto; max-height: 100%;">
+
+                @foreach (var item in Model.Items)
+                {
+        <h3> @item.ID: @item.Name</h3>
+                        <h3>
+                            <button style="float: right;" class="btn-excel" type="button" onclick="location.href='@Url.Action("Training", new {field = Model.Field, TraingID = item.ID})'">Xem</button>
+                        </h3>}
+
+            </div>
+
+
+        </div>
+
+        
+    </div>
+
+    
+
+</body>
+<script>
+    $(function () {
+        $("#accordion-course").accordion({
+            // width: "10px",
+        });
+    });
+
+    $(".fa-chevron-right").click(function () {
+        $(".track-wraper").show();
+    })
+
+    $(".closeListCourse").click(function () {
+        $(".track-wraper").hide();
+    })
+</script>
+</html>

@@ -1,0 +1,77 @@
+﻿@media (max-width:1024px) {
+    #trianingContent {
+        display: block !important;
+    }
+
+    .training-wrap {
+        width: 90vw !important;
+        margin: auto;
+    }
+
+    #trianingContent iframe {
+        width: 100% !important;
+        height: 36vh !important;
+        margin-top: 16px !important;
+    }
+
+    .training-content {
+        min-height: 240px !important;
+    }
+
+    #trianingContent > i{
+        display: block !important;
+        position: fixed;
+        top: 50vh;
+        font-size: 29px;
+        margin-left: 6px;
+        z-index: 1;
+
+    }
+
+    .track-wraper {
+        background-color: #ccc;
+        z-index: 11;
+        position: fixed;
+        top: 0px !important;
+        left: 0;
+        bottom: 0 !important;
+        width: 64vw !important;
+        display: none;
+    }
+
+    .closeListCourse {
+        padding: 16px;
+        font-size: 22px;
+        color: #fff;
+        background-color: #29303b;
+        display: flex !important;
+        justify-content: center;
+    }
+
+    .closeListCourse > i {
+        margin-left: 135px;
+    }
+}
+
+@media (max-width:740px) {
+
+    .nameLesson {
+        margin: 18px 8px 0px -20px;
+        text-align: center;
+    }
+    .track-wraper {
+        width: 100vw !important;
+    }
+
+    .closeListCourse > i {
+        margin-left: 28px;
+    }
+
+    .trianingContent > i {
+        padding: 30px 18px 30px 0px;
+        margin-left: -4px;
+    }
+
+    .training-wrap {
+        height: 600px !important;
+    }
