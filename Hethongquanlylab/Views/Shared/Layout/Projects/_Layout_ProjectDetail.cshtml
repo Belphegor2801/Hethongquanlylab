@@ -1,39 +1,67 @@
 ﻿@model ItemDetail<Project>
 
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    @section Buttons{
-        @if (Model.SessionVar == "Ban Nhân Sự")
-        {
-            <a asp-action="Account" class="header-item">Tài khoản</a>
-            <a asp-action="Procedure" class="header-item">Quy trình</a>
-            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
-            <a asp-action="Index" class="header-item">Trang chủ</a>
-        }
-        else if (Model.SessionVar == "Ban Đào Tạo")
-        {
-            <a asp-action="Notification" class="header-item">Thông báo</a>
-            <a asp-action="Training" class="header-item">Bài đào tạo</a>
-            <a asp-action="Project" class="header-item">Dự án</a>
-            <a asp-action="Procedure" class="header-item">Quy trình</a>
-            <a asp-action="Member" class="header-item">Nhân sự</a>
-            <a asp-action="Index" class="header-item">Trang chủ</a>
-        }
-        else
-        {
-            <a class="header-item"></a>
-            <a asp-action="Procedure" class="header-item">Quy trình</a>
-            <a asp-action="Index" class="header-item">Trang chủ</a>
-        }
+@section Buttons{
+    @if (Model.SessionVar == "Ban Nhân Sự")
+    {
+        <a asp-action="Account" class="header-item">Tài khoản</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
     }
-    @section Login{
-        <li class="user-info-item">
-            <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
-        </li>
-        <li class="user-info-item">
-            <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
-        </li>
+    else if (Model.SessionVar == "Ban Đào Tạo")
+    {
+        <a asp-action="Notification" class="header-item">Thông báo</a>
+        <a asp-action="Project" class="header-item">Dự án</a>
+        <a asp-action="Training" class="header-item">Bài đào tạo</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
     }
+    else if ((Model.SessionVar == "Ban Truyền Thông") || (Model.SessionVar == "Ban Sự Kiện"))
+    {
+        <a asp-action="Notification" class="header-item">Thông báo</a>
+        //<a asp-action="Project" class="header-item">Dự án</a>
+        //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+    else if (Model.SessionVar == "Ban Điều Hành")
+    {
+        <a asp-action="Notification" class="header-item">Thông báo</a>
+        <a asp-action="Project" class="header-item">Dự án</a>
+        //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+    else if (Model.SessionVar.Contains("PT"))
+    {
+        <a asp-action="Training" class="header-item">Bài đào tạo</a>
+        <a asp-action="Project" class="header-item">Dự án</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        <a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+    else
+    {
+        <a class="header-item"></a>
+        //<a asp-action="Notification" class="header-item">Thông báo</a>
+        //<a asp-action="Project" class="header-item">Dự án</a>
+        //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+        <a asp-action="Procedure" class="header-item">Quy trình</a>
+        //<a asp-action="Member" class="header-item">Nhân sự</a>
+        <a asp-action="Index" class="header-item">Trang chủ</a>
+    }
+}
+@section Login{
+    <li class="user-info-item">
+        <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
+    </li>
+    <li class="user-info-item">
+        <a asp-controller="Home" asp-action="Index">Đăng xuất</a>
+    </li>
+}
 }
 
 <!DOCTYPE html>
@@ -42,6 +70,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="~/css/subScene.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.js"></script>
 </head>
 <body>
     @RenderBody()
@@ -53,98 +84,155 @@
         <a href="#"><h2 style="padding-left: 10px;" class="backMainPage">Chi Tiết Dự Án</h2></a>
     </div>
 
-    <div style="width: 1030px;margin: auto;text-align: right;">
-        <button class="btn-excel">Xuất file PDF</button>
-    </div>
-    <div style="display:flex;
-            justify-content: center;
-            font-size: 30px;
-            font-weight: 600;
-            margin-bottom: 30px;" id="wrap-DuAn">
-        <div id="name-DuAn">@Model.Item.Name </div>
-        <input style="display:none;" id="name-input" type="text" placeholder="@Model.Item.Name" value="@Model.Item.Name" name="Name">
-        <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
-    </div>
-    <div style="display:flex; justify-content: center;" id="wrap-DuAn2">
-        <div id="name-DuAn2">Loại dự án: @Model.Item.ProjectType </div>
-        <input style="display:none;" id="name-input2" type="d" placeholder="Loại Dự Án">
-        <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
-    </div>
+    <form asp-action="EditProject" asp-route-id="@Model.Item.ID" method="post" id="form">
+        <style>
+            .text-ProcedureTitle {
+                justify-content: center;
+                font-size: 30px;
+                font-weight: 600;
+            }
+        </style>
+        <div style="display: flex; margin-bottom: 30px;" class="text-ProcedureTitle">
+            <div id="name-DuAn">@Model.Item.Name</div>
+            <input style="display: none;" class="text-ProcedureTitle" id="name-input" type="text" placeholder="Tiêu đề" value="@Model.Item.Name" name="Name" required>
+            <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-DuAn"></i>
+        </div>
 
-    <div style="display: flex ;justify-content: space-between;margin: 20px 160px;" class="date-DuAn">
-        <div style="display:flex" class="start">
-            <p>Ngày Bắt Đầu: </p>
-            <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-DuAn3">
-                <div id="name-DuAn3">@Model.Item.Startday</div>
-                <input style="display:none;" id="name-input3" type="text" placeholder="dd/mm/yy">
-                <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
+        <div style="display: flex; justify-content: space-between; margin: auto; width: 65%;" class="trangthai">
+            <div style="display:flex; width: 45%;" class="start">
+                <p style="font-weight: bold">Trạng thái dự án: </p>
+                <div style="display:flex; margin: 16px 10px; justify-content: center;">
+                    <div id="text-status">@Model.Item.Status</div>
+                    <input style="display: none; height: 25px; margin-top: -5px;" id="input-status" type="text" name="Status" value="@Model.Item.Status">
+                    <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-status"></i>
+                </div>
+            </div>
+            <div style="display:flex; width: 45%;" class="start">
+                <p style="font-weight: bold">Trạng thái dự án: </p>
+                <div style="display:flex; margin: 16px 10px; justify-content: center;">
+                    <div id="text-type">@Model.Item.Type</div>
+                    <input style="display: none; height: 25px; margin-top: -5px;" id="input-type" type="text" name="Type" value="@Model.Item.Type">
+                    <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-type"></i>
+                </div>
             </div>
         </div>
-        <div style="display:flex" class="end">
-            <p>Ngày Kết Thúc: </p>
-            <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-DuAn4">
-                <div id="name-DuAn4">@Model.Item.Endday </div>
-                <input style="display:none;" id="name-input4" type="text" placeholder="dd/mm/yy">
-                <i style="    margin-left: 20px;" class="fa-regular fa-pen-to-square"></i>
+
+        <div style="display: flex; justify-content: space-between; margin: auto; width: 65%;" class="date-DuAn">
+            <div style="display:flex; width: 45%;" class="start">
+                <p style="font-weight: bold">Ngày bắt đầu: </p>
+                <div style="display:flex; margin: 16px 10px; justify-content: center;">
+                    <div id="text-date1">@Model.Item.Startday</div>
+                    <input style="display: none; height: 25px; margin-top: -5px;" id="input-date1" type="date" name="StartDay" value="@Model.Item.Startday">
+                    <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-date1"></i>
+                </div>
+            </div>
+
+            <div style="display:flex; width: 45%;" class="start">
+                <p style="font-weight: bold">Kết thúc: </p>
+                <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-date2">
+                    <div id="text-date2">@Model.Item.Endday</div>
+                    <input style="display: none; height: 25px; margin-top: -5px;" id="input-date2" type="date" name="EndDay" value="@Model.Item.Endday">
+                    <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-date2"></i>
+                </div>
             </div>
         </div>
-    </div>
 
-
-    <div class="container mt-2">
-        <table class="table-nhanSu">
+        <table style="width: 65%; margin: auto; ">
             <tr>
-                <th>
-                    <i style="margin-right: 6px;" class="fa-solid fa-sort"></i>
-                    Lab ID
-                </th>
-                <th><i style="margin-right: 6px;" class="fa-solid fa-sort"></i>Tên</th>
-                <th>
-                    <i style="margin-right: 6px;" class="fa-solid fa-sort"></i>
-                    Giới Tính
-                </th>
-                <th><i style="margin-right: 6px;" class="fa-solid fa-sort"></i>Ngày Sinh</th>
-                <th><i style="margin-right: 6px;" class="fa-solid fa-sort"></i>Gen</th>
-                <th><i style="margin-right: 6px;" class="fa-solid fa-sort"></i>Nhóm Chuyên Môn</th>
-                <th></th>
+                <td>
+                    <p style="font-weight: bold;">Nội Dung <i style="margin-left: 20px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-noiDung"></i></p>
+                </td>
             </tr>
         </table>
-    </div>
-
-    <div class="wrap-totalMember">
-        <p class="totalMember">Tổng Thành Viên: </p>
-        <p id="total">100</p>
-    </div>
-
-    <div class="pagination">
-        <ul>
-        </ul>
-    </div>
-
-    <div class="" style="margin-left: 886px;">
-        <button class="add-nhanSu btn-confirm">
-            <i class="fa-solid fa-plus"></i>
-            Thêm Nhân Sự
-        </button>
-        <button style="margin-left: 42px;" class="add-nhanSu btn-confirm">
-            <i class="fa-solid fa-plus"></i>
-            Lưu
-        </button>
-
-    </div>
-
-    <div style="background-color:#888" class="dialog-confirm" title="Xác Nhận">
-        <p>Bạn chắc chắn muốn thay đổi ?</p>
-        <div style="    display: flex;margin-top: 33px;">
-            <button>Đồng Ý</button>
-            <button class="btn-close" style="padding: 14px 52px;">Hủy</button>
+        <div style="width: 65%;margin: auto; ">
+            <style>
+                .text-ProcedureContent {
+                    width: 100%;
+                    height: 200px;
+                    background-color: #f5f5f5;
+                    border: 2px solid #ccc;
+                    line-height: 34px;
+                    padding: 20px 10px;
+                    overflow: scroll;
+                }
+            </style>
+            <div style="display: block;" class="text-ProcedureContent"
+                 id="text-noiDung">
+                @Html.Raw(Model.Item.Content)
+            </div>
+            <textarea name="Content" style="display: none; padding: 20px 10px; line-height: 34px; width: 100%; height: 200px; " id="input-noiDung" cols="30" rows="40" value="Nội dung">@Html.Raw(Model.Item.Content)</textarea>
         </div>
-    </div>
+
+        <style>
+            .link {
+                color: #00a;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        </style>
+        <div style="display: flex; width: 65%; margin: auto;">
+            <p style="margin-right: 12px;">Link chi tiết dự án: </p>
+            <a style="margin: auto 0" class="link" id="text-link">@Model.Item.Link</a>
+            <script>
+                var text = document.getElementById("text-link");
+                var url = text.innerText;
+                if (!url.match(/^https?:\/\//i)) {
+                    url = 'http://' + url;
+                }
+                $("#text-link").on('click', function () {
+                    alert("Đến link chi tiết dự án");
+                    window.open(url, "_blank");
+                });
+            </script>
+            <input style="display:none; width: 50%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link" value="@Model.Item.Link" name="Link">
+            <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link"></i>
+        </div>
+
+        <div class="" style="margin-left: 70%; margin-top: 0px;">
+            <button class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button" id="Send" style="width: 180px;">
+                <i class="fa-solid fa-plus"></i>
+                Lưu
+            </button>
+        </div>
+
+
+        <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame" id="change-confirm">
+            <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn chỉnh sửa thông tin dự án này </a>
+            <div>
+                <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" type="submit">Có</button>
+                <button class="form-submit" type="button" onclick="confirm_change_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
+            </div>
+        </div>
+    </form>
+
+
+
     <script>
+
+        function confirm_change() {
+            var urlValid = document.getElementById('input-link').checkValidity();
+            if (urlValid) {
+                document.getElementById("change-confirm").style.display = "block";
+            }
+            else {
+                alert("Link không hợp lệ!")
+            }
+        }
+
+        function confirm_change_disabled() {
+            document.getElementById("change-confirm").style.display = "none";
+        }
+    </script>
+
+    <script>
+        /**/
         $("#wrap-DuAn").click(function () {
             document.getElementById("name-DuAn").style.display = 'none';
-            document.getElementById("name-input").style.display = 'block';
-
+            var input = document.getElementById("name-input");
+            input.style.display = 'block';
+            var end = input.value.length;
+            input.setSelectionRange(end, end);
+            input.focus();
         })
         $('#name-input').change(function () {
             var textName = this.value;
@@ -152,80 +240,159 @@
             if (textName) {
                 document.getElementById('name-DuAn').innerText = `${textName} `;
             }
+            else {
+                document.getElementById('name-DuAn').innerText = `Tên Quy trình`;
+            }
         })
         $('#name-input').focusout(function () {
             document.getElementById("name-DuAn").style.display = 'block';
             document.getElementById("name-input").style.display = 'none';
         })
+        /**/
 
-        $("#wrap-DuAn2").click(function () {
-            document.getElementById("name-DuAn2").style.display = 'none';
-            document.getElementById("name-input2").style.display = 'block';
-
+        /**/
+        $("#wrap-status").click(function () {
+            document.getElementById("text-status").style.display = 'none';
+            var input = document.getElementById("input-status");
+            input.style.display = 'block';
+            var end = input.value.length;
+            input.setSelectionRange(end, end);
+            input.focus();
         })
-        $('#name-input2').change(function () {
+        $('#input-status').change(function () {
             var textName = this.value;
-            console.log(textName);
             if (textName) {
-                document.getElementById('name-DuAn2').innerText = `${textName} `;
+                document.getElementById('text-status').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('text-status').innerText = `Nội dung Quy trình`;
             }
         })
-        $('#name-input2').focusout(function () {
-            document.getElementById("name-DuAn2").style.display = 'block';
-            document.getElementById("name-input2").style.display = 'none';
+        $('#input-status').focusout(function () {
+            document.getElementById("text-status").style.display = 'block';
+            document.getElementById("input-status").style.display = 'none';
+        })
+        /**/
+
+        /**/
+        $("#wrap-type").click(function () {
+            document.getElementById("text-type").style.display = 'none';
+            var input = document.getElementById("input-type");
+            input.style.display = 'block';
+            var end = input.value.length;
+            input.setSelectionRange(end, end);
+            input.focus();
         })
 
-        $("#wrap-DuAn3").click(function () {
-            document.getElementById("name-DuAn3").style.display = 'none';
-            document.getElementById("name-input3").style.display = 'block';
-
-        })
-        $('#name-input3').change(function () {
+        $('#input-type').change(function () {
             var textName = this.value;
-            console.log(textName);
             if (textName) {
-                document.getElementById('name-DuAn3').innerText = `${textName} `;
+                document.getElementById('text-type').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('text-type').innerText = `Nội dung Quy trình`;
             }
         })
-        $('#name-input3').focusout(function () {
-            document.getElementById("name-DuAn3").style.display = 'block';
-            document.getElementById("name-input3").style.display = 'none';
+        $('#input-type').focusout(function () {
+            document.getElementById("text-type").style.display = 'block';
+            document.getElementById("input-type").style.display = 'none';
         })
+        /**/
 
-        $("#wrap-DuAn4").click(function () {
-            document.getElementById("name-DuAn4").style.display = 'none';
-            document.getElementById("name-input4").style.display = 'block';
-
+        /**/
+        $("#wrap-date1").click(function () {
+            document.getElementById("text-date1").style.display = 'none';
+            var input = document.getElementById("input-date1");
+            input.style.display = 'block';
+            var end = input.value.length;
+            input.setSelectionRange(end, end);
+            input.focus();
         })
-        $('#name-input4').change(function () {
+        $('#input-date1').change(function () {
             var textName = this.value;
-            console.log(textName);
             if (textName) {
-                document.getElementById('name-DuAn4').innerText = `${textName} `;
+                document.getElementById('text-date1').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('text-date1').innerText = `Nội dung Quy trình`;
             }
         })
-        $('#name-input4').focusout(function () {
-            document.getElementById("name-DuAn4").style.display = 'block';
-            document.getElementById("name-input4").style.display = 'none';
+        $('#input-date1').focusout(function () {
+            document.getElementById("text-date1").style.display = 'block';
+            document.getElementById("input-date1").style.display = 'none';
         })
-        $(document).ready(function () {
-            var dataDuAnJS = new dataJS();
-            dataDuAnJS.loadData()
+        /**/
 
-            $(".dialog-confirm").dialog({
-                autoOpen: false,
-                show: { effect: "blind", duration: 300 },
-                hide: { effect: "blind", duration: 300 },
-                width: 400, height: "auto", resizable: false,
-                modal: true,
-            });
-
-            $(".btn-confirm").click(function () {
-                $(".dialog-confirm").dialog("open");
-            })
-            $(".btn-close").click(function () {
-                $(".dialog-confirm").dialog("close");
-            })
+        /**/
+        $("#wrap-date2").click(function () {
+            document.getElementById("text-date2").style.display = 'none';
+            var input = document.getElementById("input-date2");
+            input.style.display = 'block';
+            var end = input.value.length;
+            input.setSelectionRange(end, end);
+            input.focus();
         })
+        $('#input-date2').change(function () {
+            var textName = this.value;
+            if (textName) {
+                document.getElementById('text-date2').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('text-date2').innerText = `Nội dung Quy trình`;
+            }
+        })
+        $('#input-date2').focusout(function () {
+            document.getElementById("text-date2").style.display = 'block';
+            document.getElementById("input-date2").style.display = 'none';
+        })
+        /**/
+
+        /**/
+        $("#wrap-noiDung").click(function () {
+            document.getElementById("text-noiDung").style.display = 'none';
+            var input = document.getElementById("input-noiDung");
+            input = Jodit.make(input, { autofocus: true, height: 280 })
+        })
+        $('#input-noiDung').change(function () {
+            var textName = this.value;
+            if (textName) {
+                document.getElementById('text-noiDung').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('text-noiDung').innerText = `Nội dung Quy trình`;
+            }
+        })
+        $('#input-noiDung').focusout(function () {
+            document.getElementById("text-noiDung").style.display = 'block';
+            document.getElementById("input-noiDung").style.display = 'none';
+        })
+        /**/
+
+        /**/
+        $("#wrap-link").click(function () {
+            document.getElementById("text-link").style.display = 'none';
+            var input = document.getElementById("input-link");
+            input.style.display = 'block';
+            var end = input.value.length;
+            input.setSelectionRange(end, end);
+            input.focus();
+        })
+
+        $('#input-link').change(function () {
+            var textName = this.value;
+            if (textName) {
+                document.getElementById('text-link').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('text-link').innerText = `https://www.LinkQuytrinh.com/`;
+            }
+        })
+        $('#input-link').focusout(function () {
+            document.getElementById("text-link").style.display = 'block';
+            document.getElementById("input-link").style.display = 'none';
+        })
+                /**/
     </script>
+
 </body>
+

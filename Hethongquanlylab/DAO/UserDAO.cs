@@ -45,6 +45,12 @@ namespace Hethongquanlylab.DAO
             return member;
         }
 
+        public Member GetUserByLabID(string LabID)
+        {
+            Member member = DataProvider<Member>.Instance.GetItem("LabID", LabID);
+            return member;
+        }
+
         public void AddMember(Member member)
         {
             DataTable data = DataProvider<Member>.Instance.LoadData();

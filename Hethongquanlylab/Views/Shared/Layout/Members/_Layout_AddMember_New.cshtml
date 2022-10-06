@@ -8,7 +8,7 @@
         {
             <a asp-action="Account" class="header-item">Tài khoản</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model[0] == "Ban Đào Tạo")
@@ -17,12 +17,43 @@
             <a asp-action="Project" class="header-item">Dự án</a>
             <a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if ((Model[0] == "Ban Truyền Thông") || (Model[0] == "Ban Sự Kiện"))
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            //<a asp-action="Project" class="header-item">Dự án</a>
+            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model[0] == "Ban Điều Hành")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model[0].Contains("PT"))
+        {
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else
         {
             <a class="header-item"></a>
+            //<a asp-action="Notification" class="header-item">Thông báo</a>
+            //<a asp-action="Project" class="header-item">Dự án</a>
+            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
+            //<a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
 
@@ -51,7 +82,7 @@
         <p>/</p>
         <a asp-action="Member"><h2 style="padding-left: 10px;" class="backMainPage"> Nhân Sự</h2></a>
         <p>/</p>
-        <a asp-action="AddMember"><h2 style="padding-left: 10px;" class="backMainPage"> Thêm nhân sự</h2></a>
+        <a asp-action="AddMember_New"><h2 style="padding-left: 10px;" class="backMainPage"> Thêm nhân sự</h2></a>
     </div>
 
     <style>
@@ -119,7 +150,7 @@
         </style>
 
         <div style="width: 60%;">
-            <form asp-action="AddMember" method="post">
+            <form asp-action="AddMember_New" method="post">
                 <table style="width: 100%;">
                     <tr style="background-color: #373F51;">
                         <td style="text-align: center; color: #fff;"> THÔNG TIN THÀNH VIÊN</td>
@@ -130,7 +161,7 @@
                         <td colspan="4">
                             @if (Model[2] == "1")
                             {
-                               <a>LabID này đã tồn tại</a>
+                                <a>LabID này đã tồn tại</a>
                             }
                         </td>
                     </tr>

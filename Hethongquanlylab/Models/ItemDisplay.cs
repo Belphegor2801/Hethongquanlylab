@@ -40,6 +40,8 @@ namespace Hethongquanlylab.Models
             {"Status","Tình trạng"},
             {"Content","Nội dung"},
             {"Type", "Loại" },
+            {"Startday", "Ngày bắt đầu" },
+            {"Endday", "Ngày kết thúc" }
         };
 
         private Dictionary<string, string> unitVar = new Dictionary<string, string>()

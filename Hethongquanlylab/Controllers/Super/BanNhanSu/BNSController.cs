@@ -28,14 +28,14 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
 
         // Upload avt: trong Thêm thành viên
 
-        public override IActionResult AddMember()
+        public IActionResult AddMember_New()
         {
             var urlQuery = Request.HttpContext.Request.Query;
             String avt = urlQuery["avt"];
             String mess = urlQuery["mess"];
             avt = avt == null ? "default.jpg" : avt; // Đặt avt mặc định nếu không up avt lên
             mess = mess == null ? "0" : mess;
-            return View(String.Format("./Views/{0}/Members/AddMember.cshtml", unitVar), new List<string>() {unit, avt, mess });
+            return View(String.Format("./Views/{0}/Members/AddMember_New.cshtml", unitVar), new List<string>() {unit, avt, mess });
         }
 
 
@@ -59,7 +59,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
         }
 
         [HttpPost]
-        public override IActionResult AddMember(String sortOrder, String searchString, String searchField, string IsAdd, string MembersVar, String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
+        public IActionResult AddMember_New(String sortOrder, String searchString, String searchField, string IsAdd, string MembersVar, String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
         {
             String avt = TempData["avt"] == null ? "default.jpg" : TempData["avt"].ToString();
             var unit = Unit == null ? "Không" : Unit;

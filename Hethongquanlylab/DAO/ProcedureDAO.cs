@@ -23,9 +23,33 @@ namespace Hethongquanlylab.DAO
         private ProcedureDAO() { }
 
 
-        public List<Procedure> GetProcedureList(string unit, string tb = "Process") // Lấy danh sách quy trình
+        public List<Procedure> GetProcedureList(string col, string var, string tb = "Process") // Lấy danh sách quy trình
         {
-            List<Procedure> items = DataProvider<Procedure>.Instance.GetListItem("Unit", unit, tb);
+            List<Procedure> items = new List<Procedure>();
+            if (col == "ApprovalWaiting")
+            {
+               
+                
+                if (var == "Ban Điều Hành")
+                {
+                    items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Ban Điều Hành", tb));
+                    items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Ban Cố Vấn", tb));
+                    items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Nhà Sáng Lập", tb));
+                }
+                else if (var == "Ban Cố Vấn")
+                {
+                    items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Ban Cố Vấn", tb));
+                }
+                else if (var == "Nhà Sáng Lập")
+                {
+                    items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Nhà Sáng Lập", tb));
+                }
+            }
+            else
+            {
+                items = DataProvider<Procedure>.Instance.GetListItem(col, var, tb);
+            }
+            
             items.Reverse();
             return items;
         }
@@ -62,15 +86,25 @@ namespace Hethongquanlylab.DAO
 
         } // Xóa ở tất cả các nhánh
 
+
         public void EditProcedure(Procedure procedure, string tableName = "Process")
         {
-            DeleteProcedure(procedure.ID); // Xóa ở tất cả các sheet
-            AddProcedure(procedure, tableName); // Thêm mới vào cuối sheet cần thêm
+            DataTable data = DataProvider<Procedure>.Instance.LoadData(tableName);
+            DataRow newProcedure = data.Select("ID=" + procedure.ID).FirstOrDefault();
+
+            if (newProcedure != null)
+            {
+                var allAttr = typeof(Procedure).GetProperties(); // Lấy danh sách attributes của class Procedure
+                foreach (var attr in allAttr)
+                    newProcedure[attr.Name] = attr.GetValue(procedure);
+            }
+
+            DataProvider<Procedure>.Instance.UpdateData(data, tableName);
         }
 
         public void SendToApproval(Procedure procedure, string unit)
         {
-            String SubID = (Convert.ToInt32(procedure.ID) + 1).ToString() ; // Do edit = delete + add (Primary key ID sẽ tăng 1)
+            String SubID = (Convert.ToInt32(procedure.ID)).ToString() ; // Do edit = delete + add (Primary key ID sẽ tăng 1)
             deleteProcedure("SubID", procedure.ID, "ProcedureApproval");
             procedure.SubID = SubID;
             if (unit == "Ban Điều Hành")
@@ -87,11 +121,7 @@ namespace Hethongquanlylab.DAO
             }
             else
             {
-                procedure.Unit = "Ban Điều Hành";
-                AddProcedure(procedure, "ProcedureApproval");
-                procedure.Unit = "Ban Cố Vấn";
-                AddProcedure(procedure, "ProcedureApproval");
-                procedure.Unit = "Nhà Sáng Lập";
+                procedure.ApprovalWaiting = "Ban Điều Hành";
                 AddProcedure(procedure, "ProcedureApproval");
             }
         }      
@@ -113,40 +143,57 @@ namespace Hethongquanlylab.DAO
             EditProcedure(procedure); // Đã có xóa ở sheet này
         }
 
-        public void ApprovalProcedure(string unit, Procedure procedure, string feedback)
+        public void ApprovalProcedure(string unit, string ID, string Feedback)
         {
-            procedure.Status = unit + " đã duyệt";
+            Procedure procedureApproval = ProcedureDAO.Instance.GetProcedureModel(ID, "ProcedureApproval");
+            Procedure procedure = ProcedureDAO.Instance.GetProcedureModel(procedureApproval.SubID);
             if (unit == "Ban Điều Hành")
             {
                 procedure.V1 = true;
-                procedure.BdhReply = feedback;
+                procedure.BdhReply = Feedback;
+                procedure.ApprovalWaiting = "Ban Cố Vấn";
             }
-            if (unit == "Ban Cố Vấn")
+            else if (unit == "Ban Cố Vấn")
             {
                 procedure.V2 = true;
-                procedure.BcvReply = feedback;
+                procedure.BcvReply = Feedback;
+                procedure.ApprovalWaiting = "Nhà Sáng Lập";
             }
-            if (unit == "Nhà Sáng Lập")
+            else if (unit == "Nhà Sáng Lập")
             {
                 procedure.V3 = true;
-                procedure.NSLReply = feedback;
+                procedure.NSLReply = Feedback;
             }
-
-            EditProcedure(procedure);
-            AddProcedure(procedure); // Thêm lại vào sheet này
-            if (unit == "Ban Cố Vấn")
-            {
-                procedure.Unit = "Ban Điều Hành";
-                AddProcedure(procedure, "ProcedureApproval");
-            }
-            if (unit == "Nhà Sáng Lập")
-            {
-                procedure.Unit = "Ban Điều Hành";
-                AddProcedure(procedure, "ProcedureApproval");
-                procedure.Unit = "Ban Cố Vấn";
-                AddProcedure(procedure, "ProcedureApproval");
-            }
+            procedure.Status = unit + " đã duyệt";
+            ProcedureDAO.Instance.EditProcedure(procedure);
+            String OriginalID = procedure.ID;
+            procedure.ID = ID; // Chuyển sang bảng duyệt 
+            procedure.SubID = OriginalID;
+            ProcedureDAO.Instance.EditProcedure(procedure, "ProcedureApproval");
         }
 
+        public void ReturnProcedure(string unit, string ID, string Feedback)
+        {
+            Procedure procedureApproval = ProcedureDAO.Instance.GetProcedureModel(ID, "ProcedureApproval");
+            Procedure procedure = ProcedureDAO.Instance.GetProcedureModel(procedureApproval.SubID);
+            procedure.V1 = false;
+            procedure.V2 = false;
+            procedure.V3 = false;
+            if (unit == "Ban Điều Hành")
+            {
+                procedure.BdhReply = Feedback;
+            }
+            else if (unit == "Ban Cố Vấn")
+            {
+                procedure.BcvReply = Feedback;
+            }
+            else if (unit == "Nhà Sáng Lập")
+            {
+                procedure.NSLReply = Feedback;
+            }
+            procedure.Status = unit + " trả lại";
+            ProcedureDAO.Instance.EditProcedure(procedure);
+            deleteProcedure("ID", ID, "ProcedureApproval");
+        }
     }
 }

@@ -31,7 +31,6 @@ namespace Hethongquanlylab.DAO
         public List<Training> GetTrainingList(string unit, string var ="")
         {
             List<Training> items = DataProvider<Training>.Instance.GetListItem("Unit", unit);
-
             return items;
         }
 
