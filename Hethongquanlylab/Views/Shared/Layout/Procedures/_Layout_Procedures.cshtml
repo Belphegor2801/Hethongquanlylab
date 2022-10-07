@@ -8,12 +8,38 @@
         {
             <a asp-action="Account" class="header-item">Tài khoản</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model.SessionVar == "Ban Đào Tạo")
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if ((Model.SessionVar == "Ban Truyền Thông") || (Model.SessionVar == "Ban Sự Kiện"))
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            //<a asp-action="Project" class="header-item">Dự án</a>
+            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar == "Ban Điều Hành")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar.Contains("PT"))
+        {
             <a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
@@ -23,13 +49,19 @@
         else
         {
             <a class="header-item"></a>
-            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            //<a asp-action="Notification" class="header-item">Thông báo</a>
+            //<a asp-action="Project" class="header-item">Dự án</a>
+            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            //<a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-
-}
+    }
 
     @section Login{
+        <li class="user-info-item">
+            <a target="_blank" href="@Model.Link">Lịch làm việc</a>
+        </li>
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
         </li>
@@ -53,7 +85,7 @@
             <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Quy trình</h2></a>
         </div>
 
-        <div style="width: 1030px;margin: auto;text-align: right;">
+        <div style="width: 65vw;margin: auto;text-align: right;">
             @RenderSection("Field", required: false)
 
             @if (!(Model.Field == "All"))
@@ -92,8 +124,8 @@
         </div>
 
 
-        <div class="container mt-2" style="width: 65vw; margin: auto;">
-            <table class="table-quyTrinh" style="width: 65vw; margin: auto">
+        <div class="container mt-2">
+            <table class="table-quyTrinh">
                 <tr>
                     <th>
                         ID
@@ -249,7 +281,7 @@
             </table>
         </div>
 
-        <table style="width: 65%; margin: auto;">
+        <table>
             <tr style="font-size: 20px;">
                 <td>
                     <div style="float: left;">
@@ -258,10 +290,13 @@
                     </div>
                 </td>
 
-                <td>
-                    <a>Trang: </a>
-                    <span id="total">@Model.CurrentPage/@Model.PageCount</span>
-                </td>
+                @if (Model.PageCount > 0)
+                {
+                    <td>
+                        <a>Trang: </a>
+                        <span id="total">@Model.CurrentPage/@Model.PageCount</span>
+                    </td>
+                }
 
                 <td>
                     <div style="float: right;">

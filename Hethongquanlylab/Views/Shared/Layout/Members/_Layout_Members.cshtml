@@ -7,7 +7,7 @@
         {
             <a asp-action="Account" class="header-item">Tài khoản</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model.SessionVar == "Ban Đào Tạo")
@@ -25,7 +25,7 @@
             //<a asp-action="Project" class="header-item">Dự án</a>
             //<a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            //<a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model.SessionVar == "Ban Điều Hành")
@@ -34,7 +34,15 @@
             <a asp-action="Project" class="header-item">Dự án</a>
             //<a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            //<a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar.Contains("PT"))
+        {
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else
@@ -47,10 +55,12 @@
             //<a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-
     }
 
     @section Login{
+        <li class="user-info-item">
+            <a target="_blank" href="@Model.Link">Lịch làm việc</a>
+        </li>
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
         </li>
@@ -79,7 +89,15 @@
 
         <div style="width: 65vw;margin: auto;text-align: right;">
             @RenderSection("Field", required: false)
-            <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember")'">Thêm Nhân Sự</button>
+            @if ((Model.SessionVar == "Ban Nhân Sự") && (Model.Field == "All"))
+            {
+                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember_New")'">Thêm Nhân Sự</button>
+            }
+            else
+            {
+                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddMember")'">Thêm Nhân Sự</button>
+            }
+
             <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportMemberToExcel", new { exportVar = Model.Field})'">Xuất file Excel</button>
         </div>
 
@@ -213,10 +231,14 @@
                     <span id="total">@Model.ItemCount</span>
                 </td>
 
+                @if (Model.PageCount > 0)
+                {
                 <td>
                     <a>Trang: </a>
                     <span id="total">@Model.CurrentPage/@Model.PageCount</span>
                 </td>
+                } 
+                
 
                 <td>
                     <div style="float: right;">
@@ -446,7 +468,7 @@
                 }
 
                 <div>
-                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteMember", new{ Key = @item.Key})'" value="Có">Có</button>
+                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteMember", new{ Key = @item.Key, field = Model.Field})'" value="Có">Có</button>
                     <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
                 </div>
             </div>

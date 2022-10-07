@@ -14,6 +14,7 @@ namespace Hethongquanlylab.Models
         private string unit;
         private string senddate;
         private string content;
+        private string appovalWaiting;
         private bool v1;
         private string bdhReply;
         private bool v2;
@@ -29,6 +30,7 @@ namespace Hethongquanlylab.Models
         public string Unit { get => unit; set => unit = value; }
         public string Senddate { get => senddate; set => senddate = value; }
         public string Content { get => content; set => content = value; }
+        public string ApprovalWaiting { get => appovalWaiting; set => appovalWaiting = value; }
         public bool V1 { get => v1; set => v1 = value; }
         public bool V2 { get => v2; set => v2 = value; }
         public bool V3 { get => v3; set => v3 = value; }
@@ -121,6 +123,7 @@ namespace Hethongquanlylab.Models
             this.Status = row.IsNull("Status") ? "N/A" : row["Status"].ToString();
             this.Link = row.IsNull("Link") ? "N/A" : row["Link"].ToString();
 
+            this.ApprovalWaiting = row.IsNull("ApprovalWaiting") ? "N/A" : row["ApprovalWaiting"].ToString();
             this.V1 = Convert.ToBoolean(row.IsNull("V1") ? 0 : row["V1"]);
             this.V2 = Convert.ToBoolean(row.IsNull("V2") ? 0 : row["V2"]);
             this.V3 = Convert.ToBoolean(row.IsNull("V3") ? 1 : row["V3"]);
