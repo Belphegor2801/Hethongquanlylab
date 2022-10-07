@@ -27,7 +27,7 @@ namespace Hethongquanlylab.Models
         public T Item { get => item; set => item = value; }
         public string SessionVar { get => sessionVar; set => sessionVar = value; }
         public string FieldVar { get => fieldVar; set => fieldVar = value; }
-        public string Link { get; set; }
+        public List<string> Link { get; set; }
         public Dictionary<string, string> ColorVar { get => procedureColorVar; set => procedureColorVar = value; }
 
         public ItemDetail(T item, string sessionVar)

@@ -22,9 +22,31 @@ namespace Hethongquanlylab.Controllers
     {
         private string unit = "Admin";
         private string unitVar = "Admin";
+
+        public List<string> links = Function.Instance.getLinks();
+
         public IActionResult Index()
         {
             return RedirectToAction("Account");
+        }
+
+        public IActionResult EditLinks()
+        {
+            var linkss = LinkDAO.Instance.GetLinkList();
+            var linkList = new ItemDisplay<Link>();
+            linkList.Items = linkss;
+            linkList.SessionVar = unit;
+            linkList.Link = links;
+            return View(String.Format("./Views/{0}/Links/EditLinks.cshtml", unitVar), linkList);
+        }
+
+        [HttpPost]
+        public IActionResult EditLinks(string Link_bieumau, string Link_lich)
+        {
+            LinkDAO.Instance.EditLink("Biểu mẫu", Link_bieumau);
+            LinkDAO.Instance.EditLink("Lịch làm việc", Link_lich);
+
+            return RedirectToAction("EditLinks");
         }
 
         public IActionResult Account()
@@ -91,7 +113,8 @@ namespace Hethongquanlylab.Controllers
             //
 
             accountList.SessionVar = unit;
-            accountList.Link = varr;
+            accountList.IsMessage = Convert.ToBoolean(Convert.ToInt32(varr));
+            accountList.Link = links;
             if (mess == "1") accountList.Message = "Vui lòng nhập tên tài khoản!";
             else if (mess == "2") accountList.Message = "Vui lòng nhập mật khẩu";
             if (mess == "3") accountList.Message = "Tên tài khoản đã tồn tại!";
@@ -101,7 +124,7 @@ namespace Hethongquanlylab.Controllers
 
         public IActionResult ChangeToAddAccount()
         {
-            return RedirectToAction("Account", new { var = "Add" });
+            return RedirectToAction("Account", new { var = "1" });
         }
 
         public IActionResult ChangeToNotAddAccount()
@@ -118,14 +141,14 @@ namespace Hethongquanlylab.Controllers
         [HttpPost]
         public IActionResult AddAccount(String UserName, String Password, String AccountType)
         {
-            if (UserName == null) return RedirectToAction("Account", new { var = "Add", mess = "1" });
-            if (Password == null) return RedirectToAction("Account", new { var = "Add", mess = "2" });
+            if (UserName == null) return RedirectToAction("Account", new { var = "1", mess = "1" });
+            if (Password == null) return RedirectToAction("Account", new { var = "1", mess = "2" });
             var accounts = AccountDAO.Instance.GetAccountList();
             foreach (var acc in accounts)
             {
                 if (UserName == acc.Username)
                 {
-                    return RedirectToAction("Account", new { var = "Add", mess = "3" });
+                    return RedirectToAction("Account", new { var = "1", mess = "3" });
                 }
             }
 

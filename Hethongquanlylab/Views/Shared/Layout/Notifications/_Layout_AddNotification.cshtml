@@ -73,7 +73,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.js"></script>
 </head>
@@ -88,12 +88,10 @@
     </div>
     <form asp-action="AddNotification" method="post" id="form-addnotification">
         <div class="wrap-themDuAn">
-            <div>
-                <label for="">
-                    <strong style="font-size:20px;">Tiêu đề: </strong>
-                    <input type="text" name="Title" value="" required>
-                </label>
-            </div>
+            <label for="">
+                <strong style="font-size:20px;">Tiêu đề: </strong>
+                <input type="text" name="Title" value="" required>
+            </label>
 
             <table><tr><td style="font-size: 20px; font-weight: bold;">Nội dung thông báo</td></tr></table>
             <label for="">
@@ -104,7 +102,7 @@
             </label>
 
 
-            <label style="width: 1030px; " for="">
+            <label for="">
                 <strong style="font-size:20px;">Link đính kèm: </strong>
                 <input type="url" id="input-link" name="Link" value="">
             </label>

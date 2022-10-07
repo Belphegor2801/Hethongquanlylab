@@ -12,7 +12,10 @@
 
     @section Login{
         <li class="user-info-item">
-            <a target="_blank" href="@Model.Link">Lịch làm việc</a>
+            <a target="_blank" href="@Model.Link[1]">Lịch làm việc</a>
+        </li>
+        <li class="user-info-item">
+            <a target="_blank" href="@Model.Link[2]">Báo lỗi</a>
         </li>
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>

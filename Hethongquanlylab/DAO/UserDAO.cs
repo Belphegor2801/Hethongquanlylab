@@ -93,16 +93,17 @@ namespace Hethongquanlylab.DAO
             DataRow newMember = data.Select("Key=" + ID).FirstOrDefault();
             try
             {
-                var units = newMember["Unit"].ToString();
-                var unit = units.Split(",");
+                var unit = newMember["Unit"].ToString();
+                var units = unit.Split(",");
                 var newUnits = new List<string>();
-                foreach (var item in unit)
+                foreach (var item in units)
                 {
-                    if (!unit.Contains(Unit))
+                    if (!item.Contains(Unit))
                     {
                         newUnits.Add(item);
                     }
                 }
+
                 if (newUnits.Count > 1)
                 {
                     newMember["Unit"] = string.Join(",", newUnits);

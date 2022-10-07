@@ -17,6 +17,8 @@ namespace Hethongquanlylab.Controllers.User
 {
     public class UserController : Controller
     {
+        public List<string> links = Function.Instance.getLinks();
+
         public IActionResult Index()
         {
             String page;
@@ -24,8 +26,7 @@ namespace Hethongquanlylab.Controllers.User
             page = urlQuery["page"];
 
             var notificationList = Function.Instance.getNotifications(page);
-            string formLink = LinkDAO.Instance.GetLink("Biểu mẫu");
-            notificationList.Link = formLink;
+            notificationList.Link = links;
             return View("./Views/User/UserHome.cshtml", notificationList);
         }
 

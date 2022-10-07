@@ -37,6 +37,12 @@
             //<a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
+        else if (Model.SessionVar == "Admin")
+        {
+            <a asp-action="EditLinks" class="header-item">Links</a>
+            <a asp-action="Account" class="header-item">Tài khoản</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
         else
         {
             <a class="header-item"></a>
@@ -51,7 +57,10 @@
 
     @section Login{
         <li class="user-info-item">
-            <a target="_blank" href="@Model.Link">Lịch làm việc</a>
+            <a target="_blank" href="@Model.Link[1]">Lịch làm việc</a>
+        </li>
+        <li class="user-info-item">
+            <a target="_blank" href="@Model.Link[2]">Báo lỗi</a>
         </li>
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
@@ -68,7 +77,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
     <link rel="stylesheet" href="~/css/subScene.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.js"></script>
@@ -101,67 +110,93 @@
         </style>
 
 
-        <table style="width: 65%; height: auto;">
-            <tr>
-                <td width="25%">
-                    <strong>Loại</strong>
-                </td>
-                <td colspan="2">
-                    <strong>Đường dẫn</strong>
-                </td>
-            </tr>
+        <div class="wrap-themDuAn">
+            <table style="width: inherit; height: auto;">
+                <tr>
+                    <td width="25%">
+                        <strong>Loại</strong>
+                    </td>
+                    <td colspan="2">
+                        <strong>Đường dẫn</strong>
+                    </td>
+                </tr>
 
-            <tr>
-                <td><strong>Biểu mẫu</strong></td>
-                <td>
-                    <a style="margin: auto 0" class="link" id="text-link_bieumau">@Model.Items[0].Value</a>
-                    <script>
-                        var text = document.getElementById("text-link_bieumau");
-                        var url = text.innerText;
-                        if (!url.match(/^https?:\/\//i)) {
-                            url = 'http://' + url;
-                        }
-                        $("#text-link_bieumau").on('click', function () {
-                            window.open(url, "_blank");
-                        });
-                    </script>
-                    <input style="display:none; width: 100%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link_bieumau" value="@Model.Items[0].Value" name="Link_bieumau">
-                </td>
-                <td width="5%">
-                    <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link_bieumau"></i>
-                </td>
-            </tr>
+                <tr>
+                    <td><strong>Biểu mẫu</strong></td>
+                    <td>
+                        <a style="margin: auto 0" class="link" id="text-link_bieumau">@Model.Items[0].Value</a>
+                        <script>
+                            var text = document.getElementById("text-link_bieumau");
+                            var url = text.innerText;
+                            if (!url.match(/^https?:\/\//i)) {
+                                url = 'http://' + url;
+                            }
+                            $("#text-link_bieumau").on('click', function () {
+                                window.open(url, "_blank");
+                            });
+                        </script>
+                        <input style="display:none; width: 100%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link_bieumau" value="@Model.Items[0].Value" name="Link_bieumau">
+                    </td>
+                    <td width="5%">
+                        <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link_bieumau"></i>
+                    </td>
+                </tr>
 
-            <tr>
-                <td><strong>Lịch làm việc</strong></td>
-                <td>
-                    <a style="margin: auto 0" class="link" id="text-link_lich">@Model.Items[1].Value</a>
-                    <script>
-                        var text = document.getElementById("text-link_lich");
-                        var url = text.innerText;
-                        if (!url.match(/^https?:\/\//i)) {
-                            url = 'http://' + url;
-                        }
-                        $("#text-link_lich").on('click', function () {
-                            window.open(url, "_blank");
-                        });
-                    </script>
-                    <input style="display:none; width: 100%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link_lich" value="@Model.Items[1].Value" name="Link_lich">
-                </td>
-                <td>
-                    <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link_lich"></i>
-                </td>
-            </tr>
+                <tr>
+                    <td><strong>Lịch làm việc</strong></td>
+                    <td>
+                        <a style="margin: auto 0" class="link" id="text-link_lich">@Model.Items[1].Value</a>
+                        <script>
+                            var text = document.getElementById("text-link_lich");
+                            var url = text.innerText;
+                            if (!url.match(/^https?:\/\//i)) {
+                                url = 'http://' + url;
+                            }
+                            $("#text-link_lich").on('click', function () {
+                                window.open(url, "_blank");
+                            });
+                        </script>
+                        <input style="display:none; width: 100%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link_lich" value="@Model.Items[1].Value" name="Link_lich">
+                    </td>
+                    <td>
+                        <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link_lich"></i>
+                    </td>
+                </tr>
 
-        </table>
+                <tr>
+                    <td><strong>Báo lỗi</strong></td>
+                    <td>
+                        <a style="margin: auto 0" class="link" id="text-link_baoloi">@Model.Items[2].Value</a>
+                        <script>
+                            var text = document.getElementById("text-link_baoloi");
+                            var url = text.innerText;
+                            if (!url.match(/^https?:\/\//i)) {
+                                url = 'http://' + url;
+                            }
+                            $("#text-link_baoloi").on('click', function () {
+                                window.open(url, "_blank");
+                            });
+                        </script>
+                        <input style="display:none; width: 100%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link_baoloi" value="@Model.Items[2].Value" name="Link_baoloi">
+                    </td>
+                    <td>
+                        <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link_baoloi"></i>
+                    </td>
+                </tr>
 
-        <div class="" style="margin-left: 72%; margin-top: 20px;">
+            </table>
 
-            <button class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button" id="Send">
-                <i class="fa-solid fa-plus"></i>
-                Lưu
-            </button>
+            <div class="" style="text-align:left; width: inherit; margin-top: 10px;">
+                <div style="float: right;">
+                    <button class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button" id="Send">
+                        <i class="fa-solid fa-plus"></i>
+                        Lưu
+                    </button>
+                </div>    
+            </div>
         </div>
+
+       
 
 
         <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame" id="change-confirm">
@@ -177,12 +212,16 @@
         function confirm_change() {
             var urlValid_bieumau = document.getElementById('input-link_bieumau').checkValidity();
             var urlValid_lich = document.getElementById('input-link_lich').checkValidity();
+            var urlValid_baoloi = document.getElementById('input-link_baoloi').checkValidity();
 
             if (!urlValid_bieumau) {
                 alert("Link biểu mẫu không hợp lệ!")
             }
             else if (!urlValid_lich) {
                 alert("Link lịch làm việc không hợp lệ!")
+            }
+            else if (!urlValid_baoloi) {
+                alert("Link báo lỗi không hợp lệ!")
             }
             else {
                 document.getElementById("change-confirm").style.display = "block";
@@ -219,6 +258,7 @@
             document.getElementById("input-link_bieumau").style.display = 'none';
         })
 
+
         $("#wrap-link_lich").click(function () {
             document.getElementById("text-link_lich").style.display = 'none';
             var input = document.getElementById("input-link_lich");
@@ -240,6 +280,30 @@
         $('#input-link_lich').focusout(function () {
             document.getElementById("text-link_lich").style.display = 'block';
             document.getElementById("input-link_lich").style.display = 'none';
+        })
+
+
+        $("#wrap-link_baoloi").click(function () {
+            document.getElementById("text-link_baoloi").style.display = 'none';
+            var input = document.getElementById("input-link_baoloi");
+            input.style.display = 'block';
+            var end = input.value.length;
+            input.setSelectionRange(end, end);
+            input.focus();
+        })
+
+        $('#input-link_baoloi').change(function () {
+            var textName = this.value;
+            if (textName) {
+                document.getElementById('text-link_baoloi').innerText = `${textName} `;
+            }
+            else {
+                document.getElementById('text-link_baoloi').innerText = `https://www.labthaysinh.com/`;
+            }
+        })
+        $('#input-link_baoloi').focusout(function () {
+            document.getElementById("text-link_baoloi").style.display = 'block';
+            document.getElementById("input-link_baoloi").style.display = 'none';
         })
 
     </script>
