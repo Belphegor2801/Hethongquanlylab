@@ -22,6 +22,14 @@ namespace Hethongquanlylab.Common
             get { if (instance == null) instance = new Function(); return Function.instance; }
             private set { Function.instance = value; }
         }
+        
+        public List<String> getLinks()
+        {
+            List<string> links = new List<string>() {LinkDAO.Instance.GetLink("Biểu mẫu"),
+                                                LinkDAO.Instance.GetLink("Lịch làm việc"),
+                                                LinkDAO.Instance.GetLink("Báo lỗi")};
+            return links;
+        }
 
         public List<T> sortItems<T>(List<T> items, String sortOrder)
         {
