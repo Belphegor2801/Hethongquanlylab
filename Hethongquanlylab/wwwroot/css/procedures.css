@@ -196,4 +196,16 @@ label textarea {
 .ui-dialog-titlebar-close {
     display: none;
 }
+.page-btn {
+    margin-left: 5px;
+    margin-right: 5px;
+    color: white;
+}
 
+    .page-btn:hover {
+        color: #fff;
+    }
+
+td a {
+    color: white;
+}
