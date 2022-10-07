@@ -20,12 +20,15 @@ namespace Hethongquanlylab.Controllers
             _logger = logger;
         }
 
+        public List<string> links = Function.Instance.getLinks();
+
         public IActionResult Index()
         {
             String page;
             var urlQuery = Request.HttpContext.Request.Query;
             page = urlQuery["page"]; // Lấy trang thông báo
             var notificationList = Function.Instance.getNotifications(page);
+            notificationList.Link = links;
             return View("~/Views/Home/Home.cshtml", notificationList);
         }
 

@@ -19,7 +19,7 @@
 
 table {
     border-collapse: collapse;
-    width: 65vw;
+    width: 85vw;
     margin: auto;
 }
 
@@ -60,8 +60,13 @@ table tr:nth-child(1) {
         margin-left: 34px;
     }
 
+.wrap-button {
+    width: 85vw;
+    margin: auto;
+    text-align: right
+}
 .wrap-sreach {
-    width: 65vw;
+    width: 85vw;
     margin: auto;
     margin-bottom: 36px;
     margin-top: 36px;
@@ -69,22 +74,30 @@ table tr:nth-child(1) {
 
     .wrap-sreach input {
         height: 30px;
-        width: 540px;
+        width: 50%;
     }
 
     .wrap-sreach select {
         height: 36px;
-        width: 202px;
+        width: 15%;
         margin: 0px 12px;
     }
 
     .wrap-sreach button {
+        width: 30%;
+        float: right;
         height: 36px;
-        width: 246px;
     }
 
+.table-scroll {
+    overflow: scroll !important;
+    max-height: 500px;
+    margin-left: 7%;
+    width: 86vw; 
+}
+
 .wrap-totalMember {
-    width: 65vw;
+    width: 85vw;
     margin: auto;
     display: flex;
     margin-top: 36px;
@@ -147,7 +160,7 @@ label textarea {
 }
 
 .wrap-themDuAn {
-    width: 65vw;
+    width: 85vw;
     display: flex;
     flex-wrap: wrap;
     margin: auto;
@@ -155,7 +168,7 @@ label textarea {
 }
 
     .wrap-themDuAn label {
-        width: 30vw;
+        width: 100vw;
         display: flex;
         flex-direction: column;
     }

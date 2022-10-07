@@ -59,6 +59,12 @@
 
     @section Login{
         <li class="user-info-item">
+            <a target="_blank" href="@Model.Link[1]">Lịch làm việc</a>
+        </li>
+        <li class="user-info-item">
+            <a target="_blank" href="@Model.Link[2]">Báo lỗi</a>
+        </li>
+        <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
         </li>
         <li class="user-info-item">
@@ -73,7 +79,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/procedures.css">
+    <link rel="stylesheet" href="~/css/nhanSu&DuAn.css">
     <link rel="stylesheet" href="~/css/subScene.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.20.2/jodit.min.js"></script>
@@ -102,142 +108,144 @@
             <i style="margin-left: 20px; cursor:pointer;" class="fa-regular fa-pen-to-square" id="wrap-DuAn"></i>
         </div>
 
-
-        <div style="display: flex; justify-content: space-between; margin: auto; width: 65%;" class="date-DuAn">
-            <div style="display:flex" class="start">
-                <p style="font-weight: bold">Thời gian cập nhật cuối: </p>
-                <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-date">
-                    <div id="text-date">@Model.Item.Senddate</div>
-                    <input style="display: none; height: 25px;" id="input-date" type="date" name="Sendate" value="@Model.Item.Senddate">
+        <div class="wrap-themDuAn">
+            <div style="display: flex; justify-content: space-between; margin: auto; width: inherit;" class="date-DuAn">
+                <div style="display:flex" class="start">
+                    <p style="font-weight: bold">Thời gian cập nhật cuối: </p>
+                    <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-date">
+                        <div id="text-date">@Model.Item.Senddate</div>
+                        <input style="display: none; height: 25px;" id="input-date" type="date" name="Sendate" value="@Model.Item.Senddate">
+                    </div>
                 </div>
+
+                <div style="display:flex;" class="trangThai">
+                    <p style="margin-right: 10px; font-weight: bold;">Trạng Thái: </p>
+                    @try
+                    {
+                        <p style="color: @Model.ColorVar[Model.Item.Status]; font-weight: bold;">@Model.Item.Status</p>
+                    }
+                    catch
+                    {
+                        <p style="color: #4800ff; font-weight: bold;">@Model.Item.Status</p>
+                    }
+                </div>
+
             </div>
 
-            <div style="display:flex;" class="trangThai">
-                <p style="margin-right: 10px; font-weight: bold;">Trạng Thái: </p>
-                @try
-                {
-                    <p style="color: @Model.ColorVar[Model.Item.Status]; font-weight: bold;">@Model.Item.Status</p>
-                }
-                catch
-                {
-                    <p style="color: #4800ff; font-weight: bold;">@Model.Item.Status</p>
-                }
-            </div>
-
-        </div>
-
-        <table style="width: 65%; margin: auto; ">
-            <tr>
-                <td>
-                    <p style="font-weight: bold;">Nội Dung <i style="margin-left: 20px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-noiDung"></i></p>
-                </td>
-            </tr>
-        </table>
-        <div style="width: 65%;margin: auto; ">
-            <style>
-                .text-ProcedureContent {
-                    width: 100%;
-                    height: 200px;
-                    background-color: #f5f5f5;
-                    border: 2px solid #ccc;
-                    line-height: 34px;
-                    padding: 20px 10px;
-                    overflow: scroll;
-                }
-            </style>
-            <div style="display: block;" class="text-ProcedureContent"
-                 id="text-noiDung">
-                @Html.Raw(Model.Item.Content)
-            </div>
-            <textarea name="Content" style="display: none; padding: 20px 10px; line-height: 34px; width: 100%; height: 200px; " id="input-noiDung" cols="30" rows="40" value="Nội dung">@Html.Raw(Model.Item.Content)</textarea>
-        </div>
-
-        <style>
-            .link {
-                color: #00a;
-                text-decoration: underline;
-                cursor: pointer;
-            }
-        </style>
-        <div style="display: flex; width: 65%; margin: auto;">
-            <p style="margin-right: 12px;">Link Quy Trình: </p>
-            <a style="margin: auto 0" class="link" id="text-link">@Model.Item.Link</a>
-            <script>
-                var text = document.getElementById("text-link");
-                var url = text.innerText;
-                if (!url.match(/^https?:\/\//i)) {
-                    url = 'http://' + url;
-                }
-                $("#text-link").on('click', function () {
-                    alert("Đến quy trình");
-                    window.open(url, "_blank");
-                });
-            </script>
-            <input style="display:none; width: 50%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link" value="@Model.Item.Link" name="Link">
-            <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link"></i>
-        </div>
-
-        <table style="width: 65%; height: auto;">
-            <tr>
-                <td width="25%">
-                    <strong>Phản hồi</strong>
-                </td>
-                <td>
-                    <strong>Nội dung</strong>
-                </td>
-            </tr>
-            @if (!(Model.SessionVar == "Ban Điều Hành"))
-            {
+            <table style="width: inherit; margin: auto; ">
                 <tr>
                     <td>
-                        <strong>Ban Điều Hành</strong>
-                    </td>
-                    <td>
-                        @Html.Raw(Model.Item.BdhReply)
+                        <p style="font-weight: bold;">Nội Dung <i style="margin-left: 20px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-noiDung"></i></p>
                     </td>
                 </tr>
-            }
+            </table>
+            <div style="width: inherit;margin: auto; ">
+                <style>
+                    .text-ProcedureContent {
+                        width: 100%;
+                        height: 200px;
+                        background-color: #f5f5f5;
+                        border: 2px solid #ccc;
+                        line-height: 34px;
+                        padding: 20px 10px;
+                        overflow: scroll;
+                    }
+                </style>
+                <div style="display: block;" class="text-ProcedureContent"
+                     id="text-noiDung">
+                    @Html.Raw(Model.Item.Content)
+                </div>
+                <textarea name="Content" style="display: none; padding: 20px 10px; line-height: 34px; width: 100%; height: 200px; " id="input-noiDung" cols="30" rows="40" value="Nội dung">@Html.Raw(Model.Item.Content)</textarea>
+            </div>
 
-            <tr>
-                <td>
-                    <strong>Ban Cố Vấn</strong>
-                </td>
-                <td>
-                    @Html.Raw(Model.Item.BcvReply)
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>Nhà Sáng Lập</strong>
-                </td>
-                <td>
-                    @Html.Raw(Model.Item.NSLReply)
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>Nhà Đồng Sáng Lập</strong>
-                </td>
-                <td>
-                    @Html.Raw(Model.Item.NSLReply)
-                </td>
-            </tr>
-        </table>
+            <style>
+                .link {
+                    color: #00a;
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+            </style>
+            <div style="display: flex; width: inherit; margin: auto;">
+                <p style="margin-right: 12px;">Link Quy Trình: </p>
+                <a style="margin: auto 0" class="link" id="text-link">@Model.Item.Link</a>
+                <script>
+                    var text = document.getElementById("text-link");
+                    var url = text.innerText;
+                    if (!url.match(/^https?:\/\//i)) {
+                        url = 'http://' + url;
+                    }
+                    $("#text-link").on('click', function () {
+                        alert("Đến quy trình");
+                        window.open(url, "_blank");
+                    });
+                </script>
+                <input style="display:none; width: 50%; height:30px; margin: auto 0;" type="url" formnovalidate="formnovalidate" id="input-link" value="@Model.Item.Link" name="Link">
+                <i style="margin-left: 8px; margin-top: 10px;; cursor: pointer;" class="fa-regular fa-pen-to-square" id="wrap-link"></i>
+            </div>
 
-        <div class="" style="margin-left: 62%; margin-top: 20px;">
+            <table style="width: inherit; height: auto;">
+                <tr>
+                    <td width="25%">
+                        <strong>Phản hồi</strong>
+                    </td>
+                    <td>
+                        <strong>Nội dung</strong>
+                    </td>
+                </tr>
+                @if (!(Model.SessionVar == "Ban Điều Hành"))
+                {
+                    <tr>
+                        <td>
+                            <strong>Ban Điều Hành</strong>
+                        </td>
+                        <td>
+                            @Html.Raw(Model.Item.BdhReply)
+                        </td>
+                    </tr>
+                }
 
-            <button class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button" id="Send">
-                <i class="fa-solid fa-plus"></i>
-                Lưu
-            </button>
+                <tr>
+                    <td>
+                        <strong>Ban Cố Vấn</strong>
+                    </td>
+                    <td>
+                        @Html.Raw(Model.Item.BcvReply)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Nhà Sáng Lập</strong>
+                    </td>
+                    <td>
+                        @Html.Raw(Model.Item.NSLReply)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Nhà Đồng Sáng Lập</strong>
+                    </td>
+                    <td>
+                        @Html.Raw(Model.Item.NSLReply)
+                    </td>
+                </tr>
+            </table>
 
-            <input type="hidden" id="isSendToApproval" name="IsSendToApproval" />
-            <button class="add-nhanSu btn-confirm" onclick="confirm_change_and_send()" type="button" id="SaveAndSend">
-                <i class="fa-solid fa-plus"></i>
-                Lưu và gửi duyệt
-            </button>
+            <div class="" style="text-align:left; width: inherit; margin-top: 10px;">
+                <div style="float: right;">
+                    <button class="add-nhanSu btn-confirm" onclick="confirm_change()" type="button" id="Send">
+                        <i class="fa-solid fa-plus"></i>
+                        Lưu
+                    </button>
 
+                    <input type="hidden" id="isSendToApproval" name="IsSendToApproval" />
+                    <button class="add-nhanSu btn-confirm" onclick="confirm_change_and_send()" type="button" id="SaveAndSend">
+                        <i class="fa-solid fa-plus"></i>
+                        Lưu và gửi duyệt
+                    </button>
+                </div>
+            </div>
         </div>
+
 
 
         <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame" id="change-confirm">

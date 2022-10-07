@@ -39,8 +39,8 @@
         }
         else if (Model.SessionVar == "Admin")
         {
-            <a class="header-item"></a>
-            <a class="header-item"></a>
+            <a asp-action="EditLinks" class="header-item">Links</a>
+            <a asp-action="Account" class="header-item">Tài khoản</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else
@@ -58,7 +58,10 @@
 
     @section Login{
         <li class="user-info-item">
-            <a target="_blank" href="@Model.Link">Lịch làm việc</a>
+            <a target="_blank" href="@Model.Link[1]">Lịch làm việc</a>
+        </li>
+        <li class="user-info-item">
+            <a target="_blank" href="@Model.Link[2]">Báo lỗi</a>
         </li>
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
@@ -335,7 +338,7 @@
         }
     }
 
-    @if (Model.Link == "Add")
+    @if (Model.IsMessage)
     {
         <div style="display: block; width: 40%; height: 40%; left: 30%; top: 30%; z-index: 2; text-align: center;" class="form-frame" id="add_account-form">
             <form asp-action="AddAccount" method="Post">

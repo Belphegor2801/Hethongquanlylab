@@ -60,7 +60,10 @@
 
     @section Login{
         <li class="user-info-item">
-            <a target="_blank" href="@Model.Link">Lịch làm việc</a>
+            <a target="_blank" href="@Model.Link[1]">Lịch làm việc</a>
+        </li>
+        <li class="user-info-item">
+            <a target="_blank" href="@Model.Link[2]">Báo lỗi</a>
         </li>
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
@@ -86,7 +89,7 @@
             <a asp-action="Procedure"><h2 style="padding-left: 10px;" class="backMainPage"> Bài đào tạo</h2></a>
         </div>
 
-        <div style="width: 1030px;margin: auto;text-align: right;">
+        <div class="wrap-button">
             @if (Model.SessionVar == "Ban Đào Tạo")
             {
                 <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
@@ -94,7 +97,7 @@
             else
             {
                 <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddTraining")'">Thêm bài đào tạo</button>
-                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
+                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel", new { exportVar = Model.Field})'">Xuất file Excel</button>
             }
 
         </div>

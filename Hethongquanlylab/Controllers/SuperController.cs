@@ -23,6 +23,8 @@ namespace Hethongquanlylab.Controllers
         public string unit { get; set; }
         public string unitVar { get; set; }
 
+        public List<string> links = Function.Instance.getLinks();
+
         //// Begin: Trang chủ
         /// Trang chủ
         public IActionResult Index()
@@ -31,8 +33,7 @@ namespace Hethongquanlylab.Controllers
             var urlQuery = Request.HttpContext.Request.Query;
             page = urlQuery["page"]; // Lấy trang thông báo
             var notificationList = Function.Instance.getNotifications(page);
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            notificationList.Link = formLink;
+            notificationList.Link = links;
             return View(String.Format("./Views/{0}/{0}Home.cshtml", unitVar), notificationList);
         }
 
@@ -52,16 +53,18 @@ namespace Hethongquanlylab.Controllers
 
             var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
             var item = new ItemDetail<Notification>(notification, unit);
+            item.Link = links;
             return View("./Views/Shared/NotificationDetail.cshtml", item);
         }
         //// End: Trang chủ
 
         public IActionResult EditLinks()
         {
-            var links = LinkDAO.Instance.GetLinkList();
+            var linkss = LinkDAO.Instance.GetLinkList();
             var linkList = new ItemDisplay<Link>();
-            linkList.Items = links;
+            linkList.Items = linkss;
             linkList.SessionVar = unit;
+            linkList.Link = links;
             return View(String.Format("./Views/{0}/Links/EditLinks.cshtml", unitVar), linkList);
         }
 
@@ -139,7 +142,8 @@ namespace Hethongquanlylab.Controllers
             //
 
             accountList.SessionVar = unit;
-            accountList.Link = varr;
+            accountList.Link = links;
+            accountList.IsMessage = Convert.ToBoolean(Convert.ToInt32(varr));
             if (mess == "1") accountList.Message = "Vui lòng nhập tên tài khoản!";
             else if (mess == "2") accountList.Message = "Vui lòng nhập mật khẩu";
             if (mess == "3") accountList.Message = "Tên tài khoản đã tồn tại!";
@@ -166,14 +170,14 @@ namespace Hethongquanlylab.Controllers
         [HttpPost]
         public IActionResult AddAccount(String UserName, String Password, String AccountType)
         {
-            if (UserName == null) return RedirectToAction("Account", new { var = "Add", mess = "1" });
-            if (Password == null) return RedirectToAction("Account", new { var = "Add", mess = "2" });
+            if (UserName == null) return RedirectToAction("Account", new { var = "1", mess = "1" });
+            if (Password == null) return RedirectToAction("Account", new { var = "1", mess = "2" });
             var accounts = AccountDAO.Instance.GetAccountList();
             foreach (var acc in accounts)
             {
                 if (UserName == acc.Username)
                 {
-                    return RedirectToAction("Account", new { var = "Add", mess = "3" });
+                    return RedirectToAction("Account", new { var = "1", mess = "3" });
                 }
             }
 
@@ -261,7 +265,11 @@ namespace Hethongquanlylab.Controllers
             else if (memberList.Field == "LT")
                 members = UserDAO.Instance.GetListUser("LT");
             else
-                members = UserDAO.Instance.GetListUser(unit);
+            {
+                members = UserDAO.Instance.GetListUser();
+                members = members.Where(s => s.Unit.Contains(unit)).ToList();
+            }
+                
 
             members = Function.Instance.searchItems(members, memberList); // Tìm kiếm
             members = Function.Instance.sortItems(members, memberList.SortOrder); // Sắp xếp
@@ -285,8 +293,7 @@ namespace Hethongquanlylab.Controllers
             //
 
             memberList.SessionVar = unit; // SessionVar => Để Section phần Header
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            memberList.Link = formLink;
+            memberList.Link = links;
             return View(String.Format("./Views/{0}/Members/Member.cshtml", unitVar), memberList);
         }
 
@@ -383,6 +390,7 @@ namespace Hethongquanlylab.Controllers
             //
 
             memberList.SessionVar = unit; // SessionVar => Để Section phần Header
+            memberList.Link = links;
             return View(String.Format("./Views/{0}/Members/AddMember.cshtml", unitVar), memberList);
         }
 
@@ -424,7 +432,6 @@ namespace Hethongquanlylab.Controllers
                         UserDAO.Instance.EditMember(member);
                     }
                 }
-
                 return RedirectToAction("Member");
             }
             return RedirectToAction("AddMember", new { sort = sortOrder, searchField = searchField, searchString = searchString });
@@ -469,6 +476,7 @@ namespace Hethongquanlylab.Controllers
             var member = UserDAO.Instance.GetUserByID(CurrentID);
             if (avt != null) member.Avt = avt;
             var item = new ItemDetail<Member>(member, unit);
+            item.Link = links;
             return View(String.Format("./Views/{0}/Members/EditMember.cshtml", unitVar), item);
         }
 
@@ -559,8 +567,7 @@ namespace Hethongquanlylab.Controllers
             }
 
             procedureList.SessionVar = unit;
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            procedureList.Link = formLink;
+            procedureList.Link = links;
             return View(String.Format("./Views/{0}/Procedures/Procedure.cshtml", unitVar), procedureList);
         }
 
@@ -587,8 +594,7 @@ namespace Hethongquanlylab.Controllers
             }
             
             var item = new ItemDetail<Procedure>(procedure, unit);
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            item.Link = formLink;
+            item.Link = links;
             return View(String.Format("./Views/{0}/Procedures/ProcedureDetail.cshtml", unitVar), item);
         }
 
@@ -609,7 +615,6 @@ namespace Hethongquanlylab.Controllers
                 newProcedure.Status = "Chờ duyệt";
                 ProcedureDAO.Instance.EditProcedure(newProcedure);
                 ProcedureDAO.Instance.SendToApproval(newProcedure, unit);
-
                 ViewData["msg"] = Function.Instance.SendEmail("Duyệt quy trình", "Bạn có quy trình cần duyệt"); // Gửi mail và trả về thông báo
             }
             else
@@ -700,7 +705,7 @@ namespace Hethongquanlylab.Controllers
             procedures = procedures.Where(s => !s.Status.Contains("Chờ duyệt")).ToList();
             procedureList.Items = procedures;
             procedureList.SessionVar = unit;
-
+            procedureList.Link = links;
             return View(String.Format("./Views/{0}/Procedures/SendProceduresToApproval.cshtml", unitVar), procedureList);
         }
 
@@ -818,8 +823,7 @@ namespace Hethongquanlylab.Controllers
             }
 
             trainingList.SessionVar = unit;
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            trainingList.Link = formLink;
+            trainingList.Link = links;
             return View(String.Format("./Views/{0}/Trainings/Training.cshtml", unitVar), trainingList);
         }
         [HttpPost]
@@ -841,8 +845,7 @@ namespace Hethongquanlylab.Controllers
                 training = TrainingDAO.Instance.GetTrainingModelbyId(ID);
             }
             var item = new ItemDetail<Training>(training, unit);
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            item.Link = formLink;
+            item.Link = links;
             return View(String.Format("./Views/{0}/Trainings/TrainingDetail.cshtml", unitVar), item);
         }
 
@@ -900,7 +903,7 @@ namespace Hethongquanlylab.Controllers
 
             List<Training> training = TrainingDAO.Instance.GetTrainingList(unitVar);
             var stream = Function.Instance.ExportToExcel<Training>(training);
-            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách bài đào tạo.xlsx");
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách bài đào tạo" + exportVar + ".xlsx");
         }
         
         public IActionResult Project()
@@ -965,8 +968,7 @@ namespace Hethongquanlylab.Controllers
             }
 
             projectList.SessionVar = unit;
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            projectList.Link = formLink;
+            projectList.Link = links;
             return View(String.Format("./Views/{0}/Projects/Project.cshtml", unitVar), projectList);
         }
         [HttpPost]
@@ -980,8 +982,7 @@ namespace Hethongquanlylab.Controllers
             string ID = urlQuery["ProjectID"];
             Project project = ProjectDAO.Instance.GetProjectModelbyId(ID);
             var item = new ItemDetail<Project>(project, unit);
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            item.Link = formLink;
+            item.Link = links;
             return View(String.Format("./Views/{0}/Projects/ProjectDetail.cshtml", unitVar), item);
         }
 
@@ -994,7 +995,6 @@ namespace Hethongquanlylab.Controllers
             var ID = urlPath.ToString().Split('/').Last();
             var project = new Project(ID, Name, StartDay, EndDay, Type, Content, Status, unit, Member, Link);
             ProjectDAO.Instance.EditProject(project);
-
             return RedirectToAction("Project");
         }
         
@@ -1016,7 +1016,19 @@ namespace Hethongquanlylab.Controllers
 
         public IActionResult ExportProjectToExcel()
         {
-            return View();
+            var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
+            string exportVar = urlQuery["exportVar"];
+            exportVar = exportVar == null ? unitVar : exportVar;
+
+            List<Project> projects;
+            if (exportVar == unitVar)
+                projects = ProjectDAO.Instance.GetProjectList(unit);
+            else
+                projects = ProjectDAO.Instance.GetProjectList("All");
+
+
+            var stream = Function.Instance.ExportToExcel<Project>(projects);
+            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachDuAn-" + exportVar + ".xlsx");
         }
 
         public IActionResult Notification()
@@ -1066,8 +1078,7 @@ namespace Hethongquanlylab.Controllers
                     itemList.Items = itemList.Items.GetRange((itemList.CurrentPage - 1) * itemList.PageSize, itemList.Items.Count % itemList.PageSize == 0 ? itemList.PageSize : itemList.Items.Count % itemList.PageSize);
             }
             itemList.SessionVar = unit;
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            itemList.Link = formLink;
+            itemList.Link = links;
             return View(String.Format("./Views/{0}/Notifications/Notification.cshtml", unitVar), itemList);
         }
         [HttpPost]
@@ -1081,11 +1092,7 @@ namespace Hethongquanlylab.Controllers
             var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
             string exportVar = urlQuery["exportVar"];
             exportVar = exportVar == null ? unitVar : exportVar;
-            List<Notification> notifications;
-            if (exportVar == unitVar)
-                notifications = NotificationDAO.Instance.GetNotificationList_Excel();
-            else
-                notifications = NotificationDAO.Instance.GetNotificationList_Excel();
+            List<Notification> notifications = NotificationDAO.Instance.GetNotificationListbyUnit(unit);
 
             var stream = Function.Instance.ExportToExcel<Notification>(notifications);
             return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh sách thông báo.xlsx");
@@ -1100,14 +1107,13 @@ namespace Hethongquanlylab.Controllers
 
             var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
             var item = new ItemDetail<Notification>(notification, unit);
-            string formLink = LinkDAO.Instance.GetLink("Lịch làm việc");
-            item.Link = formLink;
+            item.Link = links;
             return View(String.Format("./Views/{0}/Notifications/NotificationDetail.cshtml", unitVar), item);
         }
 
         public IActionResult AddNotification()
         {
-            return View(String.Format("./Views/{0}/Notifications/AddNotification.cshtml", unitVar));
+            return View(String.Format("./Views/{0}/Notifications/AddNotification.cshtml", unitVar), unit);
         }
 
         [HttpPost]
