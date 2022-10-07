@@ -6,8 +6,6 @@
 @{
     Layout = "~/Views/Shared/_Layout_Home.cshtml";
     @section Buttons{
-        <a target="_blank" href="@Model.Link" class="header-item">Biểu mẫu</a>
-        <a class="header-item"></a>
         <a asp-action="Assignment" class="header-item">Bài tập</a>
         <a asp-action="Training" class="header-item">Đào tạo</a>
         <a asp-action="Infor" class="header-item">Thông tin cá nhân</a>
@@ -15,6 +13,9 @@
     }
 
     @section Login{
+        <li class="user-info-item">
+                <a target="_blank" href="@Model.Link">Biểu mẫu</a>
+        </li>
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
         </li>

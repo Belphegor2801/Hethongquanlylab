@@ -1,8 +1,6 @@
 ﻿@model ItemDisplay<Training>;
 @{
     @section Buttons{
-        <a class="header-item"></a>
-        <a class="header-item"></a>
         <a asp-action="Assignment" class="header-item">Bài tập</a>
         <a asp-action="Training" class="header-item">Đào tạo</a>
         <a asp-action="Infor" class="header-item">Thông tin cá nhân</a>
@@ -11,6 +9,9 @@
 
 
     @section Login{
+        <li class="user-info-item">
+            <a target="_blank" href="@Model.Link">Biểu mẫu</a>
+        </li>
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
         </li>
@@ -40,7 +41,7 @@
                         <option value="@Model.Field">@Model.Field</option>
                     }
 
-                    @foreach (var item in new List<string>() { "PT PTBT", Model.SessionVar })
+                    @foreach (var item in new List<string>() { "PT PTBT", "PT Lập Trình", "PT Tự động hóa & IOM", "PT Cơ khí - Cơ điện tử", "PT Quản trị doanh nghiệp & Marketing", "PT Ngoại ngữ" })
                     {
                         @if ((item != Model.Field))
                         {
@@ -53,7 +54,7 @@
 
     </div>
 
-    @if (Model.ItemCount > 0)
+    @if (Model.Items.Count > 0)
     {
         <div class="training-wrap">
             <div style="display: flex; margin-bottom: 0px; max-height: 600px; height: 100%">
@@ -89,10 +90,10 @@
     }
 
     else
-        {
-    <div style="width: 60%; height: 40%; left: 20%; top: 30%; z-index: 1;" class="form-frame">
-        <a style="text-align: center; color: #000; font-size: 40px;"> Hiện chưa có bài đào tạo nào!! </a>
-    </div>
+    {
+        <div style="width: 60%; height: 40%; left: 20%; top: 30%; z-index: 1;" class="form-frame">
+            <a style="text-align: center; color: #000; font-size: 40px;"> Hiện chưa có bài đào tạo nào!! </a>
+        </div>
     }
 
     <div class="track-wraper">
@@ -105,11 +106,11 @@
                 right: 0;
                 top: 0;
                 width: 30%;
-                max-height: 900px;
+                height: 900px;
                 display: inline-block !important;
             }
         </style>
-        <div id="accordion-course" style="overflow: scroll; height: auto; max-height: 100%;">
+        <div id="accordion-course" style="overflow: scroll; height: auto; height: 600px;">
             @foreach (var item in Model.Items)
             {
                 <h3> @item.ID: @item.Name</h3>

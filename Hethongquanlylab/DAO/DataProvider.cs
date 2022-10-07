@@ -145,7 +145,7 @@ namespace Hethongquanlylab.DAO
             }
             catch
             {
-                return (T)Activator.CreateInstance(typeof(T), null, null, null, null);
+                return default(T);
             }
         }
 

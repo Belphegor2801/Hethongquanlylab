@@ -1,4 +1,4 @@
-﻿@model Member
+﻿@model Member;
 @{
     @section Buttons{
         <a>
@@ -11,7 +11,6 @@
                 });
             </script>
         </a>
-        <a class="header-item"></a>
         <a asp-action="Assignment" class="header-item">Bài tập</a>
         <a asp-action="Training" class="header-item">Đào tạo</a>
         <a asp-action="Infor" class="header-item">Thông tin cá nhân</a>
@@ -41,107 +40,119 @@
 </head>
 <body>
     <!-- phần CV -->
-    <div class="cv">
-        <div class="cv-col1">
-            <div class="background-avt">
-                <div class="background-avt1" style="background-color: #FCF8E0; height: 360px; width: 360px;"></div>
-                <div class="background-avt2" style="background-color: #EDCD1F;height: 360px; width: 25%;"></div>
+
+    @if (Model != null)
+    {
+        <div class="cv">
+            <div class="cv-col1">
+                <div class="background-avt">
+                    <div class="background-avt1" style="background-color: #FCF8E0; height: 360px; width: 360px;"></div>
+                    <div class="background-avt2" style="background-color: #EDCD1F;height: 360px; width: 25%;"></div>
+                </div>
+                <img src="~/img/avt/@Model.Avt" alt="@Model.Avt" class="cv-avt">
+                <div class="background-avt3">@Model.Name</div>
+                <div class="background-avt5"></div>
+                <div class="background-avt4">Gen: @Model.Gen</div>
+                <div class="info-member">
+                    <style>
+                        .info-item i {
+                            width: 50px !important;
+                            font-weight: bold;
+                        }
+                    </style>
+                    <div class="info-item ">
+                        <i class="fa-regular fa-user"></i>
+                        <p>@Model.Sex</p>
+                    </div>
+                    <div class="info-item ">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <p>@Model.Birthday</p>
+                    </div>
+                    <div class="info-item ">
+                        <i class="fa-solid fa-phone"></i>
+                        <p>@Model.Phone</p>
+                    </div>
+                    <div class="info-item ">
+                        <i class="fa-solid fa-envelope"></i>
+                        <p>@Model.Email</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <p>@Model.Address</p>
+                    </div>
+                </div>
+
+                <button class="btn-cv-edit" type="button" onclick="location.href='@Url.Action("EditInfor", "User", new { Key = Model.Key })'">Chỉnh Sửa Thông Tin Cá Nhân</button>
+
             </div>
-            <img src="~/img/avt/@Model.Avt" alt="@Model.Avt" class="cv-avt">
-            <div class="background-avt3">@Model.Name</div>
-            <div class="background-avt5"></div>
-            <div class="background-avt4">Gen: @Model.Gen</div>
-            <div class="info-member">
-                <div class="info-item ">
-                    <i class="fa-regular fa-user"></i>
-                    <p>@Model.Sex</p>
-                </div>
-                <div class="info-item ">
-                    <i class="fa-regular fa-calendar-days"></i>
-                    <p>@Model.Birthday</p>
-                </div>
-                <div class="info-item ">
-                    <i class="fa-solid fa-phone"></i>
-                    <p>@Model.Phone</p>
-                </div>
-                <div class="info-item ">
-                    <i class="fa-solid fa-envelope"></i>
-                    <p>@Model.Email</p>
-                </div>
-                <div class="info-item ">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <p>@Model.Address</p>
-                </div>
-            </div>
-
-            <button class="btn-cv-edit" type="button" onclick="location.href='@Url.Action("EditInfor", "User", new { Key = Model.Key })'">Chỉnh Sửa Thông Tin Cá Nhân</button>
-
-        </div>
-        <div class="cv-col2">
-            <div class="header-cv">
-                <div class="header-cv-col2-1">
-                    <div class="header-cv-id">
-                        <p>ID: </p>
-                        <p>@Model.LabID</p>
-                    </div>
-                    <p>LAB THẦY SINH</p>
-                </div>
-                <img src="~/img/logo_lab.jpg" alt="" class="header-cv-col2-2">
-            </div>
-
-            <div class="cv-content">
-                <div class="cv-col2-comment">
-                    <div class="" style="display: flex;">
-                        <h3 style="font-size: 32px;">ĐÁNH GIÁ</h3>
-                        <div class="lineYellow"></div>
-                    </div>
-                    <p>
-                        Hoành thành tốt công việc được giao
-                        Có tinh thần cầu tiến,
-                        Ngoan ngoãn, hiền lành, có tinh thần trách nhiệm
-                    </p>
-                </div>
-
-                <div class="cv-col2-Education">
-                    <div class="" style="display: flex;">
-                        <h3 style="font-size: 32px;">HỌC VẤN</h3>
-                        <div class="lineYellow"></div>
-                    </div>
-                    <p>
-                        @Model.University
-                    </p>
-                    <p> Chuyên ngành: @Model.Specialization</p>
-                </div>
-
-                <div class="cv-col2-work">
-                    <div class="" style="display: flex;">
-                        <h3 style="font-size: 32px;">HOẠT ĐỘNG</h3>
-                        <div class="lineYellow"></div>
-                    </div>
-                    <div class="">
-                        @if (Model.IsPassPTBT)
-                        {<p>Đã vượt qua Phát triển bản thân</p>}
-                        else
-                        { <p>Chưa vượt qua Phát triển bản thân</p>}
-                        @if (Model.IsLT)
-                        {<p>Là thành viên LeaderTeam</p>}
-                        <div style="display:flex;" class="">
-                            <p style="margin-top: 0;">Đơn Vị: </p>
-                            <p style="margin-top: 0;"> @Model.Unit </p>
+            <div class="cv-col2">
+                <div class="header-cv">
+                    <div class="header-cv-col2-1">
+                        <div class="header-cv-id">
+                            <p>ID: </p>
+                            <p>@Model.LabID</p>
                         </div>
-                        <div style="display:flex;" class="">
-                            <p style="margin-top: 0;">Chức Vụ: </p>
-                            <p style="margin-top: 0;">@Model.Position </p>
-                        </div>
+                        <p>LAB THẦY SINH</p>
                     </div>
+                    <img src="~/img/logo_lab.jpg" alt="" class="header-cv-col2-2">
                 </div>
 
-                <div class="colYellow" style="word-spacing: 5px;text-align: center;"><p class="rotate" style="font-size: 11px; transform:rotate(90deg); word-spacing: 2px">@Model.LabID</p></div>
+                <div class="cv-content">
+                    <div class="cv-col2-comment">
+                        <div class="" style="display: flex;">
+                            <h3 style="font-size: 32px;">ĐÁNH GIÁ</h3>
+                            <div class="lineYellow"></div>
+                        </div>
+                        <p>
+                            Hoành thành tốt công việc được giao
+                            Có tinh thần cầu tiến,
+                            Ngoan ngoãn, hiền lành, có tinh thần trách nhiệm
+                        </p>
+                    </div>
+
+                    <div class="cv-col2-Education">
+                        <div class="" style="display: flex;">
+                            <h3 style="font-size: 32px;">HỌC VẤN</h3>
+                            <div class="lineYellow"></div>
+                        </div>
+                        <p>
+                            @Model.University
+                        </p>
+                        <p> Chuyên ngành: @Model.Specialization</p>
+                    </div>
+
+                    <div class="cv-col2-work">
+                        <div class="" style="display: flex;">
+                            <h3 style="font-size: 32px;">HOẠT ĐỘNG</h3>
+                            <div class="lineYellow"></div>
+                        </div>
+                        <div class="">
+                            @if (Model.IsPassPTBT)
+                            {<p>Đã vượt qua Phát triển bản thân</p>}
+                            else
+                            { <p>Chưa vượt qua Phát triển bản thân</p>}
+                            @if (Model.IsLT)
+                            {<p>Là thành viên LeaderTeam</p>}
+                            <div style="display:flex;" class="">
+                                <p style="margin-top: 0;">Đơn Vị: @Model.Unit </p>
+                            </div>
+                            <div style="display:flex;" class="">
+                                <p style="margin-top: 0;">Chức Vụ: @Model.Position </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="colYellow" style="word-spacing: 5px;text-align: center;"><p class="rotate" style="font-size: 11px; transform:rotate(90deg); word-spacing: 2px">@Model.LabID</p></div>
+
+                </div>
 
             </div>
-
         </div>
-    </div>
+    }
+            else
+            {
+                <a style="font-size: 40px; margin-top: 10px;">THÔNG TIN CÁ NHÂN CỦA BẠN KHÔNG TỒN TẠI!!</a>
+            }
 
     <style>
         .header {
@@ -285,7 +296,8 @@
         }
 
         .cv-col2 .header-cv-col2-2 {
-            width: 25%;
+            width: 50%;
+            height: fit-content;
         }
 
         .cv-col2 .cv-content {

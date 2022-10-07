@@ -68,63 +68,69 @@
             </tbody>
         </table>
 
-        <form asp-action="Index" method="post">
-            <input type="hidden" id="hfCurrentPage" name="currentPage"/>
-            <table style="margin: auto;">
-                <tr style="font-size: 30px;">
-                    <td>
-                        <div style="float: right;">
-                            <style>
-                                .page-btn,
-                                #total{
-                                    color: black;
-                                }
-                                    .page-btn:hover {
+        @if (Model.Items.Count > 0)
+        {
+            <form asp-action="Index" method="post">
+                <input type="hidden" id="hfCurrentPage" name="currentPage" />
+                <table style="margin: auto;">
+                    <tr style="font-size: 30px;">
+                        <td>
+                            <div style="float: right;">
+                                <style>
+                                    .page-btn,
+                                    #total {
                                         color: black;
-                                        text-decoration: underline;
-                                        cursor: pointer
                                     }
-                                #total:hover{
-                                    color: black;
-                                    text-decoration: underline;
-                                    cursor: pointer;
+
+                                        .page-btn:hover {
+                                            color: black;
+                                            text-decoration: underline;
+                                            cursor: pointer
+                                        }
+
+                                        #total:hover {
+                                            color: black;
+                                            text-decoration: underline;
+                                            cursor: pointer;
+                                        }
+                                </style>
+                                <a href="javascript:PagerClick(1);" class="page-btn"> Đầu </a>
+                                @if (Model.CurrentPage != 1)
+                                {
+                                    <a href="javascript:PagerClick(@Model.CurrentPage - 1);" class="page-btn"> Trước </a>
                                 }
-                            </style>
-                            <a href="javascript:PagerClick(1);" class="page-btn"> Đầu </a>
-                            @if (Model.CurrentPage != 1)
-                            {
-                                <a href="javascript:PagerClick(@Model.CurrentPage - 1);" class="page-btn"> Trước </a>
-                            }
-                            else
-                            {
-                                <a class="page-btn"> Trước </a>
-                            }
+                                else
+                                {
+                                    <a class="page-btn"> Trước </a>
+                                }
 
                                 <a id="total">@Model.CurrentPage/@Model.PageCount</a>
 
-                            @if (Model.CurrentPage != Model.PageCount)
-                            {
-                                <a href="javascript:PagerClick(@Model.CurrentPage + 1);" class="page-btn"> Sau </a>
-                            }
-                            else
-                            {
-                                <a class="page-btn"> Sau </a>
-                            }
-                            <a href="javascript:PagerClick(@Model.PageCount);" class="page-btn"> Cuối </a>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-            <script type="text/javascript">
-                function PagerClick(index) {
-                    document.getElementById("hfCurrentPage").value = index;
-                    document.forms[0].submit();
-                }
-            </script>
-        </form>
-        
+                                @if (Model.CurrentPage != Model.PageCount)
+                                {
+                                    <a href="javascript:PagerClick(@Model.CurrentPage + 1);" class="page-btn"> Sau </a>
+                                }
+                                else
+                                {
+                                    <a class="page-btn"> Sau </a>
+                                }
+                                <a href="javascript:PagerClick(@Model.PageCount);" class="page-btn"> Cuối </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <script type="text/javascript">
+                    function PagerClick(index) {
+                        document.getElementById("hfCurrentPage").value = index;
+                        document.forms[0].submit();
+                    }
+                </script>
+            </form>
+        }
 
-        
+
+
+
 
         <style>
             .page-btn {
@@ -132,6 +138,9 @@
                 margin-right: 5px;
             }
 
+                .page-btn:hover {
+                    color: #fff;
+                }
 
             .form-submit {
                 background: transparent;

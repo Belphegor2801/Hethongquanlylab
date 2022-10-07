@@ -1,4 +1,5 @@
-﻿.backMainPage {
+﻿
+.backMainPage {
     margin: 0;
     color: #212121;
     padding-top: 40px;
@@ -18,7 +19,7 @@
 
 table {
     border-collapse: collapse;
-    width: 100%;
+    width: 65vw;
     margin: auto;
 }
 
@@ -49,7 +50,7 @@ table tr:nth-child(1) {
 }
 
 .add-nhanSu,
-.btn-excel {
+.btn-excel, btn {
     height: 52px;
     width: 132px;
     background-color: #edcd1f;
@@ -60,7 +61,7 @@ table tr:nth-child(1) {
     }
 
 .wrap-sreach {
-    width: 1030px;
+    width: 65vw;
     margin: auto;
     margin-bottom: 36px;
     margin-top: 36px;
@@ -83,10 +84,10 @@ table tr:nth-child(1) {
     }
 
 .wrap-totalMember {
-    width: 30%;
+    width: 65vw;
     margin: auto;
     display: flex;
-    margin-top: 25px;
+    margin-top: 36px;
 }
 
 .totalMember {
@@ -146,7 +147,7 @@ label textarea {
 }
 
 .wrap-themDuAn {
-    width: 65%;
+    width: 65vw;
     display: flex;
     flex-wrap: wrap;
     margin: auto;
@@ -154,16 +155,16 @@ label textarea {
 }
 
     .wrap-themDuAn label {
-        width: 100%;
-        display: block;
+        width: 30vw;
+        display: flex;
         flex-direction: column;
     }
 
         .wrap-themDuAn label input {
             padding: 8px 24px;
             margin: 12px 0;
-            width: 100%
         }
+
 
 
 .ui-dialog-titlebar {

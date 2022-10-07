@@ -49,7 +49,7 @@ namespace Hethongquanlylab.Controllers
 
                 Account user = AccountDAO.Instance.GetAccountbyUsername_Excel(accountLoginInput.UserName);
 
-                if (user.Username == null && loginSubmit == "1")  // Không tìm thấy tên đăng nhập trong database
+                if (user == null && loginSubmit == "1")  // Không tìm thấy tên đăng nhập trong database
                 {
                     TempData["msg"] = "Tài khoản không tồn tại!";
                     return View("./Views/Shared/Login/Login.cshtml", accountLoginInput);

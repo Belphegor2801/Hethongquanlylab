@@ -7,12 +7,38 @@
         {
             <a asp-action="Account" class="header-item">Tài khoản</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model.SessionVar == "Ban Đào Tạo")
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if ((Model.SessionVar == "Ban Truyền Thông") || (Model.SessionVar == "Ban Sự Kiện"))
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            //<a asp-action="Project" class="header-item">Dự án</a>
+            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar == "Ban Điều Hành")
+        {
+            <a asp-action="Notification" class="header-item">Thông báo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar.Contains("PT"))
+        {
             <a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
@@ -22,13 +48,19 @@
         else
         {
             <a class="header-item"></a>
-            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            //<a asp-action="Notification" class="header-item">Thông báo</a>
+            //<a asp-action="Project" class="header-item">Dự án</a>
+            //<a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            //<a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-
     }
 
     @section Login{
+        <li class="user-info-item">
+            <a target="_blank" href="@Model.Link">Lịch làm việc</a>
+        </li>
         <li class="user-info-item">
             <a asp-controller="Login" asp-action="ChangetoChangePassword">Đổi mật khẩu</a>
         </li>
@@ -46,7 +78,7 @@
     <link rel="stylesheet" href="~/css/procedures.css">
 </head>
 <body>
-    @RenderBody()
+    @RenderBody();
     <form asp-action="Project" method="post" style="z-index: 0;">
         <div class="wrap-back" style="display:flex;">
             <a asp-action="Index"><h2 class="backMainPage"> Trang Chủ</h2></a>
@@ -54,17 +86,9 @@
             <a asp-action="Project"><h2 style="padding-left: 10px;" class="backMainPage">Dự án</h2></a>
         </div>
 
-        <div style="width: 65vw;margin: auto;text-align: right;">
-            @if (Model.SessionVar == "Ban Đào Tạo")
-            {
-                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProject")'">Thêm bài đào tạo</button>
-                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
-            }
-            else
-            {
-                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProject")'">Thêm dự án</button>
-                <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportTrainingToExcel")'">Xuất file Excel</button>
-            }
+        <div style="width: 1030px;margin: auto;text-align: right;">
+            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("AddProject")'">Thêm dự án</button>
+            <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportProjectToExcel")'">Xuất file Excel</button>
         </div>
 
         <div class="wrap-sreach">
@@ -93,43 +117,43 @@
         <div class="container mt-2">
             <table class="table-quyTrinh">
                 <tr>
-                    <th>
+                    <th style="text-align: center;">
                         ID
                         <button name="sortOrder" id="Id" value="Id" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Tên dự án
                         <button name="sortOrder" id="Name" value="Name" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Ngày bắt đầu
                         <button name="sortOrder" id="Startday" value="Startday" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Ngày kết thúc
                         <button name="sortOrder" id="Endday" value="Endday" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Loại dự án
-                        <button name="sortOrder" id="ProjectType" value="ProjectType" onchange="this.forms.submit">
+                        <button name="sortOrder" id="ProjectType" value="Type" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Đơn vị
                         <button name="sortOrder" id="Unit" value="Unit" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
-                    <th>
+                    <th style="text-align: center;">
                         Trạng thái
                         <button name="sortOrder" id="Status" value="Status" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
@@ -146,35 +170,26 @@
                     foreach (var item in Model.Items)
                     {
                         <tr id="0" style="user-select: auto;">
-                            <td style="user-select: auto; text-align: center;"> @item.SubID</td>
+                            <td style="user-select: auto; text-align: center;"> @item.ID</td>
                             <td style="user-select: auto;"> @item.Name</td>
                             <td style="user-select: auto; text-align: center;"> @item.Startday</td>
                             <td style="user-select: auto; text-align: center;"> @item.Endday</td>
-                            <td style="user-select: auto; text-align: center;"> @item.ProjectType</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Type</td>
                             <td style="user-select: auto; text-align: center;"> @item.Unit</td>
                             <td style="user-select: auto; text-align: center;"> @item.Status</td>
                             <td style="user-select: auto; text-align: center;">
-                                @if (Model.SessionVar != "Ban Đào Tạo")
-                                {
-                                    <button type="button" onclick="location.href='@Url.Action("ProjectDetail", new { ProjectID = item.Id })'">
-                                        <i class="fa fa-info-circle"></i>
-                                    </button>
-                                    <button type="button" onclick="confirm_detele(@item.Id)" id="deleteMember" value="@item.Id">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button type="button" onclick="location.href='@Url.Action("ProjectDetail", new { ProjectID = item.Id })'">
-                                        <i class="fa fa-info-circle"></i>
-                                    </button>
-                                }
+                                <button type="button" onclick="location.href='@Url.Action("ProjectDetail", new {ProjectID = item.ID })'">
+                                    <i class="fa fa-info-circle"></i>
+                                </button>
+                                <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
                             </td>
                             <script>
                             var modelSortOrder = "@Html.Raw(Model.SortOrder)";
-                            var idSort = document.getElementById("Id");
-                            if (modelSortOrder === "Id") {
-                                idSort.value = "Id_desc";
+                            var idSort = document.getElementById("ID");
+                            if (modelSortOrder === "ID") {
+                                idSort.value = "ID_desc";
                             }
 
                             var idSort = document.getElementById("Name");
@@ -186,28 +201,26 @@
                             if (modelSortOrder === "Startday") {
                                 idSort.value = "Startday_desc";
                             }
-                    var idSort = document.getElementById("Endday");
-                    if (modelSortOrder === "Endday") {
-                        idSort.value = "Endday_desc";
-                    }
-                    var idSort = document.getElementById("Unit");
-                    if (modelSortOrder === "Unit") {
-                        idSort.value = "Unit_desc";
-                    }
-                    var idSort = document.getElementById("Status");
-                    if (modelSortOrder === "Status") {
-                        idSort.value = "Status_desc";
+                            var idSort = document.getElementById("Endday");
+                            if (modelSortOrder === "Endday") {
+                                idSort.value = "Endday_desc";
+                            }
+                            var idSort = document.getElementById("Type");
+                            if (modelSortOrder === "Type") {
+                                idSort.value = "Type_desc";
+                            }
+                            var idSort = document.getElementById("Unit");
+                            if (modelSortOrder === "Unit") {
+                                idSort.value = "Unit_desc";
+                            }
+                            var idSort = document.getElementById("Status");
+                            if (modelSortOrder === "Status") {
+                                idSort.value = "Status_desc";
                     }
 
                             </script>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr id="1">
-                        Không tìm thấy kết quả hợp lệ!!!
-                    </tr>
                 }
             </table>
         </div>
@@ -218,6 +231,14 @@
                     <a>Tổng dự án: </a>
                     <span id="total">@Model.ItemCount</span>
                 </td>
+
+                @if (Model.PageCount > 0)
+                {
+                    <td>
+                        <a>Trang: </a>
+                        <span id="total">@Model.CurrentPage/@Model.PageCount</span>
+                    </td>
+                }
 
                 <td>
                     <div style="float: right;">
@@ -355,10 +376,10 @@
     {
         foreach (var item in Model.Items)
         {
-            <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.Id">
-                <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa dự án có ID = @item.Id không? </a>
+            <div style="display: none; min-width: 40%; height: 30%; left: 30%; top: 30%; z-index: 1;" class="form-frame delete-form" id="@item.ID">
+                <a style="text-align: center; color: #000;"> Bạn có chắc chắn muốn xóa dự án "@item.Name" không? </a>
                 <div>
-                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteProject", new{ ID = @item.Id})'" value="Có">Có</button>
+                    <button class="form-submit" style="color:#000; border: 1px #edcd1f solid;" onclick="location.href='@Url.Action("DeleteProject", new{ ID = @item.ID})'" value="Có">Có</button>
                     <button class="form-submit" onclick="confirm_delete_disabled()" style="margin-top: 15px; color:#000; border: 1px #edcd1f solid;">Không</button>
                 </div>
             </div>
