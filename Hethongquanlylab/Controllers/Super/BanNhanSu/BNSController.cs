@@ -54,7 +54,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
                 return RedirectToAction("EditMember", new { avt = file.FileName, Key = key });
             else
             {
-                return RedirectToAction("AddMember", new { avt = file.FileName });
+                return RedirectToAction("AddMember_New", new { avt = file.FileName });
             }
         }
 
