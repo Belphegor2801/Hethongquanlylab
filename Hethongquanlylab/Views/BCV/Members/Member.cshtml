@@ -6,7 +6,6 @@
     Layout = "~/Views/Shared/Layout/Members/_Layout_Members.cshtml";
 }
 
-
 @{
     @section Field{
         <select style="height: 30px; float: left; margin-top: 30px;" name="Field" id="Field" onchange="this.form.submit()">
@@ -15,7 +14,7 @@
                 <option value="@Model.Field">@Model.UnitVar[Model.Field]</option>
             }
 
-            @foreach (var item in new List<string>() { "All", "LT", "PT", "BDH" })
+            @foreach (var item in new List<string>() { "All", "LT", "PT", "BCV" })
             {
                 @if ((item != Model.Field))
                 {

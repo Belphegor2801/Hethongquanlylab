@@ -27,9 +27,7 @@ namespace Hethongquanlylab.DAO
         {
             List<Procedure> items = new List<Procedure>();
             if (col == "ApprovalWaiting")
-            {
-               
-                
+            {   
                 if (var == "Ban Điều Hành")
                 {
                     items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Ban Điều Hành", tb));
@@ -39,6 +37,7 @@ namespace Hethongquanlylab.DAO
                 else if (var == "Ban Cố Vấn")
                 {
                     items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Ban Cố Vấn", tb));
+                    items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Nhà Sáng Lập", tb));
                 }
                 else if (var == "Nhà Sáng Lập")
                 {
@@ -109,14 +108,12 @@ namespace Hethongquanlylab.DAO
             procedure.SubID = SubID;
             if (unit == "Ban Điều Hành")
             {
-                procedure.Unit = "Ban Cố Vấn";
+                procedure.ApprovalWaiting = "Ban Cố Vấn";
                 AddProcedure(procedure, "ProcedureApproval"); 
-                procedure.Unit = "Nhà Sáng Lập";
-                AddProcedure(procedure, "ProcedureApproval");
             }
             else if (unit == "Ban Cố Vấn")
             {
-                procedure.Unit = "Nhà Sáng Lập";
+                procedure.ApprovalWaiting = "Nhà Sáng Lập";
                 AddProcedure(procedure, "ProcedureApproval");
             }
             else

@@ -57,6 +57,7 @@ namespace Hethongquanlylab.Controllers
 
             var notification = NotificationDAO.Instance.GetNotificationModelbyId_Excel(currenId);
             var item = new ItemDetail<Notification>(notification, "Home");
+            item.Link = links;
             return View("./Views/Home/NotificationDetail.cshtml", item);
         }
     }
