@@ -7,7 +7,7 @@
         {
             <a asp-action="Account" class="header-item">Tài khoản</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            <a asp-action="Member" class="header-item">Thông tin thành viên</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model.SessionVar == "Ban Đào Tạo")
@@ -16,7 +16,7 @@
             <a asp-action="Project" class="header-item">Dự án</a>
             <a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            //<a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if ((Model.SessionVar == "Ban Truyền Thông") || (Model.SessionVar == "Ban Sự Kiện"))
@@ -25,7 +25,7 @@
             //<a asp-action="Project" class="header-item">Dự án</a>
             //<a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            //<a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model.SessionVar == "Ban Điều Hành")
@@ -34,7 +34,15 @@
             <a asp-action="Project" class="header-item">Dự án</a>
             //<a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            //<a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a>
+        }
+        else if (Model.SessionVar.Contains("PT"))
+        {
+            <a asp-action="Training" class="header-item">Bài đào tạo</a>
+            <a asp-action="Project" class="header-item">Dự án</a>
+            <a asp-action="Procedure" class="header-item">Quy trình</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
         else if (Model.SessionVar == "Admin")

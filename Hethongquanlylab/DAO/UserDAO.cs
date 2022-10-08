@@ -31,11 +31,16 @@ namespace Hethongquanlylab.DAO
         public List<Member> GetListUser(string UnitVar)
         {
             List<Member> members = new List<Member>();
-            if (UnitVar == "PT") members = DataProvider<Member>.Instance.GetListItem("Unit", "PT");
+            if (UnitVar == "PT")
+            {
+                List<Member> memberList = DataProvider<Member>.Instance.GetListItem();
+                members.AddRange(memberList.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "PT", CompareOptions.IgnoreCase) >= 0).ToList());
+                members.AddRange(memberList.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "PowerTeam", CompareOptions.IgnoreCase) >= 0).ToList());
+                members.AddRange(memberList.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "Power Team", CompareOptions.IgnoreCase) >= 0).ToList());
+            }
             else if (UnitVar == "LT") members = DataProvider<Member>.Instance.GetListItem("IsLT", "1");
             else if (UnitVar == "All") members = DataProvider<Member>.Instance.GetListItem();
             else members = DataProvider<Member>.Instance.GetListItem("Unit", UnitVar);
-            
             return members;
         }
 

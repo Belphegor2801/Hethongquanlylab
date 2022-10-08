@@ -170,21 +170,21 @@
 
                 @if (Model.PageCount > 0)
                 {
-                    foreach (var item in Model.Items)
+                    foreach (var item in Model.Items.Select((x, i) => new { Value = x, Index = i + 1 }))
                     {
                         <tr id="0" style="user-select: auto;">
-                            <td style="user-select: auto; text-align: center;"> @item.ID</td>
-                            <td style="user-select: auto;"> @item.Name</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Startday</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Endday</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Type</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Unit</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Status</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Index</td>
+                            <td style="user-select: auto;"> @item.Value.Name</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Value.Startday</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Value.Endday</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Value.Type</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Value.Unit</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Value.Status</td>
                             <td style="user-select: auto; text-align: center;">
-                                <button type="button" onclick="location.href='@Url.Action("ProjectDetail", new {ProjectID = item.ID })'">
+                                <button type="button" onclick="location.href='@Url.Action("ProjectDetail", new {ProjectID = item.Value.ID })'">
                                     <i class="fa fa-info-circle"></i>
                                 </button>
-                                <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
+                                <button type="button" onclick="confirm_detele(@item.Value.ID)" id="deleteMember" value="@item.Value.ID">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </td>

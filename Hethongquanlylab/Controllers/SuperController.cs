@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 using Hethongquanlylab.Models.Login;
+using System.Globalization;
 
 namespace Hethongquanlylab.Controllers
 {
@@ -153,7 +154,7 @@ namespace Hethongquanlylab.Controllers
 
         public IActionResult ChangeToAddAccount()
         {
-            return RedirectToAction("Account", new { var = "Add" });
+            return RedirectToAction("Account", new { var = "1" });
         }
 
         public IActionResult ChangeToNotAddAccount()
@@ -257,7 +258,7 @@ namespace Hethongquanlylab.Controllers
             memberList.CurrentSearchString = searchString;
             memberList.CurrentPage = currentPage;
 
-            List<Member> members;
+            List<Member> members = new List<Member>();
             if (memberList.Field == "All")
                 members = UserDAO.Instance.GetListUser();
             else if (memberList.Field == "PT")
@@ -266,8 +267,51 @@ namespace Hethongquanlylab.Controllers
                 members = UserDAO.Instance.GetListUser("LT");
             else
             {
-                members = UserDAO.Instance.GetListUser();
-                members = members.Where(s => s.Unit.Contains(unit)).ToList();
+                List<Member> Members = UserDAO.Instance.GetListUser();
+                if (memberList.Field == "PTLT")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "lập trình", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "lậptrinh", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "lap trinh", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "laptrinh", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (memberList.Field == "PTCK")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "cơ khí", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "cơkhí", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "co khi", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "cokhi", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (memberList.Field == "PTNN")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "ngoại ngữ", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "ngoạingữ", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "ngoai ngu", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "ngoaingu", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (memberList.Field == "PTTDH")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tự động hóa", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tựđộng hóa", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tự độnghóa", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tựđộnghóa", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tu dong hoa", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (memberList.Field == "PTMKT")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "quản trị doanh nghiệp", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "quan tri doanh nghiep", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (memberList.Field == "PTPTBT")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "PTBT", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "phát triển bản thân", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "phat trien ban than", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else 
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, unit, CompareOptions.IgnoreCase) >= 0).ToList());
+                }
             }
                 
 
@@ -310,7 +354,7 @@ namespace Hethongquanlylab.Controllers
             string exportVar = urlQuery["exportVar"];
             exportVar = exportVar == null ? unitVar : exportVar;
 
-            List<Member> members;
+            List<Member> members = new List<Member>();
             if (exportVar == "All")
                 members = UserDAO.Instance.GetListUser();
             else if (exportVar == "PT")
@@ -318,7 +362,53 @@ namespace Hethongquanlylab.Controllers
             else if (exportVar == "LT")
                 members = UserDAO.Instance.GetListUser("LT");
             else
-                members = UserDAO.Instance.GetListUser(unit);
+            {
+                List<Member> Members = UserDAO.Instance.GetListUser();
+                if (exportVar == "PTLT")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "lập trình", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "lậptrinh", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "lap trinh", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "laptrinh", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (exportVar == "PTCK")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "cơ khí", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "cơkhí", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "co khi", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "cokhi", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (exportVar == "PTNN")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "ngoại ngữ", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "ngoạingữ", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "ngoai ngu", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "ngoaingu", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (exportVar == "PTTDH")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tự động hóa", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tựđộng hóa", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tự độnghóa", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tựđộnghóa", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "tu dong hoa", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (exportVar == "PTMKT")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "quản trị doanh nghiệp", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "quan tri doanh nghiep", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else if (exportVar == "PTPTBT")
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "PTBT", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "phát triển bản thân", CompareOptions.IgnoreCase) >= 0).ToList());
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "phat trien ban than", CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+                else
+                {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, unit, CompareOptions.IgnoreCase) >= 0).ToList());
+                }
+            }
 
             var stream = Function.Instance.ExportToExcel<Member>(members);
             return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThanhVien-" + exportVar +".xlsx");
