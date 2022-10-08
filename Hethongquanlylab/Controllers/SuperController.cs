@@ -505,7 +505,7 @@ namespace Hethongquanlylab.Controllers
         }
 
         [HttpPost]
-        public virtual IActionResult AddMember(String sortOrder, String searchString, String searchField, string IsAdd, string MembersVar, String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
+        public virtual IActionResult AddMember(String Field, String sortOrder, String searchString, String searchField, string IsAdd, string MembersVar, String Key, String LabID, String Name, String Sex, String Birthday, String Gen, String Phone, String Email, String Address, String Specicalization, String University, String Unit, String Position, bool IsLT, bool IsPassPTBT)
         {
             if (IsAdd == "y")
             {
@@ -522,9 +522,9 @@ namespace Hethongquanlylab.Controllers
                         UserDAO.Instance.EditMember(member);
                     }
                 }
-                return RedirectToAction("Member");
+                return RedirectToAction("Member", new {field = Field });
             }
-            return RedirectToAction("AddMember", new { sort = sortOrder, searchField = searchField, searchString = searchString });
+            return RedirectToAction("AddMember", new {sort = sortOrder, searchField = searchField, searchString = searchString });
         }
         // End: thêm thành viên
 
@@ -662,9 +662,9 @@ namespace Hethongquanlylab.Controllers
         }
 
         [HttpPost]
-        public IActionResult Procedure(String sortOrder, String searchString, String searchField, int currentPage = 1)
+        public IActionResult Procedure(String Field, String sortOrder, String searchString, String searchField, int currentPage = 1)
         {
-            return RedirectToAction("Procedure", new { sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage });
+            return RedirectToAction("Procedure", new { field = Field, sort = sortOrder, searchField = searchField, searchString = searchString, page = currentPage }); ;
         }
 
         // Chi tiết quy trình
@@ -684,6 +684,7 @@ namespace Hethongquanlylab.Controllers
             }
             
             var item = new ItemDetail<Procedure>(procedure, unit);
+            item.FieldVar = Field;
             item.Link = links;
             return View(String.Format("./Views/{0}/Procedures/ProcedureDetail.cshtml", unitVar), item);
         }
@@ -697,11 +698,21 @@ namespace Hethongquanlylab.Controllers
             var ID = urlPath.ToString().Split('/').Last();
             var newProcedure = new Procedure(Name, unit, Content.ToString(), Link, ID, SubID); // Khởi tạo trạng thái mặc định quy trình: Status: Chưa duyệt
 
-            if (IsSendToApproval == "y") // Nếu người dùng nhấn "Lưu và gửi duyệt"
+            if (unit == "Ban Điều Hành")
             {
-                newProcedure.V1 = false;
+                newProcedure.V1 = true;
                 newProcedure.V2 = false;
                 newProcedure.V3 = false;
+            }
+            else if (unit == "Ban Cố Vấn")
+            {
+                newProcedure.V1 = true;
+                newProcedure.V2 = true;
+                newProcedure.V3 = false;
+            }
+
+            if (IsSendToApproval == "y") // Nếu người dùng nhấn "Lưu và gửi duyệt"
+            {
                 newProcedure.Status = "Chờ duyệt";
                 ProcedureDAO.Instance.EditProcedure(newProcedure);
                 ProcedureDAO.Instance.SendToApproval(newProcedure, unit);
@@ -717,13 +728,27 @@ namespace Hethongquanlylab.Controllers
         // Thêm quy trình
         public IActionResult AddProcedure()
         {
+            var urlQuery = Request.HttpContext.Request.Query;
+            TempData["field"] = urlQuery["field"];
             return View(String.Format("./Views/{0}/Procedures/AddProcedure.cshtml", unitVar), unit);
         }
 
         [HttpPost]
-        public IActionResult AddProcedure(String Name, String Content, String Link, String IsSendToApproval)
+        public IActionResult AddProcedure(String Field, String Name, String Content, String Link, String IsSendToApproval)
         {
             var newProcedure = new Procedure(Name, unit, Content.ToString(), Link);
+            if (unit == "Ban Điều Hành")
+            {
+                newProcedure.V1 = true;
+                newProcedure.V2 = false;
+                newProcedure.V3 = false;
+            }
+            else if (unit == "Ban Cố Vấn")
+            {
+                newProcedure.V1 = true;
+                newProcedure.V2 = true;
+                newProcedure.V3 = false;
+            }
 
             if (IsSendToApproval == "y")
             {
@@ -736,7 +761,7 @@ namespace Hethongquanlylab.Controllers
             {
                 ProcedureDAO.Instance.AddProcedure(newProcedure);
             }
-            return RedirectToAction("Procedure");
+            return RedirectToAction("Procedure", new { field = Field });
         }
 
         // Xóa quy trình

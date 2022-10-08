@@ -90,6 +90,7 @@
     </div>
     <form asp-action="AddProcedure" method="post" id="form-addprocedure">
         <div class="wrap-themDuAn">
+            <input name="Field" type="hidden" value="@TempData["field"]"/>
             <label for="">
                 <strong style="font-size:20px;">Tên Quy Trình: </strong>
                 <input type="text" name="Name" value="" required>

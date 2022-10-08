@@ -53,7 +53,7 @@
             //<a asp-action="Project" class="header-item">Dự án</a>
             //<a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
-            //<a asp-action="Member" class="header-item">Nhân sự</a>
+            <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
     }
@@ -93,7 +93,7 @@
 
             @if (!(Model.Field == "All"))
             {
-                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProcedure")'">Thêm Quy trình</button>
+                <button class="add-nhanSu" type="button" onclick="location.href='@Url.Action("AddProcedure", new {field = Model.Field})'">Thêm Quy trình</button>
                 <button class="btn-excel" type="button" onclick="location.href='@Url.Action("ExportProcedureToExcel")'">Xuất file Excel</button>
                 <button class="btn-excel" type="button" onclick="location.href='@Url.Action("SendProceduresToApproval")'">Gửi duyệt</button>
             }
