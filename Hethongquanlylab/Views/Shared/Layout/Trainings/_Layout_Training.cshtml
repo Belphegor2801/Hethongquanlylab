@@ -162,15 +162,15 @@
 
                 @if (Model.ItemCount > 0)
                 {
-                    foreach (var item in Model.Items)
+                    foreach (var item in Model.Items.Select((x, i) => new { Value = x, Index = i + 1 }))
                     {
                         <tr id="0" style="user-select: auto;">
-                            <td style="user-select: auto; text-align: center;"> @item.ID</td>
-                            <td style="user-select: auto;"> @item.Name</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Date</td>
-                            <td style="user-select: auto; text-align: center;"> @item.Unit</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Index</td>
+                            <td style="user-select: auto;"> @item.Value.Name</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Value.Date</td>
+                            <td style="user-select: auto; text-align: center;"> @item.Value.Unit</td>
                             <td style="user-select: auto; text-align: center; text-decoration: underline;">
-                                <a style="color: #00a; text-decoration: underline;" target="_blank" href="@item.Link">
+                                <a style="color: #00a; text-decoration: underline;" target="_blank" href="@item.Value.Link">
                                     Link
                                 </a>
                             </td>
@@ -178,16 +178,16 @@
 
                                 @if (Model.SessionVar != "Ban Đào Tạo")
                                 {
-                                    <button type="button" onclick="location.href='@Url.Action("TrainingDetail", new { TrainingID = item.ID })'">
+                                    <button type="button" onclick="location.href='@Url.Action("TrainingDetail", new { TrainingID = item.Value.ID })'">
                                         <i class="fa fa-info-circle"></i>
                                     </button>
-                                    <button type="button" onclick="confirm_detele(@item.ID)" id="deleteMember" value="@item.ID">
+                                    <button type="button" onclick="confirm_detele(@item.Value.ID)" id="deleteMember" value="@item.Value.ID">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 }
                                 else
                                 {
-                                    <button type="button" onclick="inforDetail(@item.ID)"><i class="fa fa-info-circle"></i></button>
+                                    <button type="button" onclick="inforDetail(@item.Value.ID)"><i class="fa fa-info-circle"></i></button>
                                 }
 
                             </td>
