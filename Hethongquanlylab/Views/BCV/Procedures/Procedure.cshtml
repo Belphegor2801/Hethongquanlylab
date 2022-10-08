@@ -4,3 +4,21 @@
     Layout = "~/Views/Shared/Layout/Procedures/_Layout_Procedures.cshtml";
 }
 
+@{
+    @section Field{
+        <select style="height: 30px; float: left; margin-top: 30px;" name="Field" id="Field" onchange="this.form.submit()">
+            @if (!String.IsNullOrWhiteSpace(@Model.Field))
+            {
+                <option value="@Model.Field">@Model.ProcedureVar[Model.Field]</option>
+            }
+
+            @foreach (var item in new List<string>() { "All", "BCV" })
+            {
+                @if ((item != Model.Field))
+                {
+                    <option value="@item">@Model.ProcedureVar[@item]</option>
+                }
+            }
+        </select>
+    }
+}
