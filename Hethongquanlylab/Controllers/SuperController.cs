@@ -216,7 +216,7 @@ namespace Hethongquanlylab.Controllers
             return RedirectToAction("Account");
         }
 
-        //// Begin Thông tin thành viên
+        //// Begin Nhân sự
         /// Bảng nhân sự
         public IActionResult Member()
         {
@@ -620,7 +620,7 @@ namespace Hethongquanlylab.Controllers
             UserDAO.Instance.EditMember(member);
             return RedirectToAction("AssessMember", new { Key = Key });
         }
-        //// End: Thông tin thành viên
+        //// End: Nhân sự
 
 
 
