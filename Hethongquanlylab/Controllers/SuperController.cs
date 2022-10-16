@@ -1060,7 +1060,7 @@ namespace Hethongquanlylab.Controllers
             if (field == unitVar)
                 projects = ProjectDAO.Instance.GetProjectList(unit);
             else
-                projects = ProjectDAO.Instance.GetProjectList("All");
+                projects = ProjectDAO.Instance.GetProjectList();
 
             projects = Function.Instance.searchItems(projects, projectList);
             projects = Function.Instance.sortItems(projects, projectList.SortOrder);
@@ -1127,9 +1127,15 @@ namespace Hethongquanlylab.Controllers
 
             return RedirectToAction("Project");
         }
+        public IActionResult DeleteProject()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String ID_delete = urlQuery["ID"];
+            int delete_Id = Convert.ToInt32(ID_delete);
+            return RedirectToAction("Project");
+        }
 
-
-        public IActionResult ExportProjectToExcel()
+    public IActionResult ExportProjectToExcel()
         {
             var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
             string exportVar = urlQuery["exportVar"];
