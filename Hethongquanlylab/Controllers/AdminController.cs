@@ -176,7 +176,7 @@ namespace Hethongquanlylab.Controllers
                 }
             }
 
-            List<String> superAccountList = new List<String>() { "BanNhanSu", "BanDieuHanh", "BanDoiSong", "BanSuKien", "BanDaoTao", "BanGiamSat", "BanTruyenThong", "BanCoVan", "PTLT", "PTCK", "PTTDH", "PTPTBT", "PTNN", "PTMKT" };
+            List<String> superAccountList = new List<String>() {"NhaSangLap", "NhaDongSangLap", "BanNhanSu", "BanDieuHanh", "BanDoiSong", "BanSuKien", "BanDaoTao", "BanGiamSat", "BanTruyenThong", "BanCoVan", "PTLT", "PTCK", "PTTDH", "PTPTBT", "PTNN", "PTMKT" };
 
             foreach (string item in superAccountList)
             {

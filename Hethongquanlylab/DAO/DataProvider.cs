@@ -17,6 +17,8 @@ namespace Hethongquanlylab.DAO
         }
         private DataProvider() { }
 
+
+        //private string connectionSTR = @"Data Source=NGOXUANHINH2801;Initial Catalog=Hethongquanlylab;Integrated Security=True";
         private string connectionSTR = @"Data Source = SQL8001.site4now.net; Initial Catalog = db_a8dd53_ltsdatabase; User Id = db_a8dd53_ltsdatabase_admin; Password=abc12345678";
 
 

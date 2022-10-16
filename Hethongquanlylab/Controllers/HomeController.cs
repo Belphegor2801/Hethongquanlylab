@@ -28,6 +28,7 @@ namespace Hethongquanlylab.Controllers
             var urlQuery = Request.HttpContext.Request.Query;
             page = urlQuery["page"]; // Lấy trang thông báo
             var notificationList = Function.Instance.getNotifications(page);
+            notificationList.Items = notificationList.Items.Where(s => s.Inner == false).ToList();
             notificationList.Link = links;
             return View("~/Views/Home/Home.cshtml", notificationList);
         }

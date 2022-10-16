@@ -15,6 +15,7 @@ namespace Hethongquanlylab.Models
         private string unit;
         private string date;
         private string link;
+        private bool inner;
 
         public int ID { get => id; set => id = value; }
         public string Title { get => title; set => title = value; }
@@ -22,8 +23,9 @@ namespace Hethongquanlylab.Models
         public string Unit { get => unit; set => unit = value; }
         public string Date { get => date; set => date = value; }
         public string Link { get => link; set => link = value; }
+        public bool Inner { get => inner; set => inner = value; }
 
-        public Notification(string title, string content,string unit, string date, string link, int ID = 1)
+        public Notification(string title, string content,string unit, string date, string link, bool inner, int ID = 1)
         {
             this.ID = ID;
             this.Title = title;
@@ -31,6 +33,7 @@ namespace Hethongquanlylab.Models
             this.Unit = unit;
             this.Date = date;
             this.Link = link;
+            this.Inner = inner;
         }
 
         public Notification(DataRow row)
@@ -41,6 +44,7 @@ namespace Hethongquanlylab.Models
             this.Date = row.IsNull("Date") ? "N/A" : row["Date"].ToString();
             this.Content = row.IsNull("Content") ? "N/A" : row["Content"].ToString();
             this.Link = row.IsNull("Link") ? "N/A" : row["Link"].ToString();
+            this.Inner = Convert.ToBoolean(row.IsNull("Inner") ? true : row["Inner"]);
         }
     }
 }

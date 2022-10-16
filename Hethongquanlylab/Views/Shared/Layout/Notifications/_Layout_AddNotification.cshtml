@@ -28,7 +28,7 @@
             <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model == "Ban Điều Hành")
+        else if ((Model == "Ban Điều Hành") || (Model == "Ban Cố Vấn") || (Model == "Nhà Sáng Lập") || (Model== "Nhà Đồng Sáng Lập"))
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -88,9 +88,16 @@
     </div>
     <form asp-action="AddNotification" method="post" id="form-addnotification">
         <div class="wrap-themDuAn">
-            <label for="">
+            <label for="" style="display: flex;">
                 <strong style="font-size:20px;">Tiêu đề: </strong>
                 <input type="text" name="Title" value="" required>
+            </label>
+            <label>
+                <strong style="font-size:20px;">Loại thông báo: </strong>
+                <select name="Inner" value="">
+                    <option value="Nội bộ">Nội bộ</option>
+                    <option value="Toàn bộ">Toàn bộ</option>
+                </select>
             </label>
 
             <table><tr><td style="font-size: 20px; font-weight: bold;">Nội dung thông báo</td></tr></table>
@@ -107,11 +114,15 @@
                 <input type="url" id="input-link" name="Link" value="">
             </label>
 
-            <div class="" style="margin-left: 70%;">
-                <button style="width: 200px;" type="button" class="add-nhanSu" onclick="confirm()">
-                    <i class="fa-solid fa-plus"></i>
-                    Gửi thông báo
-                </button>
+
+            <div style="width: inherit;">
+                <div style="float: right;">
+                    <button style="width: 200px;" type="button" class="add-nhanSu" onclick="confirm()">
+                        <i class="fa-solid fa-plus"></i>
+                        Gửi thông báo
+                    </button>
+                </div>
+                
             </div>
         </div>
         <script>

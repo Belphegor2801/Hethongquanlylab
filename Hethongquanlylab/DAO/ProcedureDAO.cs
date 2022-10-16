@@ -39,7 +39,7 @@ namespace Hethongquanlylab.DAO
                     items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Ban Cố Vấn", tb));
                     items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Nhà Sáng Lập", tb));
                 }
-                else if (var == "Nhà Sáng Lập")
+                else if ((var == "Nhà Sáng Lập") || (var == "Nhà Đồng Sáng Lập"))
                 {
                     items.AddRange(DataProvider<Procedure>.Instance.GetListItem(col, "Nhà Sáng Lập", tb));
                 }
@@ -97,7 +97,6 @@ namespace Hethongquanlylab.DAO
                 foreach (var attr in allAttr)
                     newProcedure[attr.Name] = attr.GetValue(procedure);
             }
-
             DataProvider<Procedure>.Instance.UpdateData(data, tableName);
         }
 
@@ -133,9 +132,17 @@ namespace Hethongquanlylab.DAO
             {
                 procedure.BdhReply = feedback;
             }
-            if (unit == "Ban Cố Vấn")
+            else if (unit == "Ban Cố Vấn")
             {
                 procedure.BcvReply = feedback;
+            }
+            else if (unit == "Nhà Sáng Lập")
+            {
+                procedure.NSLReply = feedback;
+            }
+            else if (unit == "Nhà Đồng Sáng Lập")
+            {
+                procedure.NDSLReply = feedback;
             }
             EditProcedure(procedure); // Đã có xóa ở sheet này
         }
@@ -160,6 +167,11 @@ namespace Hethongquanlylab.DAO
             {
                 procedure.V3 = true;
                 procedure.NSLReply = Feedback;
+            }
+            else if (unit == "Nhà Đồng Sáng Lập")
+            {
+                procedure.V3 = true;
+                procedure.NDSLReply = Feedback;
             }
             procedure.Status = unit + " đã duyệt";
             ProcedureDAO.Instance.EditProcedure(procedure);
@@ -187,6 +199,10 @@ namespace Hethongquanlylab.DAO
             else if (unit == "Nhà Sáng Lập")
             {
                 procedure.NSLReply = Feedback;
+            }
+            else if (unit == "Nhà Đồng Sáng Lập")
+            {
+                procedure.NDSLReply = Feedback;
             }
             procedure.Status = unit + " trả lại";
             ProcedureDAO.Instance.EditProcedure(procedure);

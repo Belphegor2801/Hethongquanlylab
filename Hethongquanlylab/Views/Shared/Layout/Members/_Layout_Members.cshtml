@@ -28,7 +28,7 @@
             <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model.SessionVar == "Ban Điều Hành")
+        else if ((Model.SessionVar == "Ban Điều Hành") || (Model.SessionVar == "Ban Cố Vấn") || (Model.SessionVar == "Nhà Sáng Lập") || (Model.SessionVar == "Nhà Đồng Sáng Lập"))
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -449,6 +449,13 @@
                                 @if (!((Model.Field == "All") || (Model.Field == "LT") || (Model.Field == "PT")))
                                 {
                                     <button type="button" style="left: 0%;" class="nutan" onclick="confirm_detele(@item.Key)">Xóa</button>
+                                }
+                                
+                                @if ((Model.SessionVar == "Ban Cố Vấn") || (Model.SessionVar == "Nhà Sáng Lập") || (Model.SessionVar == "Nhà Đồng Sáng Lập"))
+                                {
+                                    <a href="@Url.Action("AssessMember", new{ Key = @item.Key})" target="_blank">
+                                        <button type="button" class="nutan">Đánh giá</button>
+                                    </a>
                                 }
 
                                 <button type="button" style="float: right !important;" onclick="inforDetail_disabled()" class="nutan">Thoát</button>

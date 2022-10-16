@@ -28,7 +28,7 @@
             <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model.SessionVar == "Ban Điều Hành")
+        else if ((Model.SessionVar == "Ban Điều Hành") || (Model.SessionVar == "Ban Cố Vấn") || (Model.SessionVar == "Nhà Sáng Lập") || (Model.SessionVar == "Nhà Đồng Sáng Lập"))
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -120,14 +120,17 @@
             <table class="table-quyTrinh">
                 <tr>
                     <th style="text-align: center;">
-                        ID
-                        <button name="sortOrder" id="Id" value="Id" onchange="this.forms.submit">
-                            <i class="fa fa-sort"></i>
-                        </button>
+                        STT
                     </th>
                     <th>
                         Tên thông báo
                         <button name="sortOrder" id="Title" value="Title" onchange="this.forms.submit">
+                            <i class="fa fa-sort"></i>
+                        </button>
+                    </th>
+                    <th style="text-align: center;">
+                        Loại
+                        <button name="sortOrder" id="Inner" value="Inner" onchange="this.forms.submit">
                             <i class="fa fa-sort"></i>
                         </button>
                     </th>
@@ -153,6 +156,15 @@
                         <tr id="0" style="user-select: auto;">
                             <td style="user-select: auto; text-align: center;"> @item.Index</td>
                             <td style="user-select: auto;"> @item.Value.Title</td>
+                            @if (item.Value.Inner)
+                            {
+                                <td style="user-select: auto; text-align: center;"> Nội bộ</td>
+                            }
+                            else
+                            {
+                                <td style="user-select: auto; text-align: center;"> Toàn bộ</td>
+                            }
+                           
                             <td style="user-select: auto; text-align: center;"> @item.Value.Date</td>
                             <td style="user-select: auto; text-align: center; text-decoration: underline;">
                                 <a style="color: #00a; text-decoration: underline;" target="_blank" href="@item.Value.Link">
@@ -172,6 +184,10 @@
                             var idSort = document.getElementById("ID");
                             if (modelSortOrder === "ID") {
                                 idSort.value = "ID_desc";
+                            }
+                            var idSort = document.getElementById("Inner");
+                            if (modelSortOrder === "Inner") {
+                                idSort.value = "Inner_desc";
                             }
 
                             var idSort = document.getElementById("Title");

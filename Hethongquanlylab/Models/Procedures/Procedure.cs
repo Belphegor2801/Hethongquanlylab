@@ -21,6 +21,7 @@ namespace Hethongquanlylab.Models
         private string bcvReply;
         private bool v3;
         private string nslReply;
+        private string ndslReply;
         private string status;
         private string link;
 
@@ -39,8 +40,9 @@ namespace Hethongquanlylab.Models
         public string BdhReply { get => bdhReply; set => bdhReply = value; }
         public string BcvReply { get => bcvReply; set => bcvReply = value; }
         public string NSLReply { get => nslReply; set => nslReply = value; }
+        public string NDSLReply { get => ndslReply; set => ndslReply = value; }
 
-        
+
 
         public Procedure(string name, string unit, string content, string link, string id = "1", string subid = "SubID") // Thêm mới + chỉnh sửa
         {
@@ -65,7 +67,7 @@ namespace Hethongquanlylab.Models
             this.BdhReply = "Chưa có phản hồi";
             this.BcvReply = "Chưa có phản hồi";
         }
-        public Procedure(string id, string name, string unit, string content, string bdh, string bcv, string link) // Phản hồi
+        public Procedure(string id, string name, string unit, string content, string bdh, string bcv, string nsl, string ndsl, string link) // Phản hồi
         {
             this.ID = id;
             this.Name = name;
@@ -86,9 +88,11 @@ namespace Hethongquanlylab.Models
             this.Status = "Chưa duyệt";
             this.BdhReply = bdh;
             this.BcvReply = bcv;
+            this.NSLReply = nsl;
+            this.NDSLReply = ndsl;
         }
 
-        public Procedure(string id, string subid, string name, string unit, string senddate, string content, bool v1, string bdh,  bool v2, string bcv, bool v3, string nsl, string status, string link) // Load từ excel
+        public Procedure(string id, string subid, string name, string unit, string senddate, string content, bool v1, string bdh,  bool v2, string bcv, bool v3, string nsl, string ndsl, string status, string link) // Load từ excel
         {
             this.ID = id;
             this.SubID = subid;
@@ -106,6 +110,7 @@ namespace Hethongquanlylab.Models
             this.BdhReply = bdh;
             this.BcvReply = bcv;
             this.NSLReply = nsl;
+            this.NDSLReply = ndsl;
             this.Status = status;
         }
 
@@ -120,6 +125,7 @@ namespace Hethongquanlylab.Models
             this.BdhReply = row.IsNull("BdhReply") ? "N/A" : row["BdhReply"].ToString();
             this.BcvReply = row.IsNull("BcvReply") ? "N/A" : row["BcvReply"].ToString();
             this.NSLReply = row.IsNull("NSLReply") ? "N/A" : row["NSLReply"].ToString();
+            this.NDSLReply = row.IsNull("NDSLReply") ? "N/A" : row["NDSLReply"].ToString();
             this.Status = row.IsNull("Status") ? "N/A" : row["Status"].ToString();
             this.Link = row.IsNull("Link") ? "N/A" : row["Link"].ToString();
 

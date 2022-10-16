@@ -235,7 +235,7 @@ namespace Hethongquanlylab.Controllers
             searchString = urlQuery["SearchString"];
             page = urlQuery["page"];
 
-            if (unit == "Ban Nhân Sự")
+            if ((unit == "Ban Nhân Sự") || (unit == "Ban Điều Hành") || (unit == "Ban Cố Vấn") || (unit == "Nhà Sáng Lập") || (unit == "Nhà Đồng Sáng Lập"))
             {
                 field = field == null ? "All" : field;
             }
@@ -299,6 +299,7 @@ namespace Hethongquanlylab.Controllers
                 }
                 else if (memberList.Field == "PTMKT")
                 {
+                    members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "marketing", CompareOptions.IgnoreCase) >= 0).ToList());
                     members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "quản trị doanh nghiệp", CompareOptions.IgnoreCase) >= 0).ToList());
                     members.AddRange(Members.Where(s => CultureInfo.CurrentCulture.CompareInfo.IndexOf(s.Unit, "quan tri doanh nghiep", CompareOptions.IgnoreCase) >= 0).ToList());
                 }
@@ -417,6 +418,7 @@ namespace Hethongquanlylab.Controllers
         // Thêm thành viên
         public virtual IActionResult AddMember()
         {
+
             // Khởi tạo
             String field;
             String sortOrder;
@@ -542,8 +544,6 @@ namespace Hethongquanlylab.Controllers
             {
                 UserDAO.Instance.DeleteMemberFromUnit(Key_delete, unit);
             }
-            
-
             return RedirectToAction("Member");
         }
 
@@ -581,11 +581,45 @@ namespace Hethongquanlylab.Controllers
             var address = Address == null ? "N/A" : Address;
             var specializaion = Specicalization == null ? "N/A" : Specicalization;
             var university = University == null ? "N/A" : University;
-            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT, Key);
-            UserDAO.Instance.EditMember(newMember);
+
+            var member = UserDAO.Instance.GetUserByID(Key);
+            member.LabID = LabID;
+            member.Name = Name;
+            member.Sex = Sex;
+            member.Birthday = Birthday;
+            member.Gen = Gen;
+            member.Phone = Phone;
+            member.Email = email;
+            member.Address = Address;
+            member.Specialization = specializaion;
+            member.University = university;
+            member.Unit = unit;
+            member.Position = position;
+            member.IsLT = IsLT;
+            member.IsPassPTBT = IsPassPTBT;
+
+            UserDAO.Instance.EditMember(member);
             return RedirectToAction("Member");
         }
 
+        public IActionResult AssessMember()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String CurrentID = urlQuery["Key"]; // Url: .../DeteleMeber?Key={key}
+            var member = UserDAO.Instance.GetUserByID(CurrentID);
+            var item = new ItemDetail<Member>(member, unit);
+            item.Link = links;
+            return View(String.Format("./Views/{0}/Members/AssessMember.cshtml", unitVar), item);
+        }
+
+        [HttpPost]
+        public IActionResult AssessMember(String Key, String Content)
+        {
+            var member = UserDAO.Instance.GetUserByID(Key);
+            member.Assessment = Content;
+            UserDAO.Instance.EditMember(member);
+            return RedirectToAction("AssessMember", new { Key = Key });
+        }
         //// End: Thông tin thành viên
 
 
@@ -616,8 +650,8 @@ namespace Hethongquanlylab.Controllers
                 field = field == null ? unitVar : field;
             }
             
-            sortOrder = sortOrder == null ? "ID" : sortOrder;
-            searchField = searchField == null ? "ID" : searchField;
+            sortOrder = sortOrder == null ? "Name" : sortOrder;
+            searchField = searchField == null ? "Name" : searchField;
             searchString = searchString == null ? "" : searchString;
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
@@ -804,8 +838,8 @@ namespace Hethongquanlylab.Controllers
             searchField = urlQuery["searchField"];
             searchString = urlQuery["SearchString"];
 
-            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
-            searchField = searchField == null ? "ID" : searchField;
+            sortOrder = sortOrder == null ? "Name" : sortOrder; ;
+            searchField = searchField == null ? "Name" : searchField;
             searchString = searchString == null ? "" : searchString;
 
             ItemDisplay<Procedure> procedureList = new ItemDisplay<Procedure>();
@@ -898,8 +932,8 @@ namespace Hethongquanlylab.Controllers
             else
                 field = field == null ? unitVar : field;
 
-            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
-            searchField = searchField == null ? "ID" : searchField;
+            sortOrder = sortOrder == null ? "Name" : sortOrder; ;
+            searchField = searchField == null ? "Name" : searchField;
             searchString = searchString == null ? "" : searchString;
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
@@ -1043,8 +1077,8 @@ namespace Hethongquanlylab.Controllers
             else
                 field = field == null ? unitVar : field;
 
-            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
-            searchField = searchField == null ? "ID" : searchField;
+            sortOrder = sortOrder == null ? "Name" : sortOrder; ;
+            searchField = searchField == null ? "Name" : searchField;
             searchString = searchString == null ? "" : searchString;
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
@@ -1135,7 +1169,17 @@ namespace Hethongquanlylab.Controllers
             return RedirectToAction("Project");
         }
 
-    public IActionResult ExportProjectToExcel()
+        public IActionResult DeleteProject()
+        {
+            var urlQuery = Request.HttpContext.Request.Query;
+            String ID = urlQuery["projectID"];
+
+            ProjectDAO.Instance.DeleteProject(ID);
+
+            return RedirectToAction("Project");
+        }
+
+        public IActionResult ExportProjectToExcel()
         {
             var urlQuery = Request.HttpContext.Request.Query; // Url: .../Member?Sort={sortOrder}&searchField={searchField}...
             string exportVar = urlQuery["exportVar"];
@@ -1145,7 +1189,7 @@ namespace Hethongquanlylab.Controllers
             if (exportVar == unitVar)
                 projects = ProjectDAO.Instance.GetProjectList(unit);
             else
-                projects = ProjectDAO.Instance.GetProjectList("All");
+                projects = ProjectDAO.Instance.GetProjectList();
 
 
             var stream = Function.Instance.ExportToExcel<Project>(projects);
@@ -1165,8 +1209,8 @@ namespace Hethongquanlylab.Controllers
             searchString = urlQuery["SearchString"];
             page = urlQuery["page"];
 
-            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
-            searchField = searchField == null ? "ID" : searchField;
+            sortOrder = sortOrder == null ? "Name" : sortOrder; ;
+            searchField = searchField == null ? "Name" : searchField;
             searchString = searchString == null ? "" : searchString;
             page = page == null ? "1" : page;
             int currentPage = Convert.ToInt32(page);
@@ -1238,21 +1282,40 @@ namespace Hethongquanlylab.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNotification(String Title, String Content, String Date, String Link)
+        public IActionResult AddNotification(String Title, String Content, String Date, String Link, String Inner)
         {
-            var newNotification = new Notification(Title, Content, unit, Date, Link);
+            bool inner;
+            if (Inner == "Toàn bộ")
+            {
+                inner = false;
+            }
+            else
+            {
+                inner = true;
+            }
+            var newNotification = new Notification(Title, Content, unit, Date, Link, inner);
             NotificationDAO.Instance.AddNotification(newNotification);
             return RedirectToAction("Notification");
         }
         [HttpPost]
-        public IActionResult EditNotification(String Title, String Content, String Date, String Link)
+        public IActionResult EditNotification(String Title, String Content, String Date, String Link, String Inner)
         {
             var reqUrl = Request.HttpContext.Request;
             var urlPath = reqUrl.Path;
             var CurrentID = urlPath.ToString().Split('/').Last();
             var ID = Convert.ToInt32(CurrentID);
 
-            var newNotification = new Notification(Title, Content.ToString(), unit, Date, Link, ID);
+            bool inner;
+            if (Inner == "Toàn bộ")
+            {
+                inner = false;
+            }
+            else
+            {
+                inner = true;
+            }
+
+            var newNotification = new Notification(Title, Content.ToString(), unit, Date, Link, inner, ID);
             NotificationDAO.Instance.EditNotification(newNotification);
             return RedirectToAction("Notification");
         }
