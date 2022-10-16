@@ -16,6 +16,7 @@
     [IsLT]           BIT            DEFAULT ((0)) NULL,
     [IsPassPTBT]     BIT            DEFAULT ((0)) NULL,
     [Status]         NUMERIC (18)   DEFAULT ((1)) NULL,
+    [Assessment]     NVARCHAR (MAX) DEFAULT ('Không') NULL,
     PRIMARY KEY CLUSTERED ([Key] ASC)
 );
 
