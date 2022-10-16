@@ -29,7 +29,7 @@
             <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model.SessionVar == "Ban Điều Hành")
+        else if ((Model.SessionVar == "Ban Điều Hành") || (Model.SessionVar == "Ban Cố Vấn") || (Model.SessionVar == "Nhà Sáng Lập") || (Model.SessionVar == "Nhà Đồng Sáng Lập"))
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -130,6 +130,9 @@
         <div class="container mt-2">
             <table class="table-quyTrinh">
                 <tr>
+                    <th width="6%" style="text-align: center;">
+                        STT
+                    </th>
                     <th width="8%" style="text-align: center;">
                         ID
                         <button name="sortOrder" id="ID" value="ID" onchange="this.forms.submit">
@@ -183,6 +186,14 @@
                     {
                         <tr id="0" style="user-select: auto;">
                             <td style="user-select: auto; text-align: center;"> @item.Index</td>
+                            @if ((Model.Field == "All"))
+                            {
+                                <td style="user-select: auto; text-align: center;"> @item.Value.SubID</td>
+                            }
+                            else
+                            {
+                                <td style="user-select: auto; text-align: center;"> @item.Value.ID</td>
+                            }
                             <td style="user-select: auto;"> @item.Value.Name</td>
                             <td style="user-select: auto; text-align: center;"> @item.Value.Senddate</td>
 

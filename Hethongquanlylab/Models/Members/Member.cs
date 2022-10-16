@@ -25,7 +25,8 @@ namespace Hethongquanlylab.Models
         private string position;
         private bool isLT;
         private bool isPassPTBT;
-        private int status; 
+        private int status;
+        private string assessment;
 
         public string Key { get => key; set => key = value; }
         public string LabID { get => labID; set => labID = value; }
@@ -44,8 +45,9 @@ namespace Hethongquanlylab.Models
         public bool IsLT { get => isLT; set => isLT = value; }
         public bool IsPassPTBT { get => isPassPTBT; set => isPassPTBT = value; }
         public int Status { get => status; set => status = value; }
+        public string Assessment { get => assessment; set => assessment = value; }
 
-        public Member(string labid, string avt, string name, string sex, string birthday, string gen, string phone, string email, string address, string specilization, string university, string unit, string position, bool isLT, bool isPassPTBT, string key = "1", int status = 1)
+        public Member(string labid, string avt, string name, string sex, string birthday, string gen, string phone, string email, string address, string specilization, string university, string unit, string position, bool isLT, bool isPassPTBT, string assessment, string key = "1", int status = 1)
         {
             this.Key = key;
             this.LabID = labid;
@@ -64,8 +66,9 @@ namespace Hethongquanlylab.Models
             this.IsLT = isLT;
             this.isPassPTBT = isPassPTBT;
             this.Status = status;
+            this.Assessment = assessment;
         }
-        public Member( string avt, string name, string sex, string birthday, string phone, string email, string address, string specialization, string university, string key = "1")
+        public Member( string avt, string name, string sex, string birthday, string phone, string email, string address, string specialization, string university, string assessment, string key = "1")
         {
             this.Key = key;
             this.Avt = avt;
@@ -82,6 +85,7 @@ namespace Hethongquanlylab.Models
             this.Position = position;
             this.IsLT = isLT;
             this.IsPassPTBT = isPassPTBT;
+            this.Assessment = assessment;
         }
         public Member(DataRow row)
         {
@@ -99,6 +103,7 @@ namespace Hethongquanlylab.Models
             this.University = row.IsNull("University") ? "N/A" : row["University"].ToString();
             this.Unit = row.IsNull("Unit") ? "Chưa có" : row["Unit"].ToString();
             this.Position = row.IsNull("Position") ? "Chưa có" : row["Position"].ToString();
+            this.Assessment = row.IsNull("Assessment") ? "Chưa có" : row["Assessment"].ToString();
 
             this.IsLT = Convert.ToBoolean(row.IsNull("IsLT") ? 0 : row["IsLT"]);
             this.IsPassPTBT = Convert.ToBoolean(row.IsNull("IsPassPTBT")? 0 : row["IsPassPTBT"]);

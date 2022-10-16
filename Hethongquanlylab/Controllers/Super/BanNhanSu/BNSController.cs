@@ -80,7 +80,7 @@ namespace Hethongquanlylab.Controllers.Super.BanNhanSu
                 }
             }
 
-            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT);
+            var newMember = new Member(LabID, avt, Name, Sex, Birthday, Gen, phone, email, address, specializaion, university, unit, position, IsLT, IsPassPTBT, "Không");
             UserDAO.Instance.AddMember(newMember);
 
             ItemDisplay<Member> memberList = new ItemDisplay<Member>();

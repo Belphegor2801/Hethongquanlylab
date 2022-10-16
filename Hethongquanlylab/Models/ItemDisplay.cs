@@ -28,7 +28,6 @@ namespace Hethongquanlylab.Models
 
         private Dictionary<string, string> nameVar = new Dictionary<string, string>()
         {
-            {"ID", "ID" },
             {"LabID", "LabID" },
             {"Name", "Tên" },
             {"Sex","Giới tính"},

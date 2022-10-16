@@ -29,7 +29,7 @@
             <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model[0] == "Ban Điều Hành")
+        else if ((Model[0] == "Ban Điều Hành") || (Model[0] == "Ban Cố Vấn") || (Model[0] == "Nhà Sáng Lập") || (Model[0]== "Nhà Đồng Sáng Lập"))
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -197,14 +197,7 @@
                             Thế hệ
                         </td>
                         <td>
-                            <select name="Gen" class="form-control">
-                                <option>1,2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5.0</option>
-                                <option>5.1</option>
-                                <option>5.2</option>
-                            </select>
+                            <input name="Gen" type="text" class="form-control" placeholder="Thế hệ" id="gen" style="width: 100%;" required>
                         </td>
                     </tr>
                     <tr>

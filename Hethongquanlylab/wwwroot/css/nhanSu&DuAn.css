@@ -169,14 +169,21 @@ label textarea {
 
     .wrap-themDuAn label {
         width: 100vw;
-        display: flex;
         flex-direction: column;
+        display: flex;
     }
 
-        .wrap-themDuAn label input {
+        .wrap-themDuAn label input{
             padding: 8px 24px;
             margin: 12px 0;
         }
+        .wrap-themDuAn label select {
+            font-size: 16px;
+            width: 40%;
+            padding: 8px 24px;
+            margin: 12px 0;
+        }
+
 .page-btn {
     margin-left: 5px;
     margin-right: 5px;
