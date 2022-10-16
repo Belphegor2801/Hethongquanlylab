@@ -28,7 +28,7 @@
             <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model.SessionVar == "Ban Điều Hành")
+        else if ((Model.SessionVar == "Ban Điều Hành") || (Model.SessionVar == "Ban Cố Vấn") || (Model.SessionVar == "Nhà Sáng Lập") || (Model.SessionVar == "Nhà Đồng Sáng Lập"))
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -94,6 +94,7 @@
     </div>
 
     <form asp-action="EditNotification" asp-route-id="@Model.Item.ID" method="post" id="form">
+        <input name="Inner" type="hidden" value="@Model.Item.Inner"/>
         <style>
             .text-ProcedureTitle {
                 justify-content: center;
@@ -111,12 +112,31 @@
         <div class="wrap-themDuAn">
             <div style="display: flex; justify-content: space-between; margin: auto; width: inherit;" class="date-DuAn">
                 <div style="display:flex" class="start">
-                    <p style="font-weight: bold">Thời gian cập nhật cuối: </p>
-                    <div style="display:flex; margin: 16px 10px; justify-content: center;" id="wrap-date">
+                    <p style="font-weight: bold; font-size: 20px;">Thời gian cập nhật cuối: </p>
+                    <div style="display:flex; margin: 18px 10px; justify-content: center;" id="wrap-date">
                         <div id="text-date">@Model.Item.Date</div>
                         <input style="display: none; height: 25px;" id="input-date" type="date" name="Date" value="@Model.Item.Date">
                     </div>
                 </div>
+
+                <label style="float: right; width: 50%; display: block!important;">
+                    <strong style="font-size:20px;">Loại thông báo: </strong>
+                    @if (Model.Item.Inner)
+                    {
+                        <select name="Inner" value="">
+                            <option value="Nội bộ">Nội bộ</option>
+                            <option value="Toàn bộ">Toàn bộ</option>
+                        </select>
+                    }
+                    else
+                    {
+                        <select name="Inner" value="">
+                            <option value="Toàn bộ">Toàn bộ</option>
+                            <option value="Nội bộ">Nội bộ</option>
+                        </select>
+                    }
+
+                </label>
             </div>
 
             <table style="width: inherit; margin: auto; ">

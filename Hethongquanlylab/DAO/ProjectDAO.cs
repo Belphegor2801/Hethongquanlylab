@@ -22,7 +22,7 @@ namespace Hethongquanlylab.DAO
 
         private ProjectDAO() { }
 
-        public List<Project> GetProjectList(string sheetName)
+        public List<Project> GetProjectList()
         {
             List<Project> items = DataProvider<Project>.Instance.GetListItem();
             return items;
@@ -72,9 +72,9 @@ namespace Hethongquanlylab.DAO
             DataProvider<Project>.Instance.UpdateData(data);
         }
 
-        public void DeleteProject(Project project)
+        public void DeleteProject(String ID)
         {
-            DataProvider<Project>.Instance.DeleteItem("ID", project.ID);
+            DataProvider<Project>.Instance.DeleteItem("ID", ID);
         }
         
     }

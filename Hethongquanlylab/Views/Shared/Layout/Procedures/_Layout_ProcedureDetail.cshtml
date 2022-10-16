@@ -28,7 +28,7 @@
             <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model.SessionVar == "Ban Điều Hành")
+        else if ((Model.SessionVar == "Ban Điều Hành") || (Model.SessionVar == "Ban Cố Vấn") || (Model.SessionVar == "Nhà Sáng Lập") || (Model.SessionVar == "Nhà Đồng Sáng Lập"))
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -225,7 +225,7 @@
                         <strong>Nhà Đồng Sáng Lập</strong>
                     </td>
                     <td>
-                        @Html.Raw(Model.Item.NSLReply)
+                        @Html.Raw(Model.Item.NDSLReply)
                     </td>
                 </tr>
             </table>

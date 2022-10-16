@@ -28,7 +28,7 @@
             <a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
         }
-        else if (Model == "Ban Điều Hành")
+        else if ((Model == "Ban Điều Hành") || (Model == "Ban Cố Vấn") || (Model == "Nhà Sáng Lập") || (Model == "Nhà Đồng Sáng Lập"))
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>

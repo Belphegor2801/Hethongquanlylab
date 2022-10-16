@@ -13,6 +13,7 @@
     [BdhReply]        NVARCHAR (MAX) DEFAULT ('Chua có ph?n h?i') NULL,
     [BcvReply]        NVARCHAR (MAX) DEFAULT ('Chua có ph?n h?i') NULL,
     [NSLReply]        NVARCHAR (MAX) DEFAULT ('Chua có ph?n h?i') NULL,
+    [NDSLReply]        NVARCHAR (MAX) DEFAULT ('Chua có ph?n h?i') NULL,
     [Status]          NVARCHAR (50)  DEFAULT ('Chua duy?t') NULL,
     PRIMARY KEY CLUSTERED ([ID] ASC)
 );

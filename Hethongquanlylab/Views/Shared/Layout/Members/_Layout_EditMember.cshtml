@@ -26,9 +26,9 @@
             //<a asp-action="Training" class="header-item">Bài đào tạo</a>
             <a asp-action="Procedure" class="header-item">Quy trình</a>
             <a asp-action="Member" class="header-item">Nhân sự</a>
-            <a asp-action="Index" class="header-item">Trang chủ</a>
+            <a asp-action="Index" class="header-item">Trang chủ</a> 
         }
-        else if (Model.SessionVar == "Ban Điều Hành")
+        else if ((Model.SessionVar == "Ban Điều Hành") || (Model.SessionVar == "Ban Cố Vấn") || (Model.SessionVar == "Nhà Sáng Lập") || (Model.SessionVar == "Nhà Đồng Sáng Lập"))
         {
             <a asp-action="Notification" class="header-item">Thông báo</a>
             <a asp-action="Project" class="header-item">Dự án</a>
@@ -54,8 +54,8 @@
             <a asp-action="Procedure" class="header-item">Quy trình</a>
             //<a asp-action="Member" class="header-item">Nhân sự</a>
             <a asp-action="Index" class="header-item">Trang chủ</a>
+            }
         }
-    }
 
     @section Login{
         <li class="user-info-item">
@@ -157,6 +157,7 @@
         <div style="width: 60%;">
             <form asp-action="EditMember" method="post">
                 <input type="hidden" name="Key" value="@Model.Item.Key" />
+                <input type="hidden" name="Key" value="@Model.Item.Key" />
                 <table style="width: 100%;">
                     <tr style="background-color: #373F51;">
                         <td style="text-align: center; color: #fff;"> THÔNG TIN THÀNH VIÊN</td>
@@ -195,14 +196,7 @@
                             Thế hệ
                         </td>
                         <td>
-                            <select name="Gen" class="form-control" value="@Model.Item.Gen">
-                                <option>1,2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5.0</option>
-                                <option>5.1</option>
-                                <option>5.2</option>
-                            </select>
+                            <input name="Gen" type="text" class="form-control" placeholder="Thế hệ" id="gen" value="@Model.Item.Gen" style="width: 100%;" required>
                         </td>
                     </tr>
                     <tr>

@@ -103,10 +103,63 @@ namespace Hethongquanlylab.DAO
                 var newUnits = new List<string>();
                 foreach (var item in units)
                 {
-                    if (!item.Contains(Unit))
+                    bool add = true;
+                    List<string> unitDeleteVar = new List<string>();
+                    switch (Unit)
                     {
-                        newUnits.Add(item);
+                        case "PT Lập trình":
+                            unitDeleteVar.AddRange(new List<string>() { "lập trình", "lap trinh", "lậptrình", "laptrinh" });
+                            break;
+                        case "PT PTBT":
+                            unitDeleteVar.AddRange(new List<string>() { "ptbt", "phat trien ban than", "phát triển bản thân"});
+                            break;
+                        case "PT Quản trị doanh nghiệp & Marketing":
+                            unitDeleteVar.AddRange(new List<string>() { "marketing", "quản trị doanh nghiệp", "quan tri doanh nghiep" });
+                            break;
+                        case "PT Cơ khí - Cơ điện tử":
+                            unitDeleteVar.AddRange(new List<string>() { "co khi", "cokhi", "cơ khí", "cơkhí" });
+                            break;
+                        case "PT Ngoại ngữ":
+                            unitDeleteVar.AddRange(new List<string>() { "noại ngữ", "ngoạingữ", "ngoai ngu", "ngoaingu" });
+                            break;
+                        case "PT Tự động hóa & IOM":
+                            unitDeleteVar.AddRange(new List<string>() { "tư động hóa", "tu dong hoa"});
+                            break;
+                        case "Ban Điều Hành":
+                            unitDeleteVar.AddRange(new List<string>() { "ban điều hành", "ban diều hành"});
+                            break;
+                        case "Ban Cố Vấn":
+                            unitDeleteVar.AddRange(new List<string>() { "ban cố vấn", "bancovan"});
+                            break;
+                        case "Ban Nhân Sự":
+                            unitDeleteVar.AddRange(new List<string>() { "ban nhân sự", "bannhansu"});
+                            break;
+                        case "Ban Truyền Thông":
+                            unitDeleteVar.AddRange(new List<string>() { "bantruyenthong", "ban truyền thông"});
+                            break;
+                        case "Ban Sự Kiện":
+                            unitDeleteVar.AddRange(new List<string>() { "ban sự kiện", "bansukien"});
+                            break;
+                        case "Ban Giám Sát":
+                            unitDeleteVar.AddRange(new List<string>() { "ban giám sát", "ban giam sat"});
+                            break;
+                        case "Ban Đời Sống":
+                            unitDeleteVar.AddRange(new List<string>() { "ban đời sống", "bandoisong"});
+                            break;
+                        case "Ban Đào Tạo":
+                            unitDeleteVar.AddRange(new List<string>() { "ban đào tạo", "bandaotao"});
+                            break;
                     }
+                    foreach (var varr in unitDeleteVar)
+                    {
+                        if (CultureInfo.CurrentCulture.CompareInfo.IndexOf(item, varr, CompareOptions.IgnoreCase) >= 0)
+                        {
+                            add = false;
+                            break;
+                        }
+                    }
+                    if (add) newUnits.Add(item);
+                    
                 }
 
                 if (newUnits.Count > 1)
