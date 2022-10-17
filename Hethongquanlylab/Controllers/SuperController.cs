@@ -1164,14 +1164,6 @@ namespace Hethongquanlylab.Controllers
         public IActionResult DeleteProject()
         {
             var urlQuery = Request.HttpContext.Request.Query;
-            String ID_delete = urlQuery["ID"];
-            int delete_Id = Convert.ToInt32(ID_delete);
-            return RedirectToAction("Project");
-        }
-
-        public IActionResult DeleteProject()
-        {
-            var urlQuery = Request.HttpContext.Request.Query;
             String ID = urlQuery["projectID"];
 
             ProjectDAO.Instance.DeleteProject(ID);
