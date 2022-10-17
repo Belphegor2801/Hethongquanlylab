@@ -10,7 +10,7 @@ namespace Hethongquanlylab.Controllers.Super.NhaSangLap
     {
         public NDSLController()
         {
-            unit = "Nhà Đồng Sàng Lập";
+            unit = "Nhà Đồng Sáng Lập";
             unitVar = "NĐSL";
         }
     }
