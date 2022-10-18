@@ -1027,7 +1027,7 @@ namespace Hethongquanlylab.Controllers
         {
             var training = new Training(Name, Speaker ,unit, Content.ToString(), Link);
 
-            if (unit == "Ban Đào Tạo")
+            if (unit == "Ban Đào Tạo" )
             {
                 TrainingDAO.Instance.AddTraining(training, "All");
             }
@@ -1072,7 +1072,7 @@ namespace Hethongquanlylab.Controllers
             searchString = urlQuery["SearchString"];
             page = urlQuery["page"];
 
-            if (unit == "Ban Đào Tạo")
+            if (unit == "Ban Đào Tạo" || unit == "Ban Cố Vấn" || unit == "Nhà Sáng Lập" || unit == "Nhà Đồng Sáng Lập" || unit == "Ban Điều Hành")
                 field = field == null ? "All" : field;
             else
                 field = field == null ? unitVar : field;
