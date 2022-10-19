@@ -51,6 +51,10 @@ namespace Hethongquanlylab.Models
             {"BNS","Thành viên Ban Nhân Sự"},
             {"BDT","Thành viên Ban Đào Tạo"},
             {"BDH","Thành viên Ban Điều Hành"},
+            {"BDS","Thành viên Ban Đời Sống"},
+            {"BGS","Thành viên Ban Giám Sát"},
+            {"BSK","Thành viên Ban Sự Kiện"},
+            {"BTT","Thành viên Ban Truyền Thông"},
             {"BCV","Thành viên Ban Cố Vấn"},
         };
 
@@ -59,6 +63,8 @@ namespace Hethongquanlylab.Models
             {"All", "Toàn bộ quy trình" },
             {"BDH","Quy trình Ban Điều Hành"},
             {"BCV","Quy trình Ban Cố Vấn"},
+            {"NSL","Nhà Sáng Lập"},
+            {"NDSL","Nhà Đồng Sáng Lập"},
         };
 
         private Dictionary<string, string> procedureColorVar = new Dictionary<string, string>()

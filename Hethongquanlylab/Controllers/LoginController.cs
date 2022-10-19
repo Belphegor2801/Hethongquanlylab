@@ -91,6 +91,12 @@ namespace Hethongquanlylab.Controllers
                         else if (user.Username == "BanCoVan") return RedirectToAction("Index", "BCV");
                         else if (user.Username == "BanSuKien") return RedirectToAction("Index", "BSK");
                         else if (user.Username == "PTLT") return RedirectToAction("Index", "PTLT");
+                        else if (user.Username == "PTCK") return RedirectToAction("Index", "PTCK");
+                        else if (user.Username == "PTTDH") return RedirectToAction("Index", "PTTDH");
+                        else if (user.Username == "PTNN") return RedirectToAction("Index", "PTNN");
+                        else if (user.Username == "PTPTBT") return RedirectToAction("Index", "PTPTBT");
+                        else if (user.Username == "NhaSangLap") return RedirectToAction("Index", "NSL");
+                        else if (user.Username == "NhaDongSangLap") return RedirectToAction("Index", "NDSL");
                         else return RedirectToAction("Index", "BNS");
                     }
 
