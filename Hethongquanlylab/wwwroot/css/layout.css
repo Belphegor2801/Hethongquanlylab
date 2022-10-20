@@ -218,7 +218,7 @@ a {
 .container-gioithieu {
     display: flex;
     margin: auto;
-    width: 65vw;
+    width: 85vw;
     justify-content: space-between;
 }
 
@@ -239,7 +239,7 @@ a {
 
 /* phần quy tấc ứng xử  */
 .title {
-    width: 65vw;
+    width: 80vw;
     text-align: center;
     margin: 150px auto 90px;
     line-height: 50px;
@@ -290,7 +290,7 @@ a {
 }
 
 .gioiThieu-text {
-    width: 65vw;
+    width: 85vw;
     margin: auto;
     margin-top: 0;
     text-align: left;
@@ -333,7 +333,7 @@ a {
 
 .wrapper-data {
     display: flex;
-    width: 65vw;
+    width: 85vw;
 }
 
 .data {
@@ -420,7 +420,7 @@ a {
     }
 
 .doiTac-list {
-    width: 65vw;
+    width: 85vw;
     display: flex;
     justify-content: space-around;
     margin: auto;
@@ -481,7 +481,7 @@ a {
 }
 /* phần tin tức */
 .news {
-    width: 65vw;
+    width: 85vw;
     margin: auto;
     margin-top: 50px;
     margin-bottom: 50px;
@@ -490,7 +490,7 @@ a {
 .title-news {
     font-size: 48px;
     font-weight: 600;
-    width: 65vw;
+    width: 85vw;
     margin: auto;
     margin-top: 50px;
     padding-left: 30px;
