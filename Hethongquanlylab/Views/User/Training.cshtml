@@ -101,7 +101,7 @@
             .track-wraper {
                 border-left: 1px solid #e7e7e7;
                 bottom: 50px;
-                margin-top: 100px;
+                margin-top: 150px;
                 position: fixed;
                 right: 0;
                 top: 0;
@@ -111,11 +111,11 @@
             }
         </style>
         <div id="accordion-course" style="overflow: scroll; height: auto; height: 600px;">
-            @foreach (var item in Model.Items)
+            @foreach (var item in Model.Items.Select((x, i) => new { Value = x, Index = i + 1}))
             {
-                <h3> @item.ID: @item.Name</h3>
+                <h3> @item.Index: @item.Value.Name</h3>
                 <h3>
-                    <button style="float: right;" class="btn-excel" type="button" onclick="location.href='@Url.Action("Training", new {field = Model.Field, TraingID = item.ID})'">Xem</button>
+                    <button style="float: right;" class="btn-excel" type="button" onclick="location.href='@Url.Action("Training", new {field = Model.Field, TrainingID = item.Value.ID})'">Xem</button>
                 </h3>
             }
         </div>
@@ -125,7 +125,7 @@
 <script>
     $(function () {
         $("#accordion-course").accordion({
-            // width: "10px",
+            collapsible: true, active: false
         });
     });
 </script>
