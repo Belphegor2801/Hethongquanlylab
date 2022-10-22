@@ -102,8 +102,8 @@ namespace Hethongquanlylab.Controllers
 
             field = field == null ? "All" : field;
 
-            sortOrder = sortOrder == null ? "ID" : sortOrder; ;
-            searchField = searchField == null ? "ID" : searchField;
+            sortOrder = sortOrder == null ? "Name" : sortOrder; ;
+            searchField = searchField == null ? "Name" : searchField;
             searchString = searchString == null ? "" : searchString;
             page = page == null ? "1" : page;
             varr = varr == null ? "0" : varr;

@@ -11,7 +11,6 @@ using Hethongquanlylab.Models;
 using Hethongquanlylab.Models.Login;
 using Hethongquanlylab.Common;
 using SelectPdf;
-using System.Web;
 
 namespace Hethongquanlylab.Controllers.User
 {
@@ -111,21 +110,23 @@ namespace Hethongquanlylab.Controllers.User
             field = field == null ? "PT PTBT" : field;
             currentID = currentID == null ? "1" : currentID;
 
+            var trainings = TrainingDAO.Instance.GetTrainingList(field);
 
-            try
+            var tempID = 0;
+            foreach (var item in trainings.Select((x, i) => new { Value = x, Index = i}))
             {
-                ViewData["currentTraining"] = Convert.ToInt32(currentID) - 1;
+                if (item.Value.ID == currentID)
+                {
+                    tempID = item.Index;
+                    break;
+                }
             }
-            catch
-            {
-                ViewData["currentTraining"] = 0;
-            }
-            
-            var training = TrainingDAO.Instance.GetTrainingList(field);
+            ViewData["currentTraining"] = Convert.ToInt32(tempID);
+
             var trainingList = new ItemDisplay<Training>();
             trainingList.Field = field;
-            trainingList.Items = training;
-
+            trainingList.Items = trainings;
+            trainingList.Link = links;
             trainingList.SessionVar = "PT Lập trình";
             return View("./Views/User/Training.cshtml", trainingList);
         }
